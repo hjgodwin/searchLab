@@ -1,0 +1,11 @@
+
+
+```{r, echo=F}
+suppressMessages(library(eyeTrackR))
+suppressMessages(library(kableExtra))
+```
+
+# eyeTrackR
+
+
+

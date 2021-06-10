@@ -1,5 +1,5 @@
-book_filename: "searchLab"
-delete_merged_file: true
+book_filename: "SearchLab"
 language:
   ui:
-    chapter_name: "Chapter "
+    chapter_name: "Part "
+delete_merged_file: true

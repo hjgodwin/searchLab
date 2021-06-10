@@ -1,0 +1,12 @@
+
+```{r, echo=F}
+suppressMessages(library(eyeTrackR))
+suppressMessages(library(kableExtra))
+```
+
+# Research Projects
+
+Information coming soon.
+
+
+

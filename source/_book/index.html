@@ -5,25 +5,24 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Search Lab</title>
-  <meta name="description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  <meta name="generator" content="bookdown 0.21 and GitBook 2.6.7" />
+  <meta name="description" content="Search Lab Website." />
+  <meta name="generator" content="bookdown 0.22 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Search Lab" />
   <meta property="og:type" content="book" />
   
   
-  <meta property="og:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
-  
+  <meta property="og:description" content="Search Lab Website." />
+  <meta name="github-repo" content="hjgodwin/SearchLab/searchlab_source/" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Search Lab" />
   
-  <meta name="twitter:description" content="This is a minimal example of using the bookdown package to write a book. The output format for this example is bookdown::gitbook." />
+  <meta name="twitter:description" content="Search Lab Website." />
   
 
 
 
-<meta name="date" content="2021-05-13" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -31,8 +30,8 @@
   
   
 
-<link rel="next" href="intro.html"/>
-<script src="libs/header-attrs-2.6/header-attrs.js"></script>
+<link rel="next" href="research-projects.html"/>
+<script src="libs/header-attrs-2.8/header-attrs.js"></script>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -50,71 +49,31 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
+<script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+<link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+<script src="libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+<script src="libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="libs/leaflet-providers-plugin-2.0.4.1/leaflet-providers-plugin.js"></script>
+<script src="libs/Leaflet.Sync-0.0.5/L.Map.Sync.js"></script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151983820-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-151983820-1');
+</script>
 
 
-<style type="text/css">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-</style>
+
 
 <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
@@ -129,20 +88,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">A Minimal Book Example</a></li>
+<li><a href="./">Search Lab Website</a></li>
 
 <li class="divider"></li>
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Prerequisites</a></li>
-<li class="chapter" data-level="2" data-path="intro.html"><a href="intro.html"><i class="fa fa-check"></i><b>2</b> Introduction</a></li>
-<li class="chapter" data-level="3" data-path="literature.html"><a href="literature.html"><i class="fa fa-check"></i><b>3</b> Literature</a></li>
-<li class="chapter" data-level="4" data-path="methods.html"><a href="methods.html"><i class="fa fa-check"></i><b>4</b> Methods</a></li>
-<li class="chapter" data-level="5" data-path="applications.html"><a href="applications.html"><i class="fa fa-check"></i><b>5</b> Applications</a>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Welcome to Search Lab</a>
 <ul>
-<li class="chapter" data-level="5.1" data-path="applications.html"><a href="applications.html#example-one"><i class="fa fa-check"></i><b>5.1</b> Example one</a></li>
-<li class="chapter" data-level="5.2" data-path="applications.html"><a href="applications.html#example-two"><i class="fa fa-check"></i><b>5.2</b> Example two</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#meet-the-team"><i class="fa fa-check"></i><b>1.1</b> Meet the Team</a>
+<ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#section"><i class="fa fa-check"></i><b>1.1.1</b> 2020-2021</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#section-1"><i class="fa fa-check"></i><b>1.1.2</b> 2019-2020</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#section-2"><i class="fa fa-check"></i><b>1.1.3</b> 2018-2019</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="final-words.html"><a href="final-words.html"><i class="fa fa-check"></i><b>6</b> Final Words</a></li>
-<li class="chapter" data-level="" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i>References</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#collaborators-near-and-far"><i class="fa fa-check"></i><b>1.2</b> Collaborators, Near and Far</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="research-projects.html"><a href="research-projects.html"><i class="fa fa-check"></i><b>2</b> Research Projects</a></li>
+<li class="chapter" data-level="3" data-path="eyetrackr.html"><a href="eyetrackr.html"><i class="fa fa-check"></i><b>3</b> eyeTrackR</a></li>
+<li class="chapter" data-level="4" data-path="r-lab-wiki.html"><a href="r-lab-wiki.html"><i class="fa fa-check"></i><b>4</b> R Lab Wiki</a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="r-lab-wiki.html"><a href="r-lab-wiki.html#data-manipulation"><i class="fa fa-check"></i><b>4.1</b> Data Manipulation</a></li>
+<li class="chapter" data-level="4.2" data-path="r-lab-wiki.html"><a href="r-lab-wiki.html#data-visualisation"><i class="fa fa-check"></i><b>4.2</b> Data Visualisation</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="references.html"><a href="references.html"><i class="fa fa-check"></i><b>5</b> References</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -165,18 +131,60 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="header">
 <h1 class="title">Search Lab</h1>
-<p class="date"><em>2021-05-13</em></p>
 </div>
-<div id="prerequisites" class="section level1" number="1">
-<h1><span class="header-section-number">Chapter 1</span> Prerequisites</h1>
-<p>This is a <em>sample</em> book written in <strong>Markdown</strong>. You can use anything that Pandoc’s Markdown supports, e.g., a math equation <span class="math inline">\(a^2 + b^2 = c^2\)</span>.</p>
-<p>The <strong>bookdown</strong> package can be installed from CRAN or Github:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;bookdown&quot;</span>)</span>
-<span id="cb1-2"><a href="index.html#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># or the development version</span></span>
-<span id="cb1-3"><a href="index.html#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># devtools::install_github(&quot;rstudio/bookdown&quot;)</span></span></code></pre></div>
-<p>Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading <code>#</code>.</p>
-<p>To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <a href="https://yihui.org/tinytex/" class="uri">https://yihui.org/tinytex/</a>.</p>
+<div id="index" class="section level1" number="1">
+<h1><span class="header-section-number">Part 1</span> Welcome to Search Lab</h1>
+<p><u><strong><em>This site is a work in progress. Be please gentle while we finish building it.</em></strong></u></p>
+<p>Welcome to the Search Lab website. This website has been put together as a way of gathering all of our lab-based resources. Here you’ll find materials for experiments, code, analysis scripts, and datasets. In addition, you’ll also find a sketchpad of links and snippets that we find useful in supporting our research efforts.</p>
+<p>I’ve always wanted to put together something that has the format of a kind-of wiki website that is useful as a resource for referring to when needed, and for training others who join the team. That’s what this website is for. Hopefully you’ll find it useful, too.</p>
+<p>Oh, and I should probably introduce myself as well. My name is Hayward Godwin, and I’m currently an Associate Professor at the University of Southampton in the UK. Broadly speaking, my primary research interest is in how people search for things, which is why this is called Search Lab. The type of search, and what things are being looked for, can vary. It can include objects on a computer screen, perhaps involving an interest in what someone’s eyes do when searching. It can also involve searching the environment for objects hidden in a house, for people lost in the wilderness, and many others besides. Regardless of the nature of the targets being searched for, how the search is being conducted, or the situation that they are being searched in, all of these tasks are unified by search of some kind.</p>
+<div id="meet-the-team" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Meet the Team</h2>
+<p>The team listed here isn’t necessarily one group of people who work for one person at one place. We’re scattered all around and have different loosely-defined roles and different levels of involvement in the different projects that take place. That is by no means unusual since it seems to be the way that most labs and most long-term clusters of collaborations work out.</p>
+<p>Since we are quite far apart now, it’s difficult to get us together all at once, but below are some attempts at group photos!</p>
+<div id="section" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> 2020-2021</h3>
+<p>No photo this year either just yet, but hopefully we might get something by the end of the year.</p>
+</div>
+<div id="section-1" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> 2019-2020</h3>
+<p>This was, of course, a difficult and unusual year. Sadly we didn’t manage to get a group photo.</p>
+</div>
+<div id="section-2" class="section level3" number="1.1.3">
+<h3><span class="header-section-number">1.1.3</span> 2018-2019</h3>
+<div class="figure">
+<img src="files/images/2019.jpg" alt="" />
+<p class="caption">Our attempt at a recreation of the famous <em>Washington Crossing the Delaware</em> painting. From left to right: Natalie Mestry, Hayward Godwin, Stuart Pugh, Christian Kalialia, Andreea Butnaru, and Olly Tew.</p>
+</div>
+</div>
+</div>
+<div id="collaborators-near-and-far" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Collaborators, Near and Far</h2>
+<p>I’ve been fornuate to work with, and learn from, a whole bunch of different people over the years. I thought it might be fun to visualise just some of the people I’ve worked with the most on some maps below. Click on each pin for more information!</p>
+<div style="display:inline;width:99%;float:left;border-style:solid;border-color:#BEBEBE;border-width:1px 1px 1px 1px;">
+<div id="htmlwidget-9463" style="width:100%;height:400px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9463">{"x":{"options":{"minZoom":5,"maxZoom":5,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"zoomControl":false,"dragging":false},"setView":[[54.1238715577,-2.86563164084],5,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[50.9346,-1.396,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>University of Southampton<\/b><br>Hayward Godwin (all sorts)<br>Andreea Butnaru (search, eyeTrackR)<br>Charlotte Lee, Sara Miledge (reading, eyeTrackR)<br>Phillipa Broadbent (Pain Lab, eyeTrackR)",null,"Southampton",{"interactive":false,"permanent":true,"direction":"right","opacity":1,"offset":[7,-1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[50.7432,-1.8969,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>Bournemouth University<\/b><br>Natalie Mestry (search, real-world search)",null,"Bournemouth",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[53.400002,-2.983333,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>Liverpool Hope University<\/b><br>Nick Donnelly (search, real-world search, fashion advice)",null,"Liverpool",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[53.763021,-2.7074,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>University of Central Lancashire<\/b><br>Simon Liversedge (search, real-world search, reading)",null,"Wigan",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[52.20167,0.11779,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>University of Cambridge<\/b><br>Alex Muhl-Richardson (search, real-world search, eyeTrackR)",null,"Cambridge",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[54.966667,-1.6,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"<b>Newcastle University<\/b><br>Nick Holliman (search, 3D visualisations)",null,"Newcastle",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]}],"limits":{"lat":[50.7432,54.966667],"lng":[-2.983333,0.11779]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div style="display:inline;width:99%;float:left;border-style:solid;border-color:#BEBEBE;border-width:1px 1px 1px 1px;">
+<div id="htmlwidget-9686" style="width:100%;height:400px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9686">{"x":{"options":{"minZoom":3.5,"maxZoom":3.5,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"zoomControl":false,"dragging":false},"setView":[[40.283,-100.748],3.5,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addProviderTiles","args":["Esri.WorldImagery",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addCircleMarkers","args":[32.283,-106.748,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"x <br/> New Mexico State University",null,"Las Cruces",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[42.340382,-72.496819,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"University of Massachusetts Amherst",null,"Massachusetts",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[33.424564,-111.928001,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"Arizona State University",null,"Tempe",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]},{"method":"addCircleMarkers","args":[42.588081,-87.822899,6,null,null,{"interactive":true,"className":"","stroke":false,"color":"white","weight":5,"opacity":0.5,"fill":true,"fillColor":"white","fillOpacity":1},null,null,"Carthage College",null,"Kenosha",{"interactive":false,"permanent":true,"direction":"left","opacity":1,"offset":[-8,1],"textsize":"10px","textOnly":true,"style":{"color":"white"},"className":"","sticky":true},null]}],"limits":{"lat":[32.283,42.588081],"lng":[-111.928001,-72.496819]}},"evals":[],"jsHooks":[]}</script>
+</div>
+<script>
+HTMLWidgets.addPostRenderHandler(function() {
+var leaf_widgets = {};
+                Array.prototype.map.call(
+                 document.querySelectorAll(".leaflet"),
+                   function(ldiv){
+                     if (HTMLWidgets.find("#" + ldiv.id) && HTMLWidgets.find("#" + ldiv.id).getMap()) {
+                        leaf_widgets[ldiv.id] = HTMLWidgets.find("#" + ldiv.id).getMap();
+                     }
+                   }
+                );
+               
+});
+</script>
 
+</div>
 </div>
             </section>
 
@@ -184,7 +192,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         </div>
       </div>
 
-<a href="intro.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="research-projects.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -207,6 +215,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -214,10 +223,7 @@ gitbook.start({
 "family": "sans",
 "size": 2
 },
-"edit": {
-"link": null,
-"text": null
-},
+"edit": null,
 "history": {
 "link": null,
 "text": null
@@ -226,28 +232,17 @@ gitbook.start({
 "link": null,
 "text": null
 },
-"download": ["searchLab.pdf", "searchLab.epub"],
+"download": null,
 "toc": {
 "collapse": "subsection"
-}
+},
+"collapse": "section",
+"bibliography": "book.bib",
+"scroll_highlight": true
 });
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
