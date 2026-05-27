@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: "https://hjgodwin.github.io/searchLab/"
 locale: en-us
 title: Search, Attention and Memory Lab
 theme: ["PaperMod"]

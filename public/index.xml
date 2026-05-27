@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title>Home on Search, Attention and Memory Lab</title>
-    <link>http://localhost:1313/</link>
+    <link>http://localhost:1313/searchLab/</link>
     <description>Recent content in Home on Search, Attention and Memory Lab</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/searchLab/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>http://localhost:1313/about/</link>
+      <link>http://localhost:1313/searchLab/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about/</guid>
+      <guid>http://localhost:1313/searchLab/about/</guid>
       <description>&lt;p&gt;Our team is based at the University of Southampton, UK - here&amp;rsquo;s some more information about us.&lt;/p&gt;
 &lt;h2 id=&#34;current-members&#34;&gt;Current Members&lt;/h2&gt;
 &lt;h3 id=&#34;hayward-godwin&#34;&gt;Hayward Godwin&lt;/h3&gt;
 &lt;img
-  src=&#34;http://localhost:1313/images/hayward.jpg&#34;
+  src=&#34;http://localhost:1313/searchLab/images/hayward.jpg&#34;
   alt=&#34;Portrait&#34;
   width=&#34;250&#34;
   style=&#34;float:right; margin-left:1rem; margin-bottom:1rem;&#34;
@@ -26,17 +26,17 @@
     </item>
     <item>
       <title>Presentations</title>
-      <link>http://localhost:1313/presentations/</link>
+      <link>http://localhost:1313/searchLab/presentations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/presentations/</guid>
+      <guid>http://localhost:1313/searchLab/presentations/</guid>
       <description>&lt;p&gt;Godwin, H. J., Dewis. H, Darch, P., Del Sordo, G. C., Bokhove, C., Buchanan, E., &amp;amp; Hout, M. C. (2026). One Column Name to Rule Them All: Can we agree on how to Label Participant Identifier Columns in our Datasets? Hackathon presented at the Society for the Improvement of Psychological Science annual confernce (online).&lt;/p&gt;
 &lt;p&gt;Mane, P, Dewis, H., Vieira, J, &amp;amp; Godwin, H. J. (2025). Beyond the binary: Eye-tracking evidence of imprecise visual awareness in the Multiple Object Awareness paradigm. Poster presented at the Applied Vision Association 2025 Conference: Birmingham, UK (December 2025).&lt;/p&gt;</description>
     </item>
     <item>
       <title>Publications</title>
-      <link>http://localhost:1313/publications/</link>
+      <link>http://localhost:1313/searchLab/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/publications/</guid>
+      <guid>http://localhost:1313/searchLab/publications/</guid>
       <description>&lt;p&gt;Muir S., Jenner, S., Crozier, S., Lee, C. E., Godwin, H. J., Payne, H., Maynard, O. M., Munafò, M. R., Vogel, C., &amp;amp; Baird, J. (in press). &lt;a href=&#34;https://link.springer.com/article/10.1186/s12889-026-27679-5&#34;&gt;Women intend to buy, and attend more to, healthy foods in supermarkets: Attention to Product Placement ObseRved in WOmen in a Virtual Supermarket Environment (The APPROVE study).&lt;/a&gt; &lt;em&gt;BMC Medicine&lt;/em&gt;.&lt;/p&gt;
 &lt;p&gt;Dewis, H., Metcalf, C.D., Warner, M.B., Polfreman, R., &amp;amp; Godwin, H. J. (in press). &lt;a href=&#34;https://link.springer.com/article/10.3758/s13423-026-02919-2&#34;&gt;No stone unturned: Prevalence effects in interactive search are different to those in visual search.&lt;/a&gt; &lt;em&gt;Psychonomic Bulletin &amp;amp; Review&lt;/em&gt;.&lt;/p&gt;</description>
     </item>
