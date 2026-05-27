@@ -1,0 +1,8 @@
+<div id="three-root"></div>
+
+{{ $js := resources.Get "js/scene.js" | js.Build }}
+
+<script
+  type="module"
+  src="{{ $js.RelPermalink }}"
+></script>

@@ -1,0 +1,29 @@
+baseURL: https://example.org/
+locale: en-us
+title: Search, Attention and Memory Lab
+theme: ["PaperMod"]
+params:
+  disableThemeToggle: true
+  #NShowToc: true
+security:
+  enableInlineShortcodes: true
+caches:
+  images:
+    dir: :cacheDir/images
+
+menu:
+  main:
+    - name: "Home"
+      url: "/"
+      weight: 1
+    - name: "About"
+      url: "/about/"
+      weight: 2
+    - name: "Publications"
+      url: "/publications/"
+      weight: 3
+    - name: "Presentations"
+      url: "/presentations/"
+      weight: 4
+
+      
