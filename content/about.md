@@ -11,7 +11,7 @@ Our team is based at the University of Southampton, UK - here's some more inform
 ### Hayward Godwin
 
 {{< aboutImage
-    src="/images/hayward.jpg"
+    src="hayward.jpg"
     alt="Portrait"
     width="250"
 >}}
