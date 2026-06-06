@@ -11,7 +11,7 @@ Our team is based at the University of Southampton, UK - here's some more inform
 ### Hayward Godwin
 
 {{< aboutImage
-    src="hayward.jpg"
+    src="/images/hayward.jpg"
     alt="Portrait"
     width="250"
 >}}
@@ -24,6 +24,12 @@ I am currently the Director of the Psychology BSc course in our department; prio
 A full list of my publications can be found here.
 
 ### Haden Dewis
+
+{{< aboutImage
+    src="/images/haden.jpg"
+    alt="Portrait"
+    width="250"
+>}}
 
 Haden Dewis is currently a lecturer and post-doc at the University of Southampton. Much of his research focuses on attention, cognition, and how these combine with physical interactions during tasks within the real world. Haden has experience in a range of experimental methodologies including eye tracking, motion tracking, computer vision, and standard psychology-based behavioural techniques. Unsurprisingly, Haden has a particular interests in programming and complex data analyses. More recently, Haden has branched out into open science research, specifically regarding data sharing and how this can be improved, and clinical research with a focus on eye movements and working memory during traumatic experiences.
  

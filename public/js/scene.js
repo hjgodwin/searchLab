@@ -1,4 +1,5528 @@
 (() => {
+  var __create = Object.create;
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __getProtoOf = Object.getPrototypeOf;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __commonJS = (cb, mod) => function __require() {
+    return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+    // If the importer is in node compatibility mode or this is not an ESM
+    // file that has been converted to a CommonJS file using a Babel-
+    // compatible transform (i.e. "__esModule" has not been set), then set
+    // "default" to the CommonJS "module.exports" for node compatibility.
+    isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+    mod
+  ));
+
+  // node_modules/lodash/lodash.js
+  var require_lodash = __commonJS({
+    "node_modules/lodash/lodash.js"(exports, module) {
+      (function() {
+        var undefined2;
+        var VERSION = "4.18.1";
+        var LARGE_ARRAY_SIZE = 200;
+        var CORE_ERROR_TEXT = "Unsupported core-js use. Try https://npms.io/search?q=ponyfill.", FUNC_ERROR_TEXT = "Expected a function", INVALID_TEMPL_VAR_ERROR_TEXT = "Invalid `variable` option passed into `_.template`", INVALID_TEMPL_IMPORTS_ERROR_TEXT = "Invalid `imports` option passed into `_.template`";
+        var HASH_UNDEFINED = "__lodash_hash_undefined__";
+        var MAX_MEMOIZE_SIZE = 500;
+        var PLACEHOLDER = "__lodash_placeholder__";
+        var CLONE_DEEP_FLAG = 1, CLONE_FLAT_FLAG = 2, CLONE_SYMBOLS_FLAG = 4;
+        var COMPARE_PARTIAL_FLAG = 1, COMPARE_UNORDERED_FLAG = 2;
+        var WRAP_BIND_FLAG = 1, WRAP_BIND_KEY_FLAG = 2, WRAP_CURRY_BOUND_FLAG = 4, WRAP_CURRY_FLAG = 8, WRAP_CURRY_RIGHT_FLAG = 16, WRAP_PARTIAL_FLAG = 32, WRAP_PARTIAL_RIGHT_FLAG = 64, WRAP_ARY_FLAG = 128, WRAP_REARG_FLAG = 256, WRAP_FLIP_FLAG = 512;
+        var DEFAULT_TRUNC_LENGTH = 30, DEFAULT_TRUNC_OMISSION = "...";
+        var HOT_COUNT = 800, HOT_SPAN = 16;
+        var LAZY_FILTER_FLAG = 1, LAZY_MAP_FLAG = 2, LAZY_WHILE_FLAG = 3;
+        var INFINITY = 1 / 0, MAX_SAFE_INTEGER = 9007199254740991, MAX_INTEGER = 17976931348623157e292, NAN = 0 / 0;
+        var MAX_ARRAY_LENGTH = 4294967295, MAX_ARRAY_INDEX = MAX_ARRAY_LENGTH - 1, HALF_MAX_ARRAY_LENGTH = MAX_ARRAY_LENGTH >>> 1;
+        var wrapFlags = [
+          ["ary", WRAP_ARY_FLAG],
+          ["bind", WRAP_BIND_FLAG],
+          ["bindKey", WRAP_BIND_KEY_FLAG],
+          ["curry", WRAP_CURRY_FLAG],
+          ["curryRight", WRAP_CURRY_RIGHT_FLAG],
+          ["flip", WRAP_FLIP_FLAG],
+          ["partial", WRAP_PARTIAL_FLAG],
+          ["partialRight", WRAP_PARTIAL_RIGHT_FLAG],
+          ["rearg", WRAP_REARG_FLAG]
+        ];
+        var argsTag = "[object Arguments]", arrayTag = "[object Array]", asyncTag = "[object AsyncFunction]", boolTag = "[object Boolean]", dateTag = "[object Date]", domExcTag = "[object DOMException]", errorTag = "[object Error]", funcTag = "[object Function]", genTag = "[object GeneratorFunction]", mapTag = "[object Map]", numberTag = "[object Number]", nullTag = "[object Null]", objectTag = "[object Object]", promiseTag = "[object Promise]", proxyTag = "[object Proxy]", regexpTag = "[object RegExp]", setTag = "[object Set]", stringTag = "[object String]", symbolTag = "[object Symbol]", undefinedTag = "[object Undefined]", weakMapTag = "[object WeakMap]", weakSetTag = "[object WeakSet]";
+        var arrayBufferTag = "[object ArrayBuffer]", dataViewTag = "[object DataView]", float32Tag = "[object Float32Array]", float64Tag = "[object Float64Array]", int8Tag = "[object Int8Array]", int16Tag = "[object Int16Array]", int32Tag = "[object Int32Array]", uint8Tag = "[object Uint8Array]", uint8ClampedTag = "[object Uint8ClampedArray]", uint16Tag = "[object Uint16Array]", uint32Tag = "[object Uint32Array]";
+        var reEmptyStringLeading = /\b__p \+= '';/g, reEmptyStringMiddle = /\b(__p \+=) '' \+/g, reEmptyStringTrailing = /(__e\(.*?\)|\b__t\)) \+\n'';/g;
+        var reEscapedHtml = /&(?:amp|lt|gt|quot|#39);/g, reUnescapedHtml = /[&<>"']/g, reHasEscapedHtml = RegExp(reEscapedHtml.source), reHasUnescapedHtml = RegExp(reUnescapedHtml.source);
+        var reEscape = /<%-([\s\S]+?)%>/g, reEvaluate = /<%([\s\S]+?)%>/g, reInterpolate = /<%=([\s\S]+?)%>/g;
+        var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/, reIsPlainProp = /^\w*$/, rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g;
+        var reRegExpChar = /[\\^$.*+?()[\]{}|]/g, reHasRegExpChar = RegExp(reRegExpChar.source);
+        var reTrimStart = /^\s+/;
+        var reWhitespace = /\s/;
+        var reWrapComment = /\{(?:\n\/\* \[wrapped with .+\] \*\/)?\n?/, reWrapDetails = /\{\n\/\* \[wrapped with (.+)\] \*/, reSplitDetails = /,? & /;
+        var reAsciiWord = /[^\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]+/g;
+        var reForbiddenIdentifierChars = /[()=,{}\[\]\/\s]/;
+        var reEscapeChar = /\\(\\)?/g;
+        var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
+        var reFlags = /\w*$/;
+        var reIsBadHex = /^[-+]0x[0-9a-f]+$/i;
+        var reIsBinary = /^0b[01]+$/i;
+        var reIsHostCtor = /^\[object .+?Constructor\]$/;
+        var reIsOctal = /^0o[0-7]+$/i;
+        var reIsUint = /^(?:0|[1-9]\d*)$/;
+        var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
+        var reNoMatch = /($^)/;
+        var reUnescapedString = /['\n\r\u2028\u2029\\]/g;
+        var rsAstralRange = "\\ud800-\\udfff", rsComboMarksRange = "\\u0300-\\u036f", reComboHalfMarksRange = "\\ufe20-\\ufe2f", rsComboSymbolsRange = "\\u20d0-\\u20ff", rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange, rsDingbatRange = "\\u2700-\\u27bf", rsLowerRange = "a-z\\xdf-\\xf6\\xf8-\\xff", rsMathOpRange = "\\xac\\xb1\\xd7\\xf7", rsNonCharRange = "\\x00-\\x2f\\x3a-\\x40\\x5b-\\x60\\x7b-\\xbf", rsPunctuationRange = "\\u2000-\\u206f", rsSpaceRange = " \\t\\x0b\\f\\xa0\\ufeff\\n\\r\\u2028\\u2029\\u1680\\u180e\\u2000\\u2001\\u2002\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200a\\u202f\\u205f\\u3000", rsUpperRange = "A-Z\\xc0-\\xd6\\xd8-\\xde", rsVarRange = "\\ufe0e\\ufe0f", rsBreakRange = rsMathOpRange + rsNonCharRange + rsPunctuationRange + rsSpaceRange;
+        var rsApos = "['\u2019]", rsAstral = "[" + rsAstralRange + "]", rsBreak = "[" + rsBreakRange + "]", rsCombo = "[" + rsComboRange + "]", rsDigits = "\\d+", rsDingbat = "[" + rsDingbatRange + "]", rsLower = "[" + rsLowerRange + "]", rsMisc = "[^" + rsAstralRange + rsBreakRange + rsDigits + rsDingbatRange + rsLowerRange + rsUpperRange + "]", rsFitz = "\\ud83c[\\udffb-\\udfff]", rsModifier = "(?:" + rsCombo + "|" + rsFitz + ")", rsNonAstral = "[^" + rsAstralRange + "]", rsRegional = "(?:\\ud83c[\\udde6-\\uddff]){2}", rsSurrPair = "[\\ud800-\\udbff][\\udc00-\\udfff]", rsUpper = "[" + rsUpperRange + "]", rsZWJ = "\\u200d";
+        var rsMiscLower = "(?:" + rsLower + "|" + rsMisc + ")", rsMiscUpper = "(?:" + rsUpper + "|" + rsMisc + ")", rsOptContrLower = "(?:" + rsApos + "(?:d|ll|m|re|s|t|ve))?", rsOptContrUpper = "(?:" + rsApos + "(?:D|LL|M|RE|S|T|VE))?", reOptMod = rsModifier + "?", rsOptVar = "[" + rsVarRange + "]?", rsOptJoin = "(?:" + rsZWJ + "(?:" + [rsNonAstral, rsRegional, rsSurrPair].join("|") + ")" + rsOptVar + reOptMod + ")*", rsOrdLower = "\\d*(?:1st|2nd|3rd|(?![123])\\dth)(?=\\b|[A-Z_])", rsOrdUpper = "\\d*(?:1ST|2ND|3RD|(?![123])\\dTH)(?=\\b|[a-z_])", rsSeq = rsOptVar + reOptMod + rsOptJoin, rsEmoji = "(?:" + [rsDingbat, rsRegional, rsSurrPair].join("|") + ")" + rsSeq, rsSymbol = "(?:" + [rsNonAstral + rsCombo + "?", rsCombo, rsRegional, rsSurrPair, rsAstral].join("|") + ")";
+        var reApos = RegExp(rsApos, "g");
+        var reComboMark = RegExp(rsCombo, "g");
+        var reUnicode = RegExp(rsFitz + "(?=" + rsFitz + ")|" + rsSymbol + rsSeq, "g");
+        var reUnicodeWord = RegExp([
+          rsUpper + "?" + rsLower + "+" + rsOptContrLower + "(?=" + [rsBreak, rsUpper, "$"].join("|") + ")",
+          rsMiscUpper + "+" + rsOptContrUpper + "(?=" + [rsBreak, rsUpper + rsMiscLower, "$"].join("|") + ")",
+          rsUpper + "?" + rsMiscLower + "+" + rsOptContrLower,
+          rsUpper + "+" + rsOptContrUpper,
+          rsOrdUpper,
+          rsOrdLower,
+          rsDigits,
+          rsEmoji
+        ].join("|"), "g");
+        var reHasUnicode = RegExp("[" + rsZWJ + rsAstralRange + rsComboRange + rsVarRange + "]");
+        var reHasUnicodeWord = /[a-z][A-Z]|[A-Z]{2}[a-z]|[0-9][a-zA-Z]|[a-zA-Z][0-9]|[^a-zA-Z0-9 ]/;
+        var contextProps = [
+          "Array",
+          "Buffer",
+          "DataView",
+          "Date",
+          "Error",
+          "Float32Array",
+          "Float64Array",
+          "Function",
+          "Int8Array",
+          "Int16Array",
+          "Int32Array",
+          "Map",
+          "Math",
+          "Object",
+          "Promise",
+          "RegExp",
+          "Set",
+          "String",
+          "Symbol",
+          "TypeError",
+          "Uint8Array",
+          "Uint8ClampedArray",
+          "Uint16Array",
+          "Uint32Array",
+          "WeakMap",
+          "_",
+          "clearTimeout",
+          "isFinite",
+          "parseInt",
+          "setTimeout"
+        ];
+        var templateCounter = -1;
+        var typedArrayTags = {};
+        typedArrayTags[float32Tag] = typedArrayTags[float64Tag] = typedArrayTags[int8Tag] = typedArrayTags[int16Tag] = typedArrayTags[int32Tag] = typedArrayTags[uint8Tag] = typedArrayTags[uint8ClampedTag] = typedArrayTags[uint16Tag] = typedArrayTags[uint32Tag] = true;
+        typedArrayTags[argsTag] = typedArrayTags[arrayTag] = typedArrayTags[arrayBufferTag] = typedArrayTags[boolTag] = typedArrayTags[dataViewTag] = typedArrayTags[dateTag] = typedArrayTags[errorTag] = typedArrayTags[funcTag] = typedArrayTags[mapTag] = typedArrayTags[numberTag] = typedArrayTags[objectTag] = typedArrayTags[regexpTag] = typedArrayTags[setTag] = typedArrayTags[stringTag] = typedArrayTags[weakMapTag] = false;
+        var cloneableTags = {};
+        cloneableTags[argsTag] = cloneableTags[arrayTag] = cloneableTags[arrayBufferTag] = cloneableTags[dataViewTag] = cloneableTags[boolTag] = cloneableTags[dateTag] = cloneableTags[float32Tag] = cloneableTags[float64Tag] = cloneableTags[int8Tag] = cloneableTags[int16Tag] = cloneableTags[int32Tag] = cloneableTags[mapTag] = cloneableTags[numberTag] = cloneableTags[objectTag] = cloneableTags[regexpTag] = cloneableTags[setTag] = cloneableTags[stringTag] = cloneableTags[symbolTag] = cloneableTags[uint8Tag] = cloneableTags[uint8ClampedTag] = cloneableTags[uint16Tag] = cloneableTags[uint32Tag] = true;
+        cloneableTags[errorTag] = cloneableTags[funcTag] = cloneableTags[weakMapTag] = false;
+        var deburredLetters = {
+          // Latin-1 Supplement block.
+          "\xC0": "A",
+          "\xC1": "A",
+          "\xC2": "A",
+          "\xC3": "A",
+          "\xC4": "A",
+          "\xC5": "A",
+          "\xE0": "a",
+          "\xE1": "a",
+          "\xE2": "a",
+          "\xE3": "a",
+          "\xE4": "a",
+          "\xE5": "a",
+          "\xC7": "C",
+          "\xE7": "c",
+          "\xD0": "D",
+          "\xF0": "d",
+          "\xC8": "E",
+          "\xC9": "E",
+          "\xCA": "E",
+          "\xCB": "E",
+          "\xE8": "e",
+          "\xE9": "e",
+          "\xEA": "e",
+          "\xEB": "e",
+          "\xCC": "I",
+          "\xCD": "I",
+          "\xCE": "I",
+          "\xCF": "I",
+          "\xEC": "i",
+          "\xED": "i",
+          "\xEE": "i",
+          "\xEF": "i",
+          "\xD1": "N",
+          "\xF1": "n",
+          "\xD2": "O",
+          "\xD3": "O",
+          "\xD4": "O",
+          "\xD5": "O",
+          "\xD6": "O",
+          "\xD8": "O",
+          "\xF2": "o",
+          "\xF3": "o",
+          "\xF4": "o",
+          "\xF5": "o",
+          "\xF6": "o",
+          "\xF8": "o",
+          "\xD9": "U",
+          "\xDA": "U",
+          "\xDB": "U",
+          "\xDC": "U",
+          "\xF9": "u",
+          "\xFA": "u",
+          "\xFB": "u",
+          "\xFC": "u",
+          "\xDD": "Y",
+          "\xFD": "y",
+          "\xFF": "y",
+          "\xC6": "Ae",
+          "\xE6": "ae",
+          "\xDE": "Th",
+          "\xFE": "th",
+          "\xDF": "ss",
+          // Latin Extended-A block.
+          "\u0100": "A",
+          "\u0102": "A",
+          "\u0104": "A",
+          "\u0101": "a",
+          "\u0103": "a",
+          "\u0105": "a",
+          "\u0106": "C",
+          "\u0108": "C",
+          "\u010A": "C",
+          "\u010C": "C",
+          "\u0107": "c",
+          "\u0109": "c",
+          "\u010B": "c",
+          "\u010D": "c",
+          "\u010E": "D",
+          "\u0110": "D",
+          "\u010F": "d",
+          "\u0111": "d",
+          "\u0112": "E",
+          "\u0114": "E",
+          "\u0116": "E",
+          "\u0118": "E",
+          "\u011A": "E",
+          "\u0113": "e",
+          "\u0115": "e",
+          "\u0117": "e",
+          "\u0119": "e",
+          "\u011B": "e",
+          "\u011C": "G",
+          "\u011E": "G",
+          "\u0120": "G",
+          "\u0122": "G",
+          "\u011D": "g",
+          "\u011F": "g",
+          "\u0121": "g",
+          "\u0123": "g",
+          "\u0124": "H",
+          "\u0126": "H",
+          "\u0125": "h",
+          "\u0127": "h",
+          "\u0128": "I",
+          "\u012A": "I",
+          "\u012C": "I",
+          "\u012E": "I",
+          "\u0130": "I",
+          "\u0129": "i",
+          "\u012B": "i",
+          "\u012D": "i",
+          "\u012F": "i",
+          "\u0131": "i",
+          "\u0134": "J",
+          "\u0135": "j",
+          "\u0136": "K",
+          "\u0137": "k",
+          "\u0138": "k",
+          "\u0139": "L",
+          "\u013B": "L",
+          "\u013D": "L",
+          "\u013F": "L",
+          "\u0141": "L",
+          "\u013A": "l",
+          "\u013C": "l",
+          "\u013E": "l",
+          "\u0140": "l",
+          "\u0142": "l",
+          "\u0143": "N",
+          "\u0145": "N",
+          "\u0147": "N",
+          "\u014A": "N",
+          "\u0144": "n",
+          "\u0146": "n",
+          "\u0148": "n",
+          "\u014B": "n",
+          "\u014C": "O",
+          "\u014E": "O",
+          "\u0150": "O",
+          "\u014D": "o",
+          "\u014F": "o",
+          "\u0151": "o",
+          "\u0154": "R",
+          "\u0156": "R",
+          "\u0158": "R",
+          "\u0155": "r",
+          "\u0157": "r",
+          "\u0159": "r",
+          "\u015A": "S",
+          "\u015C": "S",
+          "\u015E": "S",
+          "\u0160": "S",
+          "\u015B": "s",
+          "\u015D": "s",
+          "\u015F": "s",
+          "\u0161": "s",
+          "\u0162": "T",
+          "\u0164": "T",
+          "\u0166": "T",
+          "\u0163": "t",
+          "\u0165": "t",
+          "\u0167": "t",
+          "\u0168": "U",
+          "\u016A": "U",
+          "\u016C": "U",
+          "\u016E": "U",
+          "\u0170": "U",
+          "\u0172": "U",
+          "\u0169": "u",
+          "\u016B": "u",
+          "\u016D": "u",
+          "\u016F": "u",
+          "\u0171": "u",
+          "\u0173": "u",
+          "\u0174": "W",
+          "\u0175": "w",
+          "\u0176": "Y",
+          "\u0177": "y",
+          "\u0178": "Y",
+          "\u0179": "Z",
+          "\u017B": "Z",
+          "\u017D": "Z",
+          "\u017A": "z",
+          "\u017C": "z",
+          "\u017E": "z",
+          "\u0132": "IJ",
+          "\u0133": "ij",
+          "\u0152": "Oe",
+          "\u0153": "oe",
+          "\u0149": "'n",
+          "\u017F": "s"
+        };
+        var htmlEscapes = {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        };
+        var htmlUnescapes = {
+          "&amp;": "&",
+          "&lt;": "<",
+          "&gt;": ">",
+          "&quot;": '"',
+          "&#39;": "'"
+        };
+        var stringEscapes = {
+          "\\": "\\",
+          "'": "'",
+          "\n": "n",
+          "\r": "r",
+          "\u2028": "u2028",
+          "\u2029": "u2029"
+        };
+        var freeParseFloat = parseFloat, freeParseInt = parseInt;
+        var freeGlobal = typeof global == "object" && global && global.Object === Object && global;
+        var freeSelf = typeof self == "object" && self && self.Object === Object && self;
+        var root = freeGlobal || freeSelf || Function("return this")();
+        var freeExports = typeof exports == "object" && exports && !exports.nodeType && exports;
+        var freeModule = freeExports && typeof module == "object" && module && !module.nodeType && module;
+        var moduleExports = freeModule && freeModule.exports === freeExports;
+        var freeProcess = moduleExports && freeGlobal.process;
+        var nodeUtil = (function() {
+          try {
+            var types = freeModule && freeModule.require && freeModule.require("util").types;
+            if (types) {
+              return types;
+            }
+            return freeProcess && freeProcess.binding && freeProcess.binding("util");
+          } catch (e) {
+          }
+        })();
+        var nodeIsArrayBuffer = nodeUtil && nodeUtil.isArrayBuffer, nodeIsDate = nodeUtil && nodeUtil.isDate, nodeIsMap = nodeUtil && nodeUtil.isMap, nodeIsRegExp = nodeUtil && nodeUtil.isRegExp, nodeIsSet = nodeUtil && nodeUtil.isSet, nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+        function apply(func, thisArg, args) {
+          switch (args.length) {
+            case 0:
+              return func.call(thisArg);
+            case 1:
+              return func.call(thisArg, args[0]);
+            case 2:
+              return func.call(thisArg, args[0], args[1]);
+            case 3:
+              return func.call(thisArg, args[0], args[1], args[2]);
+          }
+          return func.apply(thisArg, args);
+        }
+        function arrayAggregator(array, setter, iteratee, accumulator) {
+          var index = -1, length = array == null ? 0 : array.length;
+          while (++index < length) {
+            var value = array[index];
+            setter(accumulator, value, iteratee(value), array);
+          }
+          return accumulator;
+        }
+        function arrayEach(array, iteratee) {
+          var index = -1, length = array == null ? 0 : array.length;
+          while (++index < length) {
+            if (iteratee(array[index], index, array) === false) {
+              break;
+            }
+          }
+          return array;
+        }
+        function arrayEachRight(array, iteratee) {
+          var length = array == null ? 0 : array.length;
+          while (length--) {
+            if (iteratee(array[length], length, array) === false) {
+              break;
+            }
+          }
+          return array;
+        }
+        function arrayEvery(array, predicate) {
+          var index = -1, length = array == null ? 0 : array.length;
+          while (++index < length) {
+            if (!predicate(array[index], index, array)) {
+              return false;
+            }
+          }
+          return true;
+        }
+        function arrayFilter(array, predicate) {
+          var index = -1, length = array == null ? 0 : array.length, resIndex = 0, result = [];
+          while (++index < length) {
+            var value = array[index];
+            if (predicate(value, index, array)) {
+              result[resIndex++] = value;
+            }
+          }
+          return result;
+        }
+        function arrayIncludes(array, value) {
+          var length = array == null ? 0 : array.length;
+          return !!length && baseIndexOf(array, value, 0) > -1;
+        }
+        function arrayIncludesWith(array, value, comparator) {
+          var index = -1, length = array == null ? 0 : array.length;
+          while (++index < length) {
+            if (comparator(value, array[index])) {
+              return true;
+            }
+          }
+          return false;
+        }
+        function arrayMap(array, iteratee) {
+          var index = -1, length = array == null ? 0 : array.length, result = Array(length);
+          while (++index < length) {
+            result[index] = iteratee(array[index], index, array);
+          }
+          return result;
+        }
+        function arrayPush(array, values) {
+          var index = -1, length = values.length, offset = array.length;
+          while (++index < length) {
+            array[offset + index] = values[index];
+          }
+          return array;
+        }
+        function arrayReduce(array, iteratee, accumulator, initAccum) {
+          var index = -1, length = array == null ? 0 : array.length;
+          if (initAccum && length) {
+            accumulator = array[++index];
+          }
+          while (++index < length) {
+            accumulator = iteratee(accumulator, array[index], index, array);
+          }
+          return accumulator;
+        }
+        function arrayReduceRight(array, iteratee, accumulator, initAccum) {
+          var length = array == null ? 0 : array.length;
+          if (initAccum && length) {
+            accumulator = array[--length];
+          }
+          while (length--) {
+            accumulator = iteratee(accumulator, array[length], length, array);
+          }
+          return accumulator;
+        }
+        function arraySome(array, predicate) {
+          var index = -1, length = array == null ? 0 : array.length;
+          while (++index < length) {
+            if (predicate(array[index], index, array)) {
+              return true;
+            }
+          }
+          return false;
+        }
+        var asciiSize = baseProperty("length");
+        function asciiToArray(string) {
+          return string.split("");
+        }
+        function asciiWords(string) {
+          return string.match(reAsciiWord) || [];
+        }
+        function baseFindKey(collection, predicate, eachFunc) {
+          var result;
+          eachFunc(collection, function(value, key, collection2) {
+            if (predicate(value, key, collection2)) {
+              result = key;
+              return false;
+            }
+          });
+          return result;
+        }
+        function baseFindIndex(array, predicate, fromIndex, fromRight) {
+          var length = array.length, index = fromIndex + (fromRight ? 1 : -1);
+          while (fromRight ? index-- : ++index < length) {
+            if (predicate(array[index], index, array)) {
+              return index;
+            }
+          }
+          return -1;
+        }
+        function baseIndexOf(array, value, fromIndex) {
+          return value === value ? strictIndexOf(array, value, fromIndex) : baseFindIndex(array, baseIsNaN, fromIndex);
+        }
+        function baseIndexOfWith(array, value, fromIndex, comparator) {
+          var index = fromIndex - 1, length = array.length;
+          while (++index < length) {
+            if (comparator(array[index], value)) {
+              return index;
+            }
+          }
+          return -1;
+        }
+        function baseIsNaN(value) {
+          return value !== value;
+        }
+        function baseMean(array, iteratee) {
+          var length = array == null ? 0 : array.length;
+          return length ? baseSum(array, iteratee) / length : NAN;
+        }
+        function baseProperty(key) {
+          return function(object) {
+            return object == null ? undefined2 : object[key];
+          };
+        }
+        function basePropertyOf(object) {
+          return function(key) {
+            return object == null ? undefined2 : object[key];
+          };
+        }
+        function baseReduce(collection, iteratee, accumulator, initAccum, eachFunc) {
+          eachFunc(collection, function(value, index, collection2) {
+            accumulator = initAccum ? (initAccum = false, value) : iteratee(accumulator, value, index, collection2);
+          });
+          return accumulator;
+        }
+        function baseSortBy(array, comparer) {
+          var length = array.length;
+          array.sort(comparer);
+          while (length--) {
+            array[length] = array[length].value;
+          }
+          return array;
+        }
+        function baseSum(array, iteratee) {
+          var result, index = -1, length = array.length;
+          while (++index < length) {
+            var current = iteratee(array[index]);
+            if (current !== undefined2) {
+              result = result === undefined2 ? current : result + current;
+            }
+          }
+          return result;
+        }
+        function baseTimes(n, iteratee) {
+          var index = -1, result = Array(n);
+          while (++index < n) {
+            result[index] = iteratee(index);
+          }
+          return result;
+        }
+        function baseToPairs(object, props) {
+          return arrayMap(props, function(key) {
+            return [key, object[key]];
+          });
+        }
+        function baseTrim(string) {
+          return string ? string.slice(0, trimmedEndIndex(string) + 1).replace(reTrimStart, "") : string;
+        }
+        function baseUnary(func) {
+          return function(value) {
+            return func(value);
+          };
+        }
+        function baseValues(object, props) {
+          return arrayMap(props, function(key) {
+            return object[key];
+          });
+        }
+        function cacheHas(cache, key) {
+          return cache.has(key);
+        }
+        function charsStartIndex(strSymbols, chrSymbols) {
+          var index = -1, length = strSymbols.length;
+          while (++index < length && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {
+          }
+          return index;
+        }
+        function charsEndIndex(strSymbols, chrSymbols) {
+          var index = strSymbols.length;
+          while (index-- && baseIndexOf(chrSymbols, strSymbols[index], 0) > -1) {
+          }
+          return index;
+        }
+        function countHolders(array, placeholder) {
+          var length = array.length, result = 0;
+          while (length--) {
+            if (array[length] === placeholder) {
+              ++result;
+            }
+          }
+          return result;
+        }
+        var deburrLetter = basePropertyOf(deburredLetters);
+        var escapeHtmlChar = basePropertyOf(htmlEscapes);
+        function escapeStringChar(chr) {
+          return "\\" + stringEscapes[chr];
+        }
+        function getValue(object, key) {
+          return object == null ? undefined2 : object[key];
+        }
+        function hasUnicode(string) {
+          return reHasUnicode.test(string);
+        }
+        function hasUnicodeWord(string) {
+          return reHasUnicodeWord.test(string);
+        }
+        function iteratorToArray(iterator) {
+          var data, result = [];
+          while (!(data = iterator.next()).done) {
+            result.push(data.value);
+          }
+          return result;
+        }
+        function mapToArray(map) {
+          var index = -1, result = Array(map.size);
+          map.forEach(function(value, key) {
+            result[++index] = [key, value];
+          });
+          return result;
+        }
+        function overArg(func, transform) {
+          return function(arg) {
+            return func(transform(arg));
+          };
+        }
+        function replaceHolders(array, placeholder) {
+          var index = -1, length = array.length, resIndex = 0, result = [];
+          while (++index < length) {
+            var value = array[index];
+            if (value === placeholder || value === PLACEHOLDER) {
+              array[index] = PLACEHOLDER;
+              result[resIndex++] = index;
+            }
+          }
+          return result;
+        }
+        function setToArray(set) {
+          var index = -1, result = Array(set.size);
+          set.forEach(function(value) {
+            result[++index] = value;
+          });
+          return result;
+        }
+        function setToPairs(set) {
+          var index = -1, result = Array(set.size);
+          set.forEach(function(value) {
+            result[++index] = [value, value];
+          });
+          return result;
+        }
+        function strictIndexOf(array, value, fromIndex) {
+          var index = fromIndex - 1, length = array.length;
+          while (++index < length) {
+            if (array[index] === value) {
+              return index;
+            }
+          }
+          return -1;
+        }
+        function strictLastIndexOf(array, value, fromIndex) {
+          var index = fromIndex + 1;
+          while (index--) {
+            if (array[index] === value) {
+              return index;
+            }
+          }
+          return index;
+        }
+        function stringSize(string) {
+          return hasUnicode(string) ? unicodeSize(string) : asciiSize(string);
+        }
+        function stringToArray(string) {
+          return hasUnicode(string) ? unicodeToArray(string) : asciiToArray(string);
+        }
+        function trimmedEndIndex(string) {
+          var index = string.length;
+          while (index-- && reWhitespace.test(string.charAt(index))) {
+          }
+          return index;
+        }
+        var unescapeHtmlChar = basePropertyOf(htmlUnescapes);
+        function unicodeSize(string) {
+          var result = reUnicode.lastIndex = 0;
+          while (reUnicode.test(string)) {
+            ++result;
+          }
+          return result;
+        }
+        function unicodeToArray(string) {
+          return string.match(reUnicode) || [];
+        }
+        function unicodeWords(string) {
+          return string.match(reUnicodeWord) || [];
+        }
+        var runInContext = (function runInContext2(context) {
+          context = context == null ? root : _2.defaults(root.Object(), context, _2.pick(root, contextProps));
+          var Array2 = context.Array, Date = context.Date, Error2 = context.Error, Function2 = context.Function, Math2 = context.Math, Object2 = context.Object, RegExp2 = context.RegExp, String2 = context.String, TypeError2 = context.TypeError;
+          var arrayProto = Array2.prototype, funcProto = Function2.prototype, objectProto = Object2.prototype;
+          var coreJsData = context["__core-js_shared__"];
+          var funcToString = funcProto.toString;
+          var hasOwnProperty = objectProto.hasOwnProperty;
+          var idCounter = 0;
+          var maskSrcKey = (function() {
+            var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || "");
+            return uid ? "Symbol(src)_1." + uid : "";
+          })();
+          var nativeObjectToString = objectProto.toString;
+          var objectCtorString = funcToString.call(Object2);
+          var oldDash = root._;
+          var reIsNative = RegExp2(
+            "^" + funcToString.call(hasOwnProperty).replace(reRegExpChar, "\\$&").replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, "$1.*?") + "$"
+          );
+          var Buffer2 = moduleExports ? context.Buffer : undefined2, Symbol2 = context.Symbol, Uint8Array2 = context.Uint8Array, allocUnsafe = Buffer2 ? Buffer2.allocUnsafe : undefined2, getPrototype = overArg(Object2.getPrototypeOf, Object2), objectCreate = Object2.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol2 ? Symbol2.isConcatSpreadable : undefined2, symIterator = Symbol2 ? Symbol2.iterator : undefined2, symToStringTag = Symbol2 ? Symbol2.toStringTag : undefined2;
+          var defineProperty = (function() {
+            try {
+              var func = getNative(Object2, "defineProperty");
+              func({}, "", {});
+              return func;
+            } catch (e) {
+            }
+          })();
+          var ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout, ctxNow = Date && Date.now !== root.Date.now && Date.now, ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout;
+          var nativeCeil = Math2.ceil, nativeFloor = Math2.floor, nativeGetSymbols = Object2.getOwnPropertySymbols, nativeIsBuffer = Buffer2 ? Buffer2.isBuffer : undefined2, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object2.keys, Object2), nativeMax = Math2.max, nativeMin = Math2.min, nativeNow = Date.now, nativeParseInt = context.parseInt, nativeRandom = Math2.random, nativeReverse = arrayProto.reverse;
+          var DataView2 = getNative(context, "DataView"), Map2 = getNative(context, "Map"), Promise2 = getNative(context, "Promise"), Set2 = getNative(context, "Set"), WeakMap2 = getNative(context, "WeakMap"), nativeCreate = getNative(Object2, "create");
+          var metaMap = WeakMap2 && new WeakMap2();
+          var realNames = {};
+          var dataViewCtorString = toSource(DataView2), mapCtorString = toSource(Map2), promiseCtorString = toSource(Promise2), setCtorString = toSource(Set2), weakMapCtorString = toSource(WeakMap2);
+          var symbolProto = Symbol2 ? Symbol2.prototype : undefined2, symbolValueOf = symbolProto ? symbolProto.valueOf : undefined2, symbolToString = symbolProto ? symbolProto.toString : undefined2;
+          function lodash(value) {
+            if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
+              if (value instanceof LodashWrapper) {
+                return value;
+              }
+              if (hasOwnProperty.call(value, "__wrapped__")) {
+                return wrapperClone(value);
+              }
+            }
+            return new LodashWrapper(value);
+          }
+          var baseCreate = /* @__PURE__ */ (function() {
+            function object() {
+            }
+            return function(proto) {
+              if (!isObject(proto)) {
+                return {};
+              }
+              if (objectCreate) {
+                return objectCreate(proto);
+              }
+              object.prototype = proto;
+              var result2 = new object();
+              object.prototype = undefined2;
+              return result2;
+            };
+          })();
+          function baseLodash() {
+          }
+          function LodashWrapper(value, chainAll) {
+            this.__wrapped__ = value;
+            this.__actions__ = [];
+            this.__chain__ = !!chainAll;
+            this.__index__ = 0;
+            this.__values__ = undefined2;
+          }
+          lodash.templateSettings = {
+            /**
+             * Used to detect `data` property values to be HTML-escaped.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
+            "escape": reEscape,
+            /**
+             * Used to detect code to be evaluated.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
+            "evaluate": reEvaluate,
+            /**
+             * Used to detect `data` property values to inject.
+             *
+             * @memberOf _.templateSettings
+             * @type {RegExp}
+             */
+            "interpolate": reInterpolate,
+            /**
+             * Used to reference the data object in the template text.
+             *
+             * @memberOf _.templateSettings
+             * @type {string}
+             */
+            "variable": "",
+            /**
+             * Used to import variables into the compiled template.
+             *
+             * @memberOf _.templateSettings
+             * @type {Object}
+             */
+            "imports": {
+              /**
+               * A reference to the `lodash` function.
+               *
+               * @memberOf _.templateSettings.imports
+               * @type {Function}
+               */
+              "_": lodash
+            }
+          };
+          lodash.prototype = baseLodash.prototype;
+          lodash.prototype.constructor = lodash;
+          LodashWrapper.prototype = baseCreate(baseLodash.prototype);
+          LodashWrapper.prototype.constructor = LodashWrapper;
+          function LazyWrapper(value) {
+            this.__wrapped__ = value;
+            this.__actions__ = [];
+            this.__dir__ = 1;
+            this.__filtered__ = false;
+            this.__iteratees__ = [];
+            this.__takeCount__ = MAX_ARRAY_LENGTH;
+            this.__views__ = [];
+          }
+          function lazyClone() {
+            var result2 = new LazyWrapper(this.__wrapped__);
+            result2.__actions__ = copyArray2(this.__actions__);
+            result2.__dir__ = this.__dir__;
+            result2.__filtered__ = this.__filtered__;
+            result2.__iteratees__ = copyArray2(this.__iteratees__);
+            result2.__takeCount__ = this.__takeCount__;
+            result2.__views__ = copyArray2(this.__views__);
+            return result2;
+          }
+          function lazyReverse() {
+            if (this.__filtered__) {
+              var result2 = new LazyWrapper(this);
+              result2.__dir__ = -1;
+              result2.__filtered__ = true;
+            } else {
+              result2 = this.clone();
+              result2.__dir__ *= -1;
+            }
+            return result2;
+          }
+          function lazyValue() {
+            var array = this.__wrapped__.value(), dir = this.__dir__, isArr = isArray(array), isRight = dir < 0, arrLength = isArr ? array.length : 0, view = getView(0, arrLength, this.__views__), start = view.start, end = view.end, length = end - start, index = isRight ? end : start - 1, iteratees = this.__iteratees__, iterLength = iteratees.length, resIndex = 0, takeCount = nativeMin(length, this.__takeCount__);
+            if (!isArr || !isRight && arrLength == length && takeCount == length) {
+              return baseWrapperValue(array, this.__actions__);
+            }
+            var result2 = [];
+            outer:
+              while (length-- && resIndex < takeCount) {
+                index += dir;
+                var iterIndex = -1, value = array[index];
+                while (++iterIndex < iterLength) {
+                  var data = iteratees[iterIndex], iteratee2 = data.iteratee, type = data.type, computed = iteratee2(value);
+                  if (type == LAZY_MAP_FLAG) {
+                    value = computed;
+                  } else if (!computed) {
+                    if (type == LAZY_FILTER_FLAG) {
+                      continue outer;
+                    } else {
+                      break outer;
+                    }
+                  }
+                }
+                result2[resIndex++] = value;
+              }
+            return result2;
+          }
+          LazyWrapper.prototype = baseCreate(baseLodash.prototype);
+          LazyWrapper.prototype.constructor = LazyWrapper;
+          function Hash(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          function hashClear() {
+            this.__data__ = nativeCreate ? nativeCreate(null) : {};
+            this.size = 0;
+          }
+          function hashDelete(key) {
+            var result2 = this.has(key) && delete this.__data__[key];
+            this.size -= result2 ? 1 : 0;
+            return result2;
+          }
+          function hashGet(key) {
+            var data = this.__data__;
+            if (nativeCreate) {
+              var result2 = data[key];
+              return result2 === HASH_UNDEFINED ? undefined2 : result2;
+            }
+            return hasOwnProperty.call(data, key) ? data[key] : undefined2;
+          }
+          function hashHas(key) {
+            var data = this.__data__;
+            return nativeCreate ? data[key] !== undefined2 : hasOwnProperty.call(data, key);
+          }
+          function hashSet(key, value) {
+            var data = this.__data__;
+            this.size += this.has(key) ? 0 : 1;
+            data[key] = nativeCreate && value === undefined2 ? HASH_UNDEFINED : value;
+            return this;
+          }
+          Hash.prototype.clear = hashClear;
+          Hash.prototype["delete"] = hashDelete;
+          Hash.prototype.get = hashGet;
+          Hash.prototype.has = hashHas;
+          Hash.prototype.set = hashSet;
+          function ListCache(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          function listCacheClear() {
+            this.__data__ = [];
+            this.size = 0;
+          }
+          function listCacheDelete(key) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            if (index < 0) {
+              return false;
+            }
+            var lastIndex = data.length - 1;
+            if (index == lastIndex) {
+              data.pop();
+            } else {
+              splice.call(data, index, 1);
+            }
+            --this.size;
+            return true;
+          }
+          function listCacheGet(key) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            return index < 0 ? undefined2 : data[index][1];
+          }
+          function listCacheHas(key) {
+            return assocIndexOf(this.__data__, key) > -1;
+          }
+          function listCacheSet(key, value) {
+            var data = this.__data__, index = assocIndexOf(data, key);
+            if (index < 0) {
+              ++this.size;
+              data.push([key, value]);
+            } else {
+              data[index][1] = value;
+            }
+            return this;
+          }
+          ListCache.prototype.clear = listCacheClear;
+          ListCache.prototype["delete"] = listCacheDelete;
+          ListCache.prototype.get = listCacheGet;
+          ListCache.prototype.has = listCacheHas;
+          ListCache.prototype.set = listCacheSet;
+          function MapCache(entries) {
+            var index = -1, length = entries == null ? 0 : entries.length;
+            this.clear();
+            while (++index < length) {
+              var entry = entries[index];
+              this.set(entry[0], entry[1]);
+            }
+          }
+          function mapCacheClear() {
+            this.size = 0;
+            this.__data__ = {
+              "hash": new Hash(),
+              "map": new (Map2 || ListCache)(),
+              "string": new Hash()
+            };
+          }
+          function mapCacheDelete(key) {
+            var result2 = getMapData(this, key)["delete"](key);
+            this.size -= result2 ? 1 : 0;
+            return result2;
+          }
+          function mapCacheGet(key) {
+            return getMapData(this, key).get(key);
+          }
+          function mapCacheHas(key) {
+            return getMapData(this, key).has(key);
+          }
+          function mapCacheSet(key, value) {
+            var data = getMapData(this, key), size2 = data.size;
+            data.set(key, value);
+            this.size += data.size == size2 ? 0 : 1;
+            return this;
+          }
+          MapCache.prototype.clear = mapCacheClear;
+          MapCache.prototype["delete"] = mapCacheDelete;
+          MapCache.prototype.get = mapCacheGet;
+          MapCache.prototype.has = mapCacheHas;
+          MapCache.prototype.set = mapCacheSet;
+          function SetCache(values2) {
+            var index = -1, length = values2 == null ? 0 : values2.length;
+            this.__data__ = new MapCache();
+            while (++index < length) {
+              this.add(values2[index]);
+            }
+          }
+          function setCacheAdd(value) {
+            this.__data__.set(value, HASH_UNDEFINED);
+            return this;
+          }
+          function setCacheHas(value) {
+            return this.__data__.has(value);
+          }
+          SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
+          SetCache.prototype.has = setCacheHas;
+          function Stack(entries) {
+            var data = this.__data__ = new ListCache(entries);
+            this.size = data.size;
+          }
+          function stackClear() {
+            this.__data__ = new ListCache();
+            this.size = 0;
+          }
+          function stackDelete(key) {
+            var data = this.__data__, result2 = data["delete"](key);
+            this.size = data.size;
+            return result2;
+          }
+          function stackGet(key) {
+            return this.__data__.get(key);
+          }
+          function stackHas(key) {
+            return this.__data__.has(key);
+          }
+          function stackSet(key, value) {
+            var data = this.__data__;
+            if (data instanceof ListCache) {
+              var pairs = data.__data__;
+              if (!Map2 || pairs.length < LARGE_ARRAY_SIZE - 1) {
+                pairs.push([key, value]);
+                this.size = ++data.size;
+                return this;
+              }
+              data = this.__data__ = new MapCache(pairs);
+            }
+            data.set(key, value);
+            this.size = data.size;
+            return this;
+          }
+          Stack.prototype.clear = stackClear;
+          Stack.prototype["delete"] = stackDelete;
+          Stack.prototype.get = stackGet;
+          Stack.prototype.has = stackHas;
+          Stack.prototype.set = stackSet;
+          function arrayLikeKeys(value, inherited) {
+            var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray2(value), skipIndexes = isArr || isArg || isBuff || isType, result2 = skipIndexes ? baseTimes(value.length, String2) : [], length = result2.length;
+            for (var key in value) {
+              if ((inherited || hasOwnProperty.call(value, key)) && !(skipIndexes && // Safari 9 has enumerable `arguments.length` in strict mode.
+              (key == "length" || // Node.js 0.10 has enumerable non-index properties on buffers.
+              isBuff && (key == "offset" || key == "parent") || // PhantomJS 2 has enumerable non-index properties on typed arrays.
+              isType && (key == "buffer" || key == "byteLength" || key == "byteOffset") || // Skip index properties.
+              isIndex(key, length)))) {
+                result2.push(key);
+              }
+            }
+            return result2;
+          }
+          function arraySample(array) {
+            var length = array.length;
+            return length ? array[baseRandom(0, length - 1)] : undefined2;
+          }
+          function arraySampleSize(array, n) {
+            return shuffleSelf(copyArray2(array), baseClamp(n, 0, array.length));
+          }
+          function arrayShuffle(array) {
+            return shuffleSelf(copyArray2(array));
+          }
+          function assignMergeValue(object, key, value) {
+            if (value !== undefined2 && !eq(object[key], value) || value === undefined2 && !(key in object)) {
+              baseAssignValue(object, key, value);
+            }
+          }
+          function assignValue(object, key, value) {
+            var objValue = object[key];
+            if (!(hasOwnProperty.call(object, key) && eq(objValue, value)) || value === undefined2 && !(key in object)) {
+              baseAssignValue(object, key, value);
+            }
+          }
+          function assocIndexOf(array, key) {
+            var length = array.length;
+            while (length--) {
+              if (eq(array[length][0], key)) {
+                return length;
+              }
+            }
+            return -1;
+          }
+          function baseAggregator(collection, setter, iteratee2, accumulator) {
+            baseEach(collection, function(value, key, collection2) {
+              setter(accumulator, value, iteratee2(value), collection2);
+            });
+            return accumulator;
+          }
+          function baseAssign(object, source) {
+            return object && copyObject(source, keys(source), object);
+          }
+          function baseAssignIn(object, source) {
+            return object && copyObject(source, keysIn(source), object);
+          }
+          function baseAssignValue(object, key, value) {
+            if (key == "__proto__" && defineProperty) {
+              defineProperty(object, key, {
+                "configurable": true,
+                "enumerable": true,
+                "value": value,
+                "writable": true
+              });
+            } else {
+              object[key] = value;
+            }
+          }
+          function baseAt(object, paths) {
+            var index = -1, length = paths.length, result2 = Array2(length), skip = object == null;
+            while (++index < length) {
+              result2[index] = skip ? undefined2 : get(object, paths[index]);
+            }
+            return result2;
+          }
+          function baseClamp(number, lower, upper) {
+            if (number === number) {
+              if (upper !== undefined2) {
+                number = number <= upper ? number : upper;
+              }
+              if (lower !== undefined2) {
+                number = number >= lower ? number : lower;
+              }
+            }
+            return number;
+          }
+          function baseClone(value, bitmask, customizer, key, object, stack) {
+            var result2, isDeep = bitmask & CLONE_DEEP_FLAG, isFlat = bitmask & CLONE_FLAT_FLAG, isFull = bitmask & CLONE_SYMBOLS_FLAG;
+            if (customizer) {
+              result2 = object ? customizer(value, key, object, stack) : customizer(value);
+            }
+            if (result2 !== undefined2) {
+              return result2;
+            }
+            if (!isObject(value)) {
+              return value;
+            }
+            var isArr = isArray(value);
+            if (isArr) {
+              result2 = initCloneArray(value);
+              if (!isDeep) {
+                return copyArray2(value, result2);
+              }
+            } else {
+              var tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
+              if (isBuffer(value)) {
+                return cloneBuffer(value, isDeep);
+              }
+              if (tag == objectTag || tag == argsTag || isFunc && !object) {
+                result2 = isFlat || isFunc ? {} : initCloneObject(value);
+                if (!isDeep) {
+                  return isFlat ? copySymbolsIn(value, baseAssignIn(result2, value)) : copySymbols(value, baseAssign(result2, value));
+                }
+              } else {
+                if (!cloneableTags[tag]) {
+                  return object ? value : {};
+                }
+                result2 = initCloneByTag(value, tag, isDeep);
+              }
+            }
+            stack || (stack = new Stack());
+            var stacked = stack.get(value);
+            if (stacked) {
+              return stacked;
+            }
+            stack.set(value, result2);
+            if (isSet(value)) {
+              value.forEach(function(subValue) {
+                result2.add(baseClone(subValue, bitmask, customizer, subValue, value, stack));
+              });
+            } else if (isMap(value)) {
+              value.forEach(function(subValue, key2) {
+                result2.set(key2, baseClone(subValue, bitmask, customizer, key2, value, stack));
+              });
+            }
+            var keysFunc = isFull ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys;
+            var props = isArr ? undefined2 : keysFunc(value);
+            arrayEach(props || value, function(subValue, key2) {
+              if (props) {
+                key2 = subValue;
+                subValue = value[key2];
+              }
+              assignValue(result2, key2, baseClone(subValue, bitmask, customizer, key2, value, stack));
+            });
+            return result2;
+          }
+          function baseConforms(source) {
+            var props = keys(source);
+            return function(object) {
+              return baseConformsTo(object, source, props);
+            };
+          }
+          function baseConformsTo(object, source, props) {
+            var length = props.length;
+            if (object == null) {
+              return !length;
+            }
+            object = Object2(object);
+            while (length--) {
+              var key = props[length], predicate = source[key], value = object[key];
+              if (value === undefined2 && !(key in object) || !predicate(value)) {
+                return false;
+              }
+            }
+            return true;
+          }
+          function baseDelay(func, wait, args) {
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            return setTimeout2(function() {
+              func.apply(undefined2, args);
+            }, wait);
+          }
+          function baseDifference(array, values2, iteratee2, comparator) {
+            var index = -1, includes2 = arrayIncludes, isCommon = true, length = array.length, result2 = [], valuesLength = values2.length;
+            if (!length) {
+              return result2;
+            }
+            if (iteratee2) {
+              values2 = arrayMap(values2, baseUnary(iteratee2));
+            }
+            if (comparator) {
+              includes2 = arrayIncludesWith;
+              isCommon = false;
+            } else if (values2.length >= LARGE_ARRAY_SIZE) {
+              includes2 = cacheHas;
+              isCommon = false;
+              values2 = new SetCache(values2);
+            }
+            outer:
+              while (++index < length) {
+                var value = array[index], computed = iteratee2 == null ? value : iteratee2(value);
+                value = comparator || value !== 0 ? value : 0;
+                if (isCommon && computed === computed) {
+                  var valuesIndex = valuesLength;
+                  while (valuesIndex--) {
+                    if (values2[valuesIndex] === computed) {
+                      continue outer;
+                    }
+                  }
+                  result2.push(value);
+                } else if (!includes2(values2, computed, comparator)) {
+                  result2.push(value);
+                }
+              }
+            return result2;
+          }
+          var baseEach = createBaseEach(baseForOwn);
+          var baseEachRight = createBaseEach(baseForOwnRight, true);
+          function baseEvery(collection, predicate) {
+            var result2 = true;
+            baseEach(collection, function(value, index, collection2) {
+              result2 = !!predicate(value, index, collection2);
+              return result2;
+            });
+            return result2;
+          }
+          function baseExtremum(array, iteratee2, comparator) {
+            var index = -1, length = array.length;
+            while (++index < length) {
+              var value = array[index], current = iteratee2(value);
+              if (current != null && (computed === undefined2 ? current === current && !isSymbol(current) : comparator(current, computed))) {
+                var computed = current, result2 = value;
+              }
+            }
+            return result2;
+          }
+          function baseFill(array, value, start, end) {
+            var length = array.length;
+            start = toInteger(start);
+            if (start < 0) {
+              start = -start > length ? 0 : length + start;
+            }
+            end = end === undefined2 || end > length ? length : toInteger(end);
+            if (end < 0) {
+              end += length;
+            }
+            end = start > end ? 0 : toLength(end);
+            while (start < end) {
+              array[start++] = value;
+            }
+            return array;
+          }
+          function baseFilter(collection, predicate) {
+            var result2 = [];
+            baseEach(collection, function(value, index, collection2) {
+              if (predicate(value, index, collection2)) {
+                result2.push(value);
+              }
+            });
+            return result2;
+          }
+          function baseFlatten(array, depth, predicate, isStrict, result2) {
+            var index = -1, length = array.length;
+            predicate || (predicate = isFlattenable);
+            result2 || (result2 = []);
+            while (++index < length) {
+              var value = array[index];
+              if (depth > 0 && predicate(value)) {
+                if (depth > 1) {
+                  baseFlatten(value, depth - 1, predicate, isStrict, result2);
+                } else {
+                  arrayPush(result2, value);
+                }
+              } else if (!isStrict) {
+                result2[result2.length] = value;
+              }
+            }
+            return result2;
+          }
+          var baseFor = createBaseFor();
+          var baseForRight = createBaseFor(true);
+          function baseForOwn(object, iteratee2) {
+            return object && baseFor(object, iteratee2, keys);
+          }
+          function baseForOwnRight(object, iteratee2) {
+            return object && baseForRight(object, iteratee2, keys);
+          }
+          function baseFunctions(object, props) {
+            return arrayFilter(props, function(key) {
+              return isFunction(object[key]);
+            });
+          }
+          function baseGet(object, path) {
+            path = castPath(path, object);
+            var index = 0, length = path.length;
+            while (object != null && index < length) {
+              object = object[toKey(path[index++])];
+            }
+            return index && index == length ? object : undefined2;
+          }
+          function baseGetAllKeys(object, keysFunc, symbolsFunc) {
+            var result2 = keysFunc(object);
+            return isArray(object) ? result2 : arrayPush(result2, symbolsFunc(object));
+          }
+          function baseGetTag(value) {
+            if (value == null) {
+              return value === undefined2 ? undefinedTag : nullTag;
+            }
+            return symToStringTag && symToStringTag in Object2(value) ? getRawTag(value) : objectToString(value);
+          }
+          function baseGt(value, other) {
+            return value > other;
+          }
+          function baseHas(object, key) {
+            return object != null && hasOwnProperty.call(object, key);
+          }
+          function baseHasIn(object, key) {
+            return object != null && key in Object2(object);
+          }
+          function baseInRange(number, start, end) {
+            return number >= nativeMin(start, end) && number < nativeMax(start, end);
+          }
+          function baseIntersection(arrays, iteratee2, comparator) {
+            var includes2 = comparator ? arrayIncludesWith : arrayIncludes, length = arrays[0].length, othLength = arrays.length, othIndex = othLength, caches = Array2(othLength), maxLength = Infinity, result2 = [];
+            while (othIndex--) {
+              var array = arrays[othIndex];
+              if (othIndex && iteratee2) {
+                array = arrayMap(array, baseUnary(iteratee2));
+              }
+              maxLength = nativeMin(array.length, maxLength);
+              caches[othIndex] = !comparator && (iteratee2 || length >= 120 && array.length >= 120) ? new SetCache(othIndex && array) : undefined2;
+            }
+            array = arrays[0];
+            var index = -1, seen = caches[0];
+            outer:
+              while (++index < length && result2.length < maxLength) {
+                var value = array[index], computed = iteratee2 ? iteratee2(value) : value;
+                value = comparator || value !== 0 ? value : 0;
+                if (!(seen ? cacheHas(seen, computed) : includes2(result2, computed, comparator))) {
+                  othIndex = othLength;
+                  while (--othIndex) {
+                    var cache = caches[othIndex];
+                    if (!(cache ? cacheHas(cache, computed) : includes2(arrays[othIndex], computed, comparator))) {
+                      continue outer;
+                    }
+                  }
+                  if (seen) {
+                    seen.push(computed);
+                  }
+                  result2.push(value);
+                }
+              }
+            return result2;
+          }
+          function baseInverter(object, setter, iteratee2, accumulator) {
+            baseForOwn(object, function(value, key, object2) {
+              setter(accumulator, iteratee2(value), key, object2);
+            });
+            return accumulator;
+          }
+          function baseInvoke(object, path, args) {
+            path = castPath(path, object);
+            object = parent(object, path);
+            var func = object == null ? object : object[toKey(last(path))];
+            return func == null ? undefined2 : apply(func, object, args);
+          }
+          function baseIsArguments(value) {
+            return isObjectLike(value) && baseGetTag(value) == argsTag;
+          }
+          function baseIsArrayBuffer(value) {
+            return isObjectLike(value) && baseGetTag(value) == arrayBufferTag;
+          }
+          function baseIsDate(value) {
+            return isObjectLike(value) && baseGetTag(value) == dateTag;
+          }
+          function baseIsEqual(value, other, bitmask, customizer, stack) {
+            if (value === other) {
+              return true;
+            }
+            if (value == null || other == null || !isObjectLike(value) && !isObjectLike(other)) {
+              return value !== value && other !== other;
+            }
+            return baseIsEqualDeep(value, other, bitmask, customizer, baseIsEqual, stack);
+          }
+          function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
+            var objIsArr = isArray(object), othIsArr = isArray(other), objTag = objIsArr ? arrayTag : getTag(object), othTag = othIsArr ? arrayTag : getTag(other);
+            objTag = objTag == argsTag ? objectTag : objTag;
+            othTag = othTag == argsTag ? objectTag : othTag;
+            var objIsObj = objTag == objectTag, othIsObj = othTag == objectTag, isSameTag = objTag == othTag;
+            if (isSameTag && isBuffer(object)) {
+              if (!isBuffer(other)) {
+                return false;
+              }
+              objIsArr = true;
+              objIsObj = false;
+            }
+            if (isSameTag && !objIsObj) {
+              stack || (stack = new Stack());
+              return objIsArr || isTypedArray2(object) ? equalArrays(object, other, bitmask, customizer, equalFunc, stack) : equalByTag(object, other, objTag, bitmask, customizer, equalFunc, stack);
+            }
+            if (!(bitmask & COMPARE_PARTIAL_FLAG)) {
+              var objIsWrapped = objIsObj && hasOwnProperty.call(object, "__wrapped__"), othIsWrapped = othIsObj && hasOwnProperty.call(other, "__wrapped__");
+              if (objIsWrapped || othIsWrapped) {
+                var objUnwrapped = objIsWrapped ? object.value() : object, othUnwrapped = othIsWrapped ? other.value() : other;
+                stack || (stack = new Stack());
+                return equalFunc(objUnwrapped, othUnwrapped, bitmask, customizer, stack);
+              }
+            }
+            if (!isSameTag) {
+              return false;
+            }
+            stack || (stack = new Stack());
+            return equalObjects(object, other, bitmask, customizer, equalFunc, stack);
+          }
+          function baseIsMap(value) {
+            return isObjectLike(value) && getTag(value) == mapTag;
+          }
+          function baseIsMatch(object, source, matchData, customizer) {
+            var index = matchData.length, length = index, noCustomizer = !customizer;
+            if (object == null) {
+              return !length;
+            }
+            object = Object2(object);
+            while (index--) {
+              var data = matchData[index];
+              if (noCustomizer && data[2] ? data[1] !== object[data[0]] : !(data[0] in object)) {
+                return false;
+              }
+            }
+            while (++index < length) {
+              data = matchData[index];
+              var key = data[0], objValue = object[key], srcValue = data[1];
+              if (noCustomizer && data[2]) {
+                if (objValue === undefined2 && !(key in object)) {
+                  return false;
+                }
+              } else {
+                var stack = new Stack();
+                if (customizer) {
+                  var result2 = customizer(objValue, srcValue, key, object, source, stack);
+                }
+                if (!(result2 === undefined2 ? baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG, customizer, stack) : result2)) {
+                  return false;
+                }
+              }
+            }
+            return true;
+          }
+          function baseIsNative(value) {
+            if (!isObject(value) || isMasked(value)) {
+              return false;
+            }
+            var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+            return pattern.test(toSource(value));
+          }
+          function baseIsRegExp(value) {
+            return isObjectLike(value) && baseGetTag(value) == regexpTag;
+          }
+          function baseIsSet(value) {
+            return isObjectLike(value) && getTag(value) == setTag;
+          }
+          function baseIsTypedArray(value) {
+            return isObjectLike(value) && isLength(value.length) && !!typedArrayTags[baseGetTag(value)];
+          }
+          function baseIteratee(value) {
+            if (typeof value == "function") {
+              return value;
+            }
+            if (value == null) {
+              return identity;
+            }
+            if (typeof value == "object") {
+              return isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value);
+            }
+            return property(value);
+          }
+          function baseKeys(object) {
+            if (!isPrototype(object)) {
+              return nativeKeys(object);
+            }
+            var result2 = [];
+            for (var key in Object2(object)) {
+              if (hasOwnProperty.call(object, key) && key != "constructor") {
+                result2.push(key);
+              }
+            }
+            return result2;
+          }
+          function baseKeysIn(object) {
+            if (!isObject(object)) {
+              return nativeKeysIn(object);
+            }
+            var isProto = isPrototype(object), result2 = [];
+            for (var key in object) {
+              if (!(key == "constructor" && (isProto || !hasOwnProperty.call(object, key)))) {
+                result2.push(key);
+              }
+            }
+            return result2;
+          }
+          function baseLt(value, other) {
+            return value < other;
+          }
+          function baseMap(collection, iteratee2) {
+            var index = -1, result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+            baseEach(collection, function(value, key, collection2) {
+              result2[++index] = iteratee2(value, key, collection2);
+            });
+            return result2;
+          }
+          function baseMatches(source) {
+            var matchData = getMatchData(source);
+            if (matchData.length == 1 && matchData[0][2]) {
+              return matchesStrictComparable(matchData[0][0], matchData[0][1]);
+            }
+            return function(object) {
+              return object === source || baseIsMatch(object, source, matchData);
+            };
+          }
+          function baseMatchesProperty(path, srcValue) {
+            if (isKey(path) && isStrictComparable(srcValue)) {
+              return matchesStrictComparable(toKey(path), srcValue);
+            }
+            return function(object) {
+              var objValue = get(object, path);
+              return objValue === undefined2 && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, COMPARE_PARTIAL_FLAG | COMPARE_UNORDERED_FLAG);
+            };
+          }
+          function baseMerge(object, source, srcIndex, customizer, stack) {
+            if (object === source) {
+              return;
+            }
+            baseFor(source, function(srcValue, key) {
+              stack || (stack = new Stack());
+              if (isObject(srcValue)) {
+                baseMergeDeep(object, source, key, srcIndex, baseMerge, customizer, stack);
+              } else {
+                var newValue = customizer ? customizer(safeGet(object, key), srcValue, key + "", object, source, stack) : undefined2;
+                if (newValue === undefined2) {
+                  newValue = srcValue;
+                }
+                assignMergeValue(object, key, newValue);
+              }
+            }, keysIn);
+          }
+          function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, stack) {
+            var objValue = safeGet(object, key), srcValue = safeGet(source, key), stacked = stack.get(srcValue);
+            if (stacked) {
+              assignMergeValue(object, key, stacked);
+              return;
+            }
+            var newValue = customizer ? customizer(objValue, srcValue, key + "", object, source, stack) : undefined2;
+            var isCommon = newValue === undefined2;
+            if (isCommon) {
+              var isArr = isArray(srcValue), isBuff = !isArr && isBuffer(srcValue), isTyped = !isArr && !isBuff && isTypedArray2(srcValue);
+              newValue = srcValue;
+              if (isArr || isBuff || isTyped) {
+                if (isArray(objValue)) {
+                  newValue = objValue;
+                } else if (isArrayLikeObject(objValue)) {
+                  newValue = copyArray2(objValue);
+                } else if (isBuff) {
+                  isCommon = false;
+                  newValue = cloneBuffer(srcValue, true);
+                } else if (isTyped) {
+                  isCommon = false;
+                  newValue = cloneTypedArray(srcValue, true);
+                } else {
+                  newValue = [];
+                }
+              } else if (isPlainObject(srcValue) || isArguments(srcValue)) {
+                newValue = objValue;
+                if (isArguments(objValue)) {
+                  newValue = toPlainObject(objValue);
+                } else if (!isObject(objValue) || isFunction(objValue)) {
+                  newValue = initCloneObject(srcValue);
+                }
+              } else {
+                isCommon = false;
+              }
+            }
+            if (isCommon) {
+              stack.set(srcValue, newValue);
+              mergeFunc(newValue, srcValue, srcIndex, customizer, stack);
+              stack["delete"](srcValue);
+            }
+            assignMergeValue(object, key, newValue);
+          }
+          function baseNth(array, n) {
+            var length = array.length;
+            if (!length) {
+              return;
+            }
+            n += n < 0 ? length : 0;
+            return isIndex(n, length) ? array[n] : undefined2;
+          }
+          function baseOrderBy(collection, iteratees, orders) {
+            if (iteratees.length) {
+              iteratees = arrayMap(iteratees, function(iteratee2) {
+                if (isArray(iteratee2)) {
+                  return function(value) {
+                    return baseGet(value, iteratee2.length === 1 ? iteratee2[0] : iteratee2);
+                  };
+                }
+                return iteratee2;
+              });
+            } else {
+              iteratees = [identity];
+            }
+            var index = -1;
+            iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
+            var result2 = baseMap(collection, function(value, key, collection2) {
+              var criteria = arrayMap(iteratees, function(iteratee2) {
+                return iteratee2(value);
+              });
+              return { "criteria": criteria, "index": ++index, "value": value };
+            });
+            return baseSortBy(result2, function(object, other) {
+              return compareMultiple(object, other, orders);
+            });
+          }
+          function basePick(object, paths) {
+            return basePickBy(object, paths, function(value, path) {
+              return hasIn(object, path);
+            });
+          }
+          function basePickBy(object, paths, predicate) {
+            var index = -1, length = paths.length, result2 = {};
+            while (++index < length) {
+              var path = paths[index], value = baseGet(object, path);
+              if (predicate(value, path)) {
+                baseSet(result2, castPath(path, object), value);
+              }
+            }
+            return result2;
+          }
+          function basePropertyDeep(path) {
+            return function(object) {
+              return baseGet(object, path);
+            };
+          }
+          function basePullAll(array, values2, iteratee2, comparator) {
+            var indexOf2 = comparator ? baseIndexOfWith : baseIndexOf, index = -1, length = values2.length, seen = array;
+            if (array === values2) {
+              values2 = copyArray2(values2);
+            }
+            if (iteratee2) {
+              seen = arrayMap(array, baseUnary(iteratee2));
+            }
+            while (++index < length) {
+              var fromIndex = 0, value = values2[index], computed = iteratee2 ? iteratee2(value) : value;
+              while ((fromIndex = indexOf2(seen, computed, fromIndex, comparator)) > -1) {
+                if (seen !== array) {
+                  splice.call(seen, fromIndex, 1);
+                }
+                splice.call(array, fromIndex, 1);
+              }
+            }
+            return array;
+          }
+          function basePullAt(array, indexes) {
+            var length = array ? indexes.length : 0, lastIndex = length - 1;
+            while (length--) {
+              var index = indexes[length];
+              if (length == lastIndex || index !== previous) {
+                var previous = index;
+                if (isIndex(index)) {
+                  splice.call(array, index, 1);
+                } else {
+                  baseUnset(array, index);
+                }
+              }
+            }
+            return array;
+          }
+          function baseRandom(lower, upper) {
+            return lower + nativeFloor(nativeRandom() * (upper - lower + 1));
+          }
+          function baseRange(start, end, step, fromRight) {
+            var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result2 = Array2(length);
+            while (length--) {
+              result2[fromRight ? length : ++index] = start;
+              start += step;
+            }
+            return result2;
+          }
+          function baseRepeat(string, n) {
+            var result2 = "";
+            if (!string || n < 1 || n > MAX_SAFE_INTEGER) {
+              return result2;
+            }
+            do {
+              if (n % 2) {
+                result2 += string;
+              }
+              n = nativeFloor(n / 2);
+              if (n) {
+                string += string;
+              }
+            } while (n);
+            return result2;
+          }
+          function baseRest(func, start) {
+            return setToString(overRest(func, start, identity), func + "");
+          }
+          function baseSample(collection) {
+            return arraySample(values(collection));
+          }
+          function baseSampleSize(collection, n) {
+            var array = values(collection);
+            return shuffleSelf(array, baseClamp(n, 0, array.length));
+          }
+          function baseSet(object, path, value, customizer) {
+            if (!isObject(object)) {
+              return object;
+            }
+            path = castPath(path, object);
+            var index = -1, length = path.length, lastIndex = length - 1, nested = object;
+            while (nested != null && ++index < length) {
+              var key = toKey(path[index]), newValue = value;
+              if (key === "__proto__" || key === "constructor" || key === "prototype") {
+                return object;
+              }
+              if (index != lastIndex) {
+                var objValue = nested[key];
+                newValue = customizer ? customizer(objValue, key, nested) : undefined2;
+                if (newValue === undefined2) {
+                  newValue = isObject(objValue) ? objValue : isIndex(path[index + 1]) ? [] : {};
+                }
+              }
+              assignValue(nested, key, newValue);
+              nested = nested[key];
+            }
+            return object;
+          }
+          var baseSetData = !metaMap ? identity : function(func, data) {
+            metaMap.set(func, data);
+            return func;
+          };
+          var baseSetToString = !defineProperty ? identity : function(func, string) {
+            return defineProperty(func, "toString", {
+              "configurable": true,
+              "enumerable": false,
+              "value": constant(string),
+              "writable": true
+            });
+          };
+          function baseShuffle(collection) {
+            return shuffleSelf(values(collection));
+          }
+          function baseSlice(array, start, end) {
+            var index = -1, length = array.length;
+            if (start < 0) {
+              start = -start > length ? 0 : length + start;
+            }
+            end = end > length ? length : end;
+            if (end < 0) {
+              end += length;
+            }
+            length = start > end ? 0 : end - start >>> 0;
+            start >>>= 0;
+            var result2 = Array2(length);
+            while (++index < length) {
+              result2[index] = array[index + start];
+            }
+            return result2;
+          }
+          function baseSome(collection, predicate) {
+            var result2;
+            baseEach(collection, function(value, index, collection2) {
+              result2 = predicate(value, index, collection2);
+              return !result2;
+            });
+            return !!result2;
+          }
+          function baseSortedIndex(array, value, retHighest) {
+            var low = 0, high = array == null ? low : array.length;
+            if (typeof value == "number" && value === value && high <= HALF_MAX_ARRAY_LENGTH) {
+              while (low < high) {
+                var mid = low + high >>> 1, computed = array[mid];
+                if (computed !== null && !isSymbol(computed) && (retHighest ? computed <= value : computed < value)) {
+                  low = mid + 1;
+                } else {
+                  high = mid;
+                }
+              }
+              return high;
+            }
+            return baseSortedIndexBy(array, value, identity, retHighest);
+          }
+          function baseSortedIndexBy(array, value, iteratee2, retHighest) {
+            var low = 0, high = array == null ? 0 : array.length;
+            if (high === 0) {
+              return 0;
+            }
+            value = iteratee2(value);
+            var valIsNaN = value !== value, valIsNull = value === null, valIsSymbol = isSymbol(value), valIsUndefined = value === undefined2;
+            while (low < high) {
+              var mid = nativeFloor((low + high) / 2), computed = iteratee2(array[mid]), othIsDefined = computed !== undefined2, othIsNull = computed === null, othIsReflexive = computed === computed, othIsSymbol = isSymbol(computed);
+              if (valIsNaN) {
+                var setLow = retHighest || othIsReflexive;
+              } else if (valIsUndefined) {
+                setLow = othIsReflexive && (retHighest || othIsDefined);
+              } else if (valIsNull) {
+                setLow = othIsReflexive && othIsDefined && (retHighest || !othIsNull);
+              } else if (valIsSymbol) {
+                setLow = othIsReflexive && othIsDefined && !othIsNull && (retHighest || !othIsSymbol);
+              } else if (othIsNull || othIsSymbol) {
+                setLow = false;
+              } else {
+                setLow = retHighest ? computed <= value : computed < value;
+              }
+              if (setLow) {
+                low = mid + 1;
+              } else {
+                high = mid;
+              }
+            }
+            return nativeMin(high, MAX_ARRAY_INDEX);
+          }
+          function baseSortedUniq(array, iteratee2) {
+            var index = -1, length = array.length, resIndex = 0, result2 = [];
+            while (++index < length) {
+              var value = array[index], computed = iteratee2 ? iteratee2(value) : value;
+              if (!index || !eq(computed, seen)) {
+                var seen = computed;
+                result2[resIndex++] = value === 0 ? 0 : value;
+              }
+            }
+            return result2;
+          }
+          function baseToNumber(value) {
+            if (typeof value == "number") {
+              return value;
+            }
+            if (isSymbol(value)) {
+              return NAN;
+            }
+            return +value;
+          }
+          function baseToString(value) {
+            if (typeof value == "string") {
+              return value;
+            }
+            if (isArray(value)) {
+              return arrayMap(value, baseToString) + "";
+            }
+            if (isSymbol(value)) {
+              return symbolToString ? symbolToString.call(value) : "";
+            }
+            var result2 = value + "";
+            return result2 == "0" && 1 / value == -INFINITY ? "-0" : result2;
+          }
+          function baseUniq(array, iteratee2, comparator) {
+            var index = -1, includes2 = arrayIncludes, length = array.length, isCommon = true, result2 = [], seen = result2;
+            if (comparator) {
+              isCommon = false;
+              includes2 = arrayIncludesWith;
+            } else if (length >= LARGE_ARRAY_SIZE) {
+              var set2 = iteratee2 ? null : createSet(array);
+              if (set2) {
+                return setToArray(set2);
+              }
+              isCommon = false;
+              includes2 = cacheHas;
+              seen = new SetCache();
+            } else {
+              seen = iteratee2 ? [] : result2;
+            }
+            outer:
+              while (++index < length) {
+                var value = array[index], computed = iteratee2 ? iteratee2(value) : value;
+                value = comparator || value !== 0 ? value : 0;
+                if (isCommon && computed === computed) {
+                  var seenIndex = seen.length;
+                  while (seenIndex--) {
+                    if (seen[seenIndex] === computed) {
+                      continue outer;
+                    }
+                  }
+                  if (iteratee2) {
+                    seen.push(computed);
+                  }
+                  result2.push(value);
+                } else if (!includes2(seen, computed, comparator)) {
+                  if (seen !== result2) {
+                    seen.push(computed);
+                  }
+                  result2.push(value);
+                }
+              }
+            return result2;
+          }
+          function baseUnset(object, path) {
+            path = castPath(path, object);
+            var index = -1, length = path.length;
+            if (!length) {
+              return true;
+            }
+            while (++index < length) {
+              var key = toKey(path[index]);
+              if (key === "__proto__" && !hasOwnProperty.call(object, "__proto__")) {
+                return false;
+              }
+              if ((key === "constructor" || key === "prototype") && index < length - 1) {
+                return false;
+              }
+            }
+            var obj = parent(object, path);
+            return obj == null || delete obj[toKey(last(path))];
+          }
+          function baseUpdate(object, path, updater, customizer) {
+            return baseSet(object, path, updater(baseGet(object, path)), customizer);
+          }
+          function baseWhile(array, predicate, isDrop, fromRight) {
+            var length = array.length, index = fromRight ? length : -1;
+            while ((fromRight ? index-- : ++index < length) && predicate(array[index], index, array)) {
+            }
+            return isDrop ? baseSlice(array, fromRight ? 0 : index, fromRight ? index + 1 : length) : baseSlice(array, fromRight ? index + 1 : 0, fromRight ? length : index);
+          }
+          function baseWrapperValue(value, actions) {
+            var result2 = value;
+            if (result2 instanceof LazyWrapper) {
+              result2 = result2.value();
+            }
+            return arrayReduce(actions, function(result3, action) {
+              return action.func.apply(action.thisArg, arrayPush([result3], action.args));
+            }, result2);
+          }
+          function baseXor(arrays, iteratee2, comparator) {
+            var length = arrays.length;
+            if (length < 2) {
+              return length ? baseUniq(arrays[0]) : [];
+            }
+            var index = -1, result2 = Array2(length);
+            while (++index < length) {
+              var array = arrays[index], othIndex = -1;
+              while (++othIndex < length) {
+                if (othIndex != index) {
+                  result2[index] = baseDifference(result2[index] || array, arrays[othIndex], iteratee2, comparator);
+                }
+              }
+            }
+            return baseUniq(baseFlatten(result2, 1), iteratee2, comparator);
+          }
+          function baseZipObject(props, values2, assignFunc) {
+            var index = -1, length = props.length, valsLength = values2.length, result2 = {};
+            while (++index < length) {
+              var value = index < valsLength ? values2[index] : undefined2;
+              assignFunc(result2, props[index], value);
+            }
+            return result2;
+          }
+          function castArrayLikeObject(value) {
+            return isArrayLikeObject(value) ? value : [];
+          }
+          function castFunction(value) {
+            return typeof value == "function" ? value : identity;
+          }
+          function castPath(value, object) {
+            if (isArray(value)) {
+              return value;
+            }
+            return isKey(value, object) ? [value] : stringToPath(toString(value));
+          }
+          var castRest = baseRest;
+          function castSlice(array, start, end) {
+            var length = array.length;
+            end = end === undefined2 ? length : end;
+            return !start && end >= length ? array : baseSlice(array, start, end);
+          }
+          var clearTimeout = ctxClearTimeout || function(id) {
+            return root.clearTimeout(id);
+          };
+          function cloneBuffer(buffer, isDeep) {
+            if (isDeep) {
+              return buffer.slice();
+            }
+            var length = buffer.length, result2 = allocUnsafe ? allocUnsafe(length) : new buffer.constructor(length);
+            buffer.copy(result2);
+            return result2;
+          }
+          function cloneArrayBuffer(arrayBuffer) {
+            var result2 = new arrayBuffer.constructor(arrayBuffer.byteLength);
+            new Uint8Array2(result2).set(new Uint8Array2(arrayBuffer));
+            return result2;
+          }
+          function cloneDataView(dataView, isDeep) {
+            var buffer = isDeep ? cloneArrayBuffer(dataView.buffer) : dataView.buffer;
+            return new dataView.constructor(buffer, dataView.byteOffset, dataView.byteLength);
+          }
+          function cloneRegExp(regexp) {
+            var result2 = new regexp.constructor(regexp.source, reFlags.exec(regexp));
+            result2.lastIndex = regexp.lastIndex;
+            return result2;
+          }
+          function cloneSymbol(symbol) {
+            return symbolValueOf ? Object2(symbolValueOf.call(symbol)) : {};
+          }
+          function cloneTypedArray(typedArray, isDeep) {
+            var buffer = isDeep ? cloneArrayBuffer(typedArray.buffer) : typedArray.buffer;
+            return new typedArray.constructor(buffer, typedArray.byteOffset, typedArray.length);
+          }
+          function compareAscending(value, other) {
+            if (value !== other) {
+              var valIsDefined = value !== undefined2, valIsNull = value === null, valIsReflexive = value === value, valIsSymbol = isSymbol(value);
+              var othIsDefined = other !== undefined2, othIsNull = other === null, othIsReflexive = other === other, othIsSymbol = isSymbol(other);
+              if (!othIsNull && !othIsSymbol && !valIsSymbol && value > other || valIsSymbol && othIsDefined && othIsReflexive && !othIsNull && !othIsSymbol || valIsNull && othIsDefined && othIsReflexive || !valIsDefined && othIsReflexive || !valIsReflexive) {
+                return 1;
+              }
+              if (!valIsNull && !valIsSymbol && !othIsSymbol && value < other || othIsSymbol && valIsDefined && valIsReflexive && !valIsNull && !valIsSymbol || othIsNull && valIsDefined && valIsReflexive || !othIsDefined && valIsReflexive || !othIsReflexive) {
+                return -1;
+              }
+            }
+            return 0;
+          }
+          function compareMultiple(object, other, orders) {
+            var index = -1, objCriteria = object.criteria, othCriteria = other.criteria, length = objCriteria.length, ordersLength = orders.length;
+            while (++index < length) {
+              var result2 = compareAscending(objCriteria[index], othCriteria[index]);
+              if (result2) {
+                if (index >= ordersLength) {
+                  return result2;
+                }
+                var order = orders[index];
+                return result2 * (order == "desc" ? -1 : 1);
+              }
+            }
+            return object.index - other.index;
+          }
+          function composeArgs(args, partials, holders, isCurried) {
+            var argsIndex = -1, argsLength = args.length, holdersLength = holders.length, leftIndex = -1, leftLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result2 = Array2(leftLength + rangeLength), isUncurried = !isCurried;
+            while (++leftIndex < leftLength) {
+              result2[leftIndex] = partials[leftIndex];
+            }
+            while (++argsIndex < holdersLength) {
+              if (isUncurried || argsIndex < argsLength) {
+                result2[holders[argsIndex]] = args[argsIndex];
+              }
+            }
+            while (rangeLength--) {
+              result2[leftIndex++] = args[argsIndex++];
+            }
+            return result2;
+          }
+          function composeArgsRight(args, partials, holders, isCurried) {
+            var argsIndex = -1, argsLength = args.length, holdersIndex = -1, holdersLength = holders.length, rightIndex = -1, rightLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result2 = Array2(rangeLength + rightLength), isUncurried = !isCurried;
+            while (++argsIndex < rangeLength) {
+              result2[argsIndex] = args[argsIndex];
+            }
+            var offset = argsIndex;
+            while (++rightIndex < rightLength) {
+              result2[offset + rightIndex] = partials[rightIndex];
+            }
+            while (++holdersIndex < holdersLength) {
+              if (isUncurried || argsIndex < argsLength) {
+                result2[offset + holders[holdersIndex]] = args[argsIndex++];
+              }
+            }
+            return result2;
+          }
+          function copyArray2(source, array) {
+            var index = -1, length = source.length;
+            array || (array = Array2(length));
+            while (++index < length) {
+              array[index] = source[index];
+            }
+            return array;
+          }
+          function copyObject(source, props, object, customizer) {
+            var isNew = !object;
+            object || (object = {});
+            var index = -1, length = props.length;
+            while (++index < length) {
+              var key = props[index];
+              var newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined2;
+              if (newValue === undefined2) {
+                newValue = source[key];
+              }
+              if (isNew) {
+                baseAssignValue(object, key, newValue);
+              } else {
+                assignValue(object, key, newValue);
+              }
+            }
+            return object;
+          }
+          function copySymbols(source, object) {
+            return copyObject(source, getSymbols(source), object);
+          }
+          function copySymbolsIn(source, object) {
+            return copyObject(source, getSymbolsIn(source), object);
+          }
+          function createAggregator(setter, initializer) {
+            return function(collection, iteratee2) {
+              var func = isArray(collection) ? arrayAggregator : baseAggregator, accumulator = initializer ? initializer() : {};
+              return func(collection, setter, getIteratee(iteratee2, 2), accumulator);
+            };
+          }
+          function createAssigner(assigner) {
+            return baseRest(function(object, sources) {
+              var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : undefined2, guard = length > 2 ? sources[2] : undefined2;
+              customizer = assigner.length > 3 && typeof customizer == "function" ? (length--, customizer) : undefined2;
+              if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+                customizer = length < 3 ? undefined2 : customizer;
+                length = 1;
+              }
+              object = Object2(object);
+              while (++index < length) {
+                var source = sources[index];
+                if (source) {
+                  assigner(object, source, index, customizer);
+                }
+              }
+              return object;
+            });
+          }
+          function createBaseEach(eachFunc, fromRight) {
+            return function(collection, iteratee2) {
+              if (collection == null) {
+                return collection;
+              }
+              if (!isArrayLike(collection)) {
+                return eachFunc(collection, iteratee2);
+              }
+              var length = collection.length, index = fromRight ? length : -1, iterable = Object2(collection);
+              while (fromRight ? index-- : ++index < length) {
+                if (iteratee2(iterable[index], index, iterable) === false) {
+                  break;
+                }
+              }
+              return collection;
+            };
+          }
+          function createBaseFor(fromRight) {
+            return function(object, iteratee2, keysFunc) {
+              var index = -1, iterable = Object2(object), props = keysFunc(object), length = props.length;
+              while (length--) {
+                var key = props[fromRight ? length : ++index];
+                if (iteratee2(iterable[key], key, iterable) === false) {
+                  break;
+                }
+              }
+              return object;
+            };
+          }
+          function createBind(func, bitmask, thisArg) {
+            var isBind = bitmask & WRAP_BIND_FLAG, Ctor = createCtor(func);
+            function wrapper() {
+              var fn = this && this !== root && this instanceof wrapper ? Ctor : func;
+              return fn.apply(isBind ? thisArg : this, arguments);
+            }
+            return wrapper;
+          }
+          function createCaseFirst(methodName) {
+            return function(string) {
+              string = toString(string);
+              var strSymbols = hasUnicode(string) ? stringToArray(string) : undefined2;
+              var chr = strSymbols ? strSymbols[0] : string.charAt(0);
+              var trailing = strSymbols ? castSlice(strSymbols, 1).join("") : string.slice(1);
+              return chr[methodName]() + trailing;
+            };
+          }
+          function createCompounder(callback) {
+            return function(string) {
+              return arrayReduce(words(deburr(string).replace(reApos, "")), callback, "");
+            };
+          }
+          function createCtor(Ctor) {
+            return function() {
+              var args = arguments;
+              switch (args.length) {
+                case 0:
+                  return new Ctor();
+                case 1:
+                  return new Ctor(args[0]);
+                case 2:
+                  return new Ctor(args[0], args[1]);
+                case 3:
+                  return new Ctor(args[0], args[1], args[2]);
+                case 4:
+                  return new Ctor(args[0], args[1], args[2], args[3]);
+                case 5:
+                  return new Ctor(args[0], args[1], args[2], args[3], args[4]);
+                case 6:
+                  return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5]);
+                case 7:
+                  return new Ctor(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+              }
+              var thisBinding = baseCreate(Ctor.prototype), result2 = Ctor.apply(thisBinding, args);
+              return isObject(result2) ? result2 : thisBinding;
+            };
+          }
+          function createCurry(func, bitmask, arity) {
+            var Ctor = createCtor(func);
+            function wrapper() {
+              var length = arguments.length, args = Array2(length), index = length, placeholder = getHolder(wrapper);
+              while (index--) {
+                args[index] = arguments[index];
+              }
+              var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
+              length -= holders.length;
+              if (length < arity) {
+                return createRecurry(
+                  func,
+                  bitmask,
+                  createHybrid,
+                  wrapper.placeholder,
+                  undefined2,
+                  args,
+                  holders,
+                  undefined2,
+                  undefined2,
+                  arity - length
+                );
+              }
+              var fn = this && this !== root && this instanceof wrapper ? Ctor : func;
+              return apply(fn, this, args);
+            }
+            return wrapper;
+          }
+          function createFind(findIndexFunc) {
+            return function(collection, predicate, fromIndex) {
+              var iterable = Object2(collection);
+              if (!isArrayLike(collection)) {
+                var iteratee2 = getIteratee(predicate, 3);
+                collection = keys(collection);
+                predicate = function(key) {
+                  return iteratee2(iterable[key], key, iterable);
+                };
+              }
+              var index = findIndexFunc(collection, predicate, fromIndex);
+              return index > -1 ? iterable[iteratee2 ? collection[index] : index] : undefined2;
+            };
+          }
+          function createFlow(fromRight) {
+            return flatRest(function(funcs) {
+              var length = funcs.length, index = length, prereq = LodashWrapper.prototype.thru;
+              if (fromRight) {
+                funcs.reverse();
+              }
+              while (index--) {
+                var func = funcs[index];
+                if (typeof func != "function") {
+                  throw new TypeError2(FUNC_ERROR_TEXT);
+                }
+                if (prereq && !wrapper && getFuncName(func) == "wrapper") {
+                  var wrapper = new LodashWrapper([], true);
+                }
+              }
+              index = wrapper ? index : length;
+              while (++index < length) {
+                func = funcs[index];
+                var funcName = getFuncName(func), data = funcName == "wrapper" ? getData(func) : undefined2;
+                if (data && isLaziable(data[0]) && data[1] == (WRAP_ARY_FLAG | WRAP_CURRY_FLAG | WRAP_PARTIAL_FLAG | WRAP_REARG_FLAG) && !data[4].length && data[9] == 1) {
+                  wrapper = wrapper[getFuncName(data[0])].apply(wrapper, data[3]);
+                } else {
+                  wrapper = func.length == 1 && isLaziable(func) ? wrapper[funcName]() : wrapper.thru(func);
+                }
+              }
+              return function() {
+                var args = arguments, value = args[0];
+                if (wrapper && args.length == 1 && isArray(value)) {
+                  return wrapper.plant(value).value();
+                }
+                var index2 = 0, result2 = length ? funcs[index2].apply(this, args) : value;
+                while (++index2 < length) {
+                  result2 = funcs[index2].call(this, result2);
+                }
+                return result2;
+              };
+            });
+          }
+          function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary2, arity) {
+            var isAry = bitmask & WRAP_ARY_FLAG, isBind = bitmask & WRAP_BIND_FLAG, isBindKey = bitmask & WRAP_BIND_KEY_FLAG, isCurried = bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG), isFlip = bitmask & WRAP_FLIP_FLAG, Ctor = isBindKey ? undefined2 : createCtor(func);
+            function wrapper() {
+              var length = arguments.length, args = Array2(length), index = length;
+              while (index--) {
+                args[index] = arguments[index];
+              }
+              if (isCurried) {
+                var placeholder = getHolder(wrapper), holdersCount = countHolders(args, placeholder);
+              }
+              if (partials) {
+                args = composeArgs(args, partials, holders, isCurried);
+              }
+              if (partialsRight) {
+                args = composeArgsRight(args, partialsRight, holdersRight, isCurried);
+              }
+              length -= holdersCount;
+              if (isCurried && length < arity) {
+                var newHolders = replaceHolders(args, placeholder);
+                return createRecurry(
+                  func,
+                  bitmask,
+                  createHybrid,
+                  wrapper.placeholder,
+                  thisArg,
+                  args,
+                  newHolders,
+                  argPos,
+                  ary2,
+                  arity - length
+                );
+              }
+              var thisBinding = isBind ? thisArg : this, fn = isBindKey ? thisBinding[func] : func;
+              length = args.length;
+              if (argPos) {
+                args = reorder(args, argPos);
+              } else if (isFlip && length > 1) {
+                args.reverse();
+              }
+              if (isAry && ary2 < length) {
+                args.length = ary2;
+              }
+              if (this && this !== root && this instanceof wrapper) {
+                fn = Ctor || createCtor(fn);
+              }
+              return fn.apply(thisBinding, args);
+            }
+            return wrapper;
+          }
+          function createInverter(setter, toIteratee) {
+            return function(object, iteratee2) {
+              return baseInverter(object, setter, toIteratee(iteratee2), {});
+            };
+          }
+          function createMathOperation(operator, defaultValue) {
+            return function(value, other) {
+              var result2;
+              if (value === undefined2 && other === undefined2) {
+                return defaultValue;
+              }
+              if (value !== undefined2) {
+                result2 = value;
+              }
+              if (other !== undefined2) {
+                if (result2 === undefined2) {
+                  return other;
+                }
+                if (typeof value == "string" || typeof other == "string") {
+                  value = baseToString(value);
+                  other = baseToString(other);
+                } else {
+                  value = baseToNumber(value);
+                  other = baseToNumber(other);
+                }
+                result2 = operator(value, other);
+              }
+              return result2;
+            };
+          }
+          function createOver(arrayFunc) {
+            return flatRest(function(iteratees) {
+              iteratees = arrayMap(iteratees, baseUnary(getIteratee()));
+              return baseRest(function(args) {
+                var thisArg = this;
+                return arrayFunc(iteratees, function(iteratee2) {
+                  return apply(iteratee2, thisArg, args);
+                });
+              });
+            });
+          }
+          function createPadding(length, chars) {
+            chars = chars === undefined2 ? " " : baseToString(chars);
+            var charsLength = chars.length;
+            if (charsLength < 2) {
+              return charsLength ? baseRepeat(chars, length) : chars;
+            }
+            var result2 = baseRepeat(chars, nativeCeil(length / stringSize(chars)));
+            return hasUnicode(chars) ? castSlice(stringToArray(result2), 0, length).join("") : result2.slice(0, length);
+          }
+          function createPartial(func, bitmask, thisArg, partials) {
+            var isBind = bitmask & WRAP_BIND_FLAG, Ctor = createCtor(func);
+            function wrapper() {
+              var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials.length, args = Array2(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor : func;
+              while (++leftIndex < leftLength) {
+                args[leftIndex] = partials[leftIndex];
+              }
+              while (argsLength--) {
+                args[leftIndex++] = arguments[++argsIndex];
+              }
+              return apply(fn, isBind ? thisArg : this, args);
+            }
+            return wrapper;
+          }
+          function createRange(fromRight) {
+            return function(start, end, step) {
+              if (step && typeof step != "number" && isIterateeCall(start, end, step)) {
+                end = step = undefined2;
+              }
+              start = toFinite(start);
+              if (end === undefined2) {
+                end = start;
+                start = 0;
+              } else {
+                end = toFinite(end);
+              }
+              step = step === undefined2 ? start < end ? 1 : -1 : toFinite(step);
+              return baseRange(start, end, step, fromRight);
+            };
+          }
+          function createRelationalOperation(operator) {
+            return function(value, other) {
+              if (!(typeof value == "string" && typeof other == "string")) {
+                value = toNumber(value);
+                other = toNumber(other);
+              }
+              return operator(value, other);
+            };
+          }
+          function createRecurry(func, bitmask, wrapFunc, placeholder, thisArg, partials, holders, argPos, ary2, arity) {
+            var isCurry = bitmask & WRAP_CURRY_FLAG, newHolders = isCurry ? holders : undefined2, newHoldersRight = isCurry ? undefined2 : holders, newPartials = isCurry ? partials : undefined2, newPartialsRight = isCurry ? undefined2 : partials;
+            bitmask |= isCurry ? WRAP_PARTIAL_FLAG : WRAP_PARTIAL_RIGHT_FLAG;
+            bitmask &= ~(isCurry ? WRAP_PARTIAL_RIGHT_FLAG : WRAP_PARTIAL_FLAG);
+            if (!(bitmask & WRAP_CURRY_BOUND_FLAG)) {
+              bitmask &= ~(WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG);
+            }
+            var newData = [
+              func,
+              bitmask,
+              thisArg,
+              newPartials,
+              newHolders,
+              newPartialsRight,
+              newHoldersRight,
+              argPos,
+              ary2,
+              arity
+            ];
+            var result2 = wrapFunc.apply(undefined2, newData);
+            if (isLaziable(func)) {
+              setData(result2, newData);
+            }
+            result2.placeholder = placeholder;
+            return setWrapToString(result2, func, bitmask);
+          }
+          function createRound(methodName) {
+            var func = Math2[methodName];
+            return function(number, precision) {
+              number = toNumber(number);
+              precision = precision == null ? 0 : nativeMin(toInteger(precision), 292);
+              if (precision && nativeIsFinite(number)) {
+                var pair = (toString(number) + "e").split("e"), value = func(pair[0] + "e" + (+pair[1] + precision));
+                pair = (toString(value) + "e").split("e");
+                return +(pair[0] + "e" + (+pair[1] - precision));
+              }
+              return func(number);
+            };
+          }
+          var createSet = !(Set2 && 1 / setToArray(new Set2([, -0]))[1] == INFINITY) ? noop : function(values2) {
+            return new Set2(values2);
+          };
+          function createToPairs(keysFunc) {
+            return function(object) {
+              var tag = getTag(object);
+              if (tag == mapTag) {
+                return mapToArray(object);
+              }
+              if (tag == setTag) {
+                return setToPairs(object);
+              }
+              return baseToPairs(object, keysFunc(object));
+            };
+          }
+          function createWrap(func, bitmask, thisArg, partials, holders, argPos, ary2, arity) {
+            var isBindKey = bitmask & WRAP_BIND_KEY_FLAG;
+            if (!isBindKey && typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            var length = partials ? partials.length : 0;
+            if (!length) {
+              bitmask &= ~(WRAP_PARTIAL_FLAG | WRAP_PARTIAL_RIGHT_FLAG);
+              partials = holders = undefined2;
+            }
+            ary2 = ary2 === undefined2 ? ary2 : nativeMax(toInteger(ary2), 0);
+            arity = arity === undefined2 ? arity : toInteger(arity);
+            length -= holders ? holders.length : 0;
+            if (bitmask & WRAP_PARTIAL_RIGHT_FLAG) {
+              var partialsRight = partials, holdersRight = holders;
+              partials = holders = undefined2;
+            }
+            var data = isBindKey ? undefined2 : getData(func);
+            var newData = [
+              func,
+              bitmask,
+              thisArg,
+              partials,
+              holders,
+              partialsRight,
+              holdersRight,
+              argPos,
+              ary2,
+              arity
+            ];
+            if (data) {
+              mergeData(newData, data);
+            }
+            func = newData[0];
+            bitmask = newData[1];
+            thisArg = newData[2];
+            partials = newData[3];
+            holders = newData[4];
+            arity = newData[9] = newData[9] === undefined2 ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0);
+            if (!arity && bitmask & (WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG)) {
+              bitmask &= ~(WRAP_CURRY_FLAG | WRAP_CURRY_RIGHT_FLAG);
+            }
+            if (!bitmask || bitmask == WRAP_BIND_FLAG) {
+              var result2 = createBind(func, bitmask, thisArg);
+            } else if (bitmask == WRAP_CURRY_FLAG || bitmask == WRAP_CURRY_RIGHT_FLAG) {
+              result2 = createCurry(func, bitmask, arity);
+            } else if ((bitmask == WRAP_PARTIAL_FLAG || bitmask == (WRAP_BIND_FLAG | WRAP_PARTIAL_FLAG)) && !holders.length) {
+              result2 = createPartial(func, bitmask, thisArg, partials);
+            } else {
+              result2 = createHybrid.apply(undefined2, newData);
+            }
+            var setter = data ? baseSetData : setData;
+            return setWrapToString(setter(result2, newData), func, bitmask);
+          }
+          function customDefaultsAssignIn(objValue, srcValue, key, object) {
+            if (objValue === undefined2 || eq(objValue, objectProto[key]) && !hasOwnProperty.call(object, key)) {
+              return srcValue;
+            }
+            return objValue;
+          }
+          function customDefaultsMerge(objValue, srcValue, key, object, source, stack) {
+            if (isObject(objValue) && isObject(srcValue)) {
+              stack.set(srcValue, objValue);
+              baseMerge(objValue, srcValue, undefined2, customDefaultsMerge, stack);
+              stack["delete"](srcValue);
+            }
+            return objValue;
+          }
+          function customOmitClone(value) {
+            return isPlainObject(value) ? undefined2 : value;
+          }
+          function equalArrays(array, other, bitmask, customizer, equalFunc, stack) {
+            var isPartial = bitmask & COMPARE_PARTIAL_FLAG, arrLength = array.length, othLength = other.length;
+            if (arrLength != othLength && !(isPartial && othLength > arrLength)) {
+              return false;
+            }
+            var arrStacked = stack.get(array);
+            var othStacked = stack.get(other);
+            if (arrStacked && othStacked) {
+              return arrStacked == other && othStacked == array;
+            }
+            var index = -1, result2 = true, seen = bitmask & COMPARE_UNORDERED_FLAG ? new SetCache() : undefined2;
+            stack.set(array, other);
+            stack.set(other, array);
+            while (++index < arrLength) {
+              var arrValue = array[index], othValue = other[index];
+              if (customizer) {
+                var compared = isPartial ? customizer(othValue, arrValue, index, other, array, stack) : customizer(arrValue, othValue, index, array, other, stack);
+              }
+              if (compared !== undefined2) {
+                if (compared) {
+                  continue;
+                }
+                result2 = false;
+                break;
+              }
+              if (seen) {
+                if (!arraySome(other, function(othValue2, othIndex) {
+                  if (!cacheHas(seen, othIndex) && (arrValue === othValue2 || equalFunc(arrValue, othValue2, bitmask, customizer, stack))) {
+                    return seen.push(othIndex);
+                  }
+                })) {
+                  result2 = false;
+                  break;
+                }
+              } else if (!(arrValue === othValue || equalFunc(arrValue, othValue, bitmask, customizer, stack))) {
+                result2 = false;
+                break;
+              }
+            }
+            stack["delete"](array);
+            stack["delete"](other);
+            return result2;
+          }
+          function equalByTag(object, other, tag, bitmask, customizer, equalFunc, stack) {
+            switch (tag) {
+              case dataViewTag:
+                if (object.byteLength != other.byteLength || object.byteOffset != other.byteOffset) {
+                  return false;
+                }
+                object = object.buffer;
+                other = other.buffer;
+              case arrayBufferTag:
+                if (object.byteLength != other.byteLength || !equalFunc(new Uint8Array2(object), new Uint8Array2(other))) {
+                  return false;
+                }
+                return true;
+              case boolTag:
+              case dateTag:
+              case numberTag:
+                return eq(+object, +other);
+              case errorTag:
+                return object.name == other.name && object.message == other.message;
+              case regexpTag:
+              case stringTag:
+                return object == other + "";
+              case mapTag:
+                var convert = mapToArray;
+              case setTag:
+                var isPartial = bitmask & COMPARE_PARTIAL_FLAG;
+                convert || (convert = setToArray);
+                if (object.size != other.size && !isPartial) {
+                  return false;
+                }
+                var stacked = stack.get(object);
+                if (stacked) {
+                  return stacked == other;
+                }
+                bitmask |= COMPARE_UNORDERED_FLAG;
+                stack.set(object, other);
+                var result2 = equalArrays(convert(object), convert(other), bitmask, customizer, equalFunc, stack);
+                stack["delete"](object);
+                return result2;
+              case symbolTag:
+                if (symbolValueOf) {
+                  return symbolValueOf.call(object) == symbolValueOf.call(other);
+                }
+            }
+            return false;
+          }
+          function equalObjects(object, other, bitmask, customizer, equalFunc, stack) {
+            var isPartial = bitmask & COMPARE_PARTIAL_FLAG, objProps = getAllKeys(object), objLength = objProps.length, othProps = getAllKeys(other), othLength = othProps.length;
+            if (objLength != othLength && !isPartial) {
+              return false;
+            }
+            var index = objLength;
+            while (index--) {
+              var key = objProps[index];
+              if (!(isPartial ? key in other : hasOwnProperty.call(other, key))) {
+                return false;
+              }
+            }
+            var objStacked = stack.get(object);
+            var othStacked = stack.get(other);
+            if (objStacked && othStacked) {
+              return objStacked == other && othStacked == object;
+            }
+            var result2 = true;
+            stack.set(object, other);
+            stack.set(other, object);
+            var skipCtor = isPartial;
+            while (++index < objLength) {
+              key = objProps[index];
+              var objValue = object[key], othValue = other[key];
+              if (customizer) {
+                var compared = isPartial ? customizer(othValue, objValue, key, other, object, stack) : customizer(objValue, othValue, key, object, other, stack);
+              }
+              if (!(compared === undefined2 ? objValue === othValue || equalFunc(objValue, othValue, bitmask, customizer, stack) : compared)) {
+                result2 = false;
+                break;
+              }
+              skipCtor || (skipCtor = key == "constructor");
+            }
+            if (result2 && !skipCtor) {
+              var objCtor = object.constructor, othCtor = other.constructor;
+              if (objCtor != othCtor && ("constructor" in object && "constructor" in other) && !(typeof objCtor == "function" && objCtor instanceof objCtor && typeof othCtor == "function" && othCtor instanceof othCtor)) {
+                result2 = false;
+              }
+            }
+            stack["delete"](object);
+            stack["delete"](other);
+            return result2;
+          }
+          function flatRest(func) {
+            return setToString(overRest(func, undefined2, flatten2), func + "");
+          }
+          function getAllKeys(object) {
+            return baseGetAllKeys(object, keys, getSymbols);
+          }
+          function getAllKeysIn(object) {
+            return baseGetAllKeys(object, keysIn, getSymbolsIn);
+          }
+          var getData = !metaMap ? noop : function(func) {
+            return metaMap.get(func);
+          };
+          function getFuncName(func) {
+            var result2 = func.name + "", array = realNames[result2], length = hasOwnProperty.call(realNames, result2) ? array.length : 0;
+            while (length--) {
+              var data = array[length], otherFunc = data.func;
+              if (otherFunc == null || otherFunc == func) {
+                return data.name;
+              }
+            }
+            return result2;
+          }
+          function getHolder(func) {
+            var object = hasOwnProperty.call(lodash, "placeholder") ? lodash : func;
+            return object.placeholder;
+          }
+          function getIteratee() {
+            var result2 = lodash.iteratee || iteratee;
+            result2 = result2 === iteratee ? baseIteratee : result2;
+            return arguments.length ? result2(arguments[0], arguments[1]) : result2;
+          }
+          function getMapData(map2, key) {
+            var data = map2.__data__;
+            return isKeyable(key) ? data[typeof key == "string" ? "string" : "hash"] : data.map;
+          }
+          function getMatchData(object) {
+            var result2 = keys(object), length = result2.length;
+            while (length--) {
+              var key = result2[length], value = object[key];
+              result2[length] = [key, value, isStrictComparable(value)];
+            }
+            return result2;
+          }
+          function getNative(object, key) {
+            var value = getValue(object, key);
+            return baseIsNative(value) ? value : undefined2;
+          }
+          function getRawTag(value) {
+            var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
+            try {
+              value[symToStringTag] = undefined2;
+              var unmasked = true;
+            } catch (e) {
+            }
+            var result2 = nativeObjectToString.call(value);
+            if (unmasked) {
+              if (isOwn) {
+                value[symToStringTag] = tag;
+              } else {
+                delete value[symToStringTag];
+              }
+            }
+            return result2;
+          }
+          var getSymbols = !nativeGetSymbols ? stubArray : function(object) {
+            if (object == null) {
+              return [];
+            }
+            object = Object2(object);
+            return arrayFilter(nativeGetSymbols(object), function(symbol) {
+              return propertyIsEnumerable.call(object, symbol);
+            });
+          };
+          var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
+            var result2 = [];
+            while (object) {
+              arrayPush(result2, getSymbols(object));
+              object = getPrototype(object);
+            }
+            return result2;
+          };
+          var getTag = baseGetTag;
+          if (DataView2 && getTag(new DataView2(new ArrayBuffer(1))) != dataViewTag || Map2 && getTag(new Map2()) != mapTag || Promise2 && getTag(Promise2.resolve()) != promiseTag || Set2 && getTag(new Set2()) != setTag || WeakMap2 && getTag(new WeakMap2()) != weakMapTag) {
+            getTag = function(value) {
+              var result2 = baseGetTag(value), Ctor = result2 == objectTag ? value.constructor : undefined2, ctorString = Ctor ? toSource(Ctor) : "";
+              if (ctorString) {
+                switch (ctorString) {
+                  case dataViewCtorString:
+                    return dataViewTag;
+                  case mapCtorString:
+                    return mapTag;
+                  case promiseCtorString:
+                    return promiseTag;
+                  case setCtorString:
+                    return setTag;
+                  case weakMapCtorString:
+                    return weakMapTag;
+                }
+              }
+              return result2;
+            };
+          }
+          function getView(start, end, transforms) {
+            var index = -1, length = transforms.length;
+            while (++index < length) {
+              var data = transforms[index], size2 = data.size;
+              switch (data.type) {
+                case "drop":
+                  start += size2;
+                  break;
+                case "dropRight":
+                  end -= size2;
+                  break;
+                case "take":
+                  end = nativeMin(end, start + size2);
+                  break;
+                case "takeRight":
+                  start = nativeMax(start, end - size2);
+                  break;
+              }
+            }
+            return { "start": start, "end": end };
+          }
+          function getWrapDetails(source) {
+            var match = source.match(reWrapDetails);
+            return match ? match[1].split(reSplitDetails) : [];
+          }
+          function hasPath(object, path, hasFunc) {
+            path = castPath(path, object);
+            var index = -1, length = path.length, result2 = false;
+            while (++index < length) {
+              var key = toKey(path[index]);
+              if (!(result2 = object != null && hasFunc(object, key))) {
+                break;
+              }
+              object = object[key];
+            }
+            if (result2 || ++index != length) {
+              return result2;
+            }
+            length = object == null ? 0 : object.length;
+            return !!length && isLength(length) && isIndex(key, length) && (isArray(object) || isArguments(object));
+          }
+          function initCloneArray(array) {
+            var length = array.length, result2 = new array.constructor(length);
+            if (length && typeof array[0] == "string" && hasOwnProperty.call(array, "index")) {
+              result2.index = array.index;
+              result2.input = array.input;
+            }
+            return result2;
+          }
+          function initCloneObject(object) {
+            return typeof object.constructor == "function" && !isPrototype(object) ? baseCreate(getPrototype(object)) : {};
+          }
+          function initCloneByTag(object, tag, isDeep) {
+            var Ctor = object.constructor;
+            switch (tag) {
+              case arrayBufferTag:
+                return cloneArrayBuffer(object);
+              case boolTag:
+              case dateTag:
+                return new Ctor(+object);
+              case dataViewTag:
+                return cloneDataView(object, isDeep);
+              case float32Tag:
+              case float64Tag:
+              case int8Tag:
+              case int16Tag:
+              case int32Tag:
+              case uint8Tag:
+              case uint8ClampedTag:
+              case uint16Tag:
+              case uint32Tag:
+                return cloneTypedArray(object, isDeep);
+              case mapTag:
+                return new Ctor();
+              case numberTag:
+              case stringTag:
+                return new Ctor(object);
+              case regexpTag:
+                return cloneRegExp(object);
+              case setTag:
+                return new Ctor();
+              case symbolTag:
+                return cloneSymbol(object);
+            }
+          }
+          function insertWrapDetails(source, details) {
+            var length = details.length;
+            if (!length) {
+              return source;
+            }
+            var lastIndex = length - 1;
+            details[lastIndex] = (length > 1 ? "& " : "") + details[lastIndex];
+            details = details.join(length > 2 ? ", " : " ");
+            return source.replace(reWrapComment, "{\n/* [wrapped with " + details + "] */\n");
+          }
+          function isFlattenable(value) {
+            return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
+          }
+          function isIndex(value, length) {
+            var type = typeof value;
+            length = length == null ? MAX_SAFE_INTEGER : length;
+            return !!length && (type == "number" || type != "symbol" && reIsUint.test(value)) && (value > -1 && value % 1 == 0 && value < length);
+          }
+          function isIterateeCall(value, index, object) {
+            if (!isObject(object)) {
+              return false;
+            }
+            var type = typeof index;
+            if (type == "number" ? isArrayLike(object) && isIndex(index, object.length) : type == "string" && index in object) {
+              return eq(object[index], value);
+            }
+            return false;
+          }
+          function isKey(value, object) {
+            if (isArray(value)) {
+              return false;
+            }
+            var type = typeof value;
+            if (type == "number" || type == "symbol" || type == "boolean" || value == null || isSymbol(value)) {
+              return true;
+            }
+            return reIsPlainProp.test(value) || !reIsDeepProp.test(value) || object != null && value in Object2(object);
+          }
+          function isKeyable(value) {
+            var type = typeof value;
+            return type == "string" || type == "number" || type == "symbol" || type == "boolean" ? value !== "__proto__" : value === null;
+          }
+          function isLaziable(func) {
+            var funcName = getFuncName(func), other = lodash[funcName];
+            if (typeof other != "function" || !(funcName in LazyWrapper.prototype)) {
+              return false;
+            }
+            if (func === other) {
+              return true;
+            }
+            var data = getData(other);
+            return !!data && func === data[0];
+          }
+          function isMasked(func) {
+            return !!maskSrcKey && maskSrcKey in func;
+          }
+          var isMaskable = coreJsData ? isFunction : stubFalse;
+          function isPrototype(value) {
+            var Ctor = value && value.constructor, proto = typeof Ctor == "function" && Ctor.prototype || objectProto;
+            return value === proto;
+          }
+          function isStrictComparable(value) {
+            return value === value && !isObject(value);
+          }
+          function matchesStrictComparable(key, srcValue) {
+            return function(object) {
+              if (object == null) {
+                return false;
+              }
+              return object[key] === srcValue && (srcValue !== undefined2 || key in Object2(object));
+            };
+          }
+          function memoizeCapped(func) {
+            var result2 = memoize(func, function(key) {
+              if (cache.size === MAX_MEMOIZE_SIZE) {
+                cache.clear();
+              }
+              return key;
+            });
+            var cache = result2.cache;
+            return result2;
+          }
+          function mergeData(data, source) {
+            var bitmask = data[1], srcBitmask = source[1], newBitmask = bitmask | srcBitmask, isCommon = newBitmask < (WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG | WRAP_ARY_FLAG);
+            var isCombo = srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_CURRY_FLAG || srcBitmask == WRAP_ARY_FLAG && bitmask == WRAP_REARG_FLAG && data[7].length <= source[8] || srcBitmask == (WRAP_ARY_FLAG | WRAP_REARG_FLAG) && source[7].length <= source[8] && bitmask == WRAP_CURRY_FLAG;
+            if (!(isCommon || isCombo)) {
+              return data;
+            }
+            if (srcBitmask & WRAP_BIND_FLAG) {
+              data[2] = source[2];
+              newBitmask |= bitmask & WRAP_BIND_FLAG ? 0 : WRAP_CURRY_BOUND_FLAG;
+            }
+            var value = source[3];
+            if (value) {
+              var partials = data[3];
+              data[3] = partials ? composeArgs(partials, value, source[4]) : value;
+              data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
+            }
+            value = source[5];
+            if (value) {
+              partials = data[5];
+              data[5] = partials ? composeArgsRight(partials, value, source[6]) : value;
+              data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6];
+            }
+            value = source[7];
+            if (value) {
+              data[7] = value;
+            }
+            if (srcBitmask & WRAP_ARY_FLAG) {
+              data[8] = data[8] == null ? source[8] : nativeMin(data[8], source[8]);
+            }
+            if (data[9] == null) {
+              data[9] = source[9];
+            }
+            data[0] = source[0];
+            data[1] = newBitmask;
+            return data;
+          }
+          function nativeKeysIn(object) {
+            var result2 = [];
+            if (object != null) {
+              for (var key in Object2(object)) {
+                result2.push(key);
+              }
+            }
+            return result2;
+          }
+          function objectToString(value) {
+            return nativeObjectToString.call(value);
+          }
+          function overRest(func, start, transform2) {
+            start = nativeMax(start === undefined2 ? func.length - 1 : start, 0);
+            return function() {
+              var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array2(length);
+              while (++index < length) {
+                array[index] = args[start + index];
+              }
+              index = -1;
+              var otherArgs = Array2(start + 1);
+              while (++index < start) {
+                otherArgs[index] = args[index];
+              }
+              otherArgs[start] = transform2(array);
+              return apply(func, this, otherArgs);
+            };
+          }
+          function parent(object, path) {
+            return path.length < 2 ? object : baseGet(object, baseSlice(path, 0, -1));
+          }
+          function reorder(array, indexes) {
+            var arrLength = array.length, length = nativeMin(indexes.length, arrLength), oldArray = copyArray2(array);
+            while (length--) {
+              var index = indexes[length];
+              array[length] = isIndex(index, arrLength) ? oldArray[index] : undefined2;
+            }
+            return array;
+          }
+          function safeGet(object, key) {
+            if (key === "constructor" && typeof object[key] === "function") {
+              return;
+            }
+            if (key == "__proto__") {
+              return;
+            }
+            return object[key];
+          }
+          var setData = shortOut(baseSetData);
+          var setTimeout2 = ctxSetTimeout || function(func, wait) {
+            return root.setTimeout(func, wait);
+          };
+          var setToString = shortOut(baseSetToString);
+          function setWrapToString(wrapper, reference, bitmask) {
+            var source = reference + "";
+            return setToString(wrapper, insertWrapDetails(source, updateWrapDetails(getWrapDetails(source), bitmask)));
+          }
+          function shortOut(func) {
+            var count = 0, lastCalled = 0;
+            return function() {
+              var stamp = nativeNow(), remaining = HOT_SPAN - (stamp - lastCalled);
+              lastCalled = stamp;
+              if (remaining > 0) {
+                if (++count >= HOT_COUNT) {
+                  return arguments[0];
+                }
+              } else {
+                count = 0;
+              }
+              return func.apply(undefined2, arguments);
+            };
+          }
+          function shuffleSelf(array, size2) {
+            var index = -1, length = array.length, lastIndex = length - 1;
+            size2 = size2 === undefined2 ? length : size2;
+            while (++index < size2) {
+              var rand = baseRandom(index, lastIndex), value = array[rand];
+              array[rand] = array[index];
+              array[index] = value;
+            }
+            array.length = size2;
+            return array;
+          }
+          var stringToPath = memoizeCapped(function(string) {
+            var result2 = [];
+            if (string.charCodeAt(0) === 46) {
+              result2.push("");
+            }
+            string.replace(rePropName, function(match, number, quote, subString) {
+              result2.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
+            });
+            return result2;
+          });
+          function toKey(value) {
+            if (typeof value == "string" || isSymbol(value)) {
+              return value;
+            }
+            var result2 = value + "";
+            return result2 == "0" && 1 / value == -INFINITY ? "-0" : result2;
+          }
+          function toSource(func) {
+            if (func != null) {
+              try {
+                return funcToString.call(func);
+              } catch (e) {
+              }
+              try {
+                return func + "";
+              } catch (e) {
+              }
+            }
+            return "";
+          }
+          function updateWrapDetails(details, bitmask) {
+            arrayEach(wrapFlags, function(pair) {
+              var value = "_." + pair[0];
+              if (bitmask & pair[1] && !arrayIncludes(details, value)) {
+                details.push(value);
+              }
+            });
+            return details.sort();
+          }
+          function wrapperClone(wrapper) {
+            if (wrapper instanceof LazyWrapper) {
+              return wrapper.clone();
+            }
+            var result2 = new LodashWrapper(wrapper.__wrapped__, wrapper.__chain__);
+            result2.__actions__ = copyArray2(wrapper.__actions__);
+            result2.__index__ = wrapper.__index__;
+            result2.__values__ = wrapper.__values__;
+            return result2;
+          }
+          function chunk(array, size2, guard) {
+            if (guard ? isIterateeCall(array, size2, guard) : size2 === undefined2) {
+              size2 = 1;
+            } else {
+              size2 = nativeMax(toInteger(size2), 0);
+            }
+            var length = array == null ? 0 : array.length;
+            if (!length || size2 < 1) {
+              return [];
+            }
+            var index = 0, resIndex = 0, result2 = Array2(nativeCeil(length / size2));
+            while (index < length) {
+              result2[resIndex++] = baseSlice(array, index, index += size2);
+            }
+            return result2;
+          }
+          function compact(array) {
+            var index = -1, length = array == null ? 0 : array.length, resIndex = 0, result2 = [];
+            while (++index < length) {
+              var value = array[index];
+              if (value) {
+                result2[resIndex++] = value;
+              }
+            }
+            return result2;
+          }
+          function concat() {
+            var length = arguments.length;
+            if (!length) {
+              return [];
+            }
+            var args = Array2(length - 1), array = arguments[0], index = length;
+            while (index--) {
+              args[index - 1] = arguments[index];
+            }
+            return arrayPush(isArray(array) ? copyArray2(array) : [array], baseFlatten(args, 1));
+          }
+          var difference = baseRest(function(array, values2) {
+            return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values2, 1, isArrayLikeObject, true)) : [];
+          });
+          var differenceBy = baseRest(function(array, values2) {
+            var iteratee2 = last(values2);
+            if (isArrayLikeObject(iteratee2)) {
+              iteratee2 = undefined2;
+            }
+            return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values2, 1, isArrayLikeObject, true), getIteratee(iteratee2, 2)) : [];
+          });
+          var differenceWith = baseRest(function(array, values2) {
+            var comparator = last(values2);
+            if (isArrayLikeObject(comparator)) {
+              comparator = undefined2;
+            }
+            return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values2, 1, isArrayLikeObject, true), undefined2, comparator) : [];
+          });
+          function drop(array, n, guard) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            n = guard || n === undefined2 ? 1 : toInteger(n);
+            return baseSlice(array, n < 0 ? 0 : n, length);
+          }
+          function dropRight(array, n, guard) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            n = guard || n === undefined2 ? 1 : toInteger(n);
+            n = length - n;
+            return baseSlice(array, 0, n < 0 ? 0 : n);
+          }
+          function dropRightWhile(array, predicate) {
+            return array && array.length ? baseWhile(array, getIteratee(predicate, 3), true, true) : [];
+          }
+          function dropWhile(array, predicate) {
+            return array && array.length ? baseWhile(array, getIteratee(predicate, 3), true) : [];
+          }
+          function fill(array, value, start, end) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            if (start && typeof start != "number" && isIterateeCall(array, value, start)) {
+              start = 0;
+              end = length;
+            }
+            return baseFill(array, value, start, end);
+          }
+          function findIndex(array, predicate, fromIndex) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return -1;
+            }
+            var index = fromIndex == null ? 0 : toInteger(fromIndex);
+            if (index < 0) {
+              index = nativeMax(length + index, 0);
+            }
+            return baseFindIndex(array, getIteratee(predicate, 3), index);
+          }
+          function findLastIndex(array, predicate, fromIndex) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return -1;
+            }
+            var index = length - 1;
+            if (fromIndex !== undefined2) {
+              index = toInteger(fromIndex);
+              index = fromIndex < 0 ? nativeMax(length + index, 0) : nativeMin(index, length - 1);
+            }
+            return baseFindIndex(array, getIteratee(predicate, 3), index, true);
+          }
+          function flatten2(array) {
+            var length = array == null ? 0 : array.length;
+            return length ? baseFlatten(array, 1) : [];
+          }
+          function flattenDeep(array) {
+            var length = array == null ? 0 : array.length;
+            return length ? baseFlatten(array, INFINITY) : [];
+          }
+          function flattenDepth(array, depth) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            depth = depth === undefined2 ? 1 : toInteger(depth);
+            return baseFlatten(array, depth);
+          }
+          function fromPairs(pairs) {
+            var index = -1, length = pairs == null ? 0 : pairs.length, result2 = {};
+            while (++index < length) {
+              var pair = pairs[index];
+              baseAssignValue(result2, pair[0], pair[1]);
+            }
+            return result2;
+          }
+          function head(array) {
+            return array && array.length ? array[0] : undefined2;
+          }
+          function indexOf(array, value, fromIndex) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return -1;
+            }
+            var index = fromIndex == null ? 0 : toInteger(fromIndex);
+            if (index < 0) {
+              index = nativeMax(length + index, 0);
+            }
+            return baseIndexOf(array, value, index);
+          }
+          function initial(array) {
+            var length = array == null ? 0 : array.length;
+            return length ? baseSlice(array, 0, -1) : [];
+          }
+          var intersection = baseRest(function(arrays) {
+            var mapped = arrayMap(arrays, castArrayLikeObject);
+            return mapped.length && mapped[0] === arrays[0] ? baseIntersection(mapped) : [];
+          });
+          var intersectionBy = baseRest(function(arrays) {
+            var iteratee2 = last(arrays), mapped = arrayMap(arrays, castArrayLikeObject);
+            if (iteratee2 === last(mapped)) {
+              iteratee2 = undefined2;
+            } else {
+              mapped.pop();
+            }
+            return mapped.length && mapped[0] === arrays[0] ? baseIntersection(mapped, getIteratee(iteratee2, 2)) : [];
+          });
+          var intersectionWith = baseRest(function(arrays) {
+            var comparator = last(arrays), mapped = arrayMap(arrays, castArrayLikeObject);
+            comparator = typeof comparator == "function" ? comparator : undefined2;
+            if (comparator) {
+              mapped.pop();
+            }
+            return mapped.length && mapped[0] === arrays[0] ? baseIntersection(mapped, undefined2, comparator) : [];
+          });
+          function join(array, separator) {
+            return array == null ? "" : nativeJoin.call(array, separator);
+          }
+          function last(array) {
+            var length = array == null ? 0 : array.length;
+            return length ? array[length - 1] : undefined2;
+          }
+          function lastIndexOf(array, value, fromIndex) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return -1;
+            }
+            var index = length;
+            if (fromIndex !== undefined2) {
+              index = toInteger(fromIndex);
+              index = index < 0 ? nativeMax(length + index, 0) : nativeMin(index, length - 1);
+            }
+            return value === value ? strictLastIndexOf(array, value, index) : baseFindIndex(array, baseIsNaN, index, true);
+          }
+          function nth(array, n) {
+            return array && array.length ? baseNth(array, toInteger(n)) : undefined2;
+          }
+          var pull = baseRest(pullAll);
+          function pullAll(array, values2) {
+            return array && array.length && values2 && values2.length ? basePullAll(array, values2) : array;
+          }
+          function pullAllBy(array, values2, iteratee2) {
+            return array && array.length && values2 && values2.length ? basePullAll(array, values2, getIteratee(iteratee2, 2)) : array;
+          }
+          function pullAllWith(array, values2, comparator) {
+            return array && array.length && values2 && values2.length ? basePullAll(array, values2, undefined2, comparator) : array;
+          }
+          var pullAt = flatRest(function(array, indexes) {
+            var length = array == null ? 0 : array.length, result2 = baseAt(array, indexes);
+            basePullAt(array, arrayMap(indexes, function(index) {
+              return isIndex(index, length) ? +index : index;
+            }).sort(compareAscending));
+            return result2;
+          });
+          function remove(array, predicate) {
+            var result2 = [];
+            if (!(array && array.length)) {
+              return result2;
+            }
+            var index = -1, indexes = [], length = array.length;
+            predicate = getIteratee(predicate, 3);
+            while (++index < length) {
+              var value = array[index];
+              if (predicate(value, index, array)) {
+                result2.push(value);
+                indexes.push(index);
+              }
+            }
+            basePullAt(array, indexes);
+            return result2;
+          }
+          function reverse(array) {
+            return array == null ? array : nativeReverse.call(array);
+          }
+          function slice(array, start, end) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            if (end && typeof end != "number" && isIterateeCall(array, start, end)) {
+              start = 0;
+              end = length;
+            } else {
+              start = start == null ? 0 : toInteger(start);
+              end = end === undefined2 ? length : toInteger(end);
+            }
+            return baseSlice(array, start, end);
+          }
+          function sortedIndex(array, value) {
+            return baseSortedIndex(array, value);
+          }
+          function sortedIndexBy(array, value, iteratee2) {
+            return baseSortedIndexBy(array, value, getIteratee(iteratee2, 2));
+          }
+          function sortedIndexOf(array, value) {
+            var length = array == null ? 0 : array.length;
+            if (length) {
+              var index = baseSortedIndex(array, value);
+              if (index < length && eq(array[index], value)) {
+                return index;
+              }
+            }
+            return -1;
+          }
+          function sortedLastIndex(array, value) {
+            return baseSortedIndex(array, value, true);
+          }
+          function sortedLastIndexBy(array, value, iteratee2) {
+            return baseSortedIndexBy(array, value, getIteratee(iteratee2, 2), true);
+          }
+          function sortedLastIndexOf(array, value) {
+            var length = array == null ? 0 : array.length;
+            if (length) {
+              var index = baseSortedIndex(array, value, true) - 1;
+              if (eq(array[index], value)) {
+                return index;
+              }
+            }
+            return -1;
+          }
+          function sortedUniq(array) {
+            return array && array.length ? baseSortedUniq(array) : [];
+          }
+          function sortedUniqBy(array, iteratee2) {
+            return array && array.length ? baseSortedUniq(array, getIteratee(iteratee2, 2)) : [];
+          }
+          function tail(array) {
+            var length = array == null ? 0 : array.length;
+            return length ? baseSlice(array, 1, length) : [];
+          }
+          function take(array, n, guard) {
+            if (!(array && array.length)) {
+              return [];
+            }
+            n = guard || n === undefined2 ? 1 : toInteger(n);
+            return baseSlice(array, 0, n < 0 ? 0 : n);
+          }
+          function takeRight(array, n, guard) {
+            var length = array == null ? 0 : array.length;
+            if (!length) {
+              return [];
+            }
+            n = guard || n === undefined2 ? 1 : toInteger(n);
+            n = length - n;
+            return baseSlice(array, n < 0 ? 0 : n, length);
+          }
+          function takeRightWhile(array, predicate) {
+            return array && array.length ? baseWhile(array, getIteratee(predicate, 3), false, true) : [];
+          }
+          function takeWhile(array, predicate) {
+            return array && array.length ? baseWhile(array, getIteratee(predicate, 3)) : [];
+          }
+          var union = baseRest(function(arrays) {
+            return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true));
+          });
+          var unionBy = baseRest(function(arrays) {
+            var iteratee2 = last(arrays);
+            if (isArrayLikeObject(iteratee2)) {
+              iteratee2 = undefined2;
+            }
+            return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true), getIteratee(iteratee2, 2));
+          });
+          var unionWith = baseRest(function(arrays) {
+            var comparator = last(arrays);
+            comparator = typeof comparator == "function" ? comparator : undefined2;
+            return baseUniq(baseFlatten(arrays, 1, isArrayLikeObject, true), undefined2, comparator);
+          });
+          function uniq(array) {
+            return array && array.length ? baseUniq(array) : [];
+          }
+          function uniqBy(array, iteratee2) {
+            return array && array.length ? baseUniq(array, getIteratee(iteratee2, 2)) : [];
+          }
+          function uniqWith(array, comparator) {
+            comparator = typeof comparator == "function" ? comparator : undefined2;
+            return array && array.length ? baseUniq(array, undefined2, comparator) : [];
+          }
+          function unzip(array) {
+            if (!(array && array.length)) {
+              return [];
+            }
+            var length = 0;
+            array = arrayFilter(array, function(group) {
+              if (isArrayLikeObject(group)) {
+                length = nativeMax(group.length, length);
+                return true;
+              }
+            });
+            return baseTimes(length, function(index) {
+              return arrayMap(array, baseProperty(index));
+            });
+          }
+          function unzipWith(array, iteratee2) {
+            if (!(array && array.length)) {
+              return [];
+            }
+            var result2 = unzip(array);
+            if (iteratee2 == null) {
+              return result2;
+            }
+            return arrayMap(result2, function(group) {
+              return apply(iteratee2, undefined2, group);
+            });
+          }
+          var without = baseRest(function(array, values2) {
+            return isArrayLikeObject(array) ? baseDifference(array, values2) : [];
+          });
+          var xor = baseRest(function(arrays) {
+            return baseXor(arrayFilter(arrays, isArrayLikeObject));
+          });
+          var xorBy = baseRest(function(arrays) {
+            var iteratee2 = last(arrays);
+            if (isArrayLikeObject(iteratee2)) {
+              iteratee2 = undefined2;
+            }
+            return baseXor(arrayFilter(arrays, isArrayLikeObject), getIteratee(iteratee2, 2));
+          });
+          var xorWith = baseRest(function(arrays) {
+            var comparator = last(arrays);
+            comparator = typeof comparator == "function" ? comparator : undefined2;
+            return baseXor(arrayFilter(arrays, isArrayLikeObject), undefined2, comparator);
+          });
+          var zip = baseRest(unzip);
+          function zipObject(props, values2) {
+            return baseZipObject(props || [], values2 || [], assignValue);
+          }
+          function zipObjectDeep(props, values2) {
+            return baseZipObject(props || [], values2 || [], baseSet);
+          }
+          var zipWith = baseRest(function(arrays) {
+            var length = arrays.length, iteratee2 = length > 1 ? arrays[length - 1] : undefined2;
+            iteratee2 = typeof iteratee2 == "function" ? (arrays.pop(), iteratee2) : undefined2;
+            return unzipWith(arrays, iteratee2);
+          });
+          function chain(value) {
+            var result2 = lodash(value);
+            result2.__chain__ = true;
+            return result2;
+          }
+          function tap(value, interceptor) {
+            interceptor(value);
+            return value;
+          }
+          function thru(value, interceptor) {
+            return interceptor(value);
+          }
+          var wrapperAt = flatRest(function(paths) {
+            var length = paths.length, start = length ? paths[0] : 0, value = this.__wrapped__, interceptor = function(object) {
+              return baseAt(object, paths);
+            };
+            if (length > 1 || this.__actions__.length || !(value instanceof LazyWrapper) || !isIndex(start)) {
+              return this.thru(interceptor);
+            }
+            value = value.slice(start, +start + (length ? 1 : 0));
+            value.__actions__.push({
+              "func": thru,
+              "args": [interceptor],
+              "thisArg": undefined2
+            });
+            return new LodashWrapper(value, this.__chain__).thru(function(array) {
+              if (length && !array.length) {
+                array.push(undefined2);
+              }
+              return array;
+            });
+          });
+          function wrapperChain() {
+            return chain(this);
+          }
+          function wrapperCommit() {
+            return new LodashWrapper(this.value(), this.__chain__);
+          }
+          function wrapperNext() {
+            if (this.__values__ === undefined2) {
+              this.__values__ = toArray(this.value());
+            }
+            var done = this.__index__ >= this.__values__.length, value = done ? undefined2 : this.__values__[this.__index__++];
+            return { "done": done, "value": value };
+          }
+          function wrapperToIterator() {
+            return this;
+          }
+          function wrapperPlant(value) {
+            var result2, parent2 = this;
+            while (parent2 instanceof baseLodash) {
+              var clone3 = wrapperClone(parent2);
+              clone3.__index__ = 0;
+              clone3.__values__ = undefined2;
+              if (result2) {
+                previous.__wrapped__ = clone3;
+              } else {
+                result2 = clone3;
+              }
+              var previous = clone3;
+              parent2 = parent2.__wrapped__;
+            }
+            previous.__wrapped__ = value;
+            return result2;
+          }
+          function wrapperReverse() {
+            var value = this.__wrapped__;
+            if (value instanceof LazyWrapper) {
+              var wrapped = value;
+              if (this.__actions__.length) {
+                wrapped = new LazyWrapper(this);
+              }
+              wrapped = wrapped.reverse();
+              wrapped.__actions__.push({
+                "func": thru,
+                "args": [reverse],
+                "thisArg": undefined2
+              });
+              return new LodashWrapper(wrapped, this.__chain__);
+            }
+            return this.thru(reverse);
+          }
+          function wrapperValue() {
+            return baseWrapperValue(this.__wrapped__, this.__actions__);
+          }
+          var countBy = createAggregator(function(result2, value, key) {
+            if (hasOwnProperty.call(result2, key)) {
+              ++result2[key];
+            } else {
+              baseAssignValue(result2, key, 1);
+            }
+          });
+          function every(collection, predicate, guard) {
+            var func = isArray(collection) ? arrayEvery : baseEvery;
+            if (guard && isIterateeCall(collection, predicate, guard)) {
+              predicate = undefined2;
+            }
+            return func(collection, getIteratee(predicate, 3));
+          }
+          function filter(collection, predicate) {
+            var func = isArray(collection) ? arrayFilter : baseFilter;
+            return func(collection, getIteratee(predicate, 3));
+          }
+          var find = createFind(findIndex);
+          var findLast = createFind(findLastIndex);
+          function flatMap(collection, iteratee2) {
+            return baseFlatten(map(collection, iteratee2), 1);
+          }
+          function flatMapDeep(collection, iteratee2) {
+            return baseFlatten(map(collection, iteratee2), INFINITY);
+          }
+          function flatMapDepth(collection, iteratee2, depth) {
+            depth = depth === undefined2 ? 1 : toInteger(depth);
+            return baseFlatten(map(collection, iteratee2), depth);
+          }
+          function forEach(collection, iteratee2) {
+            var func = isArray(collection) ? arrayEach : baseEach;
+            return func(collection, getIteratee(iteratee2, 3));
+          }
+          function forEachRight(collection, iteratee2) {
+            var func = isArray(collection) ? arrayEachRight : baseEachRight;
+            return func(collection, getIteratee(iteratee2, 3));
+          }
+          var groupBy = createAggregator(function(result2, value, key) {
+            if (hasOwnProperty.call(result2, key)) {
+              result2[key].push(value);
+            } else {
+              baseAssignValue(result2, key, [value]);
+            }
+          });
+          function includes(collection, value, fromIndex, guard) {
+            collection = isArrayLike(collection) ? collection : values(collection);
+            fromIndex = fromIndex && !guard ? toInteger(fromIndex) : 0;
+            var length = collection.length;
+            if (fromIndex < 0) {
+              fromIndex = nativeMax(length + fromIndex, 0);
+            }
+            return isString(collection) ? fromIndex <= length && collection.indexOf(value, fromIndex) > -1 : !!length && baseIndexOf(collection, value, fromIndex) > -1;
+          }
+          var invokeMap = baseRest(function(collection, path, args) {
+            var index = -1, isFunc = typeof path == "function", result2 = isArrayLike(collection) ? Array2(collection.length) : [];
+            baseEach(collection, function(value) {
+              result2[++index] = isFunc ? apply(path, value, args) : baseInvoke(value, path, args);
+            });
+            return result2;
+          });
+          var keyBy = createAggregator(function(result2, value, key) {
+            baseAssignValue(result2, key, value);
+          });
+          function map(collection, iteratee2) {
+            var func = isArray(collection) ? arrayMap : baseMap;
+            return func(collection, getIteratee(iteratee2, 3));
+          }
+          function orderBy(collection, iteratees, orders, guard) {
+            if (collection == null) {
+              return [];
+            }
+            if (!isArray(iteratees)) {
+              iteratees = iteratees == null ? [] : [iteratees];
+            }
+            orders = guard ? undefined2 : orders;
+            if (!isArray(orders)) {
+              orders = orders == null ? [] : [orders];
+            }
+            return baseOrderBy(collection, iteratees, orders);
+          }
+          var partition = createAggregator(function(result2, value, key) {
+            result2[key ? 0 : 1].push(value);
+          }, function() {
+            return [[], []];
+          });
+          function reduce(collection, iteratee2, accumulator) {
+            var func = isArray(collection) ? arrayReduce : baseReduce, initAccum = arguments.length < 3;
+            return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEach);
+          }
+          function reduceRight(collection, iteratee2, accumulator) {
+            var func = isArray(collection) ? arrayReduceRight : baseReduce, initAccum = arguments.length < 3;
+            return func(collection, getIteratee(iteratee2, 4), accumulator, initAccum, baseEachRight);
+          }
+          function reject(collection, predicate) {
+            var func = isArray(collection) ? arrayFilter : baseFilter;
+            return func(collection, negate(getIteratee(predicate, 3)));
+          }
+          function sample(collection) {
+            var func = isArray(collection) ? arraySample : baseSample;
+            return func(collection);
+          }
+          function sampleSize(collection, n, guard) {
+            if (guard ? isIterateeCall(collection, n, guard) : n === undefined2) {
+              n = 1;
+            } else {
+              n = toInteger(n);
+            }
+            var func = isArray(collection) ? arraySampleSize : baseSampleSize;
+            return func(collection, n);
+          }
+          function shuffle(collection) {
+            var func = isArray(collection) ? arrayShuffle : baseShuffle;
+            return func(collection);
+          }
+          function size(collection) {
+            if (collection == null) {
+              return 0;
+            }
+            if (isArrayLike(collection)) {
+              return isString(collection) ? stringSize(collection) : collection.length;
+            }
+            var tag = getTag(collection);
+            if (tag == mapTag || tag == setTag) {
+              return collection.size;
+            }
+            return baseKeys(collection).length;
+          }
+          function some(collection, predicate, guard) {
+            var func = isArray(collection) ? arraySome : baseSome;
+            if (guard && isIterateeCall(collection, predicate, guard)) {
+              predicate = undefined2;
+            }
+            return func(collection, getIteratee(predicate, 3));
+          }
+          var sortBy = baseRest(function(collection, iteratees) {
+            if (collection == null) {
+              return [];
+            }
+            var length = iteratees.length;
+            if (length > 1 && isIterateeCall(collection, iteratees[0], iteratees[1])) {
+              iteratees = [];
+            } else if (length > 2 && isIterateeCall(iteratees[0], iteratees[1], iteratees[2])) {
+              iteratees = [iteratees[0]];
+            }
+            return baseOrderBy(collection, baseFlatten(iteratees, 1), []);
+          });
+          var now = ctxNow || function() {
+            return root.Date.now();
+          };
+          function after(n, func) {
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            n = toInteger(n);
+            return function() {
+              if (--n < 1) {
+                return func.apply(this, arguments);
+              }
+            };
+          }
+          function ary(func, n, guard) {
+            n = guard ? undefined2 : n;
+            n = func && n == null ? func.length : n;
+            return createWrap(func, WRAP_ARY_FLAG, undefined2, undefined2, undefined2, undefined2, n);
+          }
+          function before(n, func) {
+            var result2;
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            n = toInteger(n);
+            return function() {
+              if (--n > 0) {
+                result2 = func.apply(this, arguments);
+              }
+              if (n <= 1) {
+                func = undefined2;
+              }
+              return result2;
+            };
+          }
+          var bind = baseRest(function(func, thisArg, partials) {
+            var bitmask = WRAP_BIND_FLAG;
+            if (partials.length) {
+              var holders = replaceHolders(partials, getHolder(bind));
+              bitmask |= WRAP_PARTIAL_FLAG;
+            }
+            return createWrap(func, bitmask, thisArg, partials, holders);
+          });
+          var bindKey = baseRest(function(object, key, partials) {
+            var bitmask = WRAP_BIND_FLAG | WRAP_BIND_KEY_FLAG;
+            if (partials.length) {
+              var holders = replaceHolders(partials, getHolder(bindKey));
+              bitmask |= WRAP_PARTIAL_FLAG;
+            }
+            return createWrap(key, bitmask, object, partials, holders);
+          });
+          function curry(func, arity, guard) {
+            arity = guard ? undefined2 : arity;
+            var result2 = createWrap(func, WRAP_CURRY_FLAG, undefined2, undefined2, undefined2, undefined2, undefined2, arity);
+            result2.placeholder = curry.placeholder;
+            return result2;
+          }
+          function curryRight(func, arity, guard) {
+            arity = guard ? undefined2 : arity;
+            var result2 = createWrap(func, WRAP_CURRY_RIGHT_FLAG, undefined2, undefined2, undefined2, undefined2, undefined2, arity);
+            result2.placeholder = curryRight.placeholder;
+            return result2;
+          }
+          function debounce(func, wait, options) {
+            var lastArgs, lastThis, maxWait, result2, timerId, lastCallTime, lastInvokeTime = 0, leading = false, maxing = false, trailing = true;
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            wait = toNumber(wait) || 0;
+            if (isObject(options)) {
+              leading = !!options.leading;
+              maxing = "maxWait" in options;
+              maxWait = maxing ? nativeMax(toNumber(options.maxWait) || 0, wait) : maxWait;
+              trailing = "trailing" in options ? !!options.trailing : trailing;
+            }
+            function invokeFunc(time) {
+              var args = lastArgs, thisArg = lastThis;
+              lastArgs = lastThis = undefined2;
+              lastInvokeTime = time;
+              result2 = func.apply(thisArg, args);
+              return result2;
+            }
+            function leadingEdge(time) {
+              lastInvokeTime = time;
+              timerId = setTimeout2(timerExpired, wait);
+              return leading ? invokeFunc(time) : result2;
+            }
+            function remainingWait(time) {
+              var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime, timeWaiting = wait - timeSinceLastCall;
+              return maxing ? nativeMin(timeWaiting, maxWait - timeSinceLastInvoke) : timeWaiting;
+            }
+            function shouldInvoke(time) {
+              var timeSinceLastCall = time - lastCallTime, timeSinceLastInvoke = time - lastInvokeTime;
+              return lastCallTime === undefined2 || timeSinceLastCall >= wait || timeSinceLastCall < 0 || maxing && timeSinceLastInvoke >= maxWait;
+            }
+            function timerExpired() {
+              var time = now();
+              if (shouldInvoke(time)) {
+                return trailingEdge(time);
+              }
+              timerId = setTimeout2(timerExpired, remainingWait(time));
+            }
+            function trailingEdge(time) {
+              timerId = undefined2;
+              if (trailing && lastArgs) {
+                return invokeFunc(time);
+              }
+              lastArgs = lastThis = undefined2;
+              return result2;
+            }
+            function cancel() {
+              if (timerId !== undefined2) {
+                clearTimeout(timerId);
+              }
+              lastInvokeTime = 0;
+              lastArgs = lastCallTime = lastThis = timerId = undefined2;
+            }
+            function flush() {
+              return timerId === undefined2 ? result2 : trailingEdge(now());
+            }
+            function debounced() {
+              var time = now(), isInvoking = shouldInvoke(time);
+              lastArgs = arguments;
+              lastThis = this;
+              lastCallTime = time;
+              if (isInvoking) {
+                if (timerId === undefined2) {
+                  return leadingEdge(lastCallTime);
+                }
+                if (maxing) {
+                  clearTimeout(timerId);
+                  timerId = setTimeout2(timerExpired, wait);
+                  return invokeFunc(lastCallTime);
+                }
+              }
+              if (timerId === undefined2) {
+                timerId = setTimeout2(timerExpired, wait);
+              }
+              return result2;
+            }
+            debounced.cancel = cancel;
+            debounced.flush = flush;
+            return debounced;
+          }
+          var defer = baseRest(function(func, args) {
+            return baseDelay(func, 1, args);
+          });
+          var delay = baseRest(function(func, wait, args) {
+            return baseDelay(func, toNumber(wait) || 0, args);
+          });
+          function flip(func) {
+            return createWrap(func, WRAP_FLIP_FLAG);
+          }
+          function memoize(func, resolver) {
+            if (typeof func != "function" || resolver != null && typeof resolver != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            var memoized = function() {
+              var args = arguments, key = resolver ? resolver.apply(this, args) : args[0], cache = memoized.cache;
+              if (cache.has(key)) {
+                return cache.get(key);
+              }
+              var result2 = func.apply(this, args);
+              memoized.cache = cache.set(key, result2) || cache;
+              return result2;
+            };
+            memoized.cache = new (memoize.Cache || MapCache)();
+            return memoized;
+          }
+          memoize.Cache = MapCache;
+          function negate(predicate) {
+            if (typeof predicate != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            return function() {
+              var args = arguments;
+              switch (args.length) {
+                case 0:
+                  return !predicate.call(this);
+                case 1:
+                  return !predicate.call(this, args[0]);
+                case 2:
+                  return !predicate.call(this, args[0], args[1]);
+                case 3:
+                  return !predicate.call(this, args[0], args[1], args[2]);
+              }
+              return !predicate.apply(this, args);
+            };
+          }
+          function once(func) {
+            return before(2, func);
+          }
+          var overArgs = castRest(function(func, transforms) {
+            transforms = transforms.length == 1 && isArray(transforms[0]) ? arrayMap(transforms[0], baseUnary(getIteratee())) : arrayMap(baseFlatten(transforms, 1), baseUnary(getIteratee()));
+            var funcsLength = transforms.length;
+            return baseRest(function(args) {
+              var index = -1, length = nativeMin(args.length, funcsLength);
+              while (++index < length) {
+                args[index] = transforms[index].call(this, args[index]);
+              }
+              return apply(func, this, args);
+            });
+          });
+          var partial = baseRest(function(func, partials) {
+            var holders = replaceHolders(partials, getHolder(partial));
+            return createWrap(func, WRAP_PARTIAL_FLAG, undefined2, partials, holders);
+          });
+          var partialRight = baseRest(function(func, partials) {
+            var holders = replaceHolders(partials, getHolder(partialRight));
+            return createWrap(func, WRAP_PARTIAL_RIGHT_FLAG, undefined2, partials, holders);
+          });
+          var rearg = flatRest(function(func, indexes) {
+            return createWrap(func, WRAP_REARG_FLAG, undefined2, undefined2, undefined2, indexes);
+          });
+          function rest(func, start) {
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            start = start === undefined2 ? start : toInteger(start);
+            return baseRest(func, start);
+          }
+          function spread(func, start) {
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            start = start == null ? 0 : nativeMax(toInteger(start), 0);
+            return baseRest(function(args) {
+              var array = args[start], otherArgs = castSlice(args, 0, start);
+              if (array) {
+                arrayPush(otherArgs, array);
+              }
+              return apply(func, this, otherArgs);
+            });
+          }
+          function throttle(func, wait, options) {
+            var leading = true, trailing = true;
+            if (typeof func != "function") {
+              throw new TypeError2(FUNC_ERROR_TEXT);
+            }
+            if (isObject(options)) {
+              leading = "leading" in options ? !!options.leading : leading;
+              trailing = "trailing" in options ? !!options.trailing : trailing;
+            }
+            return debounce(func, wait, {
+              "leading": leading,
+              "maxWait": wait,
+              "trailing": trailing
+            });
+          }
+          function unary(func) {
+            return ary(func, 1);
+          }
+          function wrap(value, wrapper) {
+            return partial(castFunction(wrapper), value);
+          }
+          function castArray() {
+            if (!arguments.length) {
+              return [];
+            }
+            var value = arguments[0];
+            return isArray(value) ? value : [value];
+          }
+          function clone2(value) {
+            return baseClone(value, CLONE_SYMBOLS_FLAG);
+          }
+          function cloneWith(value, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            return baseClone(value, CLONE_SYMBOLS_FLAG, customizer);
+          }
+          function cloneDeep(value) {
+            return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG);
+          }
+          function cloneDeepWith(value, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            return baseClone(value, CLONE_DEEP_FLAG | CLONE_SYMBOLS_FLAG, customizer);
+          }
+          function conformsTo(object, source) {
+            return source == null || baseConformsTo(object, source, keys(source));
+          }
+          function eq(value, other) {
+            return value === other || value !== value && other !== other;
+          }
+          var gt = createRelationalOperation(baseGt);
+          var gte = createRelationalOperation(function(value, other) {
+            return value >= other;
+          });
+          var isArguments = baseIsArguments(/* @__PURE__ */ (function() {
+            return arguments;
+          })()) ? baseIsArguments : function(value) {
+            return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
+          };
+          var isArray = Array2.isArray;
+          var isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : baseIsArrayBuffer;
+          function isArrayLike(value) {
+            return value != null && isLength(value.length) && !isFunction(value);
+          }
+          function isArrayLikeObject(value) {
+            return isObjectLike(value) && isArrayLike(value);
+          }
+          function isBoolean(value) {
+            return value === true || value === false || isObjectLike(value) && baseGetTag(value) == boolTag;
+          }
+          var isBuffer = nativeIsBuffer || stubFalse;
+          var isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
+          function isElement(value) {
+            return isObjectLike(value) && value.nodeType === 1 && !isPlainObject(value);
+          }
+          function isEmpty(value) {
+            if (value == null) {
+              return true;
+            }
+            if (isArrayLike(value) && (isArray(value) || typeof value == "string" || typeof value.splice == "function" || isBuffer(value) || isTypedArray2(value) || isArguments(value))) {
+              return !value.length;
+            }
+            var tag = getTag(value);
+            if (tag == mapTag || tag == setTag) {
+              return !value.size;
+            }
+            if (isPrototype(value)) {
+              return !baseKeys(value).length;
+            }
+            for (var key in value) {
+              if (hasOwnProperty.call(value, key)) {
+                return false;
+              }
+            }
+            return true;
+          }
+          function isEqual(value, other) {
+            return baseIsEqual(value, other);
+          }
+          function isEqualWith(value, other, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            var result2 = customizer ? customizer(value, other) : undefined2;
+            return result2 === undefined2 ? baseIsEqual(value, other, undefined2, customizer) : !!result2;
+          }
+          function isError(value) {
+            if (!isObjectLike(value)) {
+              return false;
+            }
+            var tag = baseGetTag(value);
+            return tag == errorTag || tag == domExcTag || typeof value.message == "string" && typeof value.name == "string" && !isPlainObject(value);
+          }
+          function isFinite2(value) {
+            return typeof value == "number" && nativeIsFinite(value);
+          }
+          function isFunction(value) {
+            if (!isObject(value)) {
+              return false;
+            }
+            var tag = baseGetTag(value);
+            return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+          }
+          function isInteger(value) {
+            return typeof value == "number" && value == toInteger(value);
+          }
+          function isLength(value) {
+            return typeof value == "number" && value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
+          }
+          function isObject(value) {
+            var type = typeof value;
+            return value != null && (type == "object" || type == "function");
+          }
+          function isObjectLike(value) {
+            return value != null && typeof value == "object";
+          }
+          var isMap = nodeIsMap ? baseUnary(nodeIsMap) : baseIsMap;
+          function isMatch(object, source) {
+            return object === source || baseIsMatch(object, source, getMatchData(source));
+          }
+          function isMatchWith(object, source, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            return baseIsMatch(object, source, getMatchData(source), customizer);
+          }
+          function isNaN2(value) {
+            return isNumber(value) && value != +value;
+          }
+          function isNative(value) {
+            if (isMaskable(value)) {
+              throw new Error2(CORE_ERROR_TEXT);
+            }
+            return baseIsNative(value);
+          }
+          function isNull(value) {
+            return value === null;
+          }
+          function isNil(value) {
+            return value == null;
+          }
+          function isNumber(value) {
+            return typeof value == "number" || isObjectLike(value) && baseGetTag(value) == numberTag;
+          }
+          function isPlainObject(value) {
+            if (!isObjectLike(value) || baseGetTag(value) != objectTag) {
+              return false;
+            }
+            var proto = getPrototype(value);
+            if (proto === null) {
+              return true;
+            }
+            var Ctor = hasOwnProperty.call(proto, "constructor") && proto.constructor;
+            return typeof Ctor == "function" && Ctor instanceof Ctor && funcToString.call(Ctor) == objectCtorString;
+          }
+          var isRegExp = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
+          function isSafeInteger(value) {
+            return isInteger(value) && value >= -MAX_SAFE_INTEGER && value <= MAX_SAFE_INTEGER;
+          }
+          var isSet = nodeIsSet ? baseUnary(nodeIsSet) : baseIsSet;
+          function isString(value) {
+            return typeof value == "string" || !isArray(value) && isObjectLike(value) && baseGetTag(value) == stringTag;
+          }
+          function isSymbol(value) {
+            return typeof value == "symbol" || isObjectLike(value) && baseGetTag(value) == symbolTag;
+          }
+          var isTypedArray2 = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
+          function isUndefined(value) {
+            return value === undefined2;
+          }
+          function isWeakMap(value) {
+            return isObjectLike(value) && getTag(value) == weakMapTag;
+          }
+          function isWeakSet(value) {
+            return isObjectLike(value) && baseGetTag(value) == weakSetTag;
+          }
+          var lt = createRelationalOperation(baseLt);
+          var lte = createRelationalOperation(function(value, other) {
+            return value <= other;
+          });
+          function toArray(value) {
+            if (!value) {
+              return [];
+            }
+            if (isArrayLike(value)) {
+              return isString(value) ? stringToArray(value) : copyArray2(value);
+            }
+            if (symIterator && value[symIterator]) {
+              return iteratorToArray(value[symIterator]());
+            }
+            var tag = getTag(value), func = tag == mapTag ? mapToArray : tag == setTag ? setToArray : values;
+            return func(value);
+          }
+          function toFinite(value) {
+            if (!value) {
+              return value === 0 ? value : 0;
+            }
+            value = toNumber(value);
+            if (value === INFINITY || value === -INFINITY) {
+              var sign = value < 0 ? -1 : 1;
+              return sign * MAX_INTEGER;
+            }
+            return value === value ? value : 0;
+          }
+          function toInteger(value) {
+            var result2 = toFinite(value), remainder = result2 % 1;
+            return result2 === result2 ? remainder ? result2 - remainder : result2 : 0;
+          }
+          function toLength(value) {
+            return value ? baseClamp(toInteger(value), 0, MAX_ARRAY_LENGTH) : 0;
+          }
+          function toNumber(value) {
+            if (typeof value == "number") {
+              return value;
+            }
+            if (isSymbol(value)) {
+              return NAN;
+            }
+            if (isObject(value)) {
+              var other = typeof value.valueOf == "function" ? value.valueOf() : value;
+              value = isObject(other) ? other + "" : other;
+            }
+            if (typeof value != "string") {
+              return value === 0 ? value : +value;
+            }
+            value = baseTrim(value);
+            var isBinary = reIsBinary.test(value);
+            return isBinary || reIsOctal.test(value) ? freeParseInt(value.slice(2), isBinary ? 2 : 8) : reIsBadHex.test(value) ? NAN : +value;
+          }
+          function toPlainObject(value) {
+            return copyObject(value, keysIn(value));
+          }
+          function toSafeInteger(value) {
+            return value ? baseClamp(toInteger(value), -MAX_SAFE_INTEGER, MAX_SAFE_INTEGER) : value === 0 ? value : 0;
+          }
+          function toString(value) {
+            return value == null ? "" : baseToString(value);
+          }
+          var assign = createAssigner(function(object, source) {
+            if (isPrototype(source) || isArrayLike(source)) {
+              copyObject(source, keys(source), object);
+              return;
+            }
+            for (var key in source) {
+              if (hasOwnProperty.call(source, key)) {
+                assignValue(object, key, source[key]);
+              }
+            }
+          });
+          var assignIn = createAssigner(function(object, source) {
+            copyObject(source, keysIn(source), object);
+          });
+          var assignInWith = createAssigner(function(object, source, srcIndex, customizer) {
+            copyObject(source, keysIn(source), object, customizer);
+          });
+          var assignWith = createAssigner(function(object, source, srcIndex, customizer) {
+            copyObject(source, keys(source), object, customizer);
+          });
+          var at = flatRest(baseAt);
+          function create(prototype, properties) {
+            var result2 = baseCreate(prototype);
+            return properties == null ? result2 : baseAssign(result2, properties);
+          }
+          var defaults = baseRest(function(object, sources) {
+            object = Object2(object);
+            var index = -1;
+            var length = sources.length;
+            var guard = length > 2 ? sources[2] : undefined2;
+            if (guard && isIterateeCall(sources[0], sources[1], guard)) {
+              length = 1;
+            }
+            while (++index < length) {
+              var source = sources[index];
+              var props = keysIn(source);
+              var propsIndex = -1;
+              var propsLength = props.length;
+              while (++propsIndex < propsLength) {
+                var key = props[propsIndex];
+                var value = object[key];
+                if (value === undefined2 || eq(value, objectProto[key]) && !hasOwnProperty.call(object, key)) {
+                  object[key] = source[key];
+                }
+              }
+            }
+            return object;
+          });
+          var defaultsDeep = baseRest(function(args) {
+            args.push(undefined2, customDefaultsMerge);
+            return apply(mergeWith, undefined2, args);
+          });
+          function findKey(object, predicate) {
+            return baseFindKey(object, getIteratee(predicate, 3), baseForOwn);
+          }
+          function findLastKey(object, predicate) {
+            return baseFindKey(object, getIteratee(predicate, 3), baseForOwnRight);
+          }
+          function forIn(object, iteratee2) {
+            return object == null ? object : baseFor(object, getIteratee(iteratee2, 3), keysIn);
+          }
+          function forInRight(object, iteratee2) {
+            return object == null ? object : baseForRight(object, getIteratee(iteratee2, 3), keysIn);
+          }
+          function forOwn(object, iteratee2) {
+            return object && baseForOwn(object, getIteratee(iteratee2, 3));
+          }
+          function forOwnRight(object, iteratee2) {
+            return object && baseForOwnRight(object, getIteratee(iteratee2, 3));
+          }
+          function functions(object) {
+            return object == null ? [] : baseFunctions(object, keys(object));
+          }
+          function functionsIn(object) {
+            return object == null ? [] : baseFunctions(object, keysIn(object));
+          }
+          function get(object, path, defaultValue) {
+            var result2 = object == null ? undefined2 : baseGet(object, path);
+            return result2 === undefined2 ? defaultValue : result2;
+          }
+          function has(object, path) {
+            return object != null && hasPath(object, path, baseHas);
+          }
+          function hasIn(object, path) {
+            return object != null && hasPath(object, path, baseHasIn);
+          }
+          var invert = createInverter(function(result2, value, key) {
+            if (value != null && typeof value.toString != "function") {
+              value = nativeObjectToString.call(value);
+            }
+            result2[value] = key;
+          }, constant(identity));
+          var invertBy = createInverter(function(result2, value, key) {
+            if (value != null && typeof value.toString != "function") {
+              value = nativeObjectToString.call(value);
+            }
+            if (hasOwnProperty.call(result2, value)) {
+              result2[value].push(key);
+            } else {
+              result2[value] = [key];
+            }
+          }, getIteratee);
+          var invoke = baseRest(baseInvoke);
+          function keys(object) {
+            return isArrayLike(object) ? arrayLikeKeys(object) : baseKeys(object);
+          }
+          function keysIn(object) {
+            return isArrayLike(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
+          }
+          function mapKeys(object, iteratee2) {
+            var result2 = {};
+            iteratee2 = getIteratee(iteratee2, 3);
+            baseForOwn(object, function(value, key, object2) {
+              baseAssignValue(result2, iteratee2(value, key, object2), value);
+            });
+            return result2;
+          }
+          function mapValues(object, iteratee2) {
+            var result2 = {};
+            iteratee2 = getIteratee(iteratee2, 3);
+            baseForOwn(object, function(value, key, object2) {
+              baseAssignValue(result2, key, iteratee2(value, key, object2));
+            });
+            return result2;
+          }
+          var merge = createAssigner(function(object, source, srcIndex) {
+            baseMerge(object, source, srcIndex);
+          });
+          var mergeWith = createAssigner(function(object, source, srcIndex, customizer) {
+            baseMerge(object, source, srcIndex, customizer);
+          });
+          var omit = flatRest(function(object, paths) {
+            var result2 = {};
+            if (object == null) {
+              return result2;
+            }
+            var isDeep = false;
+            paths = arrayMap(paths, function(path) {
+              path = castPath(path, object);
+              isDeep || (isDeep = path.length > 1);
+              return path;
+            });
+            copyObject(object, getAllKeysIn(object), result2);
+            if (isDeep) {
+              result2 = baseClone(result2, CLONE_DEEP_FLAG | CLONE_FLAT_FLAG | CLONE_SYMBOLS_FLAG, customOmitClone);
+            }
+            var length = paths.length;
+            while (length--) {
+              baseUnset(result2, paths[length]);
+            }
+            return result2;
+          });
+          function omitBy(object, predicate) {
+            return pickBy(object, negate(getIteratee(predicate)));
+          }
+          var pick = flatRest(function(object, paths) {
+            return object == null ? {} : basePick(object, paths);
+          });
+          function pickBy(object, predicate) {
+            if (object == null) {
+              return {};
+            }
+            var props = arrayMap(getAllKeysIn(object), function(prop) {
+              return [prop];
+            });
+            predicate = getIteratee(predicate);
+            return basePickBy(object, props, function(value, path) {
+              return predicate(value, path[0]);
+            });
+          }
+          function result(object, path, defaultValue) {
+            path = castPath(path, object);
+            var index = -1, length = path.length;
+            if (!length) {
+              length = 1;
+              object = undefined2;
+            }
+            while (++index < length) {
+              var value = object == null ? undefined2 : object[toKey(path[index])];
+              if (value === undefined2) {
+                index = length;
+                value = defaultValue;
+              }
+              object = isFunction(value) ? value.call(object) : value;
+            }
+            return object;
+          }
+          function set(object, path, value) {
+            return object == null ? object : baseSet(object, path, value);
+          }
+          function setWith(object, path, value, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            return object == null ? object : baseSet(object, path, value, customizer);
+          }
+          var toPairs = createToPairs(keys);
+          var toPairsIn = createToPairs(keysIn);
+          function transform(object, iteratee2, accumulator) {
+            var isArr = isArray(object), isArrLike = isArr || isBuffer(object) || isTypedArray2(object);
+            iteratee2 = getIteratee(iteratee2, 4);
+            if (accumulator == null) {
+              var Ctor = object && object.constructor;
+              if (isArrLike) {
+                accumulator = isArr ? new Ctor() : [];
+              } else if (isObject(object)) {
+                accumulator = isFunction(Ctor) ? baseCreate(getPrototype(object)) : {};
+              } else {
+                accumulator = {};
+              }
+            }
+            (isArrLike ? arrayEach : baseForOwn)(object, function(value, index, object2) {
+              return iteratee2(accumulator, value, index, object2);
+            });
+            return accumulator;
+          }
+          function unset(object, path) {
+            return object == null ? true : baseUnset(object, path);
+          }
+          function update2(object, path, updater) {
+            return object == null ? object : baseUpdate(object, path, castFunction(updater));
+          }
+          function updateWith(object, path, updater, customizer) {
+            customizer = typeof customizer == "function" ? customizer : undefined2;
+            return object == null ? object : baseUpdate(object, path, castFunction(updater), customizer);
+          }
+          function values(object) {
+            return object == null ? [] : baseValues(object, keys(object));
+          }
+          function valuesIn(object) {
+            return object == null ? [] : baseValues(object, keysIn(object));
+          }
+          function clamp2(number, lower, upper) {
+            if (upper === undefined2) {
+              upper = lower;
+              lower = undefined2;
+            }
+            if (upper !== undefined2) {
+              upper = toNumber(upper);
+              upper = upper === upper ? upper : 0;
+            }
+            if (lower !== undefined2) {
+              lower = toNumber(lower);
+              lower = lower === lower ? lower : 0;
+            }
+            return baseClamp(toNumber(number), lower, upper);
+          }
+          function inRange(number, start, end) {
+            start = toFinite(start);
+            if (end === undefined2) {
+              end = start;
+              start = 0;
+            } else {
+              end = toFinite(end);
+            }
+            number = toNumber(number);
+            return baseInRange(number, start, end);
+          }
+          function random(lower, upper, floating) {
+            if (floating && typeof floating != "boolean" && isIterateeCall(lower, upper, floating)) {
+              upper = floating = undefined2;
+            }
+            if (floating === undefined2) {
+              if (typeof upper == "boolean") {
+                floating = upper;
+                upper = undefined2;
+              } else if (typeof lower == "boolean") {
+                floating = lower;
+                lower = undefined2;
+              }
+            }
+            if (lower === undefined2 && upper === undefined2) {
+              lower = 0;
+              upper = 1;
+            } else {
+              lower = toFinite(lower);
+              if (upper === undefined2) {
+                upper = lower;
+                lower = 0;
+              } else {
+                upper = toFinite(upper);
+              }
+            }
+            if (lower > upper) {
+              var temp = lower;
+              lower = upper;
+              upper = temp;
+            }
+            if (floating || lower % 1 || upper % 1) {
+              var rand = nativeRandom();
+              return nativeMin(lower + rand * (upper - lower + freeParseFloat("1e-" + ((rand + "").length - 1))), upper);
+            }
+            return baseRandom(lower, upper);
+          }
+          var camelCase = createCompounder(function(result2, word, index) {
+            word = word.toLowerCase();
+            return result2 + (index ? capitalize(word) : word);
+          });
+          function capitalize(string) {
+            return upperFirst(toString(string).toLowerCase());
+          }
+          function deburr(string) {
+            string = toString(string);
+            return string && string.replace(reLatin, deburrLetter).replace(reComboMark, "");
+          }
+          function endsWith(string, target, position) {
+            string = toString(string);
+            target = baseToString(target);
+            var length = string.length;
+            position = position === undefined2 ? length : baseClamp(toInteger(position), 0, length);
+            var end = position;
+            position -= target.length;
+            return position >= 0 && string.slice(position, end) == target;
+          }
+          function escape(string) {
+            string = toString(string);
+            return string && reHasUnescapedHtml.test(string) ? string.replace(reUnescapedHtml, escapeHtmlChar) : string;
+          }
+          function escapeRegExp(string) {
+            string = toString(string);
+            return string && reHasRegExpChar.test(string) ? string.replace(reRegExpChar, "\\$&") : string;
+          }
+          var kebabCase = createCompounder(function(result2, word, index) {
+            return result2 + (index ? "-" : "") + word.toLowerCase();
+          });
+          var lowerCase = createCompounder(function(result2, word, index) {
+            return result2 + (index ? " " : "") + word.toLowerCase();
+          });
+          var lowerFirst = createCaseFirst("toLowerCase");
+          function pad(string, length, chars) {
+            string = toString(string);
+            length = toInteger(length);
+            var strLength = length ? stringSize(string) : 0;
+            if (!length || strLength >= length) {
+              return string;
+            }
+            var mid = (length - strLength) / 2;
+            return createPadding(nativeFloor(mid), chars) + string + createPadding(nativeCeil(mid), chars);
+          }
+          function padEnd(string, length, chars) {
+            string = toString(string);
+            length = toInteger(length);
+            var strLength = length ? stringSize(string) : 0;
+            return length && strLength < length ? string + createPadding(length - strLength, chars) : string;
+          }
+          function padStart(string, length, chars) {
+            string = toString(string);
+            length = toInteger(length);
+            var strLength = length ? stringSize(string) : 0;
+            return length && strLength < length ? createPadding(length - strLength, chars) + string : string;
+          }
+          function parseInt2(string, radix, guard) {
+            if (guard || radix == null) {
+              radix = 0;
+            } else if (radix) {
+              radix = +radix;
+            }
+            return nativeParseInt(toString(string).replace(reTrimStart, ""), radix || 0);
+          }
+          function repeat(string, n, guard) {
+            if (guard ? isIterateeCall(string, n, guard) : n === undefined2) {
+              n = 1;
+            } else {
+              n = toInteger(n);
+            }
+            return baseRepeat(toString(string), n);
+          }
+          function replace() {
+            var args = arguments, string = toString(args[0]);
+            return args.length < 3 ? string : string.replace(args[1], args[2]);
+          }
+          var snakeCase = createCompounder(function(result2, word, index) {
+            return result2 + (index ? "_" : "") + word.toLowerCase();
+          });
+          function split(string, separator, limit) {
+            if (limit && typeof limit != "number" && isIterateeCall(string, separator, limit)) {
+              separator = limit = undefined2;
+            }
+            limit = limit === undefined2 ? MAX_ARRAY_LENGTH : limit >>> 0;
+            if (!limit) {
+              return [];
+            }
+            string = toString(string);
+            if (string && (typeof separator == "string" || separator != null && !isRegExp(separator))) {
+              separator = baseToString(separator);
+              if (!separator && hasUnicode(string)) {
+                return castSlice(stringToArray(string), 0, limit);
+              }
+            }
+            return string.split(separator, limit);
+          }
+          var startCase = createCompounder(function(result2, word, index) {
+            return result2 + (index ? " " : "") + upperFirst(word);
+          });
+          function startsWith(string, target, position) {
+            string = toString(string);
+            position = position == null ? 0 : baseClamp(toInteger(position), 0, string.length);
+            target = baseToString(target);
+            return string.slice(position, position + target.length) == target;
+          }
+          function template(string, options, guard) {
+            var settings = lodash.templateSettings;
+            if (guard && isIterateeCall(string, options, guard)) {
+              options = undefined2;
+            }
+            string = toString(string);
+            options = assignWith({}, options, settings, customDefaultsAssignIn);
+            var imports = assignWith({}, options.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys);
+            arrayEach(importsKeys, function(key) {
+              if (reForbiddenIdentifierChars.test(key)) {
+                throw new Error2(INVALID_TEMPL_IMPORTS_ERROR_TEXT);
+              }
+            });
+            var isEscaping, isEvaluating, index = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '";
+            var reDelimiters = RegExp2(
+              (options.escape || reNoMatch).source + "|" + interpolate.source + "|" + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + "|" + (options.evaluate || reNoMatch).source + "|$",
+              "g"
+            );
+            var sourceURL = "//# sourceURL=" + (hasOwnProperty.call(options, "sourceURL") ? (options.sourceURL + "").replace(/\s/g, " ") : "lodash.templateSources[" + ++templateCounter + "]") + "\n";
+            string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
+              interpolateValue || (interpolateValue = esTemplateValue);
+              source += string.slice(index, offset).replace(reUnescapedString, escapeStringChar);
+              if (escapeValue) {
+                isEscaping = true;
+                source += "' +\n__e(" + escapeValue + ") +\n'";
+              }
+              if (evaluateValue) {
+                isEvaluating = true;
+                source += "';\n" + evaluateValue + ";\n__p += '";
+              }
+              if (interpolateValue) {
+                source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'";
+              }
+              index = offset + match.length;
+              return match;
+            });
+            source += "';\n";
+            var variable = hasOwnProperty.call(options, "variable") && options.variable;
+            if (!variable) {
+              source = "with (obj) {\n" + source + "\n}\n";
+            } else if (reForbiddenIdentifierChars.test(variable)) {
+              throw new Error2(INVALID_TEMPL_VAR_ERROR_TEXT);
+            }
+            source = (isEvaluating ? source.replace(reEmptyStringLeading, "") : source).replace(reEmptyStringMiddle, "$1").replace(reEmptyStringTrailing, "$1;");
+            source = "function(" + (variable || "obj") + ") {\n" + (variable ? "" : "obj || (obj = {});\n") + "var __t, __p = ''" + (isEscaping ? ", __e = _.escape" : "") + (isEvaluating ? ", __j = Array.prototype.join;\nfunction print() { __p += __j.call(arguments, '') }\n" : ";\n") + source + "return __p\n}";
+            var result2 = attempt(function() {
+              return Function2(importsKeys, sourceURL + "return " + source).apply(undefined2, importsValues);
+            });
+            result2.source = source;
+            if (isError(result2)) {
+              throw result2;
+            }
+            return result2;
+          }
+          function toLower(value) {
+            return toString(value).toLowerCase();
+          }
+          function toUpper(value) {
+            return toString(value).toUpperCase();
+          }
+          function trim(string, chars, guard) {
+            string = toString(string);
+            if (string && (guard || chars === undefined2)) {
+              return baseTrim(string);
+            }
+            if (!string || !(chars = baseToString(chars))) {
+              return string;
+            }
+            var strSymbols = stringToArray(string), chrSymbols = stringToArray(chars), start = charsStartIndex(strSymbols, chrSymbols), end = charsEndIndex(strSymbols, chrSymbols) + 1;
+            return castSlice(strSymbols, start, end).join("");
+          }
+          function trimEnd(string, chars, guard) {
+            string = toString(string);
+            if (string && (guard || chars === undefined2)) {
+              return string.slice(0, trimmedEndIndex(string) + 1);
+            }
+            if (!string || !(chars = baseToString(chars))) {
+              return string;
+            }
+            var strSymbols = stringToArray(string), end = charsEndIndex(strSymbols, stringToArray(chars)) + 1;
+            return castSlice(strSymbols, 0, end).join("");
+          }
+          function trimStart(string, chars, guard) {
+            string = toString(string);
+            if (string && (guard || chars === undefined2)) {
+              return string.replace(reTrimStart, "");
+            }
+            if (!string || !(chars = baseToString(chars))) {
+              return string;
+            }
+            var strSymbols = stringToArray(string), start = charsStartIndex(strSymbols, stringToArray(chars));
+            return castSlice(strSymbols, start).join("");
+          }
+          function truncate(string, options) {
+            var length = DEFAULT_TRUNC_LENGTH, omission = DEFAULT_TRUNC_OMISSION;
+            if (isObject(options)) {
+              var separator = "separator" in options ? options.separator : separator;
+              length = "length" in options ? toInteger(options.length) : length;
+              omission = "omission" in options ? baseToString(options.omission) : omission;
+            }
+            string = toString(string);
+            var strLength = string.length;
+            if (hasUnicode(string)) {
+              var strSymbols = stringToArray(string);
+              strLength = strSymbols.length;
+            }
+            if (length >= strLength) {
+              return string;
+            }
+            var end = length - stringSize(omission);
+            if (end < 1) {
+              return omission;
+            }
+            var result2 = strSymbols ? castSlice(strSymbols, 0, end).join("") : string.slice(0, end);
+            if (separator === undefined2) {
+              return result2 + omission;
+            }
+            if (strSymbols) {
+              end += result2.length - end;
+            }
+            if (isRegExp(separator)) {
+              if (string.slice(end).search(separator)) {
+                var match, substring = result2;
+                if (!separator.global) {
+                  separator = RegExp2(separator.source, toString(reFlags.exec(separator)) + "g");
+                }
+                separator.lastIndex = 0;
+                while (match = separator.exec(substring)) {
+                  var newEnd = match.index;
+                }
+                result2 = result2.slice(0, newEnd === undefined2 ? end : newEnd);
+              }
+            } else if (string.indexOf(baseToString(separator), end) != end) {
+              var index = result2.lastIndexOf(separator);
+              if (index > -1) {
+                result2 = result2.slice(0, index);
+              }
+            }
+            return result2 + omission;
+          }
+          function unescape(string) {
+            string = toString(string);
+            return string && reHasEscapedHtml.test(string) ? string.replace(reEscapedHtml, unescapeHtmlChar) : string;
+          }
+          var upperCase = createCompounder(function(result2, word, index) {
+            return result2 + (index ? " " : "") + word.toUpperCase();
+          });
+          var upperFirst = createCaseFirst("toUpperCase");
+          function words(string, pattern, guard) {
+            string = toString(string);
+            pattern = guard ? undefined2 : pattern;
+            if (pattern === undefined2) {
+              return hasUnicodeWord(string) ? unicodeWords(string) : asciiWords(string);
+            }
+            return string.match(pattern) || [];
+          }
+          var attempt = baseRest(function(func, args) {
+            try {
+              return apply(func, undefined2, args);
+            } catch (e) {
+              return isError(e) ? e : new Error2(e);
+            }
+          });
+          var bindAll = flatRest(function(object, methodNames) {
+            arrayEach(methodNames, function(key) {
+              key = toKey(key);
+              baseAssignValue(object, key, bind(object[key], object));
+            });
+            return object;
+          });
+          function cond(pairs) {
+            var length = pairs == null ? 0 : pairs.length, toIteratee = getIteratee();
+            pairs = !length ? [] : arrayMap(pairs, function(pair) {
+              if (typeof pair[1] != "function") {
+                throw new TypeError2(FUNC_ERROR_TEXT);
+              }
+              return [toIteratee(pair[0]), pair[1]];
+            });
+            return baseRest(function(args) {
+              var index = -1;
+              while (++index < length) {
+                var pair = pairs[index];
+                if (apply(pair[0], this, args)) {
+                  return apply(pair[1], this, args);
+                }
+              }
+            });
+          }
+          function conforms(source) {
+            return baseConforms(baseClone(source, CLONE_DEEP_FLAG));
+          }
+          function constant(value) {
+            return function() {
+              return value;
+            };
+          }
+          function defaultTo(value, defaultValue) {
+            return value == null || value !== value ? defaultValue : value;
+          }
+          var flow = createFlow();
+          var flowRight = createFlow(true);
+          function identity(value) {
+            return value;
+          }
+          function iteratee(func) {
+            return baseIteratee(typeof func == "function" ? func : baseClone(func, CLONE_DEEP_FLAG));
+          }
+          function matches(source) {
+            return baseMatches(baseClone(source, CLONE_DEEP_FLAG));
+          }
+          function matchesProperty(path, srcValue) {
+            return baseMatchesProperty(path, baseClone(srcValue, CLONE_DEEP_FLAG));
+          }
+          var method = baseRest(function(path, args) {
+            return function(object) {
+              return baseInvoke(object, path, args);
+            };
+          });
+          var methodOf = baseRest(function(object, args) {
+            return function(path) {
+              return baseInvoke(object, path, args);
+            };
+          });
+          function mixin(object, source, options) {
+            var props = keys(source), methodNames = baseFunctions(source, props);
+            if (options == null && !(isObject(source) && (methodNames.length || !props.length))) {
+              options = source;
+              source = object;
+              object = this;
+              methodNames = baseFunctions(source, keys(source));
+            }
+            var chain2 = !(isObject(options) && "chain" in options) || !!options.chain, isFunc = isFunction(object);
+            arrayEach(methodNames, function(methodName) {
+              var func = source[methodName];
+              object[methodName] = func;
+              if (isFunc) {
+                object.prototype[methodName] = function() {
+                  var chainAll = this.__chain__;
+                  if (chain2 || chainAll) {
+                    var result2 = object(this.__wrapped__), actions = result2.__actions__ = copyArray2(this.__actions__);
+                    actions.push({ "func": func, "args": arguments, "thisArg": object });
+                    result2.__chain__ = chainAll;
+                    return result2;
+                  }
+                  return func.apply(object, arrayPush([this.value()], arguments));
+                };
+              }
+            });
+            return object;
+          }
+          function noConflict() {
+            if (root._ === this) {
+              root._ = oldDash;
+            }
+            return this;
+          }
+          function noop() {
+          }
+          function nthArg(n) {
+            n = toInteger(n);
+            return baseRest(function(args) {
+              return baseNth(args, n);
+            });
+          }
+          var over = createOver(arrayMap);
+          var overEvery = createOver(arrayEvery);
+          var overSome = createOver(arraySome);
+          function property(path) {
+            return isKey(path) ? baseProperty(toKey(path)) : basePropertyDeep(path);
+          }
+          function propertyOf(object) {
+            return function(path) {
+              return object == null ? undefined2 : baseGet(object, path);
+            };
+          }
+          var range = createRange();
+          var rangeRight = createRange(true);
+          function stubArray() {
+            return [];
+          }
+          function stubFalse() {
+            return false;
+          }
+          function stubObject() {
+            return {};
+          }
+          function stubString() {
+            return "";
+          }
+          function stubTrue() {
+            return true;
+          }
+          function times(n, iteratee2) {
+            n = toInteger(n);
+            if (n < 1 || n > MAX_SAFE_INTEGER) {
+              return [];
+            }
+            var index = MAX_ARRAY_LENGTH, length = nativeMin(n, MAX_ARRAY_LENGTH);
+            iteratee2 = getIteratee(iteratee2);
+            n -= MAX_ARRAY_LENGTH;
+            var result2 = baseTimes(length, iteratee2);
+            while (++index < n) {
+              iteratee2(index);
+            }
+            return result2;
+          }
+          function toPath(value) {
+            if (isArray(value)) {
+              return arrayMap(value, toKey);
+            }
+            return isSymbol(value) ? [value] : copyArray2(stringToPath(toString(value)));
+          }
+          function uniqueId(prefix) {
+            var id = ++idCounter;
+            return toString(prefix) + id;
+          }
+          var add = createMathOperation(function(augend, addend) {
+            return augend + addend;
+          }, 0);
+          var ceil = createRound("ceil");
+          var divide = createMathOperation(function(dividend, divisor) {
+            return dividend / divisor;
+          }, 1);
+          var floor = createRound("floor");
+          function max(array) {
+            return array && array.length ? baseExtremum(array, identity, baseGt) : undefined2;
+          }
+          function maxBy(array, iteratee2) {
+            return array && array.length ? baseExtremum(array, getIteratee(iteratee2, 2), baseGt) : undefined2;
+          }
+          function mean(array) {
+            return baseMean(array, identity);
+          }
+          function meanBy(array, iteratee2) {
+            return baseMean(array, getIteratee(iteratee2, 2));
+          }
+          function min(array) {
+            return array && array.length ? baseExtremum(array, identity, baseLt) : undefined2;
+          }
+          function minBy(array, iteratee2) {
+            return array && array.length ? baseExtremum(array, getIteratee(iteratee2, 2), baseLt) : undefined2;
+          }
+          var multiply = createMathOperation(function(multiplier, multiplicand) {
+            return multiplier * multiplicand;
+          }, 1);
+          var round = createRound("round");
+          var subtract = createMathOperation(function(minuend, subtrahend) {
+            return minuend - subtrahend;
+          }, 0);
+          function sum(array) {
+            return array && array.length ? baseSum(array, identity) : 0;
+          }
+          function sumBy(array, iteratee2) {
+            return array && array.length ? baseSum(array, getIteratee(iteratee2, 2)) : 0;
+          }
+          lodash.after = after;
+          lodash.ary = ary;
+          lodash.assign = assign;
+          lodash.assignIn = assignIn;
+          lodash.assignInWith = assignInWith;
+          lodash.assignWith = assignWith;
+          lodash.at = at;
+          lodash.before = before;
+          lodash.bind = bind;
+          lodash.bindAll = bindAll;
+          lodash.bindKey = bindKey;
+          lodash.castArray = castArray;
+          lodash.chain = chain;
+          lodash.chunk = chunk;
+          lodash.compact = compact;
+          lodash.concat = concat;
+          lodash.cond = cond;
+          lodash.conforms = conforms;
+          lodash.constant = constant;
+          lodash.countBy = countBy;
+          lodash.create = create;
+          lodash.curry = curry;
+          lodash.curryRight = curryRight;
+          lodash.debounce = debounce;
+          lodash.defaults = defaults;
+          lodash.defaultsDeep = defaultsDeep;
+          lodash.defer = defer;
+          lodash.delay = delay;
+          lodash.difference = difference;
+          lodash.differenceBy = differenceBy;
+          lodash.differenceWith = differenceWith;
+          lodash.drop = drop;
+          lodash.dropRight = dropRight;
+          lodash.dropRightWhile = dropRightWhile;
+          lodash.dropWhile = dropWhile;
+          lodash.fill = fill;
+          lodash.filter = filter;
+          lodash.flatMap = flatMap;
+          lodash.flatMapDeep = flatMapDeep;
+          lodash.flatMapDepth = flatMapDepth;
+          lodash.flatten = flatten2;
+          lodash.flattenDeep = flattenDeep;
+          lodash.flattenDepth = flattenDepth;
+          lodash.flip = flip;
+          lodash.flow = flow;
+          lodash.flowRight = flowRight;
+          lodash.fromPairs = fromPairs;
+          lodash.functions = functions;
+          lodash.functionsIn = functionsIn;
+          lodash.groupBy = groupBy;
+          lodash.initial = initial;
+          lodash.intersection = intersection;
+          lodash.intersectionBy = intersectionBy;
+          lodash.intersectionWith = intersectionWith;
+          lodash.invert = invert;
+          lodash.invertBy = invertBy;
+          lodash.invokeMap = invokeMap;
+          lodash.iteratee = iteratee;
+          lodash.keyBy = keyBy;
+          lodash.keys = keys;
+          lodash.keysIn = keysIn;
+          lodash.map = map;
+          lodash.mapKeys = mapKeys;
+          lodash.mapValues = mapValues;
+          lodash.matches = matches;
+          lodash.matchesProperty = matchesProperty;
+          lodash.memoize = memoize;
+          lodash.merge = merge;
+          lodash.mergeWith = mergeWith;
+          lodash.method = method;
+          lodash.methodOf = methodOf;
+          lodash.mixin = mixin;
+          lodash.negate = negate;
+          lodash.nthArg = nthArg;
+          lodash.omit = omit;
+          lodash.omitBy = omitBy;
+          lodash.once = once;
+          lodash.orderBy = orderBy;
+          lodash.over = over;
+          lodash.overArgs = overArgs;
+          lodash.overEvery = overEvery;
+          lodash.overSome = overSome;
+          lodash.partial = partial;
+          lodash.partialRight = partialRight;
+          lodash.partition = partition;
+          lodash.pick = pick;
+          lodash.pickBy = pickBy;
+          lodash.property = property;
+          lodash.propertyOf = propertyOf;
+          lodash.pull = pull;
+          lodash.pullAll = pullAll;
+          lodash.pullAllBy = pullAllBy;
+          lodash.pullAllWith = pullAllWith;
+          lodash.pullAt = pullAt;
+          lodash.range = range;
+          lodash.rangeRight = rangeRight;
+          lodash.rearg = rearg;
+          lodash.reject = reject;
+          lodash.remove = remove;
+          lodash.rest = rest;
+          lodash.reverse = reverse;
+          lodash.sampleSize = sampleSize;
+          lodash.set = set;
+          lodash.setWith = setWith;
+          lodash.shuffle = shuffle;
+          lodash.slice = slice;
+          lodash.sortBy = sortBy;
+          lodash.sortedUniq = sortedUniq;
+          lodash.sortedUniqBy = sortedUniqBy;
+          lodash.split = split;
+          lodash.spread = spread;
+          lodash.tail = tail;
+          lodash.take = take;
+          lodash.takeRight = takeRight;
+          lodash.takeRightWhile = takeRightWhile;
+          lodash.takeWhile = takeWhile;
+          lodash.tap = tap;
+          lodash.throttle = throttle;
+          lodash.thru = thru;
+          lodash.toArray = toArray;
+          lodash.toPairs = toPairs;
+          lodash.toPairsIn = toPairsIn;
+          lodash.toPath = toPath;
+          lodash.toPlainObject = toPlainObject;
+          lodash.transform = transform;
+          lodash.unary = unary;
+          lodash.union = union;
+          lodash.unionBy = unionBy;
+          lodash.unionWith = unionWith;
+          lodash.uniq = uniq;
+          lodash.uniqBy = uniqBy;
+          lodash.uniqWith = uniqWith;
+          lodash.unset = unset;
+          lodash.unzip = unzip;
+          lodash.unzipWith = unzipWith;
+          lodash.update = update2;
+          lodash.updateWith = updateWith;
+          lodash.values = values;
+          lodash.valuesIn = valuesIn;
+          lodash.without = without;
+          lodash.words = words;
+          lodash.wrap = wrap;
+          lodash.xor = xor;
+          lodash.xorBy = xorBy;
+          lodash.xorWith = xorWith;
+          lodash.zip = zip;
+          lodash.zipObject = zipObject;
+          lodash.zipObjectDeep = zipObjectDeep;
+          lodash.zipWith = zipWith;
+          lodash.entries = toPairs;
+          lodash.entriesIn = toPairsIn;
+          lodash.extend = assignIn;
+          lodash.extendWith = assignInWith;
+          mixin(lodash, lodash);
+          lodash.add = add;
+          lodash.attempt = attempt;
+          lodash.camelCase = camelCase;
+          lodash.capitalize = capitalize;
+          lodash.ceil = ceil;
+          lodash.clamp = clamp2;
+          lodash.clone = clone2;
+          lodash.cloneDeep = cloneDeep;
+          lodash.cloneDeepWith = cloneDeepWith;
+          lodash.cloneWith = cloneWith;
+          lodash.conformsTo = conformsTo;
+          lodash.deburr = deburr;
+          lodash.defaultTo = defaultTo;
+          lodash.divide = divide;
+          lodash.endsWith = endsWith;
+          lodash.eq = eq;
+          lodash.escape = escape;
+          lodash.escapeRegExp = escapeRegExp;
+          lodash.every = every;
+          lodash.find = find;
+          lodash.findIndex = findIndex;
+          lodash.findKey = findKey;
+          lodash.findLast = findLast;
+          lodash.findLastIndex = findLastIndex;
+          lodash.findLastKey = findLastKey;
+          lodash.floor = floor;
+          lodash.forEach = forEach;
+          lodash.forEachRight = forEachRight;
+          lodash.forIn = forIn;
+          lodash.forInRight = forInRight;
+          lodash.forOwn = forOwn;
+          lodash.forOwnRight = forOwnRight;
+          lodash.get = get;
+          lodash.gt = gt;
+          lodash.gte = gte;
+          lodash.has = has;
+          lodash.hasIn = hasIn;
+          lodash.head = head;
+          lodash.identity = identity;
+          lodash.includes = includes;
+          lodash.indexOf = indexOf;
+          lodash.inRange = inRange;
+          lodash.invoke = invoke;
+          lodash.isArguments = isArguments;
+          lodash.isArray = isArray;
+          lodash.isArrayBuffer = isArrayBuffer;
+          lodash.isArrayLike = isArrayLike;
+          lodash.isArrayLikeObject = isArrayLikeObject;
+          lodash.isBoolean = isBoolean;
+          lodash.isBuffer = isBuffer;
+          lodash.isDate = isDate;
+          lodash.isElement = isElement;
+          lodash.isEmpty = isEmpty;
+          lodash.isEqual = isEqual;
+          lodash.isEqualWith = isEqualWith;
+          lodash.isError = isError;
+          lodash.isFinite = isFinite2;
+          lodash.isFunction = isFunction;
+          lodash.isInteger = isInteger;
+          lodash.isLength = isLength;
+          lodash.isMap = isMap;
+          lodash.isMatch = isMatch;
+          lodash.isMatchWith = isMatchWith;
+          lodash.isNaN = isNaN2;
+          lodash.isNative = isNative;
+          lodash.isNil = isNil;
+          lodash.isNull = isNull;
+          lodash.isNumber = isNumber;
+          lodash.isObject = isObject;
+          lodash.isObjectLike = isObjectLike;
+          lodash.isPlainObject = isPlainObject;
+          lodash.isRegExp = isRegExp;
+          lodash.isSafeInteger = isSafeInteger;
+          lodash.isSet = isSet;
+          lodash.isString = isString;
+          lodash.isSymbol = isSymbol;
+          lodash.isTypedArray = isTypedArray2;
+          lodash.isUndefined = isUndefined;
+          lodash.isWeakMap = isWeakMap;
+          lodash.isWeakSet = isWeakSet;
+          lodash.join = join;
+          lodash.kebabCase = kebabCase;
+          lodash.last = last;
+          lodash.lastIndexOf = lastIndexOf;
+          lodash.lowerCase = lowerCase;
+          lodash.lowerFirst = lowerFirst;
+          lodash.lt = lt;
+          lodash.lte = lte;
+          lodash.max = max;
+          lodash.maxBy = maxBy;
+          lodash.mean = mean;
+          lodash.meanBy = meanBy;
+          lodash.min = min;
+          lodash.minBy = minBy;
+          lodash.stubArray = stubArray;
+          lodash.stubFalse = stubFalse;
+          lodash.stubObject = stubObject;
+          lodash.stubString = stubString;
+          lodash.stubTrue = stubTrue;
+          lodash.multiply = multiply;
+          lodash.nth = nth;
+          lodash.noConflict = noConflict;
+          lodash.noop = noop;
+          lodash.now = now;
+          lodash.pad = pad;
+          lodash.padEnd = padEnd;
+          lodash.padStart = padStart;
+          lodash.parseInt = parseInt2;
+          lodash.random = random;
+          lodash.reduce = reduce;
+          lodash.reduceRight = reduceRight;
+          lodash.repeat = repeat;
+          lodash.replace = replace;
+          lodash.result = result;
+          lodash.round = round;
+          lodash.runInContext = runInContext2;
+          lodash.sample = sample;
+          lodash.size = size;
+          lodash.snakeCase = snakeCase;
+          lodash.some = some;
+          lodash.sortedIndex = sortedIndex;
+          lodash.sortedIndexBy = sortedIndexBy;
+          lodash.sortedIndexOf = sortedIndexOf;
+          lodash.sortedLastIndex = sortedLastIndex;
+          lodash.sortedLastIndexBy = sortedLastIndexBy;
+          lodash.sortedLastIndexOf = sortedLastIndexOf;
+          lodash.startCase = startCase;
+          lodash.startsWith = startsWith;
+          lodash.subtract = subtract;
+          lodash.sum = sum;
+          lodash.sumBy = sumBy;
+          lodash.template = template;
+          lodash.times = times;
+          lodash.toFinite = toFinite;
+          lodash.toInteger = toInteger;
+          lodash.toLength = toLength;
+          lodash.toLower = toLower;
+          lodash.toNumber = toNumber;
+          lodash.toSafeInteger = toSafeInteger;
+          lodash.toString = toString;
+          lodash.toUpper = toUpper;
+          lodash.trim = trim;
+          lodash.trimEnd = trimEnd;
+          lodash.trimStart = trimStart;
+          lodash.truncate = truncate;
+          lodash.unescape = unescape;
+          lodash.uniqueId = uniqueId;
+          lodash.upperCase = upperCase;
+          lodash.upperFirst = upperFirst;
+          lodash.each = forEach;
+          lodash.eachRight = forEachRight;
+          lodash.first = head;
+          mixin(lodash, (function() {
+            var source = {};
+            baseForOwn(lodash, function(func, methodName) {
+              if (!hasOwnProperty.call(lodash.prototype, methodName)) {
+                source[methodName] = func;
+              }
+            });
+            return source;
+          })(), { "chain": false });
+          lodash.VERSION = VERSION;
+          arrayEach(["bind", "bindKey", "curry", "curryRight", "partial", "partialRight"], function(methodName) {
+            lodash[methodName].placeholder = lodash;
+          });
+          arrayEach(["drop", "take"], function(methodName, index) {
+            LazyWrapper.prototype[methodName] = function(n) {
+              n = n === undefined2 ? 1 : nativeMax(toInteger(n), 0);
+              var result2 = this.__filtered__ && !index ? new LazyWrapper(this) : this.clone();
+              if (result2.__filtered__) {
+                result2.__takeCount__ = nativeMin(n, result2.__takeCount__);
+              } else {
+                result2.__views__.push({
+                  "size": nativeMin(n, MAX_ARRAY_LENGTH),
+                  "type": methodName + (result2.__dir__ < 0 ? "Right" : "")
+                });
+              }
+              return result2;
+            };
+            LazyWrapper.prototype[methodName + "Right"] = function(n) {
+              return this.reverse()[methodName](n).reverse();
+            };
+          });
+          arrayEach(["filter", "map", "takeWhile"], function(methodName, index) {
+            var type = index + 1, isFilter = type == LAZY_FILTER_FLAG || type == LAZY_WHILE_FLAG;
+            LazyWrapper.prototype[methodName] = function(iteratee2) {
+              var result2 = this.clone();
+              result2.__iteratees__.push({
+                "iteratee": getIteratee(iteratee2, 3),
+                "type": type
+              });
+              result2.__filtered__ = result2.__filtered__ || isFilter;
+              return result2;
+            };
+          });
+          arrayEach(["head", "last"], function(methodName, index) {
+            var takeName = "take" + (index ? "Right" : "");
+            LazyWrapper.prototype[methodName] = function() {
+              return this[takeName](1).value()[0];
+            };
+          });
+          arrayEach(["initial", "tail"], function(methodName, index) {
+            var dropName = "drop" + (index ? "" : "Right");
+            LazyWrapper.prototype[methodName] = function() {
+              return this.__filtered__ ? new LazyWrapper(this) : this[dropName](1);
+            };
+          });
+          LazyWrapper.prototype.compact = function() {
+            return this.filter(identity);
+          };
+          LazyWrapper.prototype.find = function(predicate) {
+            return this.filter(predicate).head();
+          };
+          LazyWrapper.prototype.findLast = function(predicate) {
+            return this.reverse().find(predicate);
+          };
+          LazyWrapper.prototype.invokeMap = baseRest(function(path, args) {
+            if (typeof path == "function") {
+              return new LazyWrapper(this);
+            }
+            return this.map(function(value) {
+              return baseInvoke(value, path, args);
+            });
+          });
+          LazyWrapper.prototype.reject = function(predicate) {
+            return this.filter(negate(getIteratee(predicate)));
+          };
+          LazyWrapper.prototype.slice = function(start, end) {
+            start = toInteger(start);
+            var result2 = this;
+            if (result2.__filtered__ && (start > 0 || end < 0)) {
+              return new LazyWrapper(result2);
+            }
+            if (start < 0) {
+              result2 = result2.takeRight(-start);
+            } else if (start) {
+              result2 = result2.drop(start);
+            }
+            if (end !== undefined2) {
+              end = toInteger(end);
+              result2 = end < 0 ? result2.dropRight(-end) : result2.take(end - start);
+            }
+            return result2;
+          };
+          LazyWrapper.prototype.takeRightWhile = function(predicate) {
+            return this.reverse().takeWhile(predicate).reverse();
+          };
+          LazyWrapper.prototype.toArray = function() {
+            return this.take(MAX_ARRAY_LENGTH);
+          };
+          baseForOwn(LazyWrapper.prototype, function(func, methodName) {
+            var checkIteratee = /^(?:filter|find|map|reject)|While$/.test(methodName), isTaker = /^(?:head|last)$/.test(methodName), lodashFunc = lodash[isTaker ? "take" + (methodName == "last" ? "Right" : "") : methodName], retUnwrapped = isTaker || /^find/.test(methodName);
+            if (!lodashFunc) {
+              return;
+            }
+            lodash.prototype[methodName] = function() {
+              var value = this.__wrapped__, args = isTaker ? [1] : arguments, isLazy = value instanceof LazyWrapper, iteratee2 = args[0], useLazy = isLazy || isArray(value);
+              var interceptor = function(value2) {
+                var result3 = lodashFunc.apply(lodash, arrayPush([value2], args));
+                return isTaker && chainAll ? result3[0] : result3;
+              };
+              if (useLazy && checkIteratee && typeof iteratee2 == "function" && iteratee2.length != 1) {
+                isLazy = useLazy = false;
+              }
+              var chainAll = this.__chain__, isHybrid = !!this.__actions__.length, isUnwrapped = retUnwrapped && !chainAll, onlyLazy = isLazy && !isHybrid;
+              if (!retUnwrapped && useLazy) {
+                value = onlyLazy ? value : new LazyWrapper(this);
+                var result2 = func.apply(value, args);
+                result2.__actions__.push({ "func": thru, "args": [interceptor], "thisArg": undefined2 });
+                return new LodashWrapper(result2, chainAll);
+              }
+              if (isUnwrapped && onlyLazy) {
+                return func.apply(this, args);
+              }
+              result2 = this.thru(interceptor);
+              return isUnwrapped ? isTaker ? result2.value()[0] : result2.value() : result2;
+            };
+          });
+          arrayEach(["pop", "push", "shift", "sort", "splice", "unshift"], function(methodName) {
+            var func = arrayProto[methodName], chainName = /^(?:push|sort|unshift)$/.test(methodName) ? "tap" : "thru", retUnwrapped = /^(?:pop|shift)$/.test(methodName);
+            lodash.prototype[methodName] = function() {
+              var args = arguments;
+              if (retUnwrapped && !this.__chain__) {
+                var value = this.value();
+                return func.apply(isArray(value) ? value : [], args);
+              }
+              return this[chainName](function(value2) {
+                return func.apply(isArray(value2) ? value2 : [], args);
+              });
+            };
+          });
+          baseForOwn(LazyWrapper.prototype, function(func, methodName) {
+            var lodashFunc = lodash[methodName];
+            if (lodashFunc) {
+              var key = lodashFunc.name + "";
+              if (!hasOwnProperty.call(realNames, key)) {
+                realNames[key] = [];
+              }
+              realNames[key].push({ "name": methodName, "func": lodashFunc });
+            }
+          });
+          realNames[createHybrid(undefined2, WRAP_BIND_KEY_FLAG).name] = [{
+            "name": "wrapper",
+            "func": undefined2
+          }];
+          LazyWrapper.prototype.clone = lazyClone;
+          LazyWrapper.prototype.reverse = lazyReverse;
+          LazyWrapper.prototype.value = lazyValue;
+          lodash.prototype.at = wrapperAt;
+          lodash.prototype.chain = wrapperChain;
+          lodash.prototype.commit = wrapperCommit;
+          lodash.prototype.next = wrapperNext;
+          lodash.prototype.plant = wrapperPlant;
+          lodash.prototype.reverse = wrapperReverse;
+          lodash.prototype.toJSON = lodash.prototype.valueOf = lodash.prototype.value = wrapperValue;
+          lodash.prototype.first = lodash.prototype.head;
+          if (symIterator) {
+            lodash.prototype[symIterator] = wrapperToIterator;
+          }
+          return lodash;
+        });
+        var _2 = runInContext();
+        if (typeof define == "function" && typeof define.amd == "object" && define.amd) {
+          root._ = _2;
+          define(function() {
+            return _2;
+          });
+        } else if (freeModule) {
+          (freeModule.exports = _2)._ = _2;
+          freeExports._ = _2;
+        } else {
+          root._ = _2;
+        }
+      }).call(exports);
+    }
+  });
+
   // node_modules/three/build/three.core.js
   var REVISION = "184";
   var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
@@ -57,6 +5581,8 @@
   var CustomToneMapping = 5;
   var AgXToneMapping = 6;
   var NeutralToneMapping = 7;
+  var AttachedBindMode = "attached";
+  var DetachedBindMode = "detached";
   var UVMapping = 300;
   var CubeReflectionMapping = 301;
   var CubeRefractionMapping = 302;
@@ -138,6 +5664,10 @@
   var ZeroCurvatureEnding = 2400;
   var ZeroSlopeEnding = 2401;
   var WrapAroundEnding = 2402;
+  var NormalAnimationBlendMode = 2500;
+  var TrianglesDrawMode = 0;
+  var TriangleStripDrawMode = 1;
+  var TriangleFanDrawMode = 2;
   var BasicDepthPacking = 3200;
   var TangentSpaceNormalMap = 0;
   var ObjectSpaceNormalMap = 1;
@@ -1528,7 +7058,7 @@
      * @param {boolean} [update=true] - Whether the internal `onChange` callback should be executed or not.
      * @return {Quaternion} A reference to this quaternion.
      */
-    setFromEuler(euler, update = true) {
+    setFromEuler(euler, update2 = true) {
       const x = euler._x, y = euler._y, z = euler._z, order = euler._order;
       const cos = Math.cos;
       const sin = Math.sin;
@@ -1578,7 +7108,7 @@
         default:
           warn("Quaternion: .setFromEuler() encountered an unknown order: " + order);
       }
-      if (update === true) this._onChangeCallback();
+      if (update2 === true) this._onChangeCallback();
       return this;
     }
     /**
@@ -6219,7 +11749,7 @@
      * @param {boolean} [update=true] - Whether the internal `onChange` callback should be executed or not.
      * @return {Euler} A reference to this Euler instance.
      */
-    setFromRotationMatrix(m, order = this._order, update = true) {
+    setFromRotationMatrix(m, order = this._order, update2 = true) {
       const te = m.elements;
       const m11 = te[0], m12 = te[4], m13 = te[8];
       const m21 = te[1], m22 = te[5], m23 = te[9];
@@ -6289,7 +11819,7 @@
           warn("Euler: .setFromRotationMatrix() encountered an unknown order: " + order);
       }
       this._order = order;
-      if (update === true) this._onChangeCallback();
+      if (update2 === true) this._onChangeCallback();
       return this;
     }
     /**
@@ -6300,9 +11830,9 @@
      * @param {boolean} [update=true] - Whether the internal `onChange` callback should be executed or not.
      * @return {Euler} A reference to this Euler instance.
      */
-    setFromQuaternion(q, order, update) {
+    setFromQuaternion(q, order, update2) {
       _matrix$2.makeRotationFromQuaternion(q);
-      return this.setFromRotationMatrix(_matrix$2, order, update);
+      return this.setFromRotationMatrix(_matrix$2, order, update2);
     }
     /**
      * Sets the angles of this Euler instance from the given vector.
@@ -8403,6 +13933,42 @@
   };
   var _color = /* @__PURE__ */ new Color();
   Color.NAMES = _colorKeywords;
+  var FogExp2 = class _FogExp2 {
+    /**
+     * Constructs a new fog.
+     *
+     * @param {number|Color} color - The fog's color.
+     * @param {number} [density=0.00025] - Defines how fast the fog will grow dense.
+     */
+    constructor(color, density = 25e-5) {
+      this.isFogExp2 = true;
+      this.name = "";
+      this.color = new Color(color);
+      this.density = density;
+    }
+    /**
+     * Returns a new fog with copied values from this instance.
+     *
+     * @return {FogExp2} A clone of this instance.
+     */
+    clone() {
+      return new _FogExp2(this.color, this.density);
+    }
+    /**
+     * Serializes the fog into JSON.
+     *
+     * @param {?(Object|string)} meta - An optional value holding meta information about the serialization.
+     * @return {Object} A JSON object representing the serialized fog
+     */
+    toJSON() {
+      return {
+        type: "FogExp2",
+        name: this.name,
+        color: this.color.getHex(),
+        density: this.density
+      };
+    }
+  };
   var Scene = class extends Object3D {
     /**
      * Constructs a new scene.
@@ -9026,9 +14592,9 @@
      */
     expandByObject(object, precise = false) {
       object.updateWorldMatrix(false, false);
-      const geometry2 = object.geometry;
-      if (geometry2 !== void 0) {
-        const positionAttribute = geometry2.getAttribute("position");
+      const geometry = object.geometry;
+      if (geometry !== void 0) {
+        const positionAttribute = geometry.getAttribute("position");
         if (precise === true && positionAttribute !== void 0 && object.isInstancedMesh !== true) {
           for (let i = 0, l = positionAttribute.count; i < l; i++) {
             if (object.isMesh === true) {
@@ -9046,10 +14612,10 @@
             }
             _box$4.copy(object.boundingBox);
           } else {
-            if (geometry2.boundingBox === null) {
-              geometry2.computeBoundingBox();
+            if (geometry.boundingBox === null) {
+              geometry.computeBoundingBox();
             }
-            _box$4.copy(geometry2.boundingBox);
+            _box$4.copy(geometry.boundingBox);
           }
           _box$4.applyMatrix4(object.matrixWorld);
           this.union(_box$4);
@@ -10857,6 +16423,505 @@
       this.dispatchEvent({ type: "dispose" });
     }
   };
+  var InterleavedBuffer = class {
+    /**
+     * Constructs a new interleaved buffer.
+     *
+     * @param {TypedArray} array - A typed array with a shared buffer storing attribute data.
+     * @param {number} stride - The number of typed-array elements per vertex.
+     */
+    constructor(array, stride) {
+      this.isInterleavedBuffer = true;
+      this.array = array;
+      this.stride = stride;
+      this.count = array !== void 0 ? array.length / stride : 0;
+      this.usage = StaticDrawUsage;
+      this.updateRanges = [];
+      this.version = 0;
+      this.uuid = generateUUID();
+    }
+    /**
+     * A callback function that is executed after the renderer has transferred the attribute array
+     * data to the GPU.
+     */
+    onUploadCallback() {
+    }
+    /**
+     * Flag to indicate that this attribute has changed and should be re-sent to
+     * the GPU. Set this to `true` when you modify the value of the array.
+     *
+     * @type {number}
+     * @default false
+     * @param {boolean} value
+     */
+    set needsUpdate(value) {
+      if (value === true) this.version++;
+    }
+    /**
+     * Sets the usage of this interleaved buffer.
+     *
+     * @param {(StaticDrawUsage|DynamicDrawUsage|StreamDrawUsage|StaticReadUsage|DynamicReadUsage|StreamReadUsage|StaticCopyUsage|DynamicCopyUsage|StreamCopyUsage)} value - The usage to set.
+     * @return {InterleavedBuffer} A reference to this interleaved buffer.
+     */
+    setUsage(value) {
+      this.usage = value;
+      return this;
+    }
+    /**
+     * Adds a range of data in the data array to be updated on the GPU.
+     *
+     * @param {number} start - Position at which to start update.
+     * @param {number} count - The number of components to update.
+     */
+    addUpdateRange(start, count) {
+      this.updateRanges.push({ start, count });
+    }
+    /**
+     * Clears the update ranges.
+     */
+    clearUpdateRanges() {
+      this.updateRanges.length = 0;
+    }
+    /**
+     * Copies the values of the given interleaved buffer to this instance.
+     *
+     * @param {InterleavedBuffer} source - The interleaved buffer to copy.
+     * @return {InterleavedBuffer} A reference to this instance.
+     */
+    copy(source) {
+      this.array = new source.array.constructor(source.array);
+      this.count = source.count;
+      this.stride = source.stride;
+      this.usage = source.usage;
+      return this;
+    }
+    /**
+     * Copies a vector from the given interleaved buffer to this one. The start
+     * and destination position in the attribute buffers are represented by the
+     * given indices.
+     *
+     * @param {number} index1 - The destination index into this interleaved buffer.
+     * @param {InterleavedBuffer} interleavedBuffer - The interleaved buffer to copy from.
+     * @param {number} index2 - The source index into the given interleaved buffer.
+     * @return {InterleavedBuffer} A reference to this instance.
+     */
+    copyAt(index1, interleavedBuffer, index2) {
+      index1 *= this.stride;
+      index2 *= interleavedBuffer.stride;
+      for (let i = 0, l = this.stride; i < l; i++) {
+        this.array[index1 + i] = interleavedBuffer.array[index2 + i];
+      }
+      return this;
+    }
+    /**
+     * Sets the given array data in the interleaved buffer.
+     *
+     * @param {(TypedArray|Array)} value - The array data to set.
+     * @param {number} [offset=0] - The offset in this interleaved buffer's array.
+     * @return {InterleavedBuffer} A reference to this instance.
+     */
+    set(value, offset = 0) {
+      this.array.set(value, offset);
+      return this;
+    }
+    /**
+     * Returns a new interleaved buffer with copied values from this instance.
+     *
+     * @param {Object} [data] - An object with shared array buffers that allows to retain shared structures.
+     * @return {InterleavedBuffer} A clone of this instance.
+     */
+    clone(data) {
+      if (data.arrayBuffers === void 0) {
+        data.arrayBuffers = {};
+      }
+      if (this.array.buffer._uuid === void 0) {
+        this.array.buffer._uuid = generateUUID();
+      }
+      if (data.arrayBuffers[this.array.buffer._uuid] === void 0) {
+        data.arrayBuffers[this.array.buffer._uuid] = this.array.slice(0).buffer;
+      }
+      const array = new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]);
+      const ib = new this.constructor(array, this.stride);
+      ib.setUsage(this.usage);
+      return ib;
+    }
+    /**
+     * Sets the given callback function that is executed after the Renderer has transferred
+     * the array data to the GPU. Can be used to perform clean-up operations after
+     * the upload when data are not needed anymore on the CPU side.
+     *
+     * @param {Function} callback - The `onUpload()` callback.
+     * @return {InterleavedBuffer} A reference to this instance.
+     */
+    onUpload(callback) {
+      this.onUploadCallback = callback;
+      return this;
+    }
+    /**
+     * Serializes the interleaved buffer into JSON.
+     *
+     * @param {Object} [data] - An optional value holding meta information about the serialization.
+     * @return {Object} A JSON object representing the serialized interleaved buffer.
+     */
+    toJSON(data) {
+      if (data.arrayBuffers === void 0) {
+        data.arrayBuffers = {};
+      }
+      if (this.array.buffer._uuid === void 0) {
+        this.array.buffer._uuid = generateUUID();
+      }
+      if (data.arrayBuffers[this.array.buffer._uuid] === void 0) {
+        data.arrayBuffers[this.array.buffer._uuid] = Array.from(new Uint32Array(this.array.buffer));
+      }
+      return {
+        uuid: this.uuid,
+        buffer: this.array.buffer._uuid,
+        type: this.array.constructor.name,
+        stride: this.stride
+      };
+    }
+  };
+  var _vector$8 = /* @__PURE__ */ new Vector3();
+  var InterleavedBufferAttribute = class _InterleavedBufferAttribute {
+    /**
+     * Constructs a new interleaved buffer attribute.
+     *
+     * @param {InterleavedBuffer} interleavedBuffer - The buffer holding the interleaved data.
+     * @param {number} itemSize - The item size.
+     * @param {number} offset - The attribute offset into the buffer.
+     * @param {boolean} [normalized=false] - Whether the data are normalized or not.
+     */
+    constructor(interleavedBuffer, itemSize, offset, normalized = false) {
+      this.isInterleavedBufferAttribute = true;
+      this.name = "";
+      this.data = interleavedBuffer;
+      this.itemSize = itemSize;
+      this.offset = offset;
+      this.normalized = normalized;
+    }
+    /**
+     * The item count of this buffer attribute.
+     *
+     * @type {number}
+     * @readonly
+     */
+    get count() {
+      return this.data.count;
+    }
+    /**
+     * The array holding the interleaved buffer attribute data.
+     *
+     * @type {TypedArray}
+     */
+    get array() {
+      return this.data.array;
+    }
+    /**
+     * Flag to indicate that this attribute has changed and should be re-sent to
+     * the GPU. Set this to `true` when you modify the value of the array.
+     *
+     * @type {number}
+     * @default false
+     * @param {boolean} value
+     */
+    set needsUpdate(value) {
+      this.data.needsUpdate = value;
+    }
+    /**
+     * Applies the given 4x4 matrix to the given attribute. Only works with
+     * item size `3`.
+     *
+     * @param {Matrix4} m - The matrix to apply.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    applyMatrix4(m) {
+      for (let i = 0, l = this.data.count; i < l; i++) {
+        _vector$8.fromBufferAttribute(this, i);
+        _vector$8.applyMatrix4(m);
+        this.setXYZ(i, _vector$8.x, _vector$8.y, _vector$8.z);
+      }
+      return this;
+    }
+    /**
+     * Applies the given 3x3 normal matrix to the given attribute. Only works with
+     * item size `3`.
+     *
+     * @param {Matrix3} m - The normal matrix to apply.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    applyNormalMatrix(m) {
+      for (let i = 0, l = this.count; i < l; i++) {
+        _vector$8.fromBufferAttribute(this, i);
+        _vector$8.applyNormalMatrix(m);
+        this.setXYZ(i, _vector$8.x, _vector$8.y, _vector$8.z);
+      }
+      return this;
+    }
+    /**
+     * Applies the given 4x4 matrix to the given attribute. Only works with
+     * item size `3` and with direction vectors.
+     *
+     * @param {Matrix4} m - The matrix to apply.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    transformDirection(m) {
+      for (let i = 0, l = this.count; i < l; i++) {
+        _vector$8.fromBufferAttribute(this, i);
+        _vector$8.transformDirection(m);
+        this.setXYZ(i, _vector$8.x, _vector$8.y, _vector$8.z);
+      }
+      return this;
+    }
+    /**
+     * Returns the given component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} component - The component index.
+     * @return {number} The returned value.
+     */
+    getComponent(index, component) {
+      let value = this.array[index * this.data.stride + this.offset + component];
+      if (this.normalized) value = denormalize(value, this.array);
+      return value;
+    }
+    /**
+     * Sets the given value to the given component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} component - The component index.
+     * @param {number} value - The value to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setComponent(index, component, value) {
+      if (this.normalized) value = normalize(value, this.array);
+      this.data.array[index * this.data.stride + this.offset + component] = value;
+      return this;
+    }
+    /**
+     * Sets the x component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} x - The value to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setX(index, x) {
+      if (this.normalized) x = normalize(x, this.array);
+      this.data.array[index * this.data.stride + this.offset] = x;
+      return this;
+    }
+    /**
+     * Sets the y component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} y - The value to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setY(index, y) {
+      if (this.normalized) y = normalize(y, this.array);
+      this.data.array[index * this.data.stride + this.offset + 1] = y;
+      return this;
+    }
+    /**
+     * Sets the z component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} z - The value to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setZ(index, z) {
+      if (this.normalized) z = normalize(z, this.array);
+      this.data.array[index * this.data.stride + this.offset + 2] = z;
+      return this;
+    }
+    /**
+     * Sets the w component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} w - The value to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setW(index, w) {
+      if (this.normalized) w = normalize(w, this.array);
+      this.data.array[index * this.data.stride + this.offset + 3] = w;
+      return this;
+    }
+    /**
+     * Returns the x component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @return {number} The x component.
+     */
+    getX(index) {
+      let x = this.data.array[index * this.data.stride + this.offset];
+      if (this.normalized) x = denormalize(x, this.array);
+      return x;
+    }
+    /**
+     * Returns the y component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @return {number} The y component.
+     */
+    getY(index) {
+      let y = this.data.array[index * this.data.stride + this.offset + 1];
+      if (this.normalized) y = denormalize(y, this.array);
+      return y;
+    }
+    /**
+     * Returns the z component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @return {number} The z component.
+     */
+    getZ(index) {
+      let z = this.data.array[index * this.data.stride + this.offset + 2];
+      if (this.normalized) z = denormalize(z, this.array);
+      return z;
+    }
+    /**
+     * Returns the w component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @return {number} The w component.
+     */
+    getW(index) {
+      let w = this.data.array[index * this.data.stride + this.offset + 3];
+      if (this.normalized) w = denormalize(w, this.array);
+      return w;
+    }
+    /**
+     * Sets the x and y component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} x - The value for the x component to set.
+     * @param {number} y - The value for the y component to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setXY(index, x, y) {
+      index = index * this.data.stride + this.offset;
+      if (this.normalized) {
+        x = normalize(x, this.array);
+        y = normalize(y, this.array);
+      }
+      this.data.array[index + 0] = x;
+      this.data.array[index + 1] = y;
+      return this;
+    }
+    /**
+     * Sets the x, y and z component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} x - The value for the x component to set.
+     * @param {number} y - The value for the y component to set.
+     * @param {number} z - The value for the z component to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setXYZ(index, x, y, z) {
+      index = index * this.data.stride + this.offset;
+      if (this.normalized) {
+        x = normalize(x, this.array);
+        y = normalize(y, this.array);
+        z = normalize(z, this.array);
+      }
+      this.data.array[index + 0] = x;
+      this.data.array[index + 1] = y;
+      this.data.array[index + 2] = z;
+      return this;
+    }
+    /**
+     * Sets the x, y, z and w component of the vector at the given index.
+     *
+     * @param {number} index - The index into the buffer attribute.
+     * @param {number} x - The value for the x component to set.
+     * @param {number} y - The value for the y component to set.
+     * @param {number} z - The value for the z component to set.
+     * @param {number} w - The value for the w component to set.
+     * @return {InterleavedBufferAttribute} A reference to this instance.
+     */
+    setXYZW(index, x, y, z, w) {
+      index = index * this.data.stride + this.offset;
+      if (this.normalized) {
+        x = normalize(x, this.array);
+        y = normalize(y, this.array);
+        z = normalize(z, this.array);
+        w = normalize(w, this.array);
+      }
+      this.data.array[index + 0] = x;
+      this.data.array[index + 1] = y;
+      this.data.array[index + 2] = z;
+      this.data.array[index + 3] = w;
+      return this;
+    }
+    /**
+     * Returns a new buffer attribute with copied values from this instance.
+     *
+     * If no parameter is provided, cloning an interleaved buffer attribute will de-interleave buffer data.
+     *
+     * @param {Object} [data] - An object with interleaved buffers that allows to retain the interleaved property.
+     * @return {BufferAttribute|InterleavedBufferAttribute} A clone of this instance.
+     */
+    clone(data) {
+      if (data === void 0) {
+        log("InterleavedBufferAttribute.clone(): Cloning an interleaved buffer attribute will de-interleave buffer data.");
+        const array = [];
+        for (let i = 0; i < this.count; i++) {
+          const index = i * this.data.stride + this.offset;
+          for (let j = 0; j < this.itemSize; j++) {
+            array.push(this.data.array[index + j]);
+          }
+        }
+        return new BufferAttribute(new this.array.constructor(array), this.itemSize, this.normalized);
+      } else {
+        if (data.interleavedBuffers === void 0) {
+          data.interleavedBuffers = {};
+        }
+        if (data.interleavedBuffers[this.data.uuid] === void 0) {
+          data.interleavedBuffers[this.data.uuid] = this.data.clone(data);
+        }
+        return new _InterleavedBufferAttribute(data.interleavedBuffers[this.data.uuid], this.itemSize, this.offset, this.normalized);
+      }
+    }
+    /**
+     * Serializes the buffer attribute into JSON.
+     *
+     * If no parameter is provided, cloning an interleaved buffer attribute will de-interleave buffer data.
+     *
+     * @param {Object} [data] - An optional value holding meta information about the serialization.
+     * @return {Object} A JSON object representing the serialized buffer attribute.
+     */
+    toJSON(data) {
+      if (data === void 0) {
+        log("InterleavedBufferAttribute.toJSON(): Serializing an interleaved buffer attribute will de-interleave buffer data.");
+        const array = [];
+        for (let i = 0; i < this.count; i++) {
+          const index = i * this.data.stride + this.offset;
+          for (let j = 0; j < this.itemSize; j++) {
+            array.push(this.data.array[index + j]);
+          }
+        }
+        return {
+          itemSize: this.itemSize,
+          type: this.array.constructor.name,
+          array,
+          normalized: this.normalized
+        };
+      } else {
+        if (data.interleavedBuffers === void 0) {
+          data.interleavedBuffers = {};
+        }
+        if (data.interleavedBuffers[this.data.uuid] === void 0) {
+          data.interleavedBuffers[this.data.uuid] = this.data.toJSON(data);
+        }
+        return {
+          isInterleavedBufferAttribute: true,
+          itemSize: this.itemSize,
+          data: this.data.uuid,
+          offset: this.offset,
+          normalized: this.normalized
+        };
+      }
+    }
+  };
   var _materialId = 0;
   var Material = class extends EventDispatcher {
     /**
@@ -11736,12 +17801,12 @@
      * @param {BufferGeometry} [geometry] - The mesh geometry.
      * @param {Material|Array<Material>} [material] - The mesh material.
      */
-    constructor(geometry2 = new BufferGeometry(), material2 = new MeshBasicMaterial()) {
+    constructor(geometry = new BufferGeometry(), material = new MeshBasicMaterial()) {
       super();
       this.isMesh = true;
       this.type = "Mesh";
-      this.geometry = geometry2;
-      this.material = material2;
+      this.geometry = geometry;
+      this.material = material;
       this.morphTargetDictionary = void 0;
       this.morphTargetInfluences = void 0;
       this.count = 1;
@@ -11764,8 +17829,8 @@
      * to make sure existing morph targets can influence this 3D object.
      */
     updateMorphTargets() {
-      const geometry2 = this.geometry;
-      const morphAttributes = geometry2.morphAttributes;
+      const geometry = this.geometry;
+      const morphAttributes = geometry.morphAttributes;
       const keys = Object.keys(morphAttributes);
       if (keys.length > 0) {
         const morphAttribute = morphAttributes[keys[0]];
@@ -11789,10 +17854,10 @@
      * @return {Vector3} The vertex position in local space.
      */
     getVertexPosition(index, target) {
-      const geometry2 = this.geometry;
-      const position = geometry2.attributes.position;
-      const morphPosition = geometry2.morphAttributes.position;
-      const morphTargetsRelative = geometry2.morphTargetsRelative;
+      const geometry = this.geometry;
+      const position = geometry.attributes.position;
+      const morphPosition = geometry.morphAttributes.position;
+      const morphTargetsRelative = geometry.morphTargetsRelative;
       target.fromBufferAttribute(position, index);
       const morphInfluences = this.morphTargetInfluences;
       if (morphPosition && morphInfluences) {
@@ -11819,12 +17884,12 @@
      * @param {Array<Object>} intersects - The target array that holds the intersection points.
      */
     raycast(raycaster, intersects) {
-      const geometry2 = this.geometry;
-      const material2 = this.material;
+      const geometry = this.geometry;
+      const material = this.material;
       const matrixWorld = this.matrixWorld;
-      if (material2 === void 0) return;
-      if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
-      _sphere$6.copy(geometry2.boundingSphere);
+      if (material === void 0) return;
+      if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
+      _sphere$6.copy(geometry.boundingSphere);
       _sphere$6.applyMatrix4(matrixWorld);
       _ray$3.copy(raycaster.ray).recast(raycaster.near);
       if (_sphere$6.containsPoint(_ray$3.origin) === false) {
@@ -11833,27 +17898,27 @@
       }
       _inverseMatrix$3.copy(matrixWorld).invert();
       _ray$3.copy(raycaster.ray).applyMatrix4(_inverseMatrix$3);
-      if (geometry2.boundingBox !== null) {
-        if (_ray$3.intersectsBox(geometry2.boundingBox) === false) return;
+      if (geometry.boundingBox !== null) {
+        if (_ray$3.intersectsBox(geometry.boundingBox) === false) return;
       }
       this._computeIntersections(raycaster, intersects, _ray$3);
     }
     _computeIntersections(raycaster, intersects, rayLocalSpace) {
       let intersection;
-      const geometry2 = this.geometry;
-      const material2 = this.material;
-      const index = geometry2.index;
-      const position = geometry2.attributes.position;
-      const uv = geometry2.attributes.uv;
-      const uv1 = geometry2.attributes.uv1;
-      const normal = geometry2.attributes.normal;
-      const groups = geometry2.groups;
-      const drawRange = geometry2.drawRange;
+      const geometry = this.geometry;
+      const material = this.material;
+      const index = geometry.index;
+      const position = geometry.attributes.position;
+      const uv = geometry.attributes.uv;
+      const uv1 = geometry.attributes.uv1;
+      const normal = geometry.attributes.normal;
+      const groups = geometry.groups;
+      const drawRange = geometry.drawRange;
       if (index !== null) {
-        if (Array.isArray(material2)) {
+        if (Array.isArray(material)) {
           for (let i = 0, il = groups.length; i < il; i++) {
             const group = groups[i];
-            const groupMaterial = material2[group.materialIndex];
+            const groupMaterial = material[group.materialIndex];
             const start = Math.max(group.start, drawRange.start);
             const end = Math.min(index.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
             for (let j = start, jl = end; j < jl; j += 3) {
@@ -11875,7 +17940,7 @@
             const a = index.getX(i);
             const b = index.getX(i + 1);
             const c = index.getX(i + 2);
-            intersection = checkGeometryIntersection(this, material2, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+            intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
             if (intersection) {
               intersection.faceIndex = Math.floor(i / 3);
               intersects.push(intersection);
@@ -11883,10 +17948,10 @@
           }
         }
       } else if (position !== void 0) {
-        if (Array.isArray(material2)) {
+        if (Array.isArray(material)) {
           for (let i = 0, il = groups.length; i < il; i++) {
             const group = groups[i];
-            const groupMaterial = material2[group.materialIndex];
+            const groupMaterial = material[group.materialIndex];
             const start = Math.max(group.start, drawRange.start);
             const end = Math.min(position.count, Math.min(group.start + group.count, drawRange.start + drawRange.count));
             for (let j = start, jl = end; j < jl; j += 3) {
@@ -11908,7 +17973,7 @@
             const a = i;
             const b = i + 1;
             const c = i + 2;
-            intersection = checkGeometryIntersection(this, material2, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+            intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
             if (intersection) {
               intersection.faceIndex = Math.floor(i / 3);
               intersects.push(intersection);
@@ -11918,12 +17983,12 @@
       }
     }
   };
-  function checkIntersection$1(object, material2, raycaster, ray, pA, pB, pC, point) {
+  function checkIntersection$1(object, material, raycaster, ray, pA, pB, pC, point) {
     let intersect;
-    if (material2.side === BackSide) {
+    if (material.side === BackSide) {
       intersect = ray.intersectTriangle(pC, pB, pA, true, point);
     } else {
-      intersect = ray.intersectTriangle(pA, pB, pC, material2.side === FrontSide, point);
+      intersect = ray.intersectTriangle(pA, pB, pC, material.side === FrontSide, point);
     }
     if (intersect === null) return null;
     _intersectionPointWorld.copy(point);
@@ -11936,11 +18001,11 @@
       object
     };
   }
-  function checkGeometryIntersection(object, material2, raycaster, ray, uv, uv1, normal, a, b, c) {
+  function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, normal, a, b, c) {
     object.getVertexPosition(a, _vA);
     object.getVertexPosition(b, _vB);
     object.getVertexPosition(c, _vC);
-    const intersection = checkIntersection$1(object, material2, raycaster, ray, _vA, _vB, _vC, _intersectionPoint);
+    const intersection = checkIntersection$1(object, material, raycaster, ray, _vA, _vB, _vC, _intersectionPoint);
     if (intersection) {
       const barycoord = new Vector3();
       Triangle.getBarycoord(_intersectionPoint, _vA, _vB, _vC, barycoord);
@@ -11969,6 +18034,195 @@
     }
     return intersection;
   }
+  var _baseVector = /* @__PURE__ */ new Vector4();
+  var _skinIndex = /* @__PURE__ */ new Vector4();
+  var _skinWeight = /* @__PURE__ */ new Vector4();
+  var _vector4 = /* @__PURE__ */ new Vector4();
+  var _matrix4 = /* @__PURE__ */ new Matrix4();
+  var _vertex = /* @__PURE__ */ new Vector3();
+  var _sphere$5 = /* @__PURE__ */ new Sphere();
+  var _inverseMatrix$2 = /* @__PURE__ */ new Matrix4();
+  var _ray$2 = /* @__PURE__ */ new Ray();
+  var SkinnedMesh = class extends Mesh {
+    /**
+     * Constructs a new skinned mesh.
+     *
+     * @param {BufferGeometry} [geometry] - The mesh geometry.
+     * @param {Material|Array<Material>} [material] - The mesh material.
+     */
+    constructor(geometry, material) {
+      super(geometry, material);
+      this.isSkinnedMesh = true;
+      this.type = "SkinnedMesh";
+      this.bindMode = AttachedBindMode;
+      this.bindMatrix = new Matrix4();
+      this.bindMatrixInverse = new Matrix4();
+      this.boundingBox = null;
+      this.boundingSphere = null;
+    }
+    /**
+     * Computes the bounding box of the skinned mesh, and updates {@link SkinnedMesh#boundingBox}.
+     * The bounding box is not automatically computed by the engine; this method must be called by your app.
+     * If the skinned mesh is animated, the bounding box should be recomputed per frame in order to reflect
+     * the current animation state.
+     */
+    computeBoundingBox() {
+      const geometry = this.geometry;
+      if (this.boundingBox === null) {
+        this.boundingBox = new Box3();
+      }
+      this.boundingBox.makeEmpty();
+      const positionAttribute = geometry.getAttribute("position");
+      for (let i = 0; i < positionAttribute.count; i++) {
+        this.getVertexPosition(i, _vertex);
+        this.boundingBox.expandByPoint(_vertex);
+      }
+    }
+    /**
+     * Computes the bounding sphere of the skinned mesh, and updates {@link SkinnedMesh#boundingSphere}.
+     * The bounding sphere is automatically computed by the engine once when it is needed, e.g., for ray casting
+     * and view frustum culling. If the skinned mesh is animated, the bounding sphere should be recomputed
+     * per frame in order to reflect the current animation state.
+     */
+    computeBoundingSphere() {
+      const geometry = this.geometry;
+      if (this.boundingSphere === null) {
+        this.boundingSphere = new Sphere();
+      }
+      this.boundingSphere.makeEmpty();
+      const positionAttribute = geometry.getAttribute("position");
+      for (let i = 0; i < positionAttribute.count; i++) {
+        this.getVertexPosition(i, _vertex);
+        this.boundingSphere.expandByPoint(_vertex);
+      }
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.bindMode = source.bindMode;
+      this.bindMatrix.copy(source.bindMatrix);
+      this.bindMatrixInverse.copy(source.bindMatrixInverse);
+      this.skeleton = source.skeleton;
+      if (source.boundingBox !== null) this.boundingBox = source.boundingBox.clone();
+      if (source.boundingSphere !== null) this.boundingSphere = source.boundingSphere.clone();
+      return this;
+    }
+    raycast(raycaster, intersects) {
+      const material = this.material;
+      const matrixWorld = this.matrixWorld;
+      if (material === void 0) return;
+      if (this.boundingSphere === null) this.computeBoundingSphere();
+      _sphere$5.copy(this.boundingSphere);
+      _sphere$5.applyMatrix4(matrixWorld);
+      if (raycaster.ray.intersectsSphere(_sphere$5) === false) return;
+      _inverseMatrix$2.copy(matrixWorld).invert();
+      _ray$2.copy(raycaster.ray).applyMatrix4(_inverseMatrix$2);
+      if (this.boundingBox !== null) {
+        if (_ray$2.intersectsBox(this.boundingBox) === false) return;
+      }
+      this._computeIntersections(raycaster, intersects, _ray$2);
+    }
+    getVertexPosition(index, target) {
+      super.getVertexPosition(index, target);
+      this.applyBoneTransform(index, target);
+      return target;
+    }
+    /**
+     * Binds the given skeleton to the skinned mesh.
+     *
+     * @param {Skeleton} skeleton - The skeleton to bind.
+     * @param {Matrix4} [bindMatrix] - The bind matrix. If no bind matrix is provided,
+     * the skinned mesh's world matrix will be used instead.
+     */
+    bind(skeleton, bindMatrix) {
+      this.skeleton = skeleton;
+      if (bindMatrix === void 0) {
+        this.updateMatrixWorld(true);
+        this.skeleton.calculateInverses();
+        bindMatrix = this.matrixWorld;
+      }
+      this.bindMatrix.copy(bindMatrix);
+      this.bindMatrixInverse.copy(bindMatrix).invert();
+    }
+    /**
+     * This method sets the skinned mesh in the rest pose).
+     */
+    pose() {
+      this.skeleton.pose();
+    }
+    /**
+     * Normalizes the skin weights which are defined as a buffer attribute
+     * in the skinned mesh's geometry.
+     */
+    normalizeSkinWeights() {
+      const vector = new Vector4();
+      const skinWeight = this.geometry.attributes.skinWeight;
+      for (let i = 0, l = skinWeight.count; i < l; i++) {
+        vector.fromBufferAttribute(skinWeight, i);
+        const scale = 1 / vector.manhattanLength();
+        if (scale !== Infinity) {
+          vector.multiplyScalar(scale);
+        } else {
+          vector.set(1, 0, 0, 0);
+        }
+        skinWeight.setXYZW(i, vector.x, vector.y, vector.z, vector.w);
+      }
+    }
+    updateMatrixWorld(force) {
+      super.updateMatrixWorld(force);
+      if (this.bindMode === AttachedBindMode) {
+        this.bindMatrixInverse.copy(this.matrixWorld).invert();
+      } else if (this.bindMode === DetachedBindMode) {
+        this.bindMatrixInverse.copy(this.bindMatrix).invert();
+      } else {
+        warn("SkinnedMesh: Unrecognized bindMode: " + this.bindMode);
+      }
+    }
+    /**
+     * Applies the bone transform associated with the given index to the given
+     * vector. Can be used to transform positions or direction vectors by providing
+     * a Vector4 with 1 or 0 in the w component respectively. Returns the updated vector.
+     *
+     * @param {number} index - The vertex index.
+     * @param {Vector3|Vector4} target - The target object that is used to store the method's result.
+     * @return {Vector3|Vector4} The updated vertex attribute data.
+     */
+    applyBoneTransform(index, target) {
+      const skeleton = this.skeleton;
+      const geometry = this.geometry;
+      _skinIndex.fromBufferAttribute(geometry.attributes.skinIndex, index);
+      _skinWeight.fromBufferAttribute(geometry.attributes.skinWeight, index);
+      if (target.isVector4) {
+        _baseVector.copy(target);
+        target.set(0, 0, 0, 0);
+      } else {
+        _baseVector.set(...target, 1);
+        target.set(0, 0, 0);
+      }
+      _baseVector.applyMatrix4(this.bindMatrix);
+      for (let i = 0; i < 4; i++) {
+        const weight = _skinWeight.getComponent(i);
+        if (weight !== 0) {
+          const boneIndex = _skinIndex.getComponent(i);
+          _matrix4.multiplyMatrices(skeleton.bones[boneIndex].matrixWorld, skeleton.boneInverses[boneIndex]);
+          target.addScaledVector(_vector4.copy(_baseVector).applyMatrix4(_matrix4), weight);
+        }
+      }
+      if (target.isVector4) {
+        target.w = _baseVector.w;
+      }
+      return target.applyMatrix4(this.bindMatrixInverse);
+    }
+  };
+  var Bone = class extends Object3D {
+    /**
+     * Constructs a new bone.
+     */
+    constructor() {
+      super();
+      this.isBone = true;
+      this.type = "Bone";
+    }
+  };
   var DataTexture = class extends Texture {
     /**
      * Constructs a new data texture.
@@ -11993,6 +18247,439 @@
       this.generateMipmaps = false;
       this.flipY = false;
       this.unpackAlignment = 1;
+    }
+  };
+  var _offsetMatrix = /* @__PURE__ */ new Matrix4();
+  var _identityMatrix = /* @__PURE__ */ new Matrix4();
+  var Skeleton = class _Skeleton {
+    /**
+     * Constructs a new skeleton.
+     *
+     * @param {Array<Bone>} [bones] - An array of bones.
+     * @param {Array<Matrix4>} [boneInverses] - An array of bone inverse matrices.
+     * If not provided, these matrices will be computed automatically via {@link Skeleton#calculateInverses}.
+     */
+    constructor(bones = [], boneInverses = []) {
+      this.uuid = generateUUID();
+      this.bones = bones.slice(0);
+      this.boneInverses = boneInverses;
+      this.boneMatrices = null;
+      this.previousBoneMatrices = null;
+      this.boneTexture = null;
+      this.init();
+    }
+    /**
+     * Initializes the skeleton. This method gets automatically called by the constructor
+     * but depending on how the skeleton is created it might be necessary to call this method
+     * manually.
+     */
+    init() {
+      const bones = this.bones;
+      const boneInverses = this.boneInverses;
+      this.boneMatrices = new Float32Array(bones.length * 16);
+      if (boneInverses.length === 0) {
+        this.calculateInverses();
+      } else {
+        if (bones.length !== boneInverses.length) {
+          warn("Skeleton: Number of inverse bone matrices does not match amount of bones.");
+          this.boneInverses = [];
+          for (let i = 0, il = this.bones.length; i < il; i++) {
+            this.boneInverses.push(new Matrix4());
+          }
+        }
+      }
+    }
+    /**
+     * Computes the bone inverse matrices. This method resets {@link Skeleton#boneInverses}
+     * and fills it with new matrices.
+     */
+    calculateInverses() {
+      this.boneInverses.length = 0;
+      for (let i = 0, il = this.bones.length; i < il; i++) {
+        const inverse = new Matrix4();
+        if (this.bones[i]) {
+          inverse.copy(this.bones[i].matrixWorld).invert();
+        }
+        this.boneInverses.push(inverse);
+      }
+    }
+    /**
+     * Resets the skeleton to the base pose.
+     */
+    pose() {
+      for (let i = 0, il = this.bones.length; i < il; i++) {
+        const bone = this.bones[i];
+        if (bone) {
+          bone.matrixWorld.copy(this.boneInverses[i]).invert();
+        }
+      }
+      for (let i = 0, il = this.bones.length; i < il; i++) {
+        const bone = this.bones[i];
+        if (bone) {
+          if (bone.parent && bone.parent.isBone) {
+            bone.matrix.copy(bone.parent.matrixWorld).invert();
+            bone.matrix.multiply(bone.matrixWorld);
+          } else {
+            bone.matrix.copy(bone.matrixWorld);
+          }
+          bone.matrix.decompose(bone.position, bone.quaternion, bone.scale);
+        }
+      }
+    }
+    /**
+     * Resets the skeleton to the base pose.
+     */
+    update() {
+      const bones = this.bones;
+      const boneInverses = this.boneInverses;
+      const boneMatrices = this.boneMatrices;
+      const boneTexture = this.boneTexture;
+      for (let i = 0, il = bones.length; i < il; i++) {
+        const matrix = bones[i] ? bones[i].matrixWorld : _identityMatrix;
+        _offsetMatrix.multiplyMatrices(matrix, boneInverses[i]);
+        _offsetMatrix.toArray(boneMatrices, i * 16);
+      }
+      if (boneTexture !== null) {
+        boneTexture.needsUpdate = true;
+      }
+    }
+    /**
+     * Returns a new skeleton with copied values from this instance.
+     *
+     * @return {Skeleton} A clone of this instance.
+     */
+    clone() {
+      return new _Skeleton(this.bones, this.boneInverses);
+    }
+    /**
+     * Computes a data texture for passing bone data to the vertex shader.
+     *
+     * @return {Skeleton} A reference of this instance.
+     */
+    computeBoneTexture() {
+      let size = Math.sqrt(this.bones.length * 4);
+      size = Math.ceil(size / 4) * 4;
+      size = Math.max(size, 4);
+      const boneMatrices = new Float32Array(size * size * 4);
+      boneMatrices.set(this.boneMatrices);
+      const boneTexture = new DataTexture(boneMatrices, size, size, RGBAFormat, FloatType);
+      boneTexture.needsUpdate = true;
+      this.boneMatrices = boneMatrices;
+      this.boneTexture = boneTexture;
+      return this;
+    }
+    /**
+     * Searches through the skeleton's bone array and returns the first with a
+     * matching name.
+     *
+     * @param {string} name - The name of the bone.
+     * @return {Bone|undefined} The found bone. `undefined` if no bone has been found.
+     */
+    getBoneByName(name) {
+      for (let i = 0, il = this.bones.length; i < il; i++) {
+        const bone = this.bones[i];
+        if (bone.name === name) {
+          return bone;
+        }
+      }
+      return void 0;
+    }
+    /**
+     * Frees the GPU-related resources allocated by this instance. Call this
+     * method whenever this instance is no longer used in your app.
+     */
+    dispose() {
+      if (this.boneTexture !== null) {
+        this.boneTexture.dispose();
+        this.boneTexture = null;
+      }
+    }
+    /**
+     * Setups the skeleton by the given JSON and bones.
+     *
+     * @param {Object} json - The skeleton as serialized JSON.
+     * @param {Object<string, Bone>} bones - An array of bones.
+     * @return {Skeleton} A reference of this instance.
+     */
+    fromJSON(json, bones) {
+      this.uuid = json.uuid;
+      for (let i = 0, l = json.bones.length; i < l; i++) {
+        const uuid = json.bones[i];
+        let bone = bones[uuid];
+        if (bone === void 0) {
+          warn("Skeleton: No bone found with UUID:", uuid);
+          bone = new Bone();
+        }
+        this.bones.push(bone);
+        this.boneInverses.push(new Matrix4().fromArray(json.boneInverses[i]));
+      }
+      this.init();
+      return this;
+    }
+    /**
+     * Serializes the skeleton into JSON.
+     *
+     * @return {Object} A JSON object representing the serialized skeleton.
+     * @see {@link ObjectLoader#parse}
+     */
+    toJSON() {
+      const data = {
+        metadata: {
+          version: 4.7,
+          type: "Skeleton",
+          generator: "Skeleton.toJSON"
+        },
+        bones: [],
+        boneInverses: []
+      };
+      data.uuid = this.uuid;
+      const bones = this.bones;
+      const boneInverses = this.boneInverses;
+      for (let i = 0, l = bones.length; i < l; i++) {
+        const bone = bones[i];
+        data.bones.push(bone.uuid);
+        const boneInverse = boneInverses[i];
+        data.boneInverses.push(boneInverse.toArray());
+      }
+      return data;
+    }
+  };
+  var InstancedBufferAttribute = class extends BufferAttribute {
+    /**
+     * Constructs a new instanced buffer attribute.
+     *
+     * @param {TypedArray} array - The array holding the attribute data.
+     * @param {number} itemSize - The item size.
+     * @param {boolean} [normalized=false] - Whether the data are normalized or not.
+     * @param {number} [meshPerAttribute=1] - How often a value of this buffer attribute should be repeated.
+     */
+    constructor(array, itemSize, normalized, meshPerAttribute = 1) {
+      super(array, itemSize, normalized);
+      this.isInstancedBufferAttribute = true;
+      this.meshPerAttribute = meshPerAttribute;
+    }
+    copy(source) {
+      super.copy(source);
+      this.meshPerAttribute = source.meshPerAttribute;
+      return this;
+    }
+    toJSON() {
+      const data = super.toJSON();
+      data.meshPerAttribute = this.meshPerAttribute;
+      data.isInstancedBufferAttribute = true;
+      return data;
+    }
+  };
+  var _instanceLocalMatrix = /* @__PURE__ */ new Matrix4();
+  var _instanceWorldMatrix = /* @__PURE__ */ new Matrix4();
+  var _instanceIntersects = [];
+  var _box3 = /* @__PURE__ */ new Box3();
+  var _identity = /* @__PURE__ */ new Matrix4();
+  var _mesh$1 = /* @__PURE__ */ new Mesh();
+  var _sphere$4 = /* @__PURE__ */ new Sphere();
+  var InstancedMesh = class extends Mesh {
+    /**
+     * Constructs a new instanced mesh.
+     *
+     * @param {BufferGeometry} [geometry] - The mesh geometry.
+     * @param {Material|Array<Material>} [material] - The mesh material.
+     * @param {number} count - The number of instances.
+     */
+    constructor(geometry, material, count) {
+      super(geometry, material);
+      this.isInstancedMesh = true;
+      this.instanceMatrix = new InstancedBufferAttribute(new Float32Array(count * 16), 16);
+      this.previousInstanceMatrix = null;
+      this.instanceColor = null;
+      this.morphTexture = null;
+      this.count = count;
+      this.boundingBox = null;
+      this.boundingSphere = null;
+      for (let i = 0; i < count; i++) {
+        this.setMatrixAt(i, _identity);
+      }
+    }
+    /**
+     * Computes the bounding box of the instanced mesh, and updates {@link InstancedMesh#boundingBox}.
+     * The bounding box is not automatically computed by the engine; this method must be called by your app.
+     * You may need to recompute the bounding box if an instance is transformed via {@link InstancedMesh#setMatrixAt}.
+     */
+    computeBoundingBox() {
+      const geometry = this.geometry;
+      const count = this.count;
+      if (this.boundingBox === null) {
+        this.boundingBox = new Box3();
+      }
+      if (geometry.boundingBox === null) {
+        geometry.computeBoundingBox();
+      }
+      this.boundingBox.makeEmpty();
+      for (let i = 0; i < count; i++) {
+        this.getMatrixAt(i, _instanceLocalMatrix);
+        _box3.copy(geometry.boundingBox).applyMatrix4(_instanceLocalMatrix);
+        this.boundingBox.union(_box3);
+      }
+    }
+    /**
+     * Computes the bounding sphere of the instanced mesh, and updates {@link InstancedMesh#boundingSphere}
+     * The engine automatically computes the bounding sphere when it is needed, e.g., for ray casting or view frustum culling.
+     * You may need to recompute the bounding sphere if an instance is transformed via {@link InstancedMesh#setMatrixAt}.
+     */
+    computeBoundingSphere() {
+      const geometry = this.geometry;
+      const count = this.count;
+      if (this.boundingSphere === null) {
+        this.boundingSphere = new Sphere();
+      }
+      if (geometry.boundingSphere === null) {
+        geometry.computeBoundingSphere();
+      }
+      this.boundingSphere.makeEmpty();
+      for (let i = 0; i < count; i++) {
+        this.getMatrixAt(i, _instanceLocalMatrix);
+        _sphere$4.copy(geometry.boundingSphere).applyMatrix4(_instanceLocalMatrix);
+        this.boundingSphere.union(_sphere$4);
+      }
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.instanceMatrix.copy(source.instanceMatrix);
+      if (source.previousInstanceMatrix !== null) this.previousInstanceMatrix = source.previousInstanceMatrix.clone();
+      if (source.morphTexture !== null) this.morphTexture = source.morphTexture.clone();
+      if (source.instanceColor !== null) this.instanceColor = source.instanceColor.clone();
+      this.count = source.count;
+      if (source.boundingBox !== null) this.boundingBox = source.boundingBox.clone();
+      if (source.boundingSphere !== null) this.boundingSphere = source.boundingSphere.clone();
+      return this;
+    }
+    /**
+     * Gets the color of the defined instance.
+     *
+     * @param {number} index - The instance index.
+     * @param {Color} color - The target object that is used to store the method's result.
+     * @return {Color} A reference to the target color.
+     */
+    getColorAt(index, color) {
+      if (this.instanceColor === null) {
+        return color.setRGB(1, 1, 1);
+      } else {
+        return color.fromArray(this.instanceColor.array, index * 3);
+      }
+    }
+    /**
+     * Gets the local transformation matrix of the defined instance.
+     *
+     * @param {number} index - The instance index.
+     * @param {Matrix4} matrix - The target object that is used to store the method's result.
+     * @return {Matrix4} A reference to the target matrix.
+     */
+    getMatrixAt(index, matrix) {
+      return matrix.fromArray(this.instanceMatrix.array, index * 16);
+    }
+    /**
+     * Gets the morph target weights of the defined instance.
+     *
+     * @param {number} index - The instance index.
+     * @param {Mesh} object - The target object that is used to store the method's result.
+     */
+    getMorphAt(index, object) {
+      const objectInfluences = object.morphTargetInfluences;
+      const array = this.morphTexture.source.data.data;
+      const len = objectInfluences.length + 1;
+      const dataIndex = index * len + 1;
+      for (let i = 0; i < objectInfluences.length; i++) {
+        objectInfluences[i] = array[dataIndex + i];
+      }
+    }
+    raycast(raycaster, intersects) {
+      const matrixWorld = this.matrixWorld;
+      const raycastTimes = this.count;
+      _mesh$1.geometry = this.geometry;
+      _mesh$1.material = this.material;
+      if (_mesh$1.material === void 0) return;
+      if (this.boundingSphere === null) this.computeBoundingSphere();
+      _sphere$4.copy(this.boundingSphere);
+      _sphere$4.applyMatrix4(matrixWorld);
+      if (raycaster.ray.intersectsSphere(_sphere$4) === false) return;
+      for (let instanceId = 0; instanceId < raycastTimes; instanceId++) {
+        this.getMatrixAt(instanceId, _instanceLocalMatrix);
+        _instanceWorldMatrix.multiplyMatrices(matrixWorld, _instanceLocalMatrix);
+        _mesh$1.matrixWorld = _instanceWorldMatrix;
+        _mesh$1.raycast(raycaster, _instanceIntersects);
+        for (let i = 0, l = _instanceIntersects.length; i < l; i++) {
+          const intersect = _instanceIntersects[i];
+          intersect.instanceId = instanceId;
+          intersect.object = this;
+          intersects.push(intersect);
+        }
+        _instanceIntersects.length = 0;
+      }
+    }
+    /**
+     * Sets the given color to the defined instance. Make sure you set the `needsUpdate` flag of
+     * {@link InstancedMesh#instanceColor} to `true` after updating all the colors.
+     *
+     * @param {number} index - The instance index.
+     * @param {Color} color - The instance color.
+     * @return {InstancedMesh} A reference to this instanced mesh.
+     */
+    setColorAt(index, color) {
+      if (this.instanceColor === null) {
+        this.instanceColor = new InstancedBufferAttribute(new Float32Array(this.instanceMatrix.count * 3).fill(1), 3);
+      }
+      color.toArray(this.instanceColor.array, index * 3);
+      return this;
+    }
+    /**
+     * Sets the given local transformation matrix to the defined instance. Make sure you set the `needsUpdate` flag of
+     * {@link InstancedMesh#instanceMatrix} to `true` after updating all the matrices.
+     *
+     * @param {number} index - The instance index.
+     * @param {Matrix4} matrix - The local transformation.
+     * @return {InstancedMesh} A reference to this instanced mesh.
+     */
+    setMatrixAt(index, matrix) {
+      matrix.toArray(this.instanceMatrix.array, index * 16);
+      return this;
+    }
+    /**
+     * Sets the morph target weights to the defined instance. Make sure you set the `needsUpdate` flag of
+     * {@link InstancedMesh#morphTexture} to `true` after updating all the influences.
+     *
+     * @param {number} index - The instance index.
+     * @param {Mesh} object -  A mesh which `morphTargetInfluences` property containing the morph target weights
+     * of a single instance.
+     * @return {InstancedMesh} A reference to this instanced mesh.
+     */
+    setMorphAt(index, object) {
+      const objectInfluences = object.morphTargetInfluences;
+      const len = objectInfluences.length + 1;
+      if (this.morphTexture === null) {
+        this.morphTexture = new DataTexture(new Float32Array(len * this.count), len, this.count, RedFormat, FloatType);
+      }
+      const array = this.morphTexture.source.data.data;
+      let morphInfluencesSum = 0;
+      for (let i = 0; i < objectInfluences.length; i++) {
+        morphInfluencesSum += objectInfluences[i];
+      }
+      const morphBaseInfluence = this.geometry.morphTargetsRelative ? 1 : 1 - morphInfluencesSum;
+      const dataIndex = len * index;
+      array[dataIndex] = morphBaseInfluence;
+      array.set(objectInfluences, dataIndex + 1);
+      return this;
+    }
+    updateMorphTargets() {
+    }
+    /**
+     * Frees the GPU-related resources allocated by this instance. Call this
+     * method whenever this instance is no longer used in your app.
+     */
+    dispose() {
+      this.dispatchEvent({ type: "dispose" });
+      if (this.morphTexture !== null) {
+        this.morphTexture.dispose();
+        this.morphTexture = null;
+      }
     }
   };
   var _vector1 = /* @__PURE__ */ new Vector3();
@@ -12335,9 +19022,9 @@
         if (object.boundingSphere === null) object.computeBoundingSphere();
         _sphere$3.copy(object.boundingSphere).applyMatrix4(object.matrixWorld);
       } else {
-        const geometry2 = object.geometry;
-        if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
-        _sphere$3.copy(geometry2.boundingSphere).applyMatrix4(object.matrixWorld);
+        const geometry = object.geometry;
+        if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
+        _sphere$3.copy(geometry.boundingSphere).applyMatrix4(object.matrixWorld);
       }
       return this.intersectsSphere(_sphere$3);
     }
@@ -12415,6 +19102,383 @@
       return new this.constructor().copy(this);
     }
   };
+  var LineBasicMaterial = class extends Material {
+    /**
+     * Constructs a new line basic material.
+     *
+     * @param {Object} [parameters] - An object with one or more properties
+     * defining the material's appearance. Any property of the material
+     * (including any property from inherited materials) can be passed
+     * in here. Color values can be passed any type of value accepted
+     * by {@link Color#set}.
+     */
+    constructor(parameters) {
+      super();
+      this.isLineBasicMaterial = true;
+      this.type = "LineBasicMaterial";
+      this.color = new Color(16777215);
+      this.map = null;
+      this.linewidth = 1;
+      this.linecap = "round";
+      this.linejoin = "round";
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.color.copy(source.color);
+      this.map = source.map;
+      this.linewidth = source.linewidth;
+      this.linecap = source.linecap;
+      this.linejoin = source.linejoin;
+      this.fog = source.fog;
+      return this;
+    }
+  };
+  var _vStart = /* @__PURE__ */ new Vector3();
+  var _vEnd = /* @__PURE__ */ new Vector3();
+  var _inverseMatrix$1 = /* @__PURE__ */ new Matrix4();
+  var _ray$1 = /* @__PURE__ */ new Ray();
+  var _sphere$1 = /* @__PURE__ */ new Sphere();
+  var _intersectPointOnRay = /* @__PURE__ */ new Vector3();
+  var _intersectPointOnSegment = /* @__PURE__ */ new Vector3();
+  var Line = class extends Object3D {
+    /**
+     * Constructs a new line.
+     *
+     * @param {BufferGeometry} [geometry] - The line geometry.
+     * @param {Material|Array<Material>} [material] - The line material.
+     */
+    constructor(geometry = new BufferGeometry(), material = new LineBasicMaterial()) {
+      super();
+      this.isLine = true;
+      this.type = "Line";
+      this.geometry = geometry;
+      this.material = material;
+      this.morphTargetDictionary = void 0;
+      this.morphTargetInfluences = void 0;
+      this.updateMorphTargets();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.material = Array.isArray(source.material) ? source.material.slice() : source.material;
+      this.geometry = source.geometry;
+      return this;
+    }
+    /**
+     * Computes an array of distance values which are necessary for rendering dashed lines.
+     * For each vertex in the geometry, the method calculates the cumulative length from the
+     * current point to the very beginning of the line.
+     *
+     * @return {Line} A reference to this line.
+     */
+    computeLineDistances() {
+      const geometry = this.geometry;
+      if (geometry.index === null) {
+        const positionAttribute = geometry.attributes.position;
+        const lineDistances = [0];
+        for (let i = 1, l = positionAttribute.count; i < l; i++) {
+          _vStart.fromBufferAttribute(positionAttribute, i - 1);
+          _vEnd.fromBufferAttribute(positionAttribute, i);
+          lineDistances[i] = lineDistances[i - 1];
+          lineDistances[i] += _vStart.distanceTo(_vEnd);
+        }
+        geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      } else {
+        warn("Line.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
+      }
+      return this;
+    }
+    /**
+     * Computes intersection points between a casted ray and this line.
+     *
+     * @param {Raycaster} raycaster - The raycaster.
+     * @param {Array<Object>} intersects - The target array that holds the intersection points.
+     */
+    raycast(raycaster, intersects) {
+      const geometry = this.geometry;
+      const matrixWorld = this.matrixWorld;
+      const threshold = raycaster.params.Line.threshold;
+      const drawRange = geometry.drawRange;
+      if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
+      _sphere$1.copy(geometry.boundingSphere);
+      _sphere$1.applyMatrix4(matrixWorld);
+      _sphere$1.radius += threshold;
+      if (raycaster.ray.intersectsSphere(_sphere$1) === false) return;
+      _inverseMatrix$1.copy(matrixWorld).invert();
+      _ray$1.copy(raycaster.ray).applyMatrix4(_inverseMatrix$1);
+      const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
+      const localThresholdSq = localThreshold * localThreshold;
+      const step = this.isLineSegments ? 2 : 1;
+      const index = geometry.index;
+      const attributes = geometry.attributes;
+      const positionAttribute = attributes.position;
+      if (index !== null) {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(index.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end - 1; i < l; i += step) {
+          const a = index.getX(i);
+          const b = index.getX(i + 1);
+          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, a, b, i);
+          if (intersect) {
+            intersects.push(intersect);
+          }
+        }
+        if (this.isLineLoop) {
+          const a = index.getX(end - 1);
+          const b = index.getX(start);
+          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, a, b, end - 1);
+          if (intersect) {
+            intersects.push(intersect);
+          }
+        }
+      } else {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end - 1; i < l; i += step) {
+          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, i, i + 1, i);
+          if (intersect) {
+            intersects.push(intersect);
+          }
+        }
+        if (this.isLineLoop) {
+          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, end - 1, start, end - 1);
+          if (intersect) {
+            intersects.push(intersect);
+          }
+        }
+      }
+    }
+    /**
+     * Sets the values of {@link Line#morphTargetDictionary} and {@link Line#morphTargetInfluences}
+     * to make sure existing morph targets can influence this 3D object.
+     */
+    updateMorphTargets() {
+      const geometry = this.geometry;
+      const morphAttributes = geometry.morphAttributes;
+      const keys = Object.keys(morphAttributes);
+      if (keys.length > 0) {
+        const morphAttribute = morphAttributes[keys[0]];
+        if (morphAttribute !== void 0) {
+          this.morphTargetInfluences = [];
+          this.morphTargetDictionary = {};
+          for (let m = 0, ml = morphAttribute.length; m < ml; m++) {
+            const name = morphAttribute[m].name || String(m);
+            this.morphTargetInfluences.push(0);
+            this.morphTargetDictionary[name] = m;
+          }
+        }
+      }
+    }
+  };
+  function checkIntersection(object, raycaster, ray, thresholdSq, a, b, i) {
+    const positionAttribute = object.geometry.attributes.position;
+    _vStart.fromBufferAttribute(positionAttribute, a);
+    _vEnd.fromBufferAttribute(positionAttribute, b);
+    const distSq = ray.distanceSqToSegment(_vStart, _vEnd, _intersectPointOnRay, _intersectPointOnSegment);
+    if (distSq > thresholdSq) return;
+    _intersectPointOnRay.applyMatrix4(object.matrixWorld);
+    const distance = raycaster.ray.origin.distanceTo(_intersectPointOnRay);
+    if (distance < raycaster.near || distance > raycaster.far) return;
+    return {
+      distance,
+      // What do we want? intersection point on the ray or on the segment??
+      // point: raycaster.ray.at( distance ),
+      point: _intersectPointOnSegment.clone().applyMatrix4(object.matrixWorld),
+      index: i,
+      face: null,
+      faceIndex: null,
+      barycoord: null,
+      object
+    };
+  }
+  var _start = /* @__PURE__ */ new Vector3();
+  var _end = /* @__PURE__ */ new Vector3();
+  var LineSegments = class extends Line {
+    /**
+     * Constructs a new line segments.
+     *
+     * @param {BufferGeometry} [geometry] - The line geometry.
+     * @param {Material|Array<Material>} [material] - The line material.
+     */
+    constructor(geometry, material) {
+      super(geometry, material);
+      this.isLineSegments = true;
+      this.type = "LineSegments";
+    }
+    computeLineDistances() {
+      const geometry = this.geometry;
+      if (geometry.index === null) {
+        const positionAttribute = geometry.attributes.position;
+        const lineDistances = [];
+        for (let i = 0, l = positionAttribute.count; i < l; i += 2) {
+          _start.fromBufferAttribute(positionAttribute, i);
+          _end.fromBufferAttribute(positionAttribute, i + 1);
+          lineDistances[i] = i === 0 ? 0 : lineDistances[i - 1];
+          lineDistances[i + 1] = lineDistances[i] + _start.distanceTo(_end);
+        }
+        geometry.setAttribute("lineDistance", new Float32BufferAttribute(lineDistances, 1));
+      } else {
+        warn("LineSegments.computeLineDistances(): Computation only possible with non-indexed BufferGeometry.");
+      }
+      return this;
+    }
+  };
+  var LineLoop = class extends Line {
+    /**
+     * Constructs a new line loop.
+     *
+     * @param {BufferGeometry} [geometry] - The line geometry.
+     * @param {Material|Array<Material>} [material] - The line material.
+     */
+    constructor(geometry, material) {
+      super(geometry, material);
+      this.isLineLoop = true;
+      this.type = "LineLoop";
+    }
+  };
+  var PointsMaterial = class extends Material {
+    /**
+     * Constructs a new points material.
+     *
+     * @param {Object} [parameters] - An object with one or more properties
+     * defining the material's appearance. Any property of the material
+     * (including any property from inherited materials) can be passed
+     * in here. Color values can be passed any type of value accepted
+     * by {@link Color#set}.
+     */
+    constructor(parameters) {
+      super();
+      this.isPointsMaterial = true;
+      this.type = "PointsMaterial";
+      this.color = new Color(16777215);
+      this.map = null;
+      this.alphaMap = null;
+      this.size = 1;
+      this.sizeAttenuation = true;
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.color.copy(source.color);
+      this.map = source.map;
+      this.alphaMap = source.alphaMap;
+      this.size = source.size;
+      this.sizeAttenuation = source.sizeAttenuation;
+      this.fog = source.fog;
+      return this;
+    }
+  };
+  var _inverseMatrix = /* @__PURE__ */ new Matrix4();
+  var _ray = /* @__PURE__ */ new Ray();
+  var _sphere = /* @__PURE__ */ new Sphere();
+  var _position$3 = /* @__PURE__ */ new Vector3();
+  var Points = class extends Object3D {
+    /**
+     * Constructs a new point cloud.
+     *
+     * @param {BufferGeometry} [geometry] - The points geometry.
+     * @param {Material|Array<Material>} [material] - The points material.
+     */
+    constructor(geometry = new BufferGeometry(), material = new PointsMaterial()) {
+      super();
+      this.isPoints = true;
+      this.type = "Points";
+      this.geometry = geometry;
+      this.material = material;
+      this.morphTargetDictionary = void 0;
+      this.morphTargetInfluences = void 0;
+      this.updateMorphTargets();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.material = Array.isArray(source.material) ? source.material.slice() : source.material;
+      this.geometry = source.geometry;
+      return this;
+    }
+    /**
+     * Computes intersection points between a casted ray and this point cloud.
+     *
+     * @param {Raycaster} raycaster - The raycaster.
+     * @param {Array<Object>} intersects - The target array that holds the intersection points.
+     */
+    raycast(raycaster, intersects) {
+      const geometry = this.geometry;
+      const matrixWorld = this.matrixWorld;
+      const threshold = raycaster.params.Points.threshold;
+      const drawRange = geometry.drawRange;
+      if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
+      _sphere.copy(geometry.boundingSphere);
+      _sphere.applyMatrix4(matrixWorld);
+      _sphere.radius += threshold;
+      if (raycaster.ray.intersectsSphere(_sphere) === false) return;
+      _inverseMatrix.copy(matrixWorld).invert();
+      _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix);
+      const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
+      const localThresholdSq = localThreshold * localThreshold;
+      const index = geometry.index;
+      const attributes = geometry.attributes;
+      const positionAttribute = attributes.position;
+      if (index !== null) {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(index.count, drawRange.start + drawRange.count);
+        for (let i = start, il = end; i < il; i++) {
+          const a = index.getX(i);
+          _position$3.fromBufferAttribute(positionAttribute, a);
+          testPoint(_position$3, a, localThresholdSq, matrixWorld, raycaster, intersects, this);
+        }
+      } else {
+        const start = Math.max(0, drawRange.start);
+        const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
+        for (let i = start, l = end; i < l; i++) {
+          _position$3.fromBufferAttribute(positionAttribute, i);
+          testPoint(_position$3, i, localThresholdSq, matrixWorld, raycaster, intersects, this);
+        }
+      }
+    }
+    /**
+     * Sets the values of {@link Points#morphTargetDictionary} and {@link Points#morphTargetInfluences}
+     * to make sure existing morph targets can influence this 3D object.
+     */
+    updateMorphTargets() {
+      const geometry = this.geometry;
+      const morphAttributes = geometry.morphAttributes;
+      const keys = Object.keys(morphAttributes);
+      if (keys.length > 0) {
+        const morphAttribute = morphAttributes[keys[0]];
+        if (morphAttribute !== void 0) {
+          this.morphTargetInfluences = [];
+          this.morphTargetDictionary = {};
+          for (let m = 0, ml = morphAttribute.length; m < ml; m++) {
+            const name = morphAttribute[m].name || String(m);
+            this.morphTargetInfluences.push(0);
+            this.morphTargetDictionary[name] = m;
+          }
+        }
+      }
+    }
+  };
+  function testPoint(point, index, localThresholdSq, matrixWorld, raycaster, intersects, object) {
+    const rayPointDistanceSq = _ray.distanceSqToPoint(point);
+    if (rayPointDistanceSq < localThresholdSq) {
+      const intersectPoint = new Vector3();
+      _ray.closestPointToPoint(point, intersectPoint);
+      intersectPoint.applyMatrix4(matrixWorld);
+      const distance = raycaster.ray.origin.distanceTo(intersectPoint);
+      if (distance < raycaster.near || distance > raycaster.far) return;
+      intersects.push({
+        distance,
+        distanceToRay: Math.sqrt(rayPointDistanceSq),
+        point: intersectPoint,
+        index,
+        face: null,
+        faceIndex: null,
+        barycoord: null,
+        object
+      });
+    }
+  }
   var CubeTexture = class extends Texture {
     /**
      * Constructs a new cube texture.
@@ -12710,6 +19774,94 @@
       return new _PlaneGeometry(data.width, data.height, data.widthSegments, data.heightSegments);
     }
   };
+  var SphereGeometry = class _SphereGeometry extends BufferGeometry {
+    /**
+     * Constructs a new sphere geometry.
+     *
+     * @param {number} [radius=1] - The sphere radius.
+     * @param {number} [widthSegments=32] - The number of horizontal segments. Minimum value is `3`.
+     * @param {number} [heightSegments=16] - The number of vertical segments. Minimum value is `2`.
+     * @param {number} [phiStart=0] - The horizontal starting angle in radians.
+     * @param {number} [phiLength=Math.PI*2] - The horizontal sweep angle size.
+     * @param {number} [thetaStart=0] - The vertical starting angle in radians.
+     * @param {number} [thetaLength=Math.PI] - The vertical sweep angle size.
+     */
+    constructor(radius = 1, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI) {
+      super();
+      this.type = "SphereGeometry";
+      this.parameters = {
+        radius,
+        widthSegments,
+        heightSegments,
+        phiStart,
+        phiLength,
+        thetaStart,
+        thetaLength
+      };
+      widthSegments = Math.max(3, Math.floor(widthSegments));
+      heightSegments = Math.max(2, Math.floor(heightSegments));
+      const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
+      let index = 0;
+      const grid = [];
+      const vertex2 = new Vector3();
+      const normal = new Vector3();
+      const indices = [];
+      const vertices = [];
+      const normals = [];
+      const uvs = [];
+      for (let iy = 0; iy <= heightSegments; iy++) {
+        const verticesRow = [];
+        const v = iy / heightSegments;
+        let uOffset = 0;
+        if (iy === 0 && thetaStart === 0) {
+          uOffset = 0.5 / widthSegments;
+        } else if (iy === heightSegments && thetaEnd === Math.PI) {
+          uOffset = -0.5 / widthSegments;
+        }
+        for (let ix = 0; ix <= widthSegments; ix++) {
+          const u = ix / widthSegments;
+          vertex2.x = -radius * Math.cos(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+          vertex2.y = radius * Math.cos(thetaStart + v * thetaLength);
+          vertex2.z = radius * Math.sin(phiStart + u * phiLength) * Math.sin(thetaStart + v * thetaLength);
+          vertices.push(vertex2.x, vertex2.y, vertex2.z);
+          normal.copy(vertex2).normalize();
+          normals.push(normal.x, normal.y, normal.z);
+          uvs.push(u + uOffset, 1 - v);
+          verticesRow.push(index++);
+        }
+        grid.push(verticesRow);
+      }
+      for (let iy = 0; iy < heightSegments; iy++) {
+        for (let ix = 0; ix < widthSegments; ix++) {
+          const a = grid[iy][ix + 1];
+          const b = grid[iy][ix];
+          const c = grid[iy + 1][ix];
+          const d = grid[iy + 1][ix + 1];
+          if (iy !== 0 || thetaStart > 0) indices.push(a, b, d);
+          if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d);
+        }
+      }
+      this.setIndex(indices);
+      this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
+      this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
+    }
+    copy(source) {
+      super.copy(source);
+      this.parameters = Object.assign({}, source.parameters);
+      return this;
+    }
+    /**
+     * Factory method for creating an instance of this class from the given
+     * JSON object.
+     *
+     * @param {Object} data - A JSON object representing the serialized geometry.
+     * @return {SphereGeometry} A new instance.
+     */
+    static fromJSON(data) {
+      return new _SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
+    }
+  };
   function cloneUniforms(src) {
     const dst = {};
     for (const u in src) {
@@ -12998,6 +20150,293 @@
       return this;
     }
   };
+  var MeshPhysicalMaterial = class extends MeshStandardMaterial {
+    /**
+     * Constructs a new mesh physical material.
+     *
+     * @param {Object} [parameters] - An object with one or more properties
+     * defining the material's appearance. Any property of the material
+     * (including any property from inherited materials) can be passed
+     * in here. Color values can be passed any type of value accepted
+     * by {@link Color#set}.
+     */
+    constructor(parameters) {
+      super();
+      this.isMeshPhysicalMaterial = true;
+      this.defines = {
+        "STANDARD": "",
+        "PHYSICAL": ""
+      };
+      this.type = "MeshPhysicalMaterial";
+      this.anisotropyRotation = 0;
+      this.anisotropyMap = null;
+      this.clearcoatMap = null;
+      this.clearcoatRoughness = 0;
+      this.clearcoatRoughnessMap = null;
+      this.clearcoatNormalScale = new Vector2(1, 1);
+      this.clearcoatNormalMap = null;
+      this.ior = 1.5;
+      Object.defineProperty(this, "reflectivity", {
+        get: function() {
+          return clamp(2.5 * (this.ior - 1) / (this.ior + 1), 0, 1);
+        },
+        set: function(reflectivity) {
+          this.ior = (1 + 0.4 * reflectivity) / (1 - 0.4 * reflectivity);
+        }
+      });
+      this.iridescenceMap = null;
+      this.iridescenceIOR = 1.3;
+      this.iridescenceThicknessRange = [100, 400];
+      this.iridescenceThicknessMap = null;
+      this.sheenColor = new Color(0);
+      this.sheenColorMap = null;
+      this.sheenRoughness = 1;
+      this.sheenRoughnessMap = null;
+      this.transmissionMap = null;
+      this.thickness = 0;
+      this.thicknessMap = null;
+      this.attenuationDistance = Infinity;
+      this.attenuationColor = new Color(1, 1, 1);
+      this.specularIntensity = 1;
+      this.specularIntensityMap = null;
+      this.specularColor = new Color(1, 1, 1);
+      this.specularColorMap = null;
+      this._anisotropy = 0;
+      this._clearcoat = 0;
+      this._dispersion = 0;
+      this._iridescence = 0;
+      this._sheen = 0;
+      this._transmission = 0;
+      this.setValues(parameters);
+    }
+    /**
+     * The anisotropy strength, from `0.0` to `1.0`.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get anisotropy() {
+      return this._anisotropy;
+    }
+    set anisotropy(value) {
+      if (this._anisotropy > 0 !== value > 0) {
+        this.version++;
+      }
+      this._anisotropy = value;
+    }
+    /**
+     * Represents the intensity of the clear coat layer, from `0.0` to `1.0`. Use
+     * clear coat related properties to enable multilayer materials that have a
+     * thin translucent layer over the base layer.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get clearcoat() {
+      return this._clearcoat;
+    }
+    set clearcoat(value) {
+      if (this._clearcoat > 0 !== value > 0) {
+        this.version++;
+      }
+      this._clearcoat = value;
+    }
+    /**
+     * The intensity of the iridescence layer, simulating RGB color shift based on the angle between
+     * the surface and the viewer, from `0.0` to `1.0`.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get iridescence() {
+      return this._iridescence;
+    }
+    set iridescence(value) {
+      if (this._iridescence > 0 !== value > 0) {
+        this.version++;
+      }
+      this._iridescence = value;
+    }
+    /**
+     * Defines the strength of the angular separation of colors (chromatic aberration) transmitting
+     * through a relatively clear volume. Any value zero or larger is valid, the typical range of
+     * realistic values is `[0, 1]`. This property can be only be used with transmissive objects.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get dispersion() {
+      return this._dispersion;
+    }
+    set dispersion(value) {
+      if (this._dispersion > 0 !== value > 0) {
+        this.version++;
+      }
+      this._dispersion = value;
+    }
+    /**
+     * The intensity of the sheen layer, from `0.0` to `1.0`.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get sheen() {
+      return this._sheen;
+    }
+    set sheen(value) {
+      if (this._sheen > 0 !== value > 0) {
+        this.version++;
+      }
+      this._sheen = value;
+    }
+    /**
+     * Degree of transmission (or optical transparency), from `0.0` to `1.0`.
+     *
+     * Thin, transparent or semitransparent, plastic or glass materials remain
+     * largely reflective even if they are fully transmissive. The transmission
+     * property can be used to model these materials.
+     *
+     * When transmission is non-zero, `opacity` should be  set to `1`.
+     *
+     * @type {number}
+     * @default 0
+     */
+    get transmission() {
+      return this._transmission;
+    }
+    set transmission(value) {
+      if (this._transmission > 0 !== value > 0) {
+        this.version++;
+      }
+      this._transmission = value;
+    }
+    copy(source) {
+      super.copy(source);
+      this.defines = {
+        "STANDARD": "",
+        "PHYSICAL": ""
+      };
+      this.anisotropy = source.anisotropy;
+      this.anisotropyRotation = source.anisotropyRotation;
+      this.anisotropyMap = source.anisotropyMap;
+      this.clearcoat = source.clearcoat;
+      this.clearcoatMap = source.clearcoatMap;
+      this.clearcoatRoughness = source.clearcoatRoughness;
+      this.clearcoatRoughnessMap = source.clearcoatRoughnessMap;
+      this.clearcoatNormalMap = source.clearcoatNormalMap;
+      this.clearcoatNormalScale.copy(source.clearcoatNormalScale);
+      this.dispersion = source.dispersion;
+      this.ior = source.ior;
+      this.iridescence = source.iridescence;
+      this.iridescenceMap = source.iridescenceMap;
+      this.iridescenceIOR = source.iridescenceIOR;
+      this.iridescenceThicknessRange = [...source.iridescenceThicknessRange];
+      this.iridescenceThicknessMap = source.iridescenceThicknessMap;
+      this.sheen = source.sheen;
+      this.sheenColor.copy(source.sheenColor);
+      this.sheenColorMap = source.sheenColorMap;
+      this.sheenRoughness = source.sheenRoughness;
+      this.sheenRoughnessMap = source.sheenRoughnessMap;
+      this.transmission = source.transmission;
+      this.transmissionMap = source.transmissionMap;
+      this.thickness = source.thickness;
+      this.thicknessMap = source.thicknessMap;
+      this.attenuationDistance = source.attenuationDistance;
+      this.attenuationColor.copy(source.attenuationColor);
+      this.specularIntensity = source.specularIntensity;
+      this.specularIntensityMap = source.specularIntensityMap;
+      this.specularColor.copy(source.specularColor);
+      this.specularColorMap = source.specularColorMap;
+      return this;
+    }
+  };
+  var MeshPhongMaterial = class extends Material {
+    /**
+     * Constructs a new mesh phong material.
+     *
+     * @param {Object} [parameters] - An object with one or more properties
+     * defining the material's appearance. Any property of the material
+     * (including any property from inherited materials) can be passed
+     * in here. Color values can be passed any type of value accepted
+     * by {@link Color#set}.
+     */
+    constructor(parameters) {
+      super();
+      this.isMeshPhongMaterial = true;
+      this.type = "MeshPhongMaterial";
+      this.color = new Color(16777215);
+      this.specular = new Color(1118481);
+      this.shininess = 30;
+      this.map = null;
+      this.lightMap = null;
+      this.lightMapIntensity = 1;
+      this.aoMap = null;
+      this.aoMapIntensity = 1;
+      this.emissive = new Color(0);
+      this.emissiveIntensity = 1;
+      this.emissiveMap = null;
+      this.bumpMap = null;
+      this.bumpScale = 1;
+      this.normalMap = null;
+      this.normalMapType = TangentSpaceNormalMap;
+      this.normalScale = new Vector2(1, 1);
+      this.displacementMap = null;
+      this.displacementScale = 1;
+      this.displacementBias = 0;
+      this.specularMap = null;
+      this.alphaMap = null;
+      this.envMap = null;
+      this.envMapRotation = new Euler();
+      this.combine = MultiplyOperation;
+      this.reflectivity = 1;
+      this.envMapIntensity = 1;
+      this.refractionRatio = 0.98;
+      this.wireframe = false;
+      this.wireframeLinewidth = 1;
+      this.wireframeLinecap = "round";
+      this.wireframeLinejoin = "round";
+      this.flatShading = false;
+      this.fog = true;
+      this.setValues(parameters);
+    }
+    copy(source) {
+      super.copy(source);
+      this.color.copy(source.color);
+      this.specular.copy(source.specular);
+      this.shininess = source.shininess;
+      this.map = source.map;
+      this.lightMap = source.lightMap;
+      this.lightMapIntensity = source.lightMapIntensity;
+      this.aoMap = source.aoMap;
+      this.aoMapIntensity = source.aoMapIntensity;
+      this.emissive.copy(source.emissive);
+      this.emissiveMap = source.emissiveMap;
+      this.emissiveIntensity = source.emissiveIntensity;
+      this.bumpMap = source.bumpMap;
+      this.bumpScale = source.bumpScale;
+      this.normalMap = source.normalMap;
+      this.normalMapType = source.normalMapType;
+      this.normalScale.copy(source.normalScale);
+      this.displacementMap = source.displacementMap;
+      this.displacementScale = source.displacementScale;
+      this.displacementBias = source.displacementBias;
+      this.specularMap = source.specularMap;
+      this.alphaMap = source.alphaMap;
+      this.envMap = source.envMap;
+      this.envMapRotation.copy(source.envMapRotation);
+      this.combine = source.combine;
+      this.reflectivity = source.reflectivity;
+      this.envMapIntensity = source.envMapIntensity;
+      this.refractionRatio = source.refractionRatio;
+      this.wireframe = source.wireframe;
+      this.wireframeLinewidth = source.wireframeLinewidth;
+      this.wireframeLinecap = source.wireframeLinecap;
+      this.wireframeLinejoin = source.wireframeLinejoin;
+      this.flatShading = source.flatShading;
+      this.fog = source.fog;
+      return this;
+    }
+  };
   var MeshDepthMaterial = class extends Material {
     /**
      * Constructs a new mesh depth material.
@@ -13072,6 +20511,64 @@
       return new type(array);
     }
     return Array.prototype.slice.call(array);
+  }
+  function getKeyframeOrder(times) {
+    function compareTime(i, j) {
+      return times[i] - times[j];
+    }
+    const n = times.length;
+    const result = new Array(n);
+    for (let i = 0; i !== n; ++i) result[i] = i;
+    result.sort(compareTime);
+    return result;
+  }
+  function sortedArray(values, stride, order) {
+    const nValues = values.length;
+    const result = new values.constructor(nValues);
+    for (let i = 0, dstOffset = 0; dstOffset !== nValues; ++i) {
+      const srcOffset = order[i] * stride;
+      for (let j = 0; j !== stride; ++j) {
+        result[dstOffset++] = values[srcOffset + j];
+      }
+    }
+    return result;
+  }
+  function flattenJSON(jsonKeys, times, values, valuePropertyName) {
+    let i = 1, key = jsonKeys[0];
+    while (key !== void 0 && key[valuePropertyName] === void 0) {
+      key = jsonKeys[i++];
+    }
+    if (key === void 0) return;
+    let value = key[valuePropertyName];
+    if (value === void 0) return;
+    if (Array.isArray(value)) {
+      do {
+        value = key[valuePropertyName];
+        if (value !== void 0) {
+          times.push(key.time);
+          values.push(...value);
+        }
+        key = jsonKeys[i++];
+      } while (key !== void 0);
+    } else if (value.toArray !== void 0) {
+      do {
+        value = key[valuePropertyName];
+        if (value !== void 0) {
+          times.push(key.time);
+          value.toArray(values, values.length);
+        }
+        key = jsonKeys[i++];
+      } while (key !== void 0);
+    } else {
+      do {
+        value = key[valuePropertyName];
+        if (value !== void 0) {
+          times.push(key.time);
+          values.push(value);
+        }
+        key = jsonKeys[i++];
+      } while (key !== void 0);
+    }
   }
   var Interpolant = class {
     /**
@@ -13834,6 +21331,441 @@
     }
   };
   VectorKeyframeTrack.prototype.ValueTypeName = "vector";
+  var AnimationClip = class {
+    /**
+     * Constructs a new animation clip.
+     *
+     * Note: Instead of instantiating an AnimationClip directly with the constructor, you can
+     * use the static interface of this class for creating clips. In most cases though, animation clips
+     * will automatically be created by loaders when importing animated 3D assets.
+     *
+     * @param {string} [name=''] - The clip's name.
+     * @param {number} [duration=-1] - The clip's duration in seconds. If a negative value is passed,
+     * the duration will be calculated from the passed keyframes.
+     * @param {Array<KeyframeTrack>} tracks - An array of keyframe tracks.
+     * @param {(NormalAnimationBlendMode|AdditiveAnimationBlendMode)} [blendMode=NormalAnimationBlendMode] - Defines how the animation
+     * is blended/combined when two or more animations are simultaneously played.
+     */
+    constructor(name = "", duration = -1, tracks = [], blendMode = NormalAnimationBlendMode) {
+      this.name = name;
+      this.tracks = tracks;
+      this.duration = duration;
+      this.blendMode = blendMode;
+      this.uuid = generateUUID();
+      this.userData = {};
+      if (this.duration < 0) {
+        this.resetDuration();
+      }
+    }
+    /**
+     * Factory method for creating an animation clip from the given JSON.
+     *
+     * @static
+     * @param {Object} json - The serialized animation clip.
+     * @return {AnimationClip} The new animation clip.
+     */
+    static parse(json) {
+      const tracks = [], jsonTracks = json.tracks, frameTime = 1 / (json.fps || 1);
+      for (let i = 0, n = jsonTracks.length; i !== n; ++i) {
+        tracks.push(parseKeyframeTrack(jsonTracks[i]).scale(frameTime));
+      }
+      const clip = new this(json.name, json.duration, tracks, json.blendMode);
+      clip.uuid = json.uuid;
+      clip.userData = JSON.parse(json.userData || "{}");
+      return clip;
+    }
+    /**
+     * Serializes the given animation clip into JSON.
+     *
+     * @static
+     * @param {AnimationClip} clip - The animation clip to serialize.
+     * @return {Object} The JSON object.
+     */
+    static toJSON(clip) {
+      const tracks = [], clipTracks = clip.tracks;
+      const json = {
+        "name": clip.name,
+        "duration": clip.duration,
+        "tracks": tracks,
+        "uuid": clip.uuid,
+        "blendMode": clip.blendMode,
+        "userData": JSON.stringify(clip.userData)
+      };
+      for (let i = 0, n = clipTracks.length; i !== n; ++i) {
+        tracks.push(KeyframeTrack.toJSON(clipTracks[i]));
+      }
+      return json;
+    }
+    /**
+     * Returns a new animation clip from the passed morph targets array of a
+     * geometry, taking a name and the number of frames per second.
+     *
+     * Note: The fps parameter is required, but the animation speed can be
+     * overridden via {@link AnimationAction#setDuration}.
+     *
+     * @static
+     * @param {string} name - The name of the animation clip.
+     * @param {Array<Object>} morphTargetSequence - A sequence of morph targets.
+     * @param {number} fps - The Frames-Per-Second value.
+     * @param {boolean} noLoop - Whether the clip should be no loop or not.
+     * @return {AnimationClip} The new animation clip.
+     */
+    static CreateFromMorphTargetSequence(name, morphTargetSequence, fps, noLoop) {
+      const numMorphTargets = morphTargetSequence.length;
+      const tracks = [];
+      for (let i = 0; i < numMorphTargets; i++) {
+        let times = [];
+        let values = [];
+        times.push(
+          (i + numMorphTargets - 1) % numMorphTargets,
+          i,
+          (i + 1) % numMorphTargets
+        );
+        values.push(0, 1, 0);
+        const order = getKeyframeOrder(times);
+        times = sortedArray(times, 1, order);
+        values = sortedArray(values, 1, order);
+        if (!noLoop && times[0] === 0) {
+          times.push(numMorphTargets);
+          values.push(values[0]);
+        }
+        tracks.push(
+          new NumberKeyframeTrack(
+            ".morphTargetInfluences[" + morphTargetSequence[i].name + "]",
+            times,
+            values
+          ).scale(1 / fps)
+        );
+      }
+      return new this(name, -1, tracks);
+    }
+    /**
+     * Searches for an animation clip by name, taking as its first parameter
+     * either an array of clips, or a mesh or geometry that contains an
+     * array named "animations" property.
+     *
+     * @static
+     * @param {(Array<AnimationClip>|Object3D)} objectOrClipArray - The array or object to search through.
+     * @param {string} name - The name to search for.
+     * @return {?AnimationClip} The found animation clip. Returns `null` if no clip has been found.
+     */
+    static findByName(objectOrClipArray, name) {
+      let clipArray = objectOrClipArray;
+      if (!Array.isArray(objectOrClipArray)) {
+        const o = objectOrClipArray;
+        clipArray = o.geometry && o.geometry.animations || o.animations;
+      }
+      for (let i = 0; i < clipArray.length; i++) {
+        if (clipArray[i].name === name) {
+          return clipArray[i];
+        }
+      }
+      return null;
+    }
+    /**
+     * Returns an array of new AnimationClips created from the morph target
+     * sequences of a geometry, trying to sort morph target names into
+     * animation-group-based patterns like "Walk_001, Walk_002, Run_001, Run_002...".
+     *
+     * See {@link MD2Loader#parse} as an example for how the method should be used.
+     *
+     * @static
+     * @param {Array<Object>} morphTargets - A sequence of morph targets.
+     * @param {number} fps - The Frames-Per-Second value.
+     * @param {boolean} noLoop - Whether the clip should be no loop or not.
+     * @return {Array<AnimationClip>} An array of new animation clips.
+     */
+    static CreateClipsFromMorphTargetSequences(morphTargets, fps, noLoop) {
+      const animationToMorphTargets = {};
+      const pattern = /^([\w-]*?)([\d]+)$/;
+      for (let i = 0, il = morphTargets.length; i < il; i++) {
+        const morphTarget = morphTargets[i];
+        const parts = morphTarget.name.match(pattern);
+        if (parts && parts.length > 1) {
+          const name = parts[1];
+          let animationMorphTargets = animationToMorphTargets[name];
+          if (!animationMorphTargets) {
+            animationToMorphTargets[name] = animationMorphTargets = [];
+          }
+          animationMorphTargets.push(morphTarget);
+        }
+      }
+      const clips = [];
+      for (const name in animationToMorphTargets) {
+        clips.push(this.CreateFromMorphTargetSequence(name, animationToMorphTargets[name], fps, noLoop));
+      }
+      return clips;
+    }
+    /**
+     * Parses the `animation.hierarchy` format and returns a new animation clip.
+     *
+     * @static
+     * @deprecated since r175.
+     * @param {Object} animation - A serialized animation clip as JSON.
+     * @param {Array<Bone>} bones - An array of bones.
+     * @return {?AnimationClip} The new animation clip.
+     */
+    static parseAnimation(animation, bones) {
+      warn("AnimationClip: parseAnimation() is deprecated and will be removed with r185");
+      if (!animation) {
+        error("AnimationClip: No animation in JSONLoader data.");
+        return null;
+      }
+      const addNonemptyTrack = function(trackType, trackName, animationKeys, propertyName, destTracks) {
+        if (animationKeys.length !== 0) {
+          const times = [];
+          const values = [];
+          flattenJSON(animationKeys, times, values, propertyName);
+          if (times.length !== 0) {
+            destTracks.push(new trackType(trackName, times, values));
+          }
+        }
+      };
+      const tracks = [];
+      const clipName = animation.name || "default";
+      const fps = animation.fps || 30;
+      const blendMode = animation.blendMode;
+      let duration = animation.length || -1;
+      const hierarchyTracks = animation.hierarchy || [];
+      for (let h = 0; h < hierarchyTracks.length; h++) {
+        const animationKeys = hierarchyTracks[h].keys;
+        if (!animationKeys || animationKeys.length === 0) continue;
+        if (animationKeys[0].morphTargets) {
+          const morphTargetNames = {};
+          let k;
+          for (k = 0; k < animationKeys.length; k++) {
+            if (animationKeys[k].morphTargets) {
+              for (let m = 0; m < animationKeys[k].morphTargets.length; m++) {
+                morphTargetNames[animationKeys[k].morphTargets[m]] = -1;
+              }
+            }
+          }
+          for (const morphTargetName in morphTargetNames) {
+            const times = [];
+            const values = [];
+            for (let m = 0; m !== animationKeys[k].morphTargets.length; ++m) {
+              const animationKey = animationKeys[k];
+              times.push(animationKey.time);
+              values.push(animationKey.morphTarget === morphTargetName ? 1 : 0);
+            }
+            tracks.push(new NumberKeyframeTrack(".morphTargetInfluence[" + morphTargetName + "]", times, values));
+          }
+          duration = morphTargetNames.length * fps;
+        } else {
+          const boneName = ".bones[" + bones[h].name + "]";
+          addNonemptyTrack(
+            VectorKeyframeTrack,
+            boneName + ".position",
+            animationKeys,
+            "pos",
+            tracks
+          );
+          addNonemptyTrack(
+            QuaternionKeyframeTrack,
+            boneName + ".quaternion",
+            animationKeys,
+            "rot",
+            tracks
+          );
+          addNonemptyTrack(
+            VectorKeyframeTrack,
+            boneName + ".scale",
+            animationKeys,
+            "scl",
+            tracks
+          );
+        }
+      }
+      if (tracks.length === 0) {
+        return null;
+      }
+      const clip = new this(clipName, duration, tracks, blendMode);
+      return clip;
+    }
+    /**
+     * Sets the duration of this clip to the duration of its longest keyframe track.
+     *
+     * @return {AnimationClip} A reference to this animation clip.
+     */
+    resetDuration() {
+      const tracks = this.tracks;
+      let duration = 0;
+      for (let i = 0, n = tracks.length; i !== n; ++i) {
+        const track = this.tracks[i];
+        duration = Math.max(duration, track.times[track.times.length - 1]);
+      }
+      this.duration = duration;
+      return this;
+    }
+    /**
+     * Trims all tracks to the clip's duration.
+     *
+     * @return {AnimationClip} A reference to this animation clip.
+     */
+    trim() {
+      for (let i = 0; i < this.tracks.length; i++) {
+        this.tracks[i].trim(0, this.duration);
+      }
+      return this;
+    }
+    /**
+     * Performs minimal validation on each track in the clip. Returns `true` if all
+     * tracks are valid.
+     *
+     * @return {boolean} Whether the clip's keyframes are valid or not.
+     */
+    validate() {
+      let valid = true;
+      for (let i = 0; i < this.tracks.length; i++) {
+        valid = valid && this.tracks[i].validate();
+      }
+      return valid;
+    }
+    /**
+     * Optimizes each track by removing equivalent sequential keys (which are
+     * common in morph target sequences).
+     *
+     * @return {AnimationClip} A reference to this animation clip.
+     */
+    optimize() {
+      for (let i = 0; i < this.tracks.length; i++) {
+        this.tracks[i].optimize();
+      }
+      return this;
+    }
+    /**
+     * Returns a new animation clip with copied values from this instance.
+     *
+     * @return {AnimationClip} A clone of this instance.
+     */
+    clone() {
+      const tracks = [];
+      for (let i = 0; i < this.tracks.length; i++) {
+        tracks.push(this.tracks[i].clone());
+      }
+      const clip = new this.constructor(this.name, this.duration, tracks, this.blendMode);
+      clip.userData = JSON.parse(JSON.stringify(this.userData));
+      return clip;
+    }
+    /**
+     * Serializes this animation clip into JSON.
+     *
+     * @return {Object} The JSON object.
+     */
+    toJSON() {
+      return this.constructor.toJSON(this);
+    }
+  };
+  function getTrackTypeForValueTypeName(typeName) {
+    switch (typeName.toLowerCase()) {
+      case "scalar":
+      case "double":
+      case "float":
+      case "number":
+      case "integer":
+        return NumberKeyframeTrack;
+      case "vector":
+      case "vector2":
+      case "vector3":
+      case "vector4":
+        return VectorKeyframeTrack;
+      case "color":
+        return ColorKeyframeTrack;
+      case "quaternion":
+        return QuaternionKeyframeTrack;
+      case "bool":
+      case "boolean":
+        return BooleanKeyframeTrack;
+      case "string":
+        return StringKeyframeTrack;
+    }
+    throw new Error("THREE.KeyframeTrack: Unsupported typeName: " + typeName);
+  }
+  function parseKeyframeTrack(json) {
+    if (json.type === void 0) {
+      throw new Error("THREE.KeyframeTrack: track type undefined, can not parse");
+    }
+    const trackType = getTrackTypeForValueTypeName(json.type);
+    if (json.times === void 0) {
+      const times = [], values = [];
+      flattenJSON(json.keys, times, values, "value");
+      json.times = times;
+      json.values = values;
+    }
+    if (trackType.parse !== void 0) {
+      return trackType.parse(json);
+    } else {
+      return new trackType(json.name, json.times, json.values, json.interpolation);
+    }
+  }
+  var Cache = {
+    /**
+     * Whether caching is enabled or not.
+     *
+     * @static
+     * @type {boolean}
+     * @default false
+     */
+    enabled: false,
+    /**
+     * A dictionary that holds cached files.
+     *
+     * @static
+     * @type {Object<string,Object>}
+     */
+    files: {},
+    /**
+     * Adds a cache entry with a key to reference the file. If this key already
+     * holds a file, it is overwritten.
+     *
+     * @static
+     * @param {string} key - The key to reference the cached file.
+     * @param {Object} file -  The file to be cached.
+     */
+    add: function(key, file) {
+      if (this.enabled === false) return;
+      if (isBlobURL(key)) return;
+      this.files[key] = file;
+    },
+    /**
+     * Gets the cached value for the given key.
+     *
+     * @static
+     * @param {string} key - The key to reference the cached file.
+     * @return {Object|undefined} The cached file. If the key does not exist `undefined` is returned.
+     */
+    get: function(key) {
+      if (this.enabled === false) return;
+      if (isBlobURL(key)) return;
+      return this.files[key];
+    },
+    /**
+     * Removes the cached file associated with the given key.
+     *
+     * @static
+     * @param {string} key - The key to reference the cached file.
+     */
+    remove: function(key) {
+      delete this.files[key];
+    },
+    /**
+     * Remove all values from the cache.
+     *
+     * @static
+     */
+    clear: function() {
+      this.files = {};
+    }
+  };
+  function isBlobURL(key) {
+    try {
+      const urlString = key.slice(key.indexOf(":") + 1);
+      const url = new URL(urlString);
+      return url.protocol === "blob:";
+    } catch (e) {
+      return false;
+    }
+  }
   var LoadingManager = class {
     /**
      * Constructs a new loading manager.
@@ -13939,8 +21871,8 @@
      *
      * @param {LoadingManager} [manager] - The loading manager.
      */
-    constructor(manager) {
-      this.manager = manager !== void 0 ? manager : DefaultLoadingManager;
+    constructor(manager2) {
+      this.manager = manager2 !== void 0 ? manager2 : DefaultLoadingManager;
       this.crossOrigin = "anonymous";
       this.withCredentials = false;
       this.path = "";
@@ -14050,6 +21982,308 @@
     }
   };
   Loader.DEFAULT_MATERIAL_NAME = "__DEFAULT";
+  var loading = {};
+  var HttpError = class extends Error {
+    constructor(message, response) {
+      super(message);
+      this.response = response;
+    }
+  };
+  var FileLoader = class extends Loader {
+    /**
+     * Constructs a new file loader.
+     *
+     * @param {LoadingManager} [manager] - The loading manager.
+     */
+    constructor(manager2) {
+      super(manager2);
+      this.mimeType = "";
+      this.responseType = "";
+      this._abortController = new AbortController();
+    }
+    /**
+     * Starts loading from the given URL and pass the loaded response to the `onLoad()` callback.
+     *
+     * @param {string} url - The path/URL of the file to be loaded. This can also be a data URI.
+     * @param {function(any)} onLoad - Executed when the loading process has been finished.
+     * @param {onProgressCallback} [onProgress] - Executed while the loading is in progress.
+     * @param {onErrorCallback} [onError] - Executed when errors occur.
+     */
+    load(url, onLoad, onProgress, onError) {
+      if (url === void 0) url = "";
+      if (this.path !== void 0) url = this.path + url;
+      url = this.manager.resolveURL(url);
+      const cached = Cache.get(`file:${url}`);
+      if (cached !== void 0) {
+        this.manager.itemStart(url);
+        setTimeout(() => {
+          if (onLoad) onLoad(cached);
+          this.manager.itemEnd(url);
+        }, 0);
+        return;
+      }
+      if (loading[url] !== void 0) {
+        loading[url].push({
+          onLoad,
+          onProgress,
+          onError
+        });
+        return;
+      }
+      loading[url] = [];
+      loading[url].push({
+        onLoad,
+        onProgress,
+        onError
+      });
+      const req = new Request(url, {
+        headers: new Headers(this.requestHeader),
+        credentials: this.withCredentials ? "include" : "same-origin",
+        signal: typeof AbortSignal.any === "function" ? AbortSignal.any([this._abortController.signal, this.manager.abortController.signal]) : this._abortController.signal
+      });
+      const mimeType = this.mimeType;
+      const responseType = this.responseType;
+      fetch(req).then((response) => {
+        if (response.status === 200 || response.status === 0) {
+          if (response.status === 0) {
+            warn("FileLoader: HTTP Status 0 received.");
+          }
+          if (typeof ReadableStream === "undefined" || response.body === void 0 || response.body.getReader === void 0) {
+            return response;
+          }
+          const callbacks = loading[url];
+          const reader = response.body.getReader();
+          const contentLength = response.headers.get("X-File-Size") || response.headers.get("Content-Length");
+          const total = contentLength ? parseInt(contentLength) : 0;
+          const lengthComputable = total !== 0;
+          let loaded = 0;
+          const stream = new ReadableStream({
+            start(controller) {
+              readData();
+              function readData() {
+                reader.read().then(({ done, value }) => {
+                  if (done) {
+                    controller.close();
+                  } else {
+                    loaded += value.byteLength;
+                    const event = new ProgressEvent("progress", { lengthComputable, loaded, total });
+                    for (let i = 0, il = callbacks.length; i < il; i++) {
+                      const callback = callbacks[i];
+                      if (callback.onProgress) callback.onProgress(event);
+                    }
+                    controller.enqueue(value);
+                    readData();
+                  }
+                }, (e) => {
+                  controller.error(e);
+                });
+              }
+            }
+          });
+          return new Response(stream);
+        } else {
+          throw new HttpError(`fetch for "${response.url}" responded with ${response.status}: ${response.statusText}`, response);
+        }
+      }).then((response) => {
+        switch (responseType) {
+          case "arraybuffer":
+            return response.arrayBuffer();
+          case "blob":
+            return response.blob();
+          case "document":
+            return response.text().then((text) => {
+              const parser = new DOMParser();
+              return parser.parseFromString(text, mimeType);
+            });
+          case "json":
+            return response.json();
+          default:
+            if (mimeType === "") {
+              return response.text();
+            } else {
+              const re = /charset="?([^;"\s]*)"?/i;
+              const exec = re.exec(mimeType);
+              const label = exec && exec[1] ? exec[1].toLowerCase() : void 0;
+              const decoder = new TextDecoder(label);
+              return response.arrayBuffer().then((ab) => decoder.decode(ab));
+            }
+        }
+      }).then((data) => {
+        Cache.add(`file:${url}`, data);
+        const callbacks = loading[url];
+        delete loading[url];
+        for (let i = 0, il = callbacks.length; i < il; i++) {
+          const callback = callbacks[i];
+          if (callback.onLoad) callback.onLoad(data);
+        }
+      }).catch((err) => {
+        const callbacks = loading[url];
+        if (callbacks === void 0) {
+          this.manager.itemError(url);
+          throw err;
+        }
+        delete loading[url];
+        for (let i = 0, il = callbacks.length; i < il; i++) {
+          const callback = callbacks[i];
+          if (callback.onError) callback.onError(err);
+        }
+        this.manager.itemError(url);
+      }).finally(() => {
+        this.manager.itemEnd(url);
+      });
+      this.manager.itemStart(url);
+    }
+    /**
+     * Sets the expected response type.
+     *
+     * @param {('arraybuffer'|'blob'|'document'|'json'|'')} value - The response type.
+     * @return {FileLoader} A reference to this file loader.
+     */
+    setResponseType(value) {
+      this.responseType = value;
+      return this;
+    }
+    /**
+     * Sets the expected mime type of the loaded file.
+     *
+     * @param {string} value - The mime type.
+     * @return {FileLoader} A reference to this file loader.
+     */
+    setMimeType(value) {
+      this.mimeType = value;
+      return this;
+    }
+    /**
+     * Aborts ongoing fetch requests.
+     *
+     * @return {FileLoader} A reference to this instance.
+     */
+    abort() {
+      this._abortController.abort();
+      this._abortController = new AbortController();
+      return this;
+    }
+  };
+  var _loading = /* @__PURE__ */ new WeakMap();
+  var ImageLoader = class extends Loader {
+    /**
+     * Constructs a new image loader.
+     *
+     * @param {LoadingManager} [manager] - The loading manager.
+     */
+    constructor(manager2) {
+      super(manager2);
+    }
+    /**
+     * Starts loading from the given URL and passes the loaded image
+     * to the `onLoad()` callback. The method also returns a new `Image` object which can
+     * directly be used for texture creation. If you do it this way, the texture
+     * may pop up in your scene once the respective loading process is finished.
+     *
+     * @param {string} url - The path/URL of the file to be loaded. This can also be a data URI.
+     * @param {function(Image)} onLoad - Executed when the loading process has been finished.
+     * @param {onProgressCallback} onProgress - Unsupported in this loader.
+     * @param {onErrorCallback} onError - Executed when errors occur.
+     * @return {Image} The image.
+     */
+    load(url, onLoad, onProgress, onError) {
+      if (this.path !== void 0) url = this.path + url;
+      url = this.manager.resolveURL(url);
+      const scope = this;
+      const cached = Cache.get(`image:${url}`);
+      if (cached !== void 0) {
+        if (cached.complete === true) {
+          scope.manager.itemStart(url);
+          setTimeout(function() {
+            if (onLoad) onLoad(cached);
+            scope.manager.itemEnd(url);
+          }, 0);
+        } else {
+          let arr = _loading.get(cached);
+          if (arr === void 0) {
+            arr = [];
+            _loading.set(cached, arr);
+          }
+          arr.push({ onLoad, onError });
+        }
+        return cached;
+      }
+      const image = createElementNS("img");
+      function onImageLoad() {
+        removeEventListeners();
+        if (onLoad) onLoad(this);
+        const callbacks = _loading.get(this) || [];
+        for (let i = 0; i < callbacks.length; i++) {
+          const callback = callbacks[i];
+          if (callback.onLoad) callback.onLoad(this);
+        }
+        _loading.delete(this);
+        scope.manager.itemEnd(url);
+      }
+      function onImageError(event) {
+        removeEventListeners();
+        if (onError) onError(event);
+        Cache.remove(`image:${url}`);
+        const callbacks = _loading.get(this) || [];
+        for (let i = 0; i < callbacks.length; i++) {
+          const callback = callbacks[i];
+          if (callback.onError) callback.onError(event);
+        }
+        _loading.delete(this);
+        scope.manager.itemError(url);
+        scope.manager.itemEnd(url);
+      }
+      function removeEventListeners() {
+        image.removeEventListener("load", onImageLoad, false);
+        image.removeEventListener("error", onImageError, false);
+      }
+      image.addEventListener("load", onImageLoad, false);
+      image.addEventListener("error", onImageError, false);
+      if (url.slice(0, 5) !== "data:") {
+        if (this.crossOrigin !== void 0) image.crossOrigin = this.crossOrigin;
+      }
+      Cache.add(`image:${url}`, image);
+      scope.manager.itemStart(url);
+      image.src = url;
+      return image;
+    }
+  };
+  var TextureLoader = class extends Loader {
+    /**
+     * Constructs a new texture loader.
+     *
+     * @param {LoadingManager} [manager] - The loading manager.
+     */
+    constructor(manager2) {
+      super(manager2);
+    }
+    /**
+     * Starts loading from the given URL and pass the fully loaded texture
+     * to the `onLoad()` callback. The method also returns a new texture object which can
+     * directly be used for material creation. If you do it this way, the texture
+     * may pop up in your scene once the respective loading process is finished.
+     *
+     * @param {string} url - The path/URL of the file to be loaded. This can also be a data URI.
+     * @param {function(Texture)} onLoad - Executed when the loading process has been finished.
+     * @param {onProgressCallback} onProgress - Unsupported in this loader.
+     * @param {onErrorCallback} onError - Executed when errors occur.
+     * @return {Texture} The texture.
+     */
+    load(url, onLoad, onProgress, onError) {
+      const texture = new Texture();
+      const loader = new ImageLoader(this.manager);
+      loader.setCrossOrigin(this.crossOrigin);
+      loader.setPath(this.path);
+      loader.load(url, function(image) {
+        texture.image = image;
+        texture.needsUpdate = true;
+        if (onLoad !== void 0) {
+          onLoad(texture);
+        }
+      }, onProgress, onError);
+      return texture;
+    }
+  };
   var Light = class extends Object3D {
     /**
      * Constructs a new light.
@@ -14082,6 +22316,185 @@
       data.object.color = this.color.getHex();
       data.object.intensity = this.intensity;
       return data;
+    }
+  };
+  var _projScreenMatrix = /* @__PURE__ */ new Matrix4();
+  var _lightPositionWorld = /* @__PURE__ */ new Vector3();
+  var _lookTarget = /* @__PURE__ */ new Vector3();
+  var LightShadow = class {
+    /**
+     * Constructs a new light shadow.
+     *
+     * @param {Camera} camera - The light's view of the world.
+     */
+    constructor(camera2) {
+      this.camera = camera2;
+      this.intensity = 1;
+      this.bias = 0;
+      this.biasNode = null;
+      this.normalBias = 0;
+      this.radius = 1;
+      this.blurSamples = 8;
+      this.mapSize = new Vector2(512, 512);
+      this.mapType = UnsignedByteType;
+      this.map = null;
+      this.mapPass = null;
+      this.matrix = new Matrix4();
+      this.autoUpdate = true;
+      this.needsUpdate = false;
+      this._frustum = new Frustum();
+      this._frameExtents = new Vector2(1, 1);
+      this._viewportCount = 1;
+      this._viewports = [
+        new Vector4(0, 0, 1, 1)
+      ];
+    }
+    /**
+     * Used internally by the renderer to get the number of viewports that need
+     * to be rendered for this shadow.
+     *
+     * @return {number} The viewport count.
+     */
+    getViewportCount() {
+      return this._viewportCount;
+    }
+    /**
+     * Gets the shadow cameras frustum. Used internally by the renderer to cull objects.
+     *
+     * @return {Frustum} The shadow camera frustum.
+     */
+    getFrustum() {
+      return this._frustum;
+    }
+    /**
+     * Update the matrices for the camera and shadow, used internally by the renderer.
+     *
+     * @param {Light} light - The light for which the shadow is being rendered.
+     */
+    updateMatrices(light) {
+      const shadowCamera = this.camera;
+      const shadowMatrix = this.matrix;
+      _lightPositionWorld.setFromMatrixPosition(light.matrixWorld);
+      shadowCamera.position.copy(_lightPositionWorld);
+      _lookTarget.setFromMatrixPosition(light.target.matrixWorld);
+      shadowCamera.lookAt(_lookTarget);
+      shadowCamera.updateMatrixWorld();
+      _projScreenMatrix.multiplyMatrices(shadowCamera.projectionMatrix, shadowCamera.matrixWorldInverse);
+      this._frustum.setFromProjectionMatrix(_projScreenMatrix, shadowCamera.coordinateSystem, shadowCamera.reversedDepth);
+      if (shadowCamera.coordinateSystem === WebGPUCoordinateSystem || shadowCamera.reversedDepth) {
+        shadowMatrix.set(
+          0.5,
+          0,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0,
+          1,
+          0,
+          // Identity Z (preserving the correct [0, 1] range from the projection matrix)
+          0,
+          0,
+          0,
+          1
+        );
+      } else {
+        shadowMatrix.set(
+          0.5,
+          0,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0.5,
+          0,
+          0,
+          0.5,
+          0.5,
+          0,
+          0,
+          0,
+          1
+        );
+      }
+      shadowMatrix.multiply(_projScreenMatrix);
+    }
+    /**
+     * Returns a viewport definition for the given viewport index.
+     *
+     * @param {number} viewportIndex - The viewport index.
+     * @return {Vector4} The viewport.
+     */
+    getViewport(viewportIndex) {
+      return this._viewports[viewportIndex];
+    }
+    /**
+     * Returns the frame extends.
+     *
+     * @return {Vector2} The frame extends.
+     */
+    getFrameExtents() {
+      return this._frameExtents;
+    }
+    /**
+     * Frees the GPU-related resources allocated by this instance. Call this
+     * method whenever this instance is no longer used in your app.
+     */
+    dispose() {
+      if (this.map) {
+        this.map.dispose();
+      }
+      if (this.mapPass) {
+        this.mapPass.dispose();
+      }
+    }
+    /**
+     * Copies the values of the given light shadow instance to this instance.
+     *
+     * @param {LightShadow} source - The light shadow to copy.
+     * @return {LightShadow} A reference to this light shadow instance.
+     */
+    copy(source) {
+      this.camera = source.camera.clone();
+      this.intensity = source.intensity;
+      this.bias = source.bias;
+      this.radius = source.radius;
+      this.autoUpdate = source.autoUpdate;
+      this.needsUpdate = source.needsUpdate;
+      this.normalBias = source.normalBias;
+      this.blurSamples = source.blurSamples;
+      this.mapSize.copy(source.mapSize);
+      this.biasNode = source.biasNode;
+      return this;
+    }
+    /**
+     * Returns a new light shadow instance with copied values from this instance.
+     *
+     * @return {LightShadow} A clone of this instance.
+     */
+    clone() {
+      return new this.constructor().copy(this);
+    }
+    /**
+     * Serializes the light shadow into JSON.
+     *
+     * @return {Object} A JSON object representing the serialized light shadow.
+     * @see {@link ObjectLoader#parse}
+     */
+    toJSON() {
+      const object = {};
+      if (this.intensity !== 1) object.intensity = this.intensity;
+      if (this.bias !== 0) object.bias = this.bias;
+      if (this.normalBias !== 0) object.normalBias = this.normalBias;
+      if (this.radius !== 1) object.radius = this.radius;
+      if (this.mapSize.x !== 512 || this.mapSize.y !== 512) object.mapSize = this.mapSize.toArray();
+      object.camera = this.camera.toJSON(false).object;
+      delete object.camera.matrix;
+      return object;
     }
   };
   var _position$2 = /* @__PURE__ */ new Vector3();
@@ -14379,6 +22792,156 @@
       return data;
     }
   };
+  var SpotLightShadow = class extends LightShadow {
+    /**
+     * Constructs a new spot light shadow.
+     */
+    constructor() {
+      super(new PerspectiveCamera(50, 1, 0.5, 500));
+      this.isSpotLightShadow = true;
+      this.focus = 1;
+      this.aspect = 1;
+    }
+    updateMatrices(light) {
+      const camera2 = this.camera;
+      const fov2 = RAD2DEG * 2 * light.angle * this.focus;
+      const aspect2 = this.mapSize.width / this.mapSize.height * this.aspect;
+      const far = light.distance || camera2.far;
+      if (fov2 !== camera2.fov || aspect2 !== camera2.aspect || far !== camera2.far) {
+        camera2.fov = fov2;
+        camera2.aspect = aspect2;
+        camera2.far = far;
+        camera2.updateProjectionMatrix();
+      }
+      super.updateMatrices(light);
+    }
+    copy(source) {
+      super.copy(source);
+      this.focus = source.focus;
+      return this;
+    }
+  };
+  var SpotLight = class extends Light {
+    /**
+     * Constructs a new spot light.
+     *
+     * @param {(number|Color|string)} [color=0xffffff] - The light's color.
+     * @param {number} [intensity=1] - The light's strength/intensity measured in candela (cd).
+     * @param {number} [distance=0] - Maximum range of the light. `0` means no limit.
+     * @param {number} [angle=Math.PI/3] - Maximum angle of light dispersion from its direction whose upper bound is `Math.PI/2`.
+     * @param {number} [penumbra=0] - Percent of the spotlight cone that is attenuated due to penumbra. Value range is `[0,1]`.
+     * @param {number} [decay=2] - The amount the light dims along the distance of the light.
+     */
+    constructor(color, intensity, distance = 0, angle = Math.PI / 3, penumbra = 0, decay = 2) {
+      super(color, intensity);
+      this.isSpotLight = true;
+      this.type = "SpotLight";
+      this.position.copy(Object3D.DEFAULT_UP);
+      this.updateMatrix();
+      this.target = new Object3D();
+      this.distance = distance;
+      this.angle = angle;
+      this.penumbra = penumbra;
+      this.decay = decay;
+      this.map = null;
+      this.shadow = new SpotLightShadow();
+    }
+    /**
+     * The light's power. Power is the luminous power of the light measured in lumens (lm).
+     *  Changing the power will also change the light's intensity.
+     *
+     * @type {number}
+     */
+    get power() {
+      return this.intensity * Math.PI;
+    }
+    set power(power) {
+      this.intensity = power / Math.PI;
+    }
+    dispose() {
+      super.dispose();
+      this.shadow.dispose();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.distance = source.distance;
+      this.angle = source.angle;
+      this.penumbra = source.penumbra;
+      this.decay = source.decay;
+      this.target = source.target.clone();
+      this.map = source.map;
+      this.shadow = source.shadow.clone();
+      return this;
+    }
+    toJSON(meta) {
+      const data = super.toJSON(meta);
+      data.object.distance = this.distance;
+      data.object.angle = this.angle;
+      data.object.decay = this.decay;
+      data.object.penumbra = this.penumbra;
+      data.object.target = this.target.uuid;
+      if (this.map && this.map.isTexture) data.object.map = this.map.toJSON(meta).uuid;
+      data.object.shadow = this.shadow.toJSON();
+      return data;
+    }
+  };
+  var PointLightShadow = class extends LightShadow {
+    /**
+     * Constructs a new point light shadow.
+     */
+    constructor() {
+      super(new PerspectiveCamera(90, 1, 0.5, 500));
+      this.isPointLightShadow = true;
+    }
+  };
+  var PointLight = class extends Light {
+    /**
+     * Constructs a new point light.
+     *
+     * @param {(number|Color|string)} [color=0xffffff] - The light's color.
+     * @param {number} [intensity=1] - The light's strength/intensity measured in candela (cd).
+     * @param {number} [distance=0] - Maximum range of the light. `0` means no limit.
+     * @param {number} [decay=2] - The amount the light dims along the distance of the light.
+     */
+    constructor(color, intensity, distance = 0, decay = 2) {
+      super(color, intensity);
+      this.isPointLight = true;
+      this.type = "PointLight";
+      this.distance = distance;
+      this.decay = decay;
+      this.shadow = new PointLightShadow();
+    }
+    /**
+     * The light's power. Power is the luminous power of the light measured in lumens (lm).
+     * Changing the power will also change the light's intensity.
+     *
+     * @type {number}
+     */
+    get power() {
+      return this.intensity * 4 * Math.PI;
+    }
+    set power(power) {
+      this.intensity = power / (4 * Math.PI);
+    }
+    dispose() {
+      super.dispose();
+      this.shadow.dispose();
+    }
+    copy(source, recursive) {
+      super.copy(source, recursive);
+      this.distance = source.distance;
+      this.decay = source.decay;
+      this.shadow = source.shadow.clone();
+      return this;
+    }
+    toJSON(meta) {
+      const data = super.toJSON(meta);
+      data.object.distance = this.distance;
+      data.object.decay = this.decay;
+      data.object.shadow = this.shadow.toJSON();
+      return data;
+    }
+  };
   var OrthographicCamera = class extends Camera {
     /**
      * Constructs a new orthographic camera.
@@ -14495,6 +23058,48 @@
       return data;
     }
   };
+  var DirectionalLightShadow = class extends LightShadow {
+    /**
+     * Constructs a new directional light shadow.
+     */
+    constructor() {
+      super(new OrthographicCamera(-5, 5, 5, -5, 0.5, 500));
+      this.isDirectionalLightShadow = true;
+    }
+  };
+  var DirectionalLight = class extends Light {
+    /**
+     * Constructs a new directional light.
+     *
+     * @param {(number|Color|string)} [color=0xffffff] - The light's color.
+     * @param {number} [intensity=1] - The light's strength/intensity.
+     */
+    constructor(color, intensity) {
+      super(color, intensity);
+      this.isDirectionalLight = true;
+      this.type = "DirectionalLight";
+      this.position.copy(Object3D.DEFAULT_UP);
+      this.updateMatrix();
+      this.target = new Object3D();
+      this.shadow = new DirectionalLightShadow();
+    }
+    dispose() {
+      super.dispose();
+      this.shadow.dispose();
+    }
+    copy(source) {
+      super.copy(source);
+      this.target = source.target.clone();
+      this.shadow = source.shadow.clone();
+      return this;
+    }
+    toJSON(meta) {
+      const data = super.toJSON(meta);
+      data.object.shadow = this.shadow.toJSON();
+      data.object.target = this.target.uuid;
+      return data;
+    }
+  };
   var AmbientLight = class extends Light {
     /**
      * Constructs a new ambient light.
@@ -14506,6 +23111,139 @@
       super(color, intensity);
       this.isAmbientLight = true;
       this.type = "AmbientLight";
+    }
+  };
+  var LoaderUtils = class {
+    /**
+     * Extracts the base URL from the given URL.
+     *
+     * @param {string} url -The URL to extract the base URL from.
+     * @return {string} The extracted base URL.
+     */
+    static extractUrlBase(url) {
+      const index = url.lastIndexOf("/");
+      if (index === -1) return "./";
+      return url.slice(0, index + 1);
+    }
+    /**
+     * Resolves relative URLs against the given path. Absolute paths, data urls,
+     * and blob URLs will be returned as is. Invalid URLs will return an empty
+     * string.
+     *
+     * @param {string} url -The URL to resolve.
+     * @param {string} path - The base path for relative URLs to be resolved against.
+     * @return {string} The resolved URL.
+     */
+    static resolveURL(url, path) {
+      if (typeof url !== "string" || url === "") return "";
+      if (/^https?:\/\//i.test(path) && /^\//.test(url)) {
+        path = path.replace(/(^https?:\/\/[^\/]+).*/i, "$1");
+      }
+      if (/^(https?:)?\/\//i.test(url)) return url;
+      if (/^data:.*,.*$/i.test(url)) return url;
+      if (/^blob:.*$/i.test(url)) return url;
+      return path + url;
+    }
+  };
+  var _errorMap = /* @__PURE__ */ new WeakMap();
+  var ImageBitmapLoader = class extends Loader {
+    /**
+     * Constructs a new image bitmap loader.
+     *
+     * @param {LoadingManager} [manager] - The loading manager.
+     */
+    constructor(manager2) {
+      super(manager2);
+      this.isImageBitmapLoader = true;
+      if (typeof createImageBitmap === "undefined") {
+        warn("ImageBitmapLoader: createImageBitmap() not supported.");
+      }
+      if (typeof fetch === "undefined") {
+        warn("ImageBitmapLoader: fetch() not supported.");
+      }
+      this.options = { premultiplyAlpha: "none" };
+      this._abortController = new AbortController();
+    }
+    /**
+     * Sets the given loader options. The structure of the object must match the `options` parameter of
+     * [createImageBitmap](https://developer.mozilla.org/en-US/docs/Web/API/Window/createImageBitmap).
+     *
+     * Note: When caching is enabled, the cache key is based on the URL only. Loading the same URL with
+     * different options will return the cached result of the first request.
+     *
+     * @param {Object} options - The loader options to set.
+     * @return {ImageBitmapLoader} A reference to this image bitmap loader.
+     */
+    setOptions(options) {
+      this.options = options;
+      return this;
+    }
+    /**
+     * Starts loading from the given URL and pass the loaded image bitmap to the `onLoad()` callback.
+     *
+     * @param {string} url - The path/URL of the file to be loaded. This can also be a data URI.
+     * @param {function(ImageBitmap)} onLoad - Executed when the loading process has been finished.
+     * @param {onProgressCallback} onProgress - Unsupported in this loader.
+     * @param {onErrorCallback} onError - Executed when errors occur.
+     */
+    load(url, onLoad, onProgress, onError) {
+      if (url === void 0) url = "";
+      if (this.path !== void 0) url = this.path + url;
+      url = this.manager.resolveURL(url);
+      const scope = this;
+      const cached = Cache.get(`image-bitmap:${url}`);
+      if (cached !== void 0) {
+        scope.manager.itemStart(url);
+        if (cached.then) {
+          cached.then((imageBitmap) => {
+            if (_errorMap.has(cached) === true) {
+              if (onError) onError(_errorMap.get(cached));
+              scope.manager.itemError(url);
+              scope.manager.itemEnd(url);
+            } else {
+              if (onLoad) onLoad(imageBitmap);
+              scope.manager.itemEnd(url);
+            }
+          });
+          return;
+        }
+        setTimeout(function() {
+          if (onLoad) onLoad(cached);
+          scope.manager.itemEnd(url);
+        }, 0);
+        return;
+      }
+      const fetchOptions = {};
+      fetchOptions.credentials = this.crossOrigin === "anonymous" ? "same-origin" : "include";
+      fetchOptions.headers = this.requestHeader;
+      fetchOptions.signal = typeof AbortSignal.any === "function" ? AbortSignal.any([this._abortController.signal, this.manager.abortController.signal]) : this._abortController.signal;
+      const promise = fetch(url, fetchOptions).then(function(res) {
+        return res.blob();
+      }).then(function(blob) {
+        return createImageBitmap(blob, Object.assign(scope.options, { colorSpaceConversion: "none" }));
+      }).then(function(imageBitmap) {
+        Cache.add(`image-bitmap:${url}`, imageBitmap);
+        if (onLoad) onLoad(imageBitmap);
+        scope.manager.itemEnd(url);
+      }).catch(function(e) {
+        if (onError) onError(e);
+        _errorMap.set(promise, e);
+        Cache.remove(`image-bitmap:${url}`);
+        scope.manager.itemError(url);
+        scope.manager.itemEnd(url);
+      });
+      Cache.add(`image-bitmap:${url}`, promise);
+      scope.manager.itemStart(url);
+    }
+    /**
+     * Aborts ongoing fetch requests.
+     *
+     * @return {ImageBitmapLoader} A reference to this instance.
+     */
+    abort() {
+      this._abortController.abort();
+      this._abortController = new AbortController();
+      return this;
     }
   };
   var fov = -90;
@@ -14650,6 +23388,120 @@
       this.cameras = array;
     }
   };
+  var Timer = class {
+    /**
+     * Constructs a new timer.
+     */
+    constructor() {
+      this._previousTime = 0;
+      this._currentTime = 0;
+      this._startTime = performance.now();
+      this._delta = 0;
+      this._elapsed = 0;
+      this._timescale = 1;
+      this._document = null;
+      this._pageVisibilityHandler = null;
+    }
+    /**
+     * Connect the timer to the given document.Calling this method is not mandatory to
+     * use the timer but enables the usage of the Page Visibility API to avoid large time
+     * delta values.
+     *
+     * @param {Document} document - The document.
+     */
+    connect(document2) {
+      this._document = document2;
+      if (document2.hidden !== void 0) {
+        this._pageVisibilityHandler = handleVisibilityChange.bind(this);
+        document2.addEventListener("visibilitychange", this._pageVisibilityHandler, false);
+      }
+    }
+    /**
+     * Disconnects the timer from the DOM and also disables the usage of the Page Visibility API.
+     */
+    disconnect() {
+      if (this._pageVisibilityHandler !== null) {
+        this._document.removeEventListener("visibilitychange", this._pageVisibilityHandler);
+        this._pageVisibilityHandler = null;
+      }
+      this._document = null;
+    }
+    /**
+     * Returns the time delta in seconds.
+     *
+     * @return {number} The time delta in second.
+     */
+    getDelta() {
+      return this._delta / 1e3;
+    }
+    /**
+     * Returns the elapsed time in seconds.
+     *
+     * @return {number} The elapsed time in second.
+     */
+    getElapsed() {
+      return this._elapsed / 1e3;
+    }
+    /**
+     * Returns the timescale.
+     *
+     * @return {number} The timescale.
+     */
+    getTimescale() {
+      return this._timescale;
+    }
+    /**
+     * Sets the given timescale which scale the time delta computation
+     * in `update()`.
+     *
+     * @param {number} timescale - The timescale to set.
+     * @return {Timer} A reference to this timer.
+     */
+    setTimescale(timescale) {
+      this._timescale = timescale;
+      return this;
+    }
+    /**
+     * Resets the time computation for the current simulation step.
+     *
+     * @return {Timer} A reference to this timer.
+     */
+    reset() {
+      this._currentTime = performance.now() - this._startTime;
+      return this;
+    }
+    /**
+     * Can be used to free all internal resources. Usually called when
+     * the timer instance isn't required anymore.
+     */
+    dispose() {
+      this.disconnect();
+    }
+    /**
+     * Updates the internal state of the timer. This method should be called
+     * once per simulation step and before you perform queries against the timer
+     * (e.g. via `getDelta()`).
+     *
+     * @param {number} timestamp - The current time in milliseconds. Can be obtained
+     * from the `requestAnimationFrame` callback argument. If not provided, the current
+     * time will be determined with `performance.now`.
+     * @return {Timer} A reference to this timer.
+     */
+    update(timestamp) {
+      if (this._pageVisibilityHandler !== null && this._document.hidden === true) {
+        this._delta = 0;
+      } else {
+        this._previousTime = this._currentTime;
+        this._currentTime = (timestamp !== void 0 ? timestamp : performance.now()) - this._startTime;
+        this._delta = (this._currentTime - this._previousTime) * this._timescale;
+        this._elapsed += this._delta;
+      }
+      return this;
+    }
+  };
+  function handleVisibilityChange() {
+    if (this._document.hidden === false) this.reset();
+  }
   var _RESERVED_CHARS_RE = "\\[\\]\\.:\\/";
   var _reservedRe = new RegExp("[" + _RESERVED_CHARS_RE + "]", "g");
   var _wordChar = "[^" + _RESERVED_CHARS_RE + "]";
@@ -15534,7 +24386,7 @@
         buffers.delete(attribute);
       }
     }
-    function update(attribute, bufferType) {
+    function update2(attribute, bufferType) {
       if (attribute.isInterleavedBufferAttribute) attribute = attribute.data;
       if (attribute.isGLBufferAttribute) {
         const cached = buffers.get(attribute);
@@ -15562,7 +24414,7 @@
     return {
       get,
       remove,
-      update
+      update: update2
     };
   }
   var alphahash_fragment = "#ifdef USE_ALPHAHASH\n	if ( diffuseColor.a < getAlphaHashThreshold( vPosition ) ) discard;\n#endif";
@@ -16465,21 +25317,21 @@
     const defaultState = createBindingState(null);
     let currentState = defaultState;
     let forceUpdate = false;
-    function setup(object, material2, program, geometry2, index) {
+    function setup(object, material, program, geometry, index) {
       let updateBuffers = false;
-      const state = getBindingState(object, geometry2, program, material2);
+      const state = getBindingState(object, geometry, program, material);
       if (currentState !== state) {
         currentState = state;
         bindVertexArrayObject(currentState.object);
       }
-      updateBuffers = needsUpdate(object, geometry2, program, index);
-      if (updateBuffers) saveCache(object, geometry2, program, index);
+      updateBuffers = needsUpdate(object, geometry, program, index);
+      if (updateBuffers) saveCache(object, geometry, program, index);
       if (index !== null) {
         attributes.update(index, gl.ELEMENT_ARRAY_BUFFER);
       }
       if (updateBuffers || forceUpdate) {
         forceUpdate = false;
-        setupVertexAttributes(object, material2, program, geometry2);
+        setupVertexAttributes(object, material, program, geometry);
         if (index !== null) {
           gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, attributes.get(index).buffer);
         }
@@ -16494,12 +25346,12 @@
     function deleteVertexArrayObject(vao) {
       return gl.deleteVertexArray(vao);
     }
-    function getBindingState(object, geometry2, program, material2) {
-      const wireframe = material2.wireframe === true;
-      let objectMap = bindingStates[geometry2.id];
+    function getBindingState(object, geometry, program, material) {
+      const wireframe = material.wireframe === true;
+      let objectMap = bindingStates[geometry.id];
       if (objectMap === void 0) {
         objectMap = {};
-        bindingStates[geometry2.id] = objectMap;
+        bindingStates[geometry.id] = objectMap;
       }
       const objectId = object.isInstancedMesh === true ? object.id : 0;
       let programMap = objectMap[objectId];
@@ -16541,9 +25393,9 @@
         index: null
       };
     }
-    function needsUpdate(object, geometry2, program, index) {
+    function needsUpdate(object, geometry, program, index) {
       const cachedAttributes = currentState.attributes;
-      const geometryAttributes = geometry2.attributes;
+      const geometryAttributes = geometry.attributes;
       let attributesNum = 0;
       const programAttributes = program.getAttributes();
       for (const name in programAttributes) {
@@ -16565,9 +25417,9 @@
       if (currentState.index !== index) return true;
       return false;
     }
-    function saveCache(object, geometry2, program, index) {
+    function saveCache(object, geometry, program, index) {
       const cache = {};
-      const attributes2 = geometry2.attributes;
+      const attributes2 = geometry.attributes;
       let attributesNum = 0;
       const programAttributes = program.getAttributes();
       for (const name in programAttributes) {
@@ -16631,11 +25483,11 @@
         gl.vertexAttribPointer(index, size, type, normalized, stride, offset);
       }
     }
-    function setupVertexAttributes(object, material2, program, geometry2) {
+    function setupVertexAttributes(object, material, program, geometry) {
       initAttributes();
-      const geometryAttributes = geometry2.attributes;
+      const geometryAttributes = geometry.attributes;
       const programAttributes = program.getAttributes();
-      const materialDefaultAttributeValues = material2.defaultAttributeValues;
+      const materialDefaultAttributeValues = material.defaultAttributeValues;
       for (const name in programAttributes) {
         const programAttribute = programAttributes[name];
         if (programAttribute.location >= 0) {
@@ -16661,8 +25513,8 @@
                 for (let i = 0; i < programAttribute.locationSize; i++) {
                   enableAttributeAndDivisor(programAttribute.location + i, data.meshPerAttribute);
                 }
-                if (object.isInstancedMesh !== true && geometry2._maxInstanceCount === void 0) {
-                  geometry2._maxInstanceCount = data.meshPerAttribute * data.count;
+                if (object.isInstancedMesh !== true && geometry._maxInstanceCount === void 0) {
+                  geometry._maxInstanceCount = data.meshPerAttribute * data.count;
                 }
               } else {
                 for (let i = 0; i < programAttribute.locationSize; i++) {
@@ -16686,8 +25538,8 @@
                 for (let i = 0; i < programAttribute.locationSize; i++) {
                   enableAttributeAndDivisor(programAttribute.location + i, geometryAttribute.meshPerAttribute);
                 }
-                if (object.isInstancedMesh !== true && geometry2._maxInstanceCount === void 0) {
-                  geometry2._maxInstanceCount = geometryAttribute.meshPerAttribute * geometryAttribute.count;
+                if (object.isInstancedMesh !== true && geometry._maxInstanceCount === void 0) {
+                  geometry._maxInstanceCount = geometryAttribute.meshPerAttribute * geometryAttribute.count;
                 }
               } else {
                 for (let i = 0; i < programAttribute.locationSize; i++) {
@@ -16747,9 +25599,9 @@
         delete bindingStates[geometryId];
       }
     }
-    function releaseStatesOfGeometry(geometry2) {
-      if (bindingStates[geometry2.id] === void 0) return;
-      const objectMap = bindingStates[geometry2.id];
+    function releaseStatesOfGeometry(geometry) {
+      if (bindingStates[geometry.id] === void 0) return;
+      const objectMap = bindingStates[geometry.id];
       for (const objectId in objectMap) {
         const programMap = objectMap[objectId];
         for (const programId in programMap) {
@@ -16761,7 +25613,7 @@
           delete programMap[programId];
         }
       }
-      delete bindingStates[geometry2.id];
+      delete bindingStates[geometry.id];
     }
     function releaseStatesOfProgram(program) {
       for (const geometryId in bindingStates) {
@@ -16960,9 +25812,9 @@
     this.setGlobalState = function(planes, camera2) {
       globalState = projectPlanes(planes, camera2, 0);
     };
-    this.setState = function(material2, camera2, useCache) {
-      const planes = material2.clippingPlanes, clipIntersection = material2.clipIntersection, clipShadows = material2.clipShadows;
-      const materialProperties = properties.get(material2);
+    this.setState = function(material, camera2, useCache) {
+      const planes = material.clippingPlanes, clipIntersection = material.clipIntersection, clipShadows = material.clipShadows;
+      const materialProperties = properties.get(material);
       if (!localClippingEnabled || planes === null || planes.length === 0 || renderingShadows && !clipShadows) {
         if (renderingShadows) {
           projectPlanes(null);
@@ -17201,8 +26053,8 @@
       }
       return cubeUVRenderTarget;
     }
-    _compileMaterial(material2) {
-      const mesh = new Mesh(new BufferGeometry(), material2);
+    _compileMaterial(material) {
+      const mesh = new Mesh(new BufferGeometry(), material);
       this._renderer.compile(mesh, _flatCamera);
     }
     _sceneToCubeUV(scene2, near, far, cubeUVRenderTarget, position) {
@@ -17288,10 +26140,10 @@
           this._equirectMaterial = _getEquirectMaterial();
         }
       }
-      const material2 = isCubeTexture ? this._cubemapMaterial : this._equirectMaterial;
+      const material = isCubeTexture ? this._cubemapMaterial : this._equirectMaterial;
       const mesh = this._lodMeshes[0];
-      mesh.material = material2;
-      const uniforms = material2.uniforms;
+      mesh.material = material;
+      const uniforms = material.uniforms;
       uniforms["envMap"].value = texture;
       const size = this._cubeSize;
       _setViewport(cubeUVRenderTarget, 0, 0, 3 * size, 2 * size);
@@ -17941,8 +26793,8 @@
 			`
         )
       };
-      const geometry2 = new BoxGeometry(5, 5, 5);
-      const material2 = new ShaderMaterial({
+      const geometry = new BoxGeometry(5, 5, 5);
+      const material = new ShaderMaterial({
         name: "CubemapFromEquirect",
         uniforms: cloneUniforms(shader.uniforms),
         vertexShader: shader.vertexShader,
@@ -17950,8 +26802,8 @@
         side: BackSide,
         blending: NoBlending
       });
-      material2.uniforms.tEquirect.value = texture;
-      const mesh = new Mesh(geometry2, material2);
+      material.uniforms.tEquirect.value = texture;
+      const mesh = new Mesh(geometry, material);
       const currentMinFilter = texture.minFilter;
       if (texture.minFilter === LinearMipmapLinearFilter) texture.minFilter = LinearFilter;
       const camera2 = new CubeCamera(1, 10, this);
@@ -18129,43 +26981,43 @@
     const geometries = {};
     const wireframeAttributes = /* @__PURE__ */ new WeakMap();
     function onGeometryDispose(event) {
-      const geometry2 = event.target;
-      if (geometry2.index !== null) {
-        attributes.remove(geometry2.index);
+      const geometry = event.target;
+      if (geometry.index !== null) {
+        attributes.remove(geometry.index);
       }
-      for (const name in geometry2.attributes) {
-        attributes.remove(geometry2.attributes[name]);
+      for (const name in geometry.attributes) {
+        attributes.remove(geometry.attributes[name]);
       }
-      geometry2.removeEventListener("dispose", onGeometryDispose);
-      delete geometries[geometry2.id];
-      const attribute = wireframeAttributes.get(geometry2);
+      geometry.removeEventListener("dispose", onGeometryDispose);
+      delete geometries[geometry.id];
+      const attribute = wireframeAttributes.get(geometry);
       if (attribute) {
         attributes.remove(attribute);
-        wireframeAttributes.delete(geometry2);
+        wireframeAttributes.delete(geometry);
       }
-      bindingStates.releaseStatesOfGeometry(geometry2);
-      if (geometry2.isInstancedBufferGeometry === true) {
-        delete geometry2._maxInstanceCount;
+      bindingStates.releaseStatesOfGeometry(geometry);
+      if (geometry.isInstancedBufferGeometry === true) {
+        delete geometry._maxInstanceCount;
       }
       info.memory.geometries--;
     }
-    function get(object, geometry2) {
-      if (geometries[geometry2.id] === true) return geometry2;
-      geometry2.addEventListener("dispose", onGeometryDispose);
-      geometries[geometry2.id] = true;
+    function get(object, geometry) {
+      if (geometries[geometry.id] === true) return geometry;
+      geometry.addEventListener("dispose", onGeometryDispose);
+      geometries[geometry.id] = true;
       info.memory.geometries++;
-      return geometry2;
+      return geometry;
     }
-    function update(geometry2) {
-      const geometryAttributes = geometry2.attributes;
+    function update2(geometry) {
+      const geometryAttributes = geometry.attributes;
       for (const name in geometryAttributes) {
         attributes.update(geometryAttributes[name], gl.ARRAY_BUFFER);
       }
     }
-    function updateWireframeAttribute(geometry2) {
+    function updateWireframeAttribute(geometry) {
       const indices = [];
-      const geometryIndex = geometry2.index;
-      const geometryPosition = geometry2.attributes.position;
+      const geometryIndex = geometry.index;
+      const geometryPosition = geometry.attributes.position;
       let version = 0;
       if (geometryPosition === void 0) {
         return;
@@ -18191,27 +27043,27 @@
       }
       const attribute = new (geometryPosition.count >= 65535 ? Uint32BufferAttribute : Uint16BufferAttribute)(indices, 1);
       attribute.version = version;
-      const previousAttribute = wireframeAttributes.get(geometry2);
+      const previousAttribute = wireframeAttributes.get(geometry);
       if (previousAttribute) attributes.remove(previousAttribute);
-      wireframeAttributes.set(geometry2, attribute);
+      wireframeAttributes.set(geometry, attribute);
     }
-    function getWireframeAttribute(geometry2) {
-      const currentAttribute = wireframeAttributes.get(geometry2);
+    function getWireframeAttribute(geometry) {
+      const currentAttribute = wireframeAttributes.get(geometry);
       if (currentAttribute) {
-        const geometryIndex = geometry2.index;
+        const geometryIndex = geometry.index;
         if (geometryIndex !== null) {
           if (currentAttribute.version < geometryIndex.version) {
-            updateWireframeAttribute(geometry2);
+            updateWireframeAttribute(geometry);
           }
         }
       } else {
-        updateWireframeAttribute(geometry2);
+        updateWireframeAttribute(geometry);
       }
-      return wireframeAttributes.get(geometry2);
+      return wireframeAttributes.get(geometry);
     }
     return {
       get,
-      update,
+      update: update2,
       getWireframeAttribute
     };
   }
@@ -18262,7 +27114,7 @@
       points: 0,
       lines: 0
     };
-    function update(count, mode, instanceCount) {
+    function update2(count, mode, instanceCount) {
       render.calls++;
       switch (mode) {
         case gl.TRIANGLES:
@@ -18297,35 +27149,35 @@
       programs: null,
       autoReset: true,
       reset,
-      update
+      update: update2
     };
   }
   function WebGLMorphtargets(gl, capabilities, textures) {
     const morphTextures = /* @__PURE__ */ new WeakMap();
     const morph = new Vector4();
-    function update(object, geometry2, program) {
+    function update2(object, geometry, program) {
       const objectInfluences = object.morphTargetInfluences;
-      const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
+      const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
       const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
-      let entry = morphTextures.get(geometry2);
+      let entry = morphTextures.get(geometry);
       if (entry === void 0 || entry.count !== morphTargetsCount) {
         let disposeTexture = function() {
           texture.dispose();
-          morphTextures.delete(geometry2);
-          geometry2.removeEventListener("dispose", disposeTexture);
+          morphTextures.delete(geometry);
+          geometry.removeEventListener("dispose", disposeTexture);
         };
         if (entry !== void 0) entry.texture.dispose();
-        const hasMorphPosition = geometry2.morphAttributes.position !== void 0;
-        const hasMorphNormals = geometry2.morphAttributes.normal !== void 0;
-        const hasMorphColors = geometry2.morphAttributes.color !== void 0;
-        const morphTargets = geometry2.morphAttributes.position || [];
-        const morphNormals = geometry2.morphAttributes.normal || [];
-        const morphColors = geometry2.morphAttributes.color || [];
+        const hasMorphPosition = geometry.morphAttributes.position !== void 0;
+        const hasMorphNormals = geometry.morphAttributes.normal !== void 0;
+        const hasMorphColors = geometry.morphAttributes.color !== void 0;
+        const morphTargets = geometry.morphAttributes.position || [];
+        const morphNormals = geometry.morphAttributes.normal || [];
+        const morphColors = geometry.morphAttributes.color || [];
         let vertexDataCount = 0;
         if (hasMorphPosition === true) vertexDataCount = 1;
         if (hasMorphNormals === true) vertexDataCount = 2;
         if (hasMorphColors === true) vertexDataCount = 3;
-        let width2 = geometry2.attributes.position.count * vertexDataCount;
+        let width2 = geometry.attributes.position.count * vertexDataCount;
         let height2 = 1;
         if (width2 > capabilities.maxTextureSize) {
           height2 = Math.ceil(width2 / capabilities.maxTextureSize);
@@ -18371,8 +27223,8 @@
           texture,
           size: new Vector2(width2, height2)
         };
-        morphTextures.set(geometry2, entry);
-        geometry2.addEventListener("dispose", disposeTexture);
+        morphTextures.set(geometry, entry);
+        geometry.addEventListener("dispose", disposeTexture);
       }
       if (object.isInstancedMesh === true && object.morphTexture !== null) {
         program.getUniforms().setValue(gl, "morphTexture", object.morphTexture, textures);
@@ -18381,7 +27233,7 @@
         for (let i = 0; i < objectInfluences.length; i++) {
           morphInfluencesSum += objectInfluences[i];
         }
-        const morphBaseInfluence = geometry2.morphTargetsRelative ? 1 : 1 - morphInfluencesSum;
+        const morphBaseInfluence = geometry.morphTargetsRelative ? 1 : 1 - morphInfluencesSum;
         program.getUniforms().setValue(gl, "morphTargetBaseInfluence", morphBaseInfluence);
         program.getUniforms().setValue(gl, "morphTargetInfluences", objectInfluences);
       }
@@ -18389,15 +27241,15 @@
       program.getUniforms().setValue(gl, "morphTargetsTextureSize", entry.size);
     }
     return {
-      update
+      update: update2
     };
   }
   function WebGLObjects(gl, geometries, attributes, bindingStates, info) {
     let updateMap = /* @__PURE__ */ new WeakMap();
-    function update(object) {
+    function update2(object) {
       const frame = info.render.frame;
-      const geometry2 = object.geometry;
-      const buffergeometry = geometries.get(object, geometry2);
+      const geometry = object.geometry;
+      const buffergeometry = geometries.get(object, geometry);
       if (updateMap.get(buffergeometry) !== frame) {
         geometries.update(buffergeometry);
         updateMap.set(buffergeometry, frame);
@@ -18434,7 +27286,7 @@
       if (instancedMesh.instanceColor !== null) attributes.remove(instancedMesh.instanceColor);
     }
     return {
-      update,
+      update: update2,
       dispose
     };
   }
@@ -18459,10 +27311,10 @@
       depthBuffer: false,
       stencilBuffer: false
     });
-    const geometry2 = new BufferGeometry();
-    geometry2.setAttribute("position", new Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3));
-    geometry2.setAttribute("uv", new Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
-    const material2 = new RawShaderMaterial({
+    const geometry = new BufferGeometry();
+    geometry.setAttribute("position", new Float32BufferAttribute([-1, 3, 0, -1, -1, 0, 3, -1, 0], 3));
+    geometry.setAttribute("uv", new Float32BufferAttribute([0, 2, 0, 0, 2, 0], 2));
+    const material = new RawShaderMaterial({
       uniforms: {
         tDiffuse: { value: null }
       },
@@ -18523,7 +27375,7 @@
       depthTest: false,
       depthWrite: false
     });
-    const mesh = new Mesh(geometry2, material2);
+    const mesh = new Mesh(geometry, material);
     const camera2 = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     let _outputColorSpace = null;
     let _outputToneMapping = null;
@@ -18589,13 +27441,13 @@
       if (_outputColorSpace !== renderer2.outputColorSpace || _outputToneMapping !== renderer2.toneMapping) {
         _outputColorSpace = renderer2.outputColorSpace;
         _outputToneMapping = renderer2.toneMapping;
-        material2.defines = {};
-        if (ColorManagement.getTransfer(_outputColorSpace) === SRGBTransfer) material2.defines.SRGB_TRANSFER = "";
+        material.defines = {};
+        if (ColorManagement.getTransfer(_outputColorSpace) === SRGBTransfer) material.defines.SRGB_TRANSFER = "";
         const toneMapping = toneMappingMap[_outputToneMapping];
-        if (toneMapping) material2.defines[toneMapping] = "";
-        material2.needsUpdate = true;
+        if (toneMapping) material.defines[toneMapping] = "";
+        material.needsUpdate = true;
       }
-      material2.uniforms.tDiffuse.value = readBuffer.texture;
+      material.uniforms.tDiffuse.value = readBuffer.texture;
       renderer2.setRenderTarget(_savedRenderTarget);
       renderer2.render(mesh, camera2);
       _savedRenderTarget = null;
@@ -18608,8 +27460,8 @@
       if (targetA.depthTexture) targetA.depthTexture.dispose();
       targetA.dispose();
       targetB.dispose();
-      geometry2.dispose();
-      material2.dispose();
+      geometry.dispose();
+      material.dispose();
     };
   }
   var emptyTexture = /* @__PURE__ */ new Texture();
@@ -19899,12 +28751,12 @@
       this.shaderCache = /* @__PURE__ */ new Map();
       this.materialCache = /* @__PURE__ */ new Map();
     }
-    update(material2) {
-      const vertexShader = material2.vertexShader;
-      const fragmentShader = material2.fragmentShader;
+    update(material) {
+      const vertexShader = material.vertexShader;
+      const fragmentShader = material.fragmentShader;
       const vertexShaderStage = this._getShaderStage(vertexShader);
       const fragmentShaderStage = this._getShaderStage(fragmentShader);
-      const materialShaders = this._getShaderCacheForMaterial(material2);
+      const materialShaders = this._getShaderCacheForMaterial(material);
       if (materialShaders.has(vertexShaderStage) === false) {
         materialShaders.add(vertexShaderStage);
         vertexShaderStage.usedTimes++;
@@ -19915,31 +28767,31 @@
       }
       return this;
     }
-    remove(material2) {
-      const materialShaders = this.materialCache.get(material2);
+    remove(material) {
+      const materialShaders = this.materialCache.get(material);
       for (const shaderStage of materialShaders) {
         shaderStage.usedTimes--;
         if (shaderStage.usedTimes === 0) this.shaderCache.delete(shaderStage.code);
       }
-      this.materialCache.delete(material2);
+      this.materialCache.delete(material);
       return this;
     }
-    getVertexShaderID(material2) {
-      return this._getShaderStage(material2.vertexShader).id;
+    getVertexShaderID(material) {
+      return this._getShaderStage(material.vertexShader).id;
     }
-    getFragmentShaderID(material2) {
-      return this._getShaderStage(material2.fragmentShader).id;
+    getFragmentShaderID(material) {
+      return this._getShaderStage(material.fragmentShader).id;
     }
     dispose() {
       this.shaderCache.clear();
       this.materialCache.clear();
     }
-    _getShaderCacheForMaterial(material2) {
+    _getShaderCacheForMaterial(material) {
       const cache = this.materialCache;
-      let set = cache.get(material2);
+      let set = cache.get(material);
       if (set === void 0) {
         set = /* @__PURE__ */ new Set();
-        cache.set(material2, set);
+        cache.set(material, set);
       }
       return set;
     }
@@ -19993,26 +28845,26 @@
       if (value === 0) return "uv";
       return `uv${value}`;
     }
-    function getParameters(material2, lights, shadows, scene2, object, lightProbeGrids) {
+    function getParameters(material, lights, shadows, scene2, object, lightProbeGrids) {
       const fog = scene2.fog;
-      const geometry2 = object.geometry;
-      const environment = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial || material2.isMeshPhongMaterial ? scene2.environment : null;
-      const usePMREM = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial && !material2.envMap || material2.isMeshPhongMaterial && !material2.envMap;
-      const envMap = environments.get(material2.envMap || environment, usePMREM);
+      const geometry = object.geometry;
+      const environment = material.isMeshStandardMaterial || material.isMeshLambertMaterial || material.isMeshPhongMaterial ? scene2.environment : null;
+      const usePMREM = material.isMeshStandardMaterial || material.isMeshLambertMaterial && !material.envMap || material.isMeshPhongMaterial && !material.envMap;
+      const envMap = environments.get(material.envMap || environment, usePMREM);
       const envMapCubeUVHeight = !!envMap && envMap.mapping === CubeUVReflectionMapping ? envMap.image.height : null;
-      const shaderID = shaderIDs[material2.type];
-      if (material2.precision !== null) {
-        precision = capabilities.getMaxPrecision(material2.precision);
-        if (precision !== material2.precision) {
-          warn("WebGLProgram.getParameters:", material2.precision, "not supported, using", precision, "instead.");
+      const shaderID = shaderIDs[material.type];
+      if (material.precision !== null) {
+        precision = capabilities.getMaxPrecision(material.precision);
+        if (precision !== material.precision) {
+          warn("WebGLProgram.getParameters:", material.precision, "not supported, using", precision, "instead.");
         }
       }
-      const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
+      const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
       const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
       let morphTextureStride = 0;
-      if (geometry2.morphAttributes.position !== void 0) morphTextureStride = 1;
-      if (geometry2.morphAttributes.normal !== void 0) morphTextureStride = 2;
-      if (geometry2.morphAttributes.color !== void 0) morphTextureStride = 3;
+      if (geometry.morphAttributes.position !== void 0) morphTextureStride = 1;
+      if (geometry.morphAttributes.normal !== void 0) morphTextureStride = 2;
+      if (geometry.morphAttributes.color !== void 0) morphTextureStride = 3;
       let vertexShader, fragmentShader;
       let customVertexShaderID, customFragmentShaderID;
       if (shaderID) {
@@ -20020,68 +28872,68 @@
         vertexShader = shader.vertexShader;
         fragmentShader = shader.fragmentShader;
       } else {
-        vertexShader = material2.vertexShader;
-        fragmentShader = material2.fragmentShader;
-        _customShaders.update(material2);
-        customVertexShaderID = _customShaders.getVertexShaderID(material2);
-        customFragmentShaderID = _customShaders.getFragmentShaderID(material2);
+        vertexShader = material.vertexShader;
+        fragmentShader = material.fragmentShader;
+        _customShaders.update(material);
+        customVertexShaderID = _customShaders.getVertexShaderID(material);
+        customFragmentShaderID = _customShaders.getFragmentShaderID(material);
       }
       const currentRenderTarget = renderer2.getRenderTarget();
       const reversedDepthBuffer = renderer2.state.buffers.depth.getReversed();
       const IS_INSTANCEDMESH = object.isInstancedMesh === true;
       const IS_BATCHEDMESH = object.isBatchedMesh === true;
-      const HAS_MAP = !!material2.map;
-      const HAS_MATCAP = !!material2.matcap;
+      const HAS_MAP = !!material.map;
+      const HAS_MATCAP = !!material.matcap;
       const HAS_ENVMAP = !!envMap;
-      const HAS_AOMAP = !!material2.aoMap;
-      const HAS_LIGHTMAP = !!material2.lightMap;
-      const HAS_BUMPMAP = !!material2.bumpMap;
-      const HAS_NORMALMAP = !!material2.normalMap;
-      const HAS_DISPLACEMENTMAP = !!material2.displacementMap;
-      const HAS_EMISSIVEMAP = !!material2.emissiveMap;
-      const HAS_METALNESSMAP = !!material2.metalnessMap;
-      const HAS_ROUGHNESSMAP = !!material2.roughnessMap;
-      const HAS_ANISOTROPY = material2.anisotropy > 0;
-      const HAS_CLEARCOAT = material2.clearcoat > 0;
-      const HAS_DISPERSION = material2.dispersion > 0;
-      const HAS_IRIDESCENCE = material2.iridescence > 0;
-      const HAS_SHEEN = material2.sheen > 0;
-      const HAS_TRANSMISSION = material2.transmission > 0;
-      const HAS_ANISOTROPYMAP = HAS_ANISOTROPY && !!material2.anisotropyMap;
-      const HAS_CLEARCOATMAP = HAS_CLEARCOAT && !!material2.clearcoatMap;
-      const HAS_CLEARCOAT_NORMALMAP = HAS_CLEARCOAT && !!material2.clearcoatNormalMap;
-      const HAS_CLEARCOAT_ROUGHNESSMAP = HAS_CLEARCOAT && !!material2.clearcoatRoughnessMap;
-      const HAS_IRIDESCENCEMAP = HAS_IRIDESCENCE && !!material2.iridescenceMap;
-      const HAS_IRIDESCENCE_THICKNESSMAP = HAS_IRIDESCENCE && !!material2.iridescenceThicknessMap;
-      const HAS_SHEEN_COLORMAP = HAS_SHEEN && !!material2.sheenColorMap;
-      const HAS_SHEEN_ROUGHNESSMAP = HAS_SHEEN && !!material2.sheenRoughnessMap;
-      const HAS_SPECULARMAP = !!material2.specularMap;
-      const HAS_SPECULAR_COLORMAP = !!material2.specularColorMap;
-      const HAS_SPECULAR_INTENSITYMAP = !!material2.specularIntensityMap;
-      const HAS_TRANSMISSIONMAP = HAS_TRANSMISSION && !!material2.transmissionMap;
-      const HAS_THICKNESSMAP = HAS_TRANSMISSION && !!material2.thicknessMap;
-      const HAS_GRADIENTMAP = !!material2.gradientMap;
-      const HAS_ALPHAMAP = !!material2.alphaMap;
-      const HAS_ALPHATEST = material2.alphaTest > 0;
-      const HAS_ALPHAHASH = !!material2.alphaHash;
-      const HAS_EXTENSIONS = !!material2.extensions;
+      const HAS_AOMAP = !!material.aoMap;
+      const HAS_LIGHTMAP = !!material.lightMap;
+      const HAS_BUMPMAP = !!material.bumpMap;
+      const HAS_NORMALMAP = !!material.normalMap;
+      const HAS_DISPLACEMENTMAP = !!material.displacementMap;
+      const HAS_EMISSIVEMAP = !!material.emissiveMap;
+      const HAS_METALNESSMAP = !!material.metalnessMap;
+      const HAS_ROUGHNESSMAP = !!material.roughnessMap;
+      const HAS_ANISOTROPY = material.anisotropy > 0;
+      const HAS_CLEARCOAT = material.clearcoat > 0;
+      const HAS_DISPERSION = material.dispersion > 0;
+      const HAS_IRIDESCENCE = material.iridescence > 0;
+      const HAS_SHEEN = material.sheen > 0;
+      const HAS_TRANSMISSION = material.transmission > 0;
+      const HAS_ANISOTROPYMAP = HAS_ANISOTROPY && !!material.anisotropyMap;
+      const HAS_CLEARCOATMAP = HAS_CLEARCOAT && !!material.clearcoatMap;
+      const HAS_CLEARCOAT_NORMALMAP = HAS_CLEARCOAT && !!material.clearcoatNormalMap;
+      const HAS_CLEARCOAT_ROUGHNESSMAP = HAS_CLEARCOAT && !!material.clearcoatRoughnessMap;
+      const HAS_IRIDESCENCEMAP = HAS_IRIDESCENCE && !!material.iridescenceMap;
+      const HAS_IRIDESCENCE_THICKNESSMAP = HAS_IRIDESCENCE && !!material.iridescenceThicknessMap;
+      const HAS_SHEEN_COLORMAP = HAS_SHEEN && !!material.sheenColorMap;
+      const HAS_SHEEN_ROUGHNESSMAP = HAS_SHEEN && !!material.sheenRoughnessMap;
+      const HAS_SPECULARMAP = !!material.specularMap;
+      const HAS_SPECULAR_COLORMAP = !!material.specularColorMap;
+      const HAS_SPECULAR_INTENSITYMAP = !!material.specularIntensityMap;
+      const HAS_TRANSMISSIONMAP = HAS_TRANSMISSION && !!material.transmissionMap;
+      const HAS_THICKNESSMAP = HAS_TRANSMISSION && !!material.thicknessMap;
+      const HAS_GRADIENTMAP = !!material.gradientMap;
+      const HAS_ALPHAMAP = !!material.alphaMap;
+      const HAS_ALPHATEST = material.alphaTest > 0;
+      const HAS_ALPHAHASH = !!material.alphaHash;
+      const HAS_EXTENSIONS = !!material.extensions;
       let toneMapping = NoToneMapping;
-      if (material2.toneMapped) {
+      if (material.toneMapped) {
         if (currentRenderTarget === null || currentRenderTarget.isXRRenderTarget === true) {
           toneMapping = renderer2.toneMapping;
         }
       }
       const parameters = {
         shaderID,
-        shaderType: material2.type,
-        shaderName: material2.name,
+        shaderType: material.type,
+        shaderName: material.name,
         vertexShader,
         fragmentShader,
-        defines: material2.defines,
+        defines: material.defines,
         customVertexShaderID,
         customFragmentShaderID,
-        isRawShaderMaterial: material2.isRawShaderMaterial === true,
-        glslVersion: material2.glslVersion,
+        isRawShaderMaterial: material.isRawShaderMaterial === true,
+        glslVersion: material.glslVersion,
         precision,
         batching: IS_BATCHEDMESH,
         batchingColor: IS_BATCHEDMESH && object._colorsTexture !== null,
@@ -20089,7 +28941,7 @@
         instancingColor: IS_INSTANCEDMESH && object.instanceColor !== null,
         instancingMorph: IS_INSTANCEDMESH && object.morphTexture !== null,
         outputColorSpace: currentRenderTarget === null ? renderer2.outputColorSpace : currentRenderTarget.isXRRenderTarget === true ? currentRenderTarget.texture.colorSpace : ColorManagement.workingColorSpace,
-        alphaToCoverage: !!material2.alphaToCoverage,
+        alphaToCoverage: !!material.alphaToCoverage,
         map: HAS_MAP,
         matcap: HAS_MATCAP,
         envMap: HAS_ENVMAP,
@@ -20101,9 +28953,9 @@
         normalMap: HAS_NORMALMAP,
         displacementMap: HAS_DISPLACEMENTMAP,
         emissiveMap: HAS_EMISSIVEMAP,
-        normalMapObjectSpace: HAS_NORMALMAP && material2.normalMapType === ObjectSpaceNormalMap,
-        normalMapTangentSpace: HAS_NORMALMAP && material2.normalMapType === TangentSpaceNormalMap,
-        packedNormalMap: HAS_NORMALMAP && material2.normalMapType === TangentSpaceNormalMap && isPackedRGFormat(material2.normalMap.format),
+        normalMapObjectSpace: HAS_NORMALMAP && material.normalMapType === ObjectSpaceNormalMap,
+        normalMapTangentSpace: HAS_NORMALMAP && material.normalMapType === TangentSpaceNormalMap,
+        packedNormalMap: HAS_NORMALMAP && material.normalMapType === TangentSpaceNormalMap && isPackedRGFormat(material.normalMap.format),
         metalnessMap: HAS_METALNESSMAP,
         roughnessMap: HAS_ROUGHNESSMAP,
         anisotropy: HAS_ANISOTROPY,
@@ -20126,52 +28978,52 @@
         transmissionMap: HAS_TRANSMISSIONMAP,
         thicknessMap: HAS_THICKNESSMAP,
         gradientMap: HAS_GRADIENTMAP,
-        opaque: material2.transparent === false && material2.blending === NormalBlending && material2.alphaToCoverage === false,
+        opaque: material.transparent === false && material.blending === NormalBlending && material.alphaToCoverage === false,
         alphaMap: HAS_ALPHAMAP,
         alphaTest: HAS_ALPHATEST,
         alphaHash: HAS_ALPHAHASH,
-        combine: material2.combine,
+        combine: material.combine,
         //
-        mapUv: HAS_MAP && getChannel(material2.map.channel),
-        aoMapUv: HAS_AOMAP && getChannel(material2.aoMap.channel),
-        lightMapUv: HAS_LIGHTMAP && getChannel(material2.lightMap.channel),
-        bumpMapUv: HAS_BUMPMAP && getChannel(material2.bumpMap.channel),
-        normalMapUv: HAS_NORMALMAP && getChannel(material2.normalMap.channel),
-        displacementMapUv: HAS_DISPLACEMENTMAP && getChannel(material2.displacementMap.channel),
-        emissiveMapUv: HAS_EMISSIVEMAP && getChannel(material2.emissiveMap.channel),
-        metalnessMapUv: HAS_METALNESSMAP && getChannel(material2.metalnessMap.channel),
-        roughnessMapUv: HAS_ROUGHNESSMAP && getChannel(material2.roughnessMap.channel),
-        anisotropyMapUv: HAS_ANISOTROPYMAP && getChannel(material2.anisotropyMap.channel),
-        clearcoatMapUv: HAS_CLEARCOATMAP && getChannel(material2.clearcoatMap.channel),
-        clearcoatNormalMapUv: HAS_CLEARCOAT_NORMALMAP && getChannel(material2.clearcoatNormalMap.channel),
-        clearcoatRoughnessMapUv: HAS_CLEARCOAT_ROUGHNESSMAP && getChannel(material2.clearcoatRoughnessMap.channel),
-        iridescenceMapUv: HAS_IRIDESCENCEMAP && getChannel(material2.iridescenceMap.channel),
-        iridescenceThicknessMapUv: HAS_IRIDESCENCE_THICKNESSMAP && getChannel(material2.iridescenceThicknessMap.channel),
-        sheenColorMapUv: HAS_SHEEN_COLORMAP && getChannel(material2.sheenColorMap.channel),
-        sheenRoughnessMapUv: HAS_SHEEN_ROUGHNESSMAP && getChannel(material2.sheenRoughnessMap.channel),
-        specularMapUv: HAS_SPECULARMAP && getChannel(material2.specularMap.channel),
-        specularColorMapUv: HAS_SPECULAR_COLORMAP && getChannel(material2.specularColorMap.channel),
-        specularIntensityMapUv: HAS_SPECULAR_INTENSITYMAP && getChannel(material2.specularIntensityMap.channel),
-        transmissionMapUv: HAS_TRANSMISSIONMAP && getChannel(material2.transmissionMap.channel),
-        thicknessMapUv: HAS_THICKNESSMAP && getChannel(material2.thicknessMap.channel),
-        alphaMapUv: HAS_ALPHAMAP && getChannel(material2.alphaMap.channel),
+        mapUv: HAS_MAP && getChannel(material.map.channel),
+        aoMapUv: HAS_AOMAP && getChannel(material.aoMap.channel),
+        lightMapUv: HAS_LIGHTMAP && getChannel(material.lightMap.channel),
+        bumpMapUv: HAS_BUMPMAP && getChannel(material.bumpMap.channel),
+        normalMapUv: HAS_NORMALMAP && getChannel(material.normalMap.channel),
+        displacementMapUv: HAS_DISPLACEMENTMAP && getChannel(material.displacementMap.channel),
+        emissiveMapUv: HAS_EMISSIVEMAP && getChannel(material.emissiveMap.channel),
+        metalnessMapUv: HAS_METALNESSMAP && getChannel(material.metalnessMap.channel),
+        roughnessMapUv: HAS_ROUGHNESSMAP && getChannel(material.roughnessMap.channel),
+        anisotropyMapUv: HAS_ANISOTROPYMAP && getChannel(material.anisotropyMap.channel),
+        clearcoatMapUv: HAS_CLEARCOATMAP && getChannel(material.clearcoatMap.channel),
+        clearcoatNormalMapUv: HAS_CLEARCOAT_NORMALMAP && getChannel(material.clearcoatNormalMap.channel),
+        clearcoatRoughnessMapUv: HAS_CLEARCOAT_ROUGHNESSMAP && getChannel(material.clearcoatRoughnessMap.channel),
+        iridescenceMapUv: HAS_IRIDESCENCEMAP && getChannel(material.iridescenceMap.channel),
+        iridescenceThicknessMapUv: HAS_IRIDESCENCE_THICKNESSMAP && getChannel(material.iridescenceThicknessMap.channel),
+        sheenColorMapUv: HAS_SHEEN_COLORMAP && getChannel(material.sheenColorMap.channel),
+        sheenRoughnessMapUv: HAS_SHEEN_ROUGHNESSMAP && getChannel(material.sheenRoughnessMap.channel),
+        specularMapUv: HAS_SPECULARMAP && getChannel(material.specularMap.channel),
+        specularColorMapUv: HAS_SPECULAR_COLORMAP && getChannel(material.specularColorMap.channel),
+        specularIntensityMapUv: HAS_SPECULAR_INTENSITYMAP && getChannel(material.specularIntensityMap.channel),
+        transmissionMapUv: HAS_TRANSMISSIONMAP && getChannel(material.transmissionMap.channel),
+        thicknessMapUv: HAS_THICKNESSMAP && getChannel(material.thicknessMap.channel),
+        alphaMapUv: HAS_ALPHAMAP && getChannel(material.alphaMap.channel),
         //
-        vertexTangents: !!geometry2.attributes.tangent && (HAS_NORMALMAP || HAS_ANISOTROPY),
-        vertexNormals: !!geometry2.attributes.normal,
-        vertexColors: material2.vertexColors,
-        vertexAlphas: material2.vertexColors === true && !!geometry2.attributes.color && geometry2.attributes.color.itemSize === 4,
-        pointsUvs: object.isPoints === true && !!geometry2.attributes.uv && (HAS_MAP || HAS_ALPHAMAP),
+        vertexTangents: !!geometry.attributes.tangent && (HAS_NORMALMAP || HAS_ANISOTROPY),
+        vertexNormals: !!geometry.attributes.normal,
+        vertexColors: material.vertexColors,
+        vertexAlphas: material.vertexColors === true && !!geometry.attributes.color && geometry.attributes.color.itemSize === 4,
+        pointsUvs: object.isPoints === true && !!geometry.attributes.uv && (HAS_MAP || HAS_ALPHAMAP),
         fog: !!fog,
-        useFog: material2.fog === true,
+        useFog: material.fog === true,
         fogExp2: !!fog && fog.isFogExp2,
-        flatShading: material2.wireframe === false && (material2.flatShading === true || geometry2.attributes.normal === void 0 && HAS_NORMALMAP === false && (material2.isMeshLambertMaterial || material2.isMeshPhongMaterial || material2.isMeshStandardMaterial || material2.isMeshPhysicalMaterial)),
-        sizeAttenuation: material2.sizeAttenuation === true,
+        flatShading: material.wireframe === false && (material.flatShading === true || geometry.attributes.normal === void 0 && HAS_NORMALMAP === false && (material.isMeshLambertMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isMeshPhysicalMaterial)),
+        sizeAttenuation: material.sizeAttenuation === true,
         logarithmicDepthBuffer,
         reversedDepthBuffer,
         skinning: object.isSkinnedMesh === true,
-        morphTargets: geometry2.morphAttributes.position !== void 0,
-        morphNormals: geometry2.morphAttributes.normal !== void 0,
-        morphColors: geometry2.morphAttributes.color !== void 0,
+        morphTargets: geometry.morphAttributes.position !== void 0,
+        morphNormals: geometry.morphAttributes.normal !== void 0,
+        morphColors: geometry.morphAttributes.color !== void 0,
         morphTargetsCount,
         morphTextureStride,
         numDirLights: lights.directional.length,
@@ -20188,22 +29040,22 @@
         numLightProbeGrids: lightProbeGrids.length,
         numClippingPlanes: clipping.numPlanes,
         numClipIntersection: clipping.numIntersection,
-        dithering: material2.dithering,
+        dithering: material.dithering,
         shadowMapEnabled: renderer2.shadowMap.enabled && shadows.length > 0,
         shadowMapType: renderer2.shadowMap.type,
         toneMapping,
-        decodeVideoTexture: HAS_MAP && material2.map.isVideoTexture === true && ColorManagement.getTransfer(material2.map.colorSpace) === SRGBTransfer,
-        decodeVideoTextureEmissive: HAS_EMISSIVEMAP && material2.emissiveMap.isVideoTexture === true && ColorManagement.getTransfer(material2.emissiveMap.colorSpace) === SRGBTransfer,
-        premultipliedAlpha: material2.premultipliedAlpha,
-        doubleSided: material2.side === DoubleSide,
-        flipSided: material2.side === BackSide,
-        useDepthPacking: material2.depthPacking >= 0,
-        depthPacking: material2.depthPacking || 0,
-        index0AttributeName: material2.index0AttributeName,
-        extensionClipCullDistance: HAS_EXTENSIONS && material2.extensions.clipCullDistance === true && extensions.has("WEBGL_clip_cull_distance"),
-        extensionMultiDraw: (HAS_EXTENSIONS && material2.extensions.multiDraw === true || IS_BATCHEDMESH) && extensions.has("WEBGL_multi_draw"),
+        decodeVideoTexture: HAS_MAP && material.map.isVideoTexture === true && ColorManagement.getTransfer(material.map.colorSpace) === SRGBTransfer,
+        decodeVideoTextureEmissive: HAS_EMISSIVEMAP && material.emissiveMap.isVideoTexture === true && ColorManagement.getTransfer(material.emissiveMap.colorSpace) === SRGBTransfer,
+        premultipliedAlpha: material.premultipliedAlpha,
+        doubleSided: material.side === DoubleSide,
+        flipSided: material.side === BackSide,
+        useDepthPacking: material.depthPacking >= 0,
+        depthPacking: material.depthPacking || 0,
+        index0AttributeName: material.index0AttributeName,
+        extensionClipCullDistance: HAS_EXTENSIONS && material.extensions.clipCullDistance === true && extensions.has("WEBGL_clip_cull_distance"),
+        extensionMultiDraw: (HAS_EXTENSIONS && material.extensions.multiDraw === true || IS_BATCHEDMESH) && extensions.has("WEBGL_multi_draw"),
         rendererExtensionParallelShaderCompile: extensions.has("KHR_parallel_shader_compile"),
-        customProgramCacheKey: material2.customProgramCacheKey()
+        customProgramCacheKey: material.customProgramCacheKey()
       };
       parameters.vertexUv1s = _activeChannels.has(1);
       parameters.vertexUv2s = _activeChannels.has(2);
@@ -20383,14 +29235,14 @@
         _programLayers.enable(22);
       array.push(_programLayers.mask);
     }
-    function getUniforms(material2) {
-      const shaderID = shaderIDs[material2.type];
+    function getUniforms(material) {
+      const shaderID = shaderIDs[material.type];
       let uniforms;
       if (shaderID) {
         const shader = ShaderLib[shaderID];
         uniforms = UniformsUtils.clone(shader.uniforms);
       } else {
-        uniforms = material2.uniforms;
+        uniforms = material.uniforms;
       }
       return uniforms;
     }
@@ -20414,8 +29266,8 @@
         program.destroy();
       }
     }
-    function releaseShaderCache(material2) {
-      _customShaders.remove(material2);
+    function releaseShaderCache(material) {
+      _customShaders.remove(material);
     }
     function dispose() {
       _customShaders.dispose();
@@ -20448,7 +29300,7 @@
     function remove(object) {
       properties.delete(object);
     }
-    function update(object, key, value) {
+    function update2(object, key, value) {
       properties.get(object)[key] = value;
     }
     function dispose() {
@@ -20458,7 +29310,7 @@
       has,
       get,
       remove,
-      update,
+      update: update2,
       dispose
     };
   }
@@ -20506,14 +29358,14 @@
       if (object.isSkinnedMesh) variant += 1;
       return variant;
     }
-    function getNextRenderItem(object, geometry2, material2, groupOrder, z, group) {
+    function getNextRenderItem(object, geometry, material, groupOrder, z, group) {
       let renderItem = renderItems[renderItemsIndex];
       if (renderItem === void 0) {
         renderItem = {
           id: object.id,
           object,
-          geometry: geometry2,
-          material: material2,
+          geometry,
+          material,
           materialVariant: materialVariant(object),
           groupOrder,
           renderOrder: object.renderOrder,
@@ -20524,8 +29376,8 @@
       } else {
         renderItem.id = object.id;
         renderItem.object = object;
-        renderItem.geometry = geometry2;
-        renderItem.material = material2;
+        renderItem.geometry = geometry;
+        renderItem.material = material;
         renderItem.materialVariant = materialVariant(object);
         renderItem.groupOrder = groupOrder;
         renderItem.renderOrder = object.renderOrder;
@@ -20535,21 +29387,21 @@
       renderItemsIndex++;
       return renderItem;
     }
-    function push(object, geometry2, material2, groupOrder, z, group) {
-      const renderItem = getNextRenderItem(object, geometry2, material2, groupOrder, z, group);
-      if (material2.transmission > 0) {
+    function push(object, geometry, material, groupOrder, z, group) {
+      const renderItem = getNextRenderItem(object, geometry, material, groupOrder, z, group);
+      if (material.transmission > 0) {
         transmissive.push(renderItem);
-      } else if (material2.transparent === true) {
+      } else if (material.transparent === true) {
         transparent.push(renderItem);
       } else {
         opaque.push(renderItem);
       }
     }
-    function unshift(object, geometry2, material2, groupOrder, z, group) {
-      const renderItem = getNextRenderItem(object, geometry2, material2, groupOrder, z, group);
-      if (material2.transmission > 0) {
+    function unshift(object, geometry, material, groupOrder, z, group) {
+      const renderItem = getNextRenderItem(object, geometry, material, groupOrder, z, group);
+      if (material.transmission > 0) {
         transmissive.unshift(renderItem);
-      } else if (material2.transparent === true) {
+      } else if (material.transparent === true) {
         transparent.unshift(renderItem);
       } else {
         opaque.unshift(renderItem);
@@ -21065,9 +29917,9 @@
     /* @__PURE__ */ new Vector3(0, -1, 0),
     /* @__PURE__ */ new Vector3(0, -1, 0)
   ];
-  var _projScreenMatrix = /* @__PURE__ */ new Matrix4();
-  var _lightPositionWorld = /* @__PURE__ */ new Vector3();
-  var _lookTarget = /* @__PURE__ */ new Vector3();
+  var _projScreenMatrix2 = /* @__PURE__ */ new Matrix4();
+  var _lightPositionWorld2 = /* @__PURE__ */ new Vector3();
+  var _lookTarget2 = /* @__PURE__ */ new Vector3();
   function WebGLShadowMap(renderer2, objects, capabilities) {
     let _frustum = new Frustum();
     const _shadowMapSize = new Vector2(), _viewportSize = new Vector2(), _viewport = new Vector4(), _depthMaterial = new MeshDepthMaterial(), _distanceMaterial = new MeshDistanceMaterial(), _materialCache = {}, _maxTextureSize = capabilities.maxTextureSize;
@@ -21235,16 +30087,16 @@
               camera3.far = far;
               camera3.updateProjectionMatrix();
             }
-            _lightPositionWorld.setFromMatrixPosition(light.matrixWorld);
-            camera3.position.copy(_lightPositionWorld);
-            _lookTarget.copy(camera3.position);
-            _lookTarget.add(_cubeDirections[face]);
+            _lightPositionWorld2.setFromMatrixPosition(light.matrixWorld);
+            camera3.position.copy(_lightPositionWorld2);
+            _lookTarget2.copy(camera3.position);
+            _lookTarget2.add(_cubeDirections[face]);
             camera3.up.copy(_cubeUps[face]);
-            camera3.lookAt(_lookTarget);
+            camera3.lookAt(_lookTarget2);
             camera3.updateMatrixWorld();
-            shadowMatrix.makeTranslation(-_lightPositionWorld.x, -_lightPositionWorld.y, -_lightPositionWorld.z);
-            _projScreenMatrix.multiplyMatrices(camera3.projectionMatrix, camera3.matrixWorldInverse);
-            shadow._frustum.setFromProjectionMatrix(_projScreenMatrix, camera3.coordinateSystem, camera3.reversedDepth);
+            shadowMatrix.makeTranslation(-_lightPositionWorld2.x, -_lightPositionWorld2.y, -_lightPositionWorld2.z);
+            _projScreenMatrix2.multiplyMatrices(camera3.projectionMatrix, camera3.matrixWorldInverse);
+            shadow._frustum.setFromProjectionMatrix(_projScreenMatrix2, camera3.coordinateSystem, camera3.reversedDepth);
           } else {
             shadow.updateMatrices(light);
           }
@@ -21261,7 +30113,7 @@
       renderer2.setRenderTarget(currentRenderTarget, activeCubeFace, activeMipmapLevel);
     };
     function VSMPass(shadow, camera2) {
-      const geometry2 = objects.update(fullScreenMesh);
+      const geometry = objects.update(fullScreenMesh);
       if (shadowMaterialVertical.defines.VSM_SAMPLES !== shadow.blurSamples) {
         shadowMaterialVertical.defines.VSM_SAMPLES = shadow.blurSamples;
         shadowMaterialHorizontal.defines.VSM_SAMPLES = shadow.blurSamples;
@@ -21279,23 +30131,23 @@
       shadowMaterialVertical.uniforms.radius.value = shadow.radius;
       renderer2.setRenderTarget(shadow.mapPass);
       renderer2.clear();
-      renderer2.renderBufferDirect(camera2, null, geometry2, shadowMaterialVertical, fullScreenMesh, null);
+      renderer2.renderBufferDirect(camera2, null, geometry, shadowMaterialVertical, fullScreenMesh, null);
       shadowMaterialHorizontal.uniforms.shadow_pass.value = shadow.mapPass.texture;
       shadowMaterialHorizontal.uniforms.resolution.value = shadow.mapSize;
       shadowMaterialHorizontal.uniforms.radius.value = shadow.radius;
       renderer2.setRenderTarget(shadow.map);
       renderer2.clear();
-      renderer2.renderBufferDirect(camera2, null, geometry2, shadowMaterialHorizontal, fullScreenMesh, null);
+      renderer2.renderBufferDirect(camera2, null, geometry, shadowMaterialHorizontal, fullScreenMesh, null);
     }
-    function getDepthMaterial(object, material2, light, type) {
+    function getDepthMaterial(object, material, light, type) {
       let result = null;
       const customMaterial = light.isPointLight === true ? object.customDistanceMaterial : object.customDepthMaterial;
       if (customMaterial !== void 0) {
         result = customMaterial;
       } else {
         result = light.isPointLight === true ? _distanceMaterial : _depthMaterial;
-        if (renderer2.localClippingEnabled && material2.clipShadows === true && Array.isArray(material2.clippingPlanes) && material2.clippingPlanes.length !== 0 || material2.displacementMap && material2.displacementScale !== 0 || material2.alphaMap && material2.alphaTest > 0 || material2.map && material2.alphaTest > 0 || material2.alphaToCoverage === true) {
-          const keyA = result.uuid, keyB = material2.uuid;
+        if (renderer2.localClippingEnabled && material.clipShadows === true && Array.isArray(material.clippingPlanes) && material.clippingPlanes.length !== 0 || material.displacementMap && material.displacementScale !== 0 || material.alphaMap && material.alphaTest > 0 || material.map && material.alphaTest > 0 || material.alphaToCoverage === true) {
+          const keyA = result.uuid, keyB = material.uuid;
           let materialsForVariant = _materialCache[keyA];
           if (materialsForVariant === void 0) {
             materialsForVariant = {};
@@ -21305,29 +30157,29 @@
           if (cachedMaterial === void 0) {
             cachedMaterial = result.clone();
             materialsForVariant[keyB] = cachedMaterial;
-            material2.addEventListener("dispose", onMaterialDispose);
+            material.addEventListener("dispose", onMaterialDispose);
           }
           result = cachedMaterial;
         }
       }
-      result.visible = material2.visible;
-      result.wireframe = material2.wireframe;
+      result.visible = material.visible;
+      result.wireframe = material.wireframe;
       if (type === VSMShadowMap) {
-        result.side = material2.shadowSide !== null ? material2.shadowSide : material2.side;
+        result.side = material.shadowSide !== null ? material.shadowSide : material.side;
       } else {
-        result.side = material2.shadowSide !== null ? material2.shadowSide : shadowSide[material2.side];
+        result.side = material.shadowSide !== null ? material.shadowSide : shadowSide[material.side];
       }
-      result.alphaMap = material2.alphaMap;
-      result.alphaTest = material2.alphaToCoverage === true ? 0.5 : material2.alphaTest;
-      result.map = material2.map;
-      result.clipShadows = material2.clipShadows;
-      result.clippingPlanes = material2.clippingPlanes;
-      result.clipIntersection = material2.clipIntersection;
-      result.displacementMap = material2.displacementMap;
-      result.displacementScale = material2.displacementScale;
-      result.displacementBias = material2.displacementBias;
-      result.wireframeLinewidth = material2.wireframeLinewidth;
-      result.linewidth = material2.linewidth;
+      result.alphaMap = material.alphaMap;
+      result.alphaTest = material.alphaToCoverage === true ? 0.5 : material.alphaTest;
+      result.map = material.map;
+      result.clipShadows = material.clipShadows;
+      result.clippingPlanes = material.clippingPlanes;
+      result.clipIntersection = material.clipIntersection;
+      result.displacementMap = material.displacementMap;
+      result.displacementScale = material.displacementScale;
+      result.displacementBias = material.displacementBias;
+      result.wireframeLinewidth = material.wireframeLinewidth;
+      result.linewidth = material.linewidth;
       if (light.isPointLight === true && result.isMeshDistanceMaterial === true) {
         const materialProperties = renderer2.properties.get(result);
         materialProperties.light = light;
@@ -21340,25 +30192,25 @@
       if (visible && (object.isMesh || object.isLine || object.isPoints)) {
         if ((object.castShadow || object.receiveShadow && type === VSMShadowMap) && (!object.frustumCulled || _frustum.intersectsObject(object))) {
           object.modelViewMatrix.multiplyMatrices(shadowCamera.matrixWorldInverse, object.matrixWorld);
-          const geometry2 = objects.update(object);
-          const material2 = object.material;
-          if (Array.isArray(material2)) {
-            const groups = geometry2.groups;
+          const geometry = objects.update(object);
+          const material = object.material;
+          if (Array.isArray(material)) {
+            const groups = geometry.groups;
             for (let k = 0, kl = groups.length; k < kl; k++) {
               const group = groups[k];
-              const groupMaterial = material2[group.materialIndex];
+              const groupMaterial = material[group.materialIndex];
               if (groupMaterial && groupMaterial.visible) {
                 const depthMaterial = getDepthMaterial(object, groupMaterial, light, type);
-                object.onBeforeShadow(renderer2, object, camera2, shadowCamera, geometry2, depthMaterial, group);
-                renderer2.renderBufferDirect(shadowCamera, null, geometry2, depthMaterial, object, group);
-                object.onAfterShadow(renderer2, object, camera2, shadowCamera, geometry2, depthMaterial, group);
+                object.onBeforeShadow(renderer2, object, camera2, shadowCamera, geometry, depthMaterial, group);
+                renderer2.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, group);
+                object.onAfterShadow(renderer2, object, camera2, shadowCamera, geometry, depthMaterial, group);
               }
             }
-          } else if (material2.visible) {
-            const depthMaterial = getDepthMaterial(object, material2, light, type);
-            object.onBeforeShadow(renderer2, object, camera2, shadowCamera, geometry2, depthMaterial, null);
-            renderer2.renderBufferDirect(shadowCamera, null, geometry2, depthMaterial, object, null);
-            object.onAfterShadow(renderer2, object, camera2, shadowCamera, geometry2, depthMaterial, null);
+          } else if (material.visible) {
+            const depthMaterial = getDepthMaterial(object, material, light, type);
+            object.onBeforeShadow(renderer2, object, camera2, shadowCamera, geometry, depthMaterial, null);
+            renderer2.renderBufferDirect(shadowCamera, null, geometry, depthMaterial, object, null);
+            object.onAfterShadow(renderer2, object, camera2, shadowCamera, geometry, depthMaterial, null);
           }
         }
       }
@@ -21368,8 +30220,8 @@
       }
     }
     function onMaterialDispose(event) {
-      const material2 = event.target;
-      material2.removeEventListener("dispose", onMaterialDispose);
+      const material = event.target;
+      material.removeEventListener("dispose", onMaterialDispose);
       for (const id in _materialCache) {
         const cache = _materialCache[id];
         const uuid = event.target.uuid;
@@ -21820,25 +30672,25 @@
       currentBlending = blending;
       currentPremultipledAlpha = false;
     }
-    function setMaterial(material2, frontFaceCW) {
-      material2.side === DoubleSide ? disable(gl.CULL_FACE) : enable(gl.CULL_FACE);
-      let flipSided = material2.side === BackSide;
+    function setMaterial(material, frontFaceCW) {
+      material.side === DoubleSide ? disable(gl.CULL_FACE) : enable(gl.CULL_FACE);
+      let flipSided = material.side === BackSide;
       if (frontFaceCW) flipSided = !flipSided;
       setFlipSided(flipSided);
-      material2.blending === NormalBlending && material2.transparent === false ? setBlending(NoBlending) : setBlending(material2.blending, material2.blendEquation, material2.blendSrc, material2.blendDst, material2.blendEquationAlpha, material2.blendSrcAlpha, material2.blendDstAlpha, material2.blendColor, material2.blendAlpha, material2.premultipliedAlpha);
-      depthBuffer.setFunc(material2.depthFunc);
-      depthBuffer.setTest(material2.depthTest);
-      depthBuffer.setMask(material2.depthWrite);
-      colorBuffer.setMask(material2.colorWrite);
-      const stencilWrite = material2.stencilWrite;
+      material.blending === NormalBlending && material.transparent === false ? setBlending(NoBlending) : setBlending(material.blending, material.blendEquation, material.blendSrc, material.blendDst, material.blendEquationAlpha, material.blendSrcAlpha, material.blendDstAlpha, material.blendColor, material.blendAlpha, material.premultipliedAlpha);
+      depthBuffer.setFunc(material.depthFunc);
+      depthBuffer.setTest(material.depthTest);
+      depthBuffer.setMask(material.depthWrite);
+      colorBuffer.setMask(material.colorWrite);
+      const stencilWrite = material.stencilWrite;
       stencilBuffer.setTest(stencilWrite);
       if (stencilWrite) {
-        stencilBuffer.setMask(material2.stencilWriteMask);
-        stencilBuffer.setFunc(material2.stencilFunc, material2.stencilRef, material2.stencilFuncMask);
-        stencilBuffer.setOp(material2.stencilFail, material2.stencilZFail, material2.stencilZPass);
+        stencilBuffer.setMask(material.stencilWriteMask);
+        stencilBuffer.setFunc(material.stencilFunc, material.stencilRef, material.stencilFuncMask);
+        stencilBuffer.setOp(material.stencilFail, material.stencilZFail, material.stencilZPass);
       }
-      setPolygonOffset(material2.polygonOffset, material2.polygonOffsetFactor, material2.polygonOffsetUnits);
-      material2.alphaToCoverage === true ? enable(gl.SAMPLE_ALPHA_TO_COVERAGE) : disable(gl.SAMPLE_ALPHA_TO_COVERAGE);
+      setPolygonOffset(material.polygonOffset, material.polygonOffsetFactor, material.polygonOffsetUnits);
+      material.alphaToCoverage === true ? enable(gl.SAMPLE_ALPHA_TO_COVERAGE) : disable(gl.SAMPLE_ALPHA_TO_COVERAGE);
     }
     function setFlipSided(flipSided) {
       if (currentFlipSided !== flipSided) {
@@ -23642,7 +32494,7 @@ void main() {
       if (this.texture !== null) {
         if (this.mesh === null) {
           const viewport = cameraXR.cameras[0].viewport;
-          const material2 = new ShaderMaterial({
+          const material = new ShaderMaterial({
             vertexShader: _occlusion_vertex,
             fragmentShader: _occlusion_fragment,
             uniforms: {
@@ -23651,7 +32503,7 @@ void main() {
               depthHeight: { value: viewport.w }
             }
           });
-          this.mesh = new Mesh(new PlaneGeometry(20, 20), material2);
+          this.mesh = new Mesh(new PlaneGeometry(20, 20), material);
         }
       }
       return this.mesh;
@@ -24184,107 +33036,107 @@ void main() {
         uniforms.fogDensity.value = fog.density;
       }
     }
-    function refreshMaterialUniforms(uniforms, material2, pixelRatio, height2, transmissionRenderTarget) {
-      if (material2.isNodeMaterial) {
-        material2.uniformsNeedUpdate = false;
-      } else if (material2.isMeshBasicMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-      } else if (material2.isMeshLambertMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        if (material2.envMap) {
-          uniforms.envMapIntensity.value = material2.envMapIntensity;
+    function refreshMaterialUniforms(uniforms, material, pixelRatio, height2, transmissionRenderTarget) {
+      if (material.isNodeMaterial) {
+        material.uniformsNeedUpdate = false;
+      } else if (material.isMeshBasicMaterial) {
+        refreshUniformsCommon(uniforms, material);
+      } else if (material.isMeshLambertMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        if (material.envMap) {
+          uniforms.envMapIntensity.value = material.envMapIntensity;
         }
-      } else if (material2.isMeshToonMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        refreshUniformsToon(uniforms, material2);
-      } else if (material2.isMeshPhongMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        refreshUniformsPhong(uniforms, material2);
-        if (material2.envMap) {
-          uniforms.envMapIntensity.value = material2.envMapIntensity;
+      } else if (material.isMeshToonMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        refreshUniformsToon(uniforms, material);
+      } else if (material.isMeshPhongMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        refreshUniformsPhong(uniforms, material);
+        if (material.envMap) {
+          uniforms.envMapIntensity.value = material.envMapIntensity;
         }
-      } else if (material2.isMeshStandardMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        refreshUniformsStandard(uniforms, material2);
-        if (material2.isMeshPhysicalMaterial) {
-          refreshUniformsPhysical(uniforms, material2, transmissionRenderTarget);
+      } else if (material.isMeshStandardMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        refreshUniformsStandard(uniforms, material);
+        if (material.isMeshPhysicalMaterial) {
+          refreshUniformsPhysical(uniforms, material, transmissionRenderTarget);
         }
-      } else if (material2.isMeshMatcapMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        refreshUniformsMatcap(uniforms, material2);
-      } else if (material2.isMeshDepthMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-      } else if (material2.isMeshDistanceMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-        refreshUniformsDistance(uniforms, material2);
-      } else if (material2.isMeshNormalMaterial) {
-        refreshUniformsCommon(uniforms, material2);
-      } else if (material2.isLineBasicMaterial) {
-        refreshUniformsLine(uniforms, material2);
-        if (material2.isLineDashedMaterial) {
-          refreshUniformsDash(uniforms, material2);
+      } else if (material.isMeshMatcapMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        refreshUniformsMatcap(uniforms, material);
+      } else if (material.isMeshDepthMaterial) {
+        refreshUniformsCommon(uniforms, material);
+      } else if (material.isMeshDistanceMaterial) {
+        refreshUniformsCommon(uniforms, material);
+        refreshUniformsDistance(uniforms, material);
+      } else if (material.isMeshNormalMaterial) {
+        refreshUniformsCommon(uniforms, material);
+      } else if (material.isLineBasicMaterial) {
+        refreshUniformsLine(uniforms, material);
+        if (material.isLineDashedMaterial) {
+          refreshUniformsDash(uniforms, material);
         }
-      } else if (material2.isPointsMaterial) {
-        refreshUniformsPoints(uniforms, material2, pixelRatio, height2);
-      } else if (material2.isSpriteMaterial) {
-        refreshUniformsSprites(uniforms, material2);
-      } else if (material2.isShadowMaterial) {
-        uniforms.color.value.copy(material2.color);
-        uniforms.opacity.value = material2.opacity;
-      } else if (material2.isShaderMaterial) {
-        material2.uniformsNeedUpdate = false;
+      } else if (material.isPointsMaterial) {
+        refreshUniformsPoints(uniforms, material, pixelRatio, height2);
+      } else if (material.isSpriteMaterial) {
+        refreshUniformsSprites(uniforms, material);
+      } else if (material.isShadowMaterial) {
+        uniforms.color.value.copy(material.color);
+        uniforms.opacity.value = material.opacity;
+      } else if (material.isShaderMaterial) {
+        material.uniformsNeedUpdate = false;
       }
     }
-    function refreshUniformsCommon(uniforms, material2) {
-      uniforms.opacity.value = material2.opacity;
-      if (material2.color) {
-        uniforms.diffuse.value.copy(material2.color);
+    function refreshUniformsCommon(uniforms, material) {
+      uniforms.opacity.value = material.opacity;
+      if (material.color) {
+        uniforms.diffuse.value.copy(material.color);
       }
-      if (material2.emissive) {
-        uniforms.emissive.value.copy(material2.emissive).multiplyScalar(material2.emissiveIntensity);
+      if (material.emissive) {
+        uniforms.emissive.value.copy(material.emissive).multiplyScalar(material.emissiveIntensity);
       }
-      if (material2.map) {
-        uniforms.map.value = material2.map;
-        refreshTransformUniform(material2.map, uniforms.mapTransform);
+      if (material.map) {
+        uniforms.map.value = material.map;
+        refreshTransformUniform(material.map, uniforms.mapTransform);
       }
-      if (material2.alphaMap) {
-        uniforms.alphaMap.value = material2.alphaMap;
-        refreshTransformUniform(material2.alphaMap, uniforms.alphaMapTransform);
+      if (material.alphaMap) {
+        uniforms.alphaMap.value = material.alphaMap;
+        refreshTransformUniform(material.alphaMap, uniforms.alphaMapTransform);
       }
-      if (material2.bumpMap) {
-        uniforms.bumpMap.value = material2.bumpMap;
-        refreshTransformUniform(material2.bumpMap, uniforms.bumpMapTransform);
-        uniforms.bumpScale.value = material2.bumpScale;
-        if (material2.side === BackSide) {
+      if (material.bumpMap) {
+        uniforms.bumpMap.value = material.bumpMap;
+        refreshTransformUniform(material.bumpMap, uniforms.bumpMapTransform);
+        uniforms.bumpScale.value = material.bumpScale;
+        if (material.side === BackSide) {
           uniforms.bumpScale.value *= -1;
         }
       }
-      if (material2.normalMap) {
-        uniforms.normalMap.value = material2.normalMap;
-        refreshTransformUniform(material2.normalMap, uniforms.normalMapTransform);
-        uniforms.normalScale.value.copy(material2.normalScale);
-        if (material2.side === BackSide) {
+      if (material.normalMap) {
+        uniforms.normalMap.value = material.normalMap;
+        refreshTransformUniform(material.normalMap, uniforms.normalMapTransform);
+        uniforms.normalScale.value.copy(material.normalScale);
+        if (material.side === BackSide) {
           uniforms.normalScale.value.negate();
         }
       }
-      if (material2.displacementMap) {
-        uniforms.displacementMap.value = material2.displacementMap;
-        refreshTransformUniform(material2.displacementMap, uniforms.displacementMapTransform);
-        uniforms.displacementScale.value = material2.displacementScale;
-        uniforms.displacementBias.value = material2.displacementBias;
+      if (material.displacementMap) {
+        uniforms.displacementMap.value = material.displacementMap;
+        refreshTransformUniform(material.displacementMap, uniforms.displacementMapTransform);
+        uniforms.displacementScale.value = material.displacementScale;
+        uniforms.displacementBias.value = material.displacementBias;
       }
-      if (material2.emissiveMap) {
-        uniforms.emissiveMap.value = material2.emissiveMap;
-        refreshTransformUniform(material2.emissiveMap, uniforms.emissiveMapTransform);
+      if (material.emissiveMap) {
+        uniforms.emissiveMap.value = material.emissiveMap;
+        refreshTransformUniform(material.emissiveMap, uniforms.emissiveMapTransform);
       }
-      if (material2.specularMap) {
-        uniforms.specularMap.value = material2.specularMap;
-        refreshTransformUniform(material2.specularMap, uniforms.specularMapTransform);
+      if (material.specularMap) {
+        uniforms.specularMap.value = material.specularMap;
+        refreshTransformUniform(material.specularMap, uniforms.specularMapTransform);
       }
-      if (material2.alphaTest > 0) {
-        uniforms.alphaTest.value = material2.alphaTest;
+      if (material.alphaTest > 0) {
+        uniforms.alphaTest.value = material.alphaTest;
       }
-      const materialProperties = properties.get(material2);
+      const materialProperties = properties.get(material);
       const envMap = materialProperties.envMap;
       const envMapRotation = materialProperties.envMapRotation;
       if (envMap) {
@@ -24293,183 +33145,183 @@ void main() {
         if (envMap.isCubeTexture && envMap.isRenderTargetTexture === false) {
           uniforms.envMapRotation.value.premultiply(_m);
         }
-        uniforms.reflectivity.value = material2.reflectivity;
-        uniforms.ior.value = material2.ior;
-        uniforms.refractionRatio.value = material2.refractionRatio;
+        uniforms.reflectivity.value = material.reflectivity;
+        uniforms.ior.value = material.ior;
+        uniforms.refractionRatio.value = material.refractionRatio;
       }
-      if (material2.lightMap) {
-        uniforms.lightMap.value = material2.lightMap;
-        uniforms.lightMapIntensity.value = material2.lightMapIntensity;
-        refreshTransformUniform(material2.lightMap, uniforms.lightMapTransform);
+      if (material.lightMap) {
+        uniforms.lightMap.value = material.lightMap;
+        uniforms.lightMapIntensity.value = material.lightMapIntensity;
+        refreshTransformUniform(material.lightMap, uniforms.lightMapTransform);
       }
-      if (material2.aoMap) {
-        uniforms.aoMap.value = material2.aoMap;
-        uniforms.aoMapIntensity.value = material2.aoMapIntensity;
-        refreshTransformUniform(material2.aoMap, uniforms.aoMapTransform);
-      }
-    }
-    function refreshUniformsLine(uniforms, material2) {
-      uniforms.diffuse.value.copy(material2.color);
-      uniforms.opacity.value = material2.opacity;
-      if (material2.map) {
-        uniforms.map.value = material2.map;
-        refreshTransformUniform(material2.map, uniforms.mapTransform);
+      if (material.aoMap) {
+        uniforms.aoMap.value = material.aoMap;
+        uniforms.aoMapIntensity.value = material.aoMapIntensity;
+        refreshTransformUniform(material.aoMap, uniforms.aoMapTransform);
       }
     }
-    function refreshUniformsDash(uniforms, material2) {
-      uniforms.dashSize.value = material2.dashSize;
-      uniforms.totalSize.value = material2.dashSize + material2.gapSize;
-      uniforms.scale.value = material2.scale;
+    function refreshUniformsLine(uniforms, material) {
+      uniforms.diffuse.value.copy(material.color);
+      uniforms.opacity.value = material.opacity;
+      if (material.map) {
+        uniforms.map.value = material.map;
+        refreshTransformUniform(material.map, uniforms.mapTransform);
+      }
     }
-    function refreshUniformsPoints(uniforms, material2, pixelRatio, height2) {
-      uniforms.diffuse.value.copy(material2.color);
-      uniforms.opacity.value = material2.opacity;
-      uniforms.size.value = material2.size * pixelRatio;
+    function refreshUniformsDash(uniforms, material) {
+      uniforms.dashSize.value = material.dashSize;
+      uniforms.totalSize.value = material.dashSize + material.gapSize;
+      uniforms.scale.value = material.scale;
+    }
+    function refreshUniformsPoints(uniforms, material, pixelRatio, height2) {
+      uniforms.diffuse.value.copy(material.color);
+      uniforms.opacity.value = material.opacity;
+      uniforms.size.value = material.size * pixelRatio;
       uniforms.scale.value = height2 * 0.5;
-      if (material2.map) {
-        uniforms.map.value = material2.map;
-        refreshTransformUniform(material2.map, uniforms.uvTransform);
+      if (material.map) {
+        uniforms.map.value = material.map;
+        refreshTransformUniform(material.map, uniforms.uvTransform);
       }
-      if (material2.alphaMap) {
-        uniforms.alphaMap.value = material2.alphaMap;
-        refreshTransformUniform(material2.alphaMap, uniforms.alphaMapTransform);
+      if (material.alphaMap) {
+        uniforms.alphaMap.value = material.alphaMap;
+        refreshTransformUniform(material.alphaMap, uniforms.alphaMapTransform);
       }
-      if (material2.alphaTest > 0) {
-        uniforms.alphaTest.value = material2.alphaTest;
-      }
-    }
-    function refreshUniformsSprites(uniforms, material2) {
-      uniforms.diffuse.value.copy(material2.color);
-      uniforms.opacity.value = material2.opacity;
-      uniforms.rotation.value = material2.rotation;
-      if (material2.map) {
-        uniforms.map.value = material2.map;
-        refreshTransformUniform(material2.map, uniforms.mapTransform);
-      }
-      if (material2.alphaMap) {
-        uniforms.alphaMap.value = material2.alphaMap;
-        refreshTransformUniform(material2.alphaMap, uniforms.alphaMapTransform);
-      }
-      if (material2.alphaTest > 0) {
-        uniforms.alphaTest.value = material2.alphaTest;
+      if (material.alphaTest > 0) {
+        uniforms.alphaTest.value = material.alphaTest;
       }
     }
-    function refreshUniformsPhong(uniforms, material2) {
-      uniforms.specular.value.copy(material2.specular);
-      uniforms.shininess.value = Math.max(material2.shininess, 1e-4);
-    }
-    function refreshUniformsToon(uniforms, material2) {
-      if (material2.gradientMap) {
-        uniforms.gradientMap.value = material2.gradientMap;
+    function refreshUniformsSprites(uniforms, material) {
+      uniforms.diffuse.value.copy(material.color);
+      uniforms.opacity.value = material.opacity;
+      uniforms.rotation.value = material.rotation;
+      if (material.map) {
+        uniforms.map.value = material.map;
+        refreshTransformUniform(material.map, uniforms.mapTransform);
+      }
+      if (material.alphaMap) {
+        uniforms.alphaMap.value = material.alphaMap;
+        refreshTransformUniform(material.alphaMap, uniforms.alphaMapTransform);
+      }
+      if (material.alphaTest > 0) {
+        uniforms.alphaTest.value = material.alphaTest;
       }
     }
-    function refreshUniformsStandard(uniforms, material2) {
-      uniforms.metalness.value = material2.metalness;
-      if (material2.metalnessMap) {
-        uniforms.metalnessMap.value = material2.metalnessMap;
-        refreshTransformUniform(material2.metalnessMap, uniforms.metalnessMapTransform);
-      }
-      uniforms.roughness.value = material2.roughness;
-      if (material2.roughnessMap) {
-        uniforms.roughnessMap.value = material2.roughnessMap;
-        refreshTransformUniform(material2.roughnessMap, uniforms.roughnessMapTransform);
-      }
-      if (material2.envMap) {
-        uniforms.envMapIntensity.value = material2.envMapIntensity;
+    function refreshUniformsPhong(uniforms, material) {
+      uniforms.specular.value.copy(material.specular);
+      uniforms.shininess.value = Math.max(material.shininess, 1e-4);
+    }
+    function refreshUniformsToon(uniforms, material) {
+      if (material.gradientMap) {
+        uniforms.gradientMap.value = material.gradientMap;
       }
     }
-    function refreshUniformsPhysical(uniforms, material2, transmissionRenderTarget) {
-      uniforms.ior.value = material2.ior;
-      if (material2.sheen > 0) {
-        uniforms.sheenColor.value.copy(material2.sheenColor).multiplyScalar(material2.sheen);
-        uniforms.sheenRoughness.value = material2.sheenRoughness;
-        if (material2.sheenColorMap) {
-          uniforms.sheenColorMap.value = material2.sheenColorMap;
-          refreshTransformUniform(material2.sheenColorMap, uniforms.sheenColorMapTransform);
+    function refreshUniformsStandard(uniforms, material) {
+      uniforms.metalness.value = material.metalness;
+      if (material.metalnessMap) {
+        uniforms.metalnessMap.value = material.metalnessMap;
+        refreshTransformUniform(material.metalnessMap, uniforms.metalnessMapTransform);
+      }
+      uniforms.roughness.value = material.roughness;
+      if (material.roughnessMap) {
+        uniforms.roughnessMap.value = material.roughnessMap;
+        refreshTransformUniform(material.roughnessMap, uniforms.roughnessMapTransform);
+      }
+      if (material.envMap) {
+        uniforms.envMapIntensity.value = material.envMapIntensity;
+      }
+    }
+    function refreshUniformsPhysical(uniforms, material, transmissionRenderTarget) {
+      uniforms.ior.value = material.ior;
+      if (material.sheen > 0) {
+        uniforms.sheenColor.value.copy(material.sheenColor).multiplyScalar(material.sheen);
+        uniforms.sheenRoughness.value = material.sheenRoughness;
+        if (material.sheenColorMap) {
+          uniforms.sheenColorMap.value = material.sheenColorMap;
+          refreshTransformUniform(material.sheenColorMap, uniforms.sheenColorMapTransform);
         }
-        if (material2.sheenRoughnessMap) {
-          uniforms.sheenRoughnessMap.value = material2.sheenRoughnessMap;
-          refreshTransformUniform(material2.sheenRoughnessMap, uniforms.sheenRoughnessMapTransform);
+        if (material.sheenRoughnessMap) {
+          uniforms.sheenRoughnessMap.value = material.sheenRoughnessMap;
+          refreshTransformUniform(material.sheenRoughnessMap, uniforms.sheenRoughnessMapTransform);
         }
       }
-      if (material2.clearcoat > 0) {
-        uniforms.clearcoat.value = material2.clearcoat;
-        uniforms.clearcoatRoughness.value = material2.clearcoatRoughness;
-        if (material2.clearcoatMap) {
-          uniforms.clearcoatMap.value = material2.clearcoatMap;
-          refreshTransformUniform(material2.clearcoatMap, uniforms.clearcoatMapTransform);
+      if (material.clearcoat > 0) {
+        uniforms.clearcoat.value = material.clearcoat;
+        uniforms.clearcoatRoughness.value = material.clearcoatRoughness;
+        if (material.clearcoatMap) {
+          uniforms.clearcoatMap.value = material.clearcoatMap;
+          refreshTransformUniform(material.clearcoatMap, uniforms.clearcoatMapTransform);
         }
-        if (material2.clearcoatRoughnessMap) {
-          uniforms.clearcoatRoughnessMap.value = material2.clearcoatRoughnessMap;
-          refreshTransformUniform(material2.clearcoatRoughnessMap, uniforms.clearcoatRoughnessMapTransform);
+        if (material.clearcoatRoughnessMap) {
+          uniforms.clearcoatRoughnessMap.value = material.clearcoatRoughnessMap;
+          refreshTransformUniform(material.clearcoatRoughnessMap, uniforms.clearcoatRoughnessMapTransform);
         }
-        if (material2.clearcoatNormalMap) {
-          uniforms.clearcoatNormalMap.value = material2.clearcoatNormalMap;
-          refreshTransformUniform(material2.clearcoatNormalMap, uniforms.clearcoatNormalMapTransform);
-          uniforms.clearcoatNormalScale.value.copy(material2.clearcoatNormalScale);
-          if (material2.side === BackSide) {
+        if (material.clearcoatNormalMap) {
+          uniforms.clearcoatNormalMap.value = material.clearcoatNormalMap;
+          refreshTransformUniform(material.clearcoatNormalMap, uniforms.clearcoatNormalMapTransform);
+          uniforms.clearcoatNormalScale.value.copy(material.clearcoatNormalScale);
+          if (material.side === BackSide) {
             uniforms.clearcoatNormalScale.value.negate();
           }
         }
       }
-      if (material2.dispersion > 0) {
-        uniforms.dispersion.value = material2.dispersion;
+      if (material.dispersion > 0) {
+        uniforms.dispersion.value = material.dispersion;
       }
-      if (material2.iridescence > 0) {
-        uniforms.iridescence.value = material2.iridescence;
-        uniforms.iridescenceIOR.value = material2.iridescenceIOR;
-        uniforms.iridescenceThicknessMinimum.value = material2.iridescenceThicknessRange[0];
-        uniforms.iridescenceThicknessMaximum.value = material2.iridescenceThicknessRange[1];
-        if (material2.iridescenceMap) {
-          uniforms.iridescenceMap.value = material2.iridescenceMap;
-          refreshTransformUniform(material2.iridescenceMap, uniforms.iridescenceMapTransform);
+      if (material.iridescence > 0) {
+        uniforms.iridescence.value = material.iridescence;
+        uniforms.iridescenceIOR.value = material.iridescenceIOR;
+        uniforms.iridescenceThicknessMinimum.value = material.iridescenceThicknessRange[0];
+        uniforms.iridescenceThicknessMaximum.value = material.iridescenceThicknessRange[1];
+        if (material.iridescenceMap) {
+          uniforms.iridescenceMap.value = material.iridescenceMap;
+          refreshTransformUniform(material.iridescenceMap, uniforms.iridescenceMapTransform);
         }
-        if (material2.iridescenceThicknessMap) {
-          uniforms.iridescenceThicknessMap.value = material2.iridescenceThicknessMap;
-          refreshTransformUniform(material2.iridescenceThicknessMap, uniforms.iridescenceThicknessMapTransform);
+        if (material.iridescenceThicknessMap) {
+          uniforms.iridescenceThicknessMap.value = material.iridescenceThicknessMap;
+          refreshTransformUniform(material.iridescenceThicknessMap, uniforms.iridescenceThicknessMapTransform);
         }
       }
-      if (material2.transmission > 0) {
-        uniforms.transmission.value = material2.transmission;
+      if (material.transmission > 0) {
+        uniforms.transmission.value = material.transmission;
         uniforms.transmissionSamplerMap.value = transmissionRenderTarget.texture;
         uniforms.transmissionSamplerSize.value.set(transmissionRenderTarget.width, transmissionRenderTarget.height);
-        if (material2.transmissionMap) {
-          uniforms.transmissionMap.value = material2.transmissionMap;
-          refreshTransformUniform(material2.transmissionMap, uniforms.transmissionMapTransform);
+        if (material.transmissionMap) {
+          uniforms.transmissionMap.value = material.transmissionMap;
+          refreshTransformUniform(material.transmissionMap, uniforms.transmissionMapTransform);
         }
-        uniforms.thickness.value = material2.thickness;
-        if (material2.thicknessMap) {
-          uniforms.thicknessMap.value = material2.thicknessMap;
-          refreshTransformUniform(material2.thicknessMap, uniforms.thicknessMapTransform);
+        uniforms.thickness.value = material.thickness;
+        if (material.thicknessMap) {
+          uniforms.thicknessMap.value = material.thicknessMap;
+          refreshTransformUniform(material.thicknessMap, uniforms.thicknessMapTransform);
         }
-        uniforms.attenuationDistance.value = material2.attenuationDistance;
-        uniforms.attenuationColor.value.copy(material2.attenuationColor);
+        uniforms.attenuationDistance.value = material.attenuationDistance;
+        uniforms.attenuationColor.value.copy(material.attenuationColor);
       }
-      if (material2.anisotropy > 0) {
-        uniforms.anisotropyVector.value.set(material2.anisotropy * Math.cos(material2.anisotropyRotation), material2.anisotropy * Math.sin(material2.anisotropyRotation));
-        if (material2.anisotropyMap) {
-          uniforms.anisotropyMap.value = material2.anisotropyMap;
-          refreshTransformUniform(material2.anisotropyMap, uniforms.anisotropyMapTransform);
+      if (material.anisotropy > 0) {
+        uniforms.anisotropyVector.value.set(material.anisotropy * Math.cos(material.anisotropyRotation), material.anisotropy * Math.sin(material.anisotropyRotation));
+        if (material.anisotropyMap) {
+          uniforms.anisotropyMap.value = material.anisotropyMap;
+          refreshTransformUniform(material.anisotropyMap, uniforms.anisotropyMapTransform);
         }
       }
-      uniforms.specularIntensity.value = material2.specularIntensity;
-      uniforms.specularColor.value.copy(material2.specularColor);
-      if (material2.specularColorMap) {
-        uniforms.specularColorMap.value = material2.specularColorMap;
-        refreshTransformUniform(material2.specularColorMap, uniforms.specularColorMapTransform);
+      uniforms.specularIntensity.value = material.specularIntensity;
+      uniforms.specularColor.value.copy(material.specularColor);
+      if (material.specularColorMap) {
+        uniforms.specularColorMap.value = material.specularColorMap;
+        refreshTransformUniform(material.specularColorMap, uniforms.specularColorMapTransform);
       }
-      if (material2.specularIntensityMap) {
-        uniforms.specularIntensityMap.value = material2.specularIntensityMap;
-        refreshTransformUniform(material2.specularIntensityMap, uniforms.specularIntensityMapTransform);
+      if (material.specularIntensityMap) {
+        uniforms.specularIntensityMap.value = material.specularIntensityMap;
+        refreshTransformUniform(material.specularIntensityMap, uniforms.specularIntensityMapTransform);
       }
     }
-    function refreshUniformsMatcap(uniforms, material2) {
-      if (material2.matcap) {
-        uniforms.matcap.value = material2.matcap;
+    function refreshUniformsMatcap(uniforms, material) {
+      if (material.matcap) {
+        uniforms.matcap.value = material.matcap;
       }
     }
-    function refreshUniformsDistance(uniforms, material2) {
-      const light = properties.get(material2).light;
+    function refreshUniformsDistance(uniforms, material) {
+      const light = properties.get(material).light;
       uniforms.referencePosition.value.setFromMatrixPosition(light.matrixWorld);
       uniforms.nearDistance.value = light.shadow.camera.near;
       uniforms.farDistance.value = light.shadow.camera.far;
@@ -24488,7 +33340,7 @@ void main() {
       const webglProgram = program.program;
       state.uniformBlockBinding(uniformsGroup, webglProgram);
     }
-    function update(uniformsGroup, program) {
+    function update2(uniformsGroup, program) {
       let buffer = buffers[uniformsGroup.id];
       if (buffer === void 0) {
         prepareUniformsGroup(uniformsGroup);
@@ -24686,7 +33538,7 @@ void main() {
     }
     return {
       bind,
-      update,
+      update: update2,
       dispose
     };
   }
@@ -25319,9 +34171,9 @@ void main() {
       const _frustum = new Frustum();
       let _clippingEnabled = false;
       let _localClippingEnabled = false;
-      const _projScreenMatrix2 = new Matrix4();
+      const _projScreenMatrix3 = new Matrix4();
       const _vector3 = new Vector3();
-      const _vector4 = new Vector4();
+      const _vector42 = new Vector4();
       const _emptyScene = { background: null, fog: null, environment: null, overrideMaterial: null, isScene: true };
       let _renderBackground = false;
       function getTargetPixelRatio() {
@@ -25627,39 +34479,39 @@ void main() {
         error("WebGLRenderer: A WebGL context could not be created. Reason: ", event.statusMessage);
       }
       function onMaterialDispose(event) {
-        const material2 = event.target;
-        material2.removeEventListener("dispose", onMaterialDispose);
-        deallocateMaterial(material2);
+        const material = event.target;
+        material.removeEventListener("dispose", onMaterialDispose);
+        deallocateMaterial(material);
       }
-      function deallocateMaterial(material2) {
-        releaseMaterialProgramReferences(material2);
-        properties.remove(material2);
+      function deallocateMaterial(material) {
+        releaseMaterialProgramReferences(material);
+        properties.remove(material);
       }
-      function releaseMaterialProgramReferences(material2) {
-        const programs = properties.get(material2).programs;
+      function releaseMaterialProgramReferences(material) {
+        const programs = properties.get(material).programs;
         if (programs !== void 0) {
           programs.forEach(function(program) {
             programCache.releaseProgram(program);
           });
-          if (material2.isShaderMaterial) {
-            programCache.releaseShaderCache(material2);
+          if (material.isShaderMaterial) {
+            programCache.releaseShaderCache(material);
           }
         }
       }
-      this.renderBufferDirect = function(camera2, scene2, geometry2, material2, object, group) {
+      this.renderBufferDirect = function(camera2, scene2, geometry, material, object, group) {
         if (scene2 === null) scene2 = _emptyScene;
         const frontFaceCW = object.isMesh && object.matrixWorld.determinant() < 0;
-        const program = setProgram(camera2, scene2, geometry2, material2, object);
-        state.setMaterial(material2, frontFaceCW);
-        let index = geometry2.index;
+        const program = setProgram(camera2, scene2, geometry, material, object);
+        state.setMaterial(material, frontFaceCW);
+        let index = geometry.index;
         let rangeFactor = 1;
-        if (material2.wireframe === true) {
-          index = geometries.getWireframeAttribute(geometry2);
+        if (material.wireframe === true) {
+          index = geometries.getWireframeAttribute(geometry);
           if (index === void 0) return;
           rangeFactor = 2;
         }
-        const drawRange = geometry2.drawRange;
-        const position = geometry2.attributes.position;
+        const drawRange = geometry.drawRange;
+        const position = geometry.attributes.position;
         let drawStart = drawRange.start * rangeFactor;
         let drawEnd = (drawRange.start + drawRange.count) * rangeFactor;
         if (group !== null) {
@@ -25675,7 +34527,7 @@ void main() {
         }
         const drawCount = drawEnd - drawStart;
         if (drawCount < 0 || drawCount === Infinity) return;
-        bindingStates.setup(object, material2, program, geometry2, index);
+        bindingStates.setup(object, material, program, geometry, index);
         let attribute;
         let renderer2 = bufferRenderer;
         if (index !== null) {
@@ -25684,14 +34536,14 @@ void main() {
           renderer2.setIndex(attribute);
         }
         if (object.isMesh) {
-          if (material2.wireframe === true) {
-            state.setLineWidth(material2.wireframeLinewidth * getTargetPixelRatio());
+          if (material.wireframe === true) {
+            state.setLineWidth(material.wireframeLinewidth * getTargetPixelRatio());
             renderer2.setMode(_gl.LINES);
           } else {
             renderer2.setMode(_gl.TRIANGLES);
           }
         } else if (object.isLine) {
-          let lineWidth = material2.linewidth;
+          let lineWidth = material.linewidth;
           if (lineWidth === void 0) lineWidth = 1;
           state.setLineWidth(lineWidth * getTargetPixelRatio());
           if (object.isLineSegments) {
@@ -25712,7 +34564,7 @@ void main() {
             const counts = object._multiDrawCounts;
             const drawCount2 = object._multiDrawCount;
             const bytesPerElement = index ? attributes.get(index).bytesPerElement : 1;
-            const uniforms = properties.get(material2).currentProgram.getUniforms();
+            const uniforms = properties.get(material).currentProgram.getUniforms();
             for (let i = 0; i < drawCount2; i++) {
               uniforms.setValue(_gl, "_gl_DrawID", i);
               renderer2.render(starts[i] / bytesPerElement, counts[i]);
@@ -25722,25 +34574,25 @@ void main() {
           }
         } else if (object.isInstancedMesh) {
           renderer2.renderInstances(drawStart, drawCount, object.count);
-        } else if (geometry2.isInstancedBufferGeometry) {
-          const maxInstanceCount = geometry2._maxInstanceCount !== void 0 ? geometry2._maxInstanceCount : Infinity;
-          const instanceCount = Math.min(geometry2.instanceCount, maxInstanceCount);
+        } else if (geometry.isInstancedBufferGeometry) {
+          const maxInstanceCount = geometry._maxInstanceCount !== void 0 ? geometry._maxInstanceCount : Infinity;
+          const instanceCount = Math.min(geometry.instanceCount, maxInstanceCount);
           renderer2.renderInstances(drawStart, drawCount, instanceCount);
         } else {
           renderer2.render(drawStart, drawCount);
         }
       };
-      function prepareMaterial(material2, scene2, object) {
-        if (material2.transparent === true && material2.side === DoubleSide && material2.forceSinglePass === false) {
-          material2.side = BackSide;
-          material2.needsUpdate = true;
-          getProgram(material2, scene2, object);
-          material2.side = FrontSide;
-          material2.needsUpdate = true;
-          getProgram(material2, scene2, object);
-          material2.side = DoubleSide;
+      function prepareMaterial(material, scene2, object) {
+        if (material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false) {
+          material.side = BackSide;
+          material.needsUpdate = true;
+          getProgram(material, scene2, object);
+          material.side = FrontSide;
+          material.needsUpdate = true;
+          getProgram(material, scene2, object);
+          material.side = DoubleSide;
         } else {
-          getProgram(material2, scene2, object);
+          getProgram(material, scene2, object);
         }
       }
       this.compile = function(scene2, camera2, targetScene = null) {
@@ -25772,17 +34624,17 @@ void main() {
           if (!(object.isMesh || object.isPoints || object.isLine || object.isSprite)) {
             return;
           }
-          const material2 = object.material;
-          if (material2) {
-            if (Array.isArray(material2)) {
-              for (let i = 0; i < material2.length; i++) {
-                const material22 = material2[i];
-                prepareMaterial(material22, targetScene, object);
-                materials2.add(material22);
+          const material = object.material;
+          if (material) {
+            if (Array.isArray(material)) {
+              for (let i = 0; i < material.length; i++) {
+                const material2 = material[i];
+                prepareMaterial(material2, targetScene, object);
+                materials2.add(material2);
               }
             } else {
-              prepareMaterial(material2, targetScene, object);
-              materials2.add(material2);
+              prepareMaterial(material, targetScene, object);
+              materials2.add(material);
             }
           }
         });
@@ -25793,11 +34645,11 @@ void main() {
         const materials2 = this.compile(scene2, camera2, targetScene);
         return new Promise((resolve) => {
           function checkMaterialsReady() {
-            materials2.forEach(function(material2) {
-              const materialProperties = properties.get(material2);
+            materials2.forEach(function(material) {
+              const materialProperties = properties.get(material);
               const program = materialProperties.currentProgram;
               if (program.isReady()) {
-                materials2.delete(material2);
+                materials2.delete(material);
               }
             });
             if (materials2.size === 0) {
@@ -25855,8 +34707,8 @@ void main() {
         currentRenderState.init(camera2);
         currentRenderState.state.textureUnits = textures.getTextureUnits();
         renderStateStack.push(currentRenderState);
-        _projScreenMatrix2.multiplyMatrices(camera2.projectionMatrix, camera2.matrixWorldInverse);
-        _frustum.setFromProjectionMatrix(_projScreenMatrix2, WebGLCoordinateSystem, camera2.reversedDepth);
+        _projScreenMatrix3.multiplyMatrices(camera2.projectionMatrix, camera2.matrixWorldInverse);
+        _frustum.setFromProjectionMatrix(_projScreenMatrix3, WebGLCoordinateSystem, camera2.reversedDepth);
         _localClippingEnabled = this.localClippingEnabled;
         _clippingEnabled = clipping.init(this.clippingPlanes, _localClippingEnabled);
         currentRenderList = renderLists.get(scene2, renderListStack.length);
@@ -25954,39 +34806,39 @@ void main() {
           } else if (object.isSprite) {
             if (!object.frustumCulled || _frustum.intersectsSprite(object)) {
               if (sortObjects) {
-                _vector4.setFromMatrixPosition(object.matrixWorld).applyMatrix4(_projScreenMatrix2);
+                _vector42.setFromMatrixPosition(object.matrixWorld).applyMatrix4(_projScreenMatrix3);
               }
-              const geometry2 = objects.update(object);
-              const material2 = object.material;
-              if (material2.visible) {
-                currentRenderList.push(object, geometry2, material2, groupOrder, _vector4.z, null);
+              const geometry = objects.update(object);
+              const material = object.material;
+              if (material.visible) {
+                currentRenderList.push(object, geometry, material, groupOrder, _vector42.z, null);
               }
             }
           } else if (object.isMesh || object.isLine || object.isPoints) {
             if (!object.frustumCulled || _frustum.intersectsObject(object)) {
-              const geometry2 = objects.update(object);
-              const material2 = object.material;
+              const geometry = objects.update(object);
+              const material = object.material;
               if (sortObjects) {
                 if (object.boundingSphere !== void 0) {
                   if (object.boundingSphere === null) object.computeBoundingSphere();
-                  _vector4.copy(object.boundingSphere.center);
+                  _vector42.copy(object.boundingSphere.center);
                 } else {
-                  if (geometry2.boundingSphere === null) geometry2.computeBoundingSphere();
-                  _vector4.copy(geometry2.boundingSphere.center);
+                  if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
+                  _vector42.copy(geometry.boundingSphere.center);
                 }
-                _vector4.applyMatrix4(object.matrixWorld).applyMatrix4(_projScreenMatrix2);
+                _vector42.applyMatrix4(object.matrixWorld).applyMatrix4(_projScreenMatrix3);
               }
-              if (Array.isArray(material2)) {
-                const groups = geometry2.groups;
+              if (Array.isArray(material)) {
+                const groups = geometry.groups;
                 for (let i = 0, l = groups.length; i < l; i++) {
                   const group = groups[i];
-                  const groupMaterial = material2[group.materialIndex];
+                  const groupMaterial = material[group.materialIndex];
                   if (groupMaterial && groupMaterial.visible) {
-                    currentRenderList.push(object, geometry2, groupMaterial, groupOrder, _vector4.z, group);
+                    currentRenderList.push(object, geometry, groupMaterial, groupOrder, _vector42.z, group);
                   }
                 }
-              } else if (material2.visible) {
-                currentRenderList.push(object, geometry2, material2, groupOrder, _vector4.z, null);
+              } else if (material.visible) {
+                currentRenderList.push(object, geometry, material, groupOrder, _vector42.z, null);
               }
             }
           }
@@ -26053,14 +34905,14 @@ void main() {
           let renderTargetNeedsUpdate = false;
           for (let i = 0, l = transmissiveObjects.length; i < l; i++) {
             const renderItem = transmissiveObjects[i];
-            const { object, geometry: geometry2, material: material2, group } = renderItem;
-            if (material2.side === DoubleSide && object.layers.test(camera2.layers)) {
-              const currentSide = material2.side;
-              material2.side = BackSide;
-              material2.needsUpdate = true;
-              renderObject(object, scene2, camera2, geometry2, material2, group);
-              material2.side = currentSide;
-              material2.needsUpdate = true;
+            const { object, geometry, material, group } = renderItem;
+            if (material.side === DoubleSide && object.layers.test(camera2.layers)) {
+              const currentSide = material.side;
+              material.side = BackSide;
+              material.needsUpdate = true;
+              renderObject(object, scene2, camera2, geometry, material, group);
+              material.side = currentSide;
+              material.needsUpdate = true;
               renderTargetNeedsUpdate = true;
             }
           }
@@ -26078,75 +34930,75 @@ void main() {
         const overrideMaterial = scene2.isScene === true ? scene2.overrideMaterial : null;
         for (let i = 0, l = renderList.length; i < l; i++) {
           const renderItem = renderList[i];
-          const { object, geometry: geometry2, group } = renderItem;
-          let material2 = renderItem.material;
-          if (material2.allowOverride === true && overrideMaterial !== null) {
-            material2 = overrideMaterial;
+          const { object, geometry, group } = renderItem;
+          let material = renderItem.material;
+          if (material.allowOverride === true && overrideMaterial !== null) {
+            material = overrideMaterial;
           }
           if (object.layers.test(camera2.layers)) {
-            renderObject(object, scene2, camera2, geometry2, material2, group);
+            renderObject(object, scene2, camera2, geometry, material, group);
           }
         }
       }
-      function renderObject(object, scene2, camera2, geometry2, material2, group) {
-        object.onBeforeRender(_this, scene2, camera2, geometry2, material2, group);
+      function renderObject(object, scene2, camera2, geometry, material, group) {
+        object.onBeforeRender(_this, scene2, camera2, geometry, material, group);
         object.modelViewMatrix.multiplyMatrices(camera2.matrixWorldInverse, object.matrixWorld);
         object.normalMatrix.getNormalMatrix(object.modelViewMatrix);
-        material2.onBeforeRender(_this, scene2, camera2, geometry2, object, group);
-        if (material2.transparent === true && material2.side === DoubleSide && material2.forceSinglePass === false) {
-          material2.side = BackSide;
-          material2.needsUpdate = true;
-          _this.renderBufferDirect(camera2, scene2, geometry2, material2, object, group);
-          material2.side = FrontSide;
-          material2.needsUpdate = true;
-          _this.renderBufferDirect(camera2, scene2, geometry2, material2, object, group);
-          material2.side = DoubleSide;
+        material.onBeforeRender(_this, scene2, camera2, geometry, object, group);
+        if (material.transparent === true && material.side === DoubleSide && material.forceSinglePass === false) {
+          material.side = BackSide;
+          material.needsUpdate = true;
+          _this.renderBufferDirect(camera2, scene2, geometry, material, object, group);
+          material.side = FrontSide;
+          material.needsUpdate = true;
+          _this.renderBufferDirect(camera2, scene2, geometry, material, object, group);
+          material.side = DoubleSide;
         } else {
-          _this.renderBufferDirect(camera2, scene2, geometry2, material2, object, group);
+          _this.renderBufferDirect(camera2, scene2, geometry, material, object, group);
         }
-        object.onAfterRender(_this, scene2, camera2, geometry2, material2, group);
+        object.onAfterRender(_this, scene2, camera2, geometry, material, group);
       }
-      function getProgram(material2, scene2, object) {
+      function getProgram(material, scene2, object) {
         if (scene2.isScene !== true) scene2 = _emptyScene;
-        const materialProperties = properties.get(material2);
+        const materialProperties = properties.get(material);
         const lights = currentRenderState.state.lights;
         const shadowsArray = currentRenderState.state.shadowsArray;
         const lightsStateVersion = lights.state.version;
-        const parameters2 = programCache.getParameters(material2, lights.state, shadowsArray, scene2, object, currentRenderState.state.lightProbeGridArray);
+        const parameters2 = programCache.getParameters(material, lights.state, shadowsArray, scene2, object, currentRenderState.state.lightProbeGridArray);
         const programCacheKey = programCache.getProgramCacheKey(parameters2);
         let programs = materialProperties.programs;
-        materialProperties.environment = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial || material2.isMeshPhongMaterial ? scene2.environment : null;
+        materialProperties.environment = material.isMeshStandardMaterial || material.isMeshLambertMaterial || material.isMeshPhongMaterial ? scene2.environment : null;
         materialProperties.fog = scene2.fog;
-        const usePMREM = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial && !material2.envMap || material2.isMeshPhongMaterial && !material2.envMap;
-        materialProperties.envMap = environments.get(material2.envMap || materialProperties.environment, usePMREM);
-        materialProperties.envMapRotation = materialProperties.environment !== null && material2.envMap === null ? scene2.environmentRotation : material2.envMapRotation;
+        const usePMREM = material.isMeshStandardMaterial || material.isMeshLambertMaterial && !material.envMap || material.isMeshPhongMaterial && !material.envMap;
+        materialProperties.envMap = environments.get(material.envMap || materialProperties.environment, usePMREM);
+        materialProperties.envMapRotation = materialProperties.environment !== null && material.envMap === null ? scene2.environmentRotation : material.envMapRotation;
         if (programs === void 0) {
-          material2.addEventListener("dispose", onMaterialDispose);
+          material.addEventListener("dispose", onMaterialDispose);
           programs = /* @__PURE__ */ new Map();
           materialProperties.programs = programs;
         }
         let program = programs.get(programCacheKey);
         if (program !== void 0) {
           if (materialProperties.currentProgram === program && materialProperties.lightsStateVersion === lightsStateVersion) {
-            updateCommonMaterialProperties(material2, parameters2);
+            updateCommonMaterialProperties(material, parameters2);
             return program;
           }
         } else {
-          parameters2.uniforms = programCache.getUniforms(material2);
-          if (_nodesHandler !== null && material2.isNodeMaterial) {
-            _nodesHandler.build(material2, object, parameters2);
+          parameters2.uniforms = programCache.getUniforms(material);
+          if (_nodesHandler !== null && material.isNodeMaterial) {
+            _nodesHandler.build(material, object, parameters2);
           }
-          material2.onBeforeCompile(parameters2, _this);
+          material.onBeforeCompile(parameters2, _this);
           program = programCache.acquireProgram(parameters2, programCacheKey);
           programs.set(programCacheKey, program);
           materialProperties.uniforms = parameters2.uniforms;
         }
         const uniforms = materialProperties.uniforms;
-        if (!material2.isShaderMaterial && !material2.isRawShaderMaterial || material2.clipping === true) {
+        if (!material.isShaderMaterial && !material.isRawShaderMaterial || material.clipping === true) {
           uniforms.clippingPlanes = clipping.uniform;
         }
-        updateCommonMaterialProperties(material2, parameters2);
-        materialProperties.needsLights = materialNeedsLights(material2);
+        updateCommonMaterialProperties(material, parameters2);
+        materialProperties.needsLights = materialNeedsLights(material);
         materialProperties.lightsStateVersion = lightsStateVersion;
         if (materialProperties.needsLights) {
           uniforms.ambientLightColor.value = lights.state.ambient;
@@ -26178,8 +35030,8 @@ void main() {
         }
         return materialProperties.uniformsList;
       }
-      function updateCommonMaterialProperties(material2, parameters2) {
-        const materialProperties = properties.get(material2);
+      function updateCommonMaterialProperties(material, parameters2) {
+        const materialProperties = properties.get(material);
         materialProperties.outputColorSpace = parameters2.outputColorSpace;
         materialProperties.batching = parameters2.batching;
         materialProperties.batchingColor = parameters2.batchingColor;
@@ -26209,37 +35061,37 @@ void main() {
         }
         return null;
       }
-      function setProgram(camera2, scene2, geometry2, material2, object) {
+      function setProgram(camera2, scene2, geometry, material, object) {
         if (scene2.isScene !== true) scene2 = _emptyScene;
         textures.resetTextureUnits();
         const fog = scene2.fog;
-        const environment = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial || material2.isMeshPhongMaterial ? scene2.environment : null;
+        const environment = material.isMeshStandardMaterial || material.isMeshLambertMaterial || material.isMeshPhongMaterial ? scene2.environment : null;
         const colorSpace = _currentRenderTarget === null ? _this.outputColorSpace : _currentRenderTarget.isXRRenderTarget === true ? _currentRenderTarget.texture.colorSpace : ColorManagement.workingColorSpace;
-        const usePMREM = material2.isMeshStandardMaterial || material2.isMeshLambertMaterial && !material2.envMap || material2.isMeshPhongMaterial && !material2.envMap;
-        const envMap = environments.get(material2.envMap || environment, usePMREM);
-        const vertexAlphas = material2.vertexColors === true && !!geometry2.attributes.color && geometry2.attributes.color.itemSize === 4;
-        const vertexTangents = !!geometry2.attributes.tangent && (!!material2.normalMap || material2.anisotropy > 0);
-        const morphTargets = !!geometry2.morphAttributes.position;
-        const morphNormals = !!geometry2.morphAttributes.normal;
-        const morphColors = !!geometry2.morphAttributes.color;
+        const usePMREM = material.isMeshStandardMaterial || material.isMeshLambertMaterial && !material.envMap || material.isMeshPhongMaterial && !material.envMap;
+        const envMap = environments.get(material.envMap || environment, usePMREM);
+        const vertexAlphas = material.vertexColors === true && !!geometry.attributes.color && geometry.attributes.color.itemSize === 4;
+        const vertexTangents = !!geometry.attributes.tangent && (!!material.normalMap || material.anisotropy > 0);
+        const morphTargets = !!geometry.morphAttributes.position;
+        const morphNormals = !!geometry.morphAttributes.normal;
+        const morphColors = !!geometry.morphAttributes.color;
         let toneMapping = NoToneMapping;
-        if (material2.toneMapped) {
+        if (material.toneMapped) {
           if (_currentRenderTarget === null || _currentRenderTarget.isXRRenderTarget === true) {
             toneMapping = _this.toneMapping;
           }
         }
-        const morphAttribute = geometry2.morphAttributes.position || geometry2.morphAttributes.normal || geometry2.morphAttributes.color;
+        const morphAttribute = geometry.morphAttributes.position || geometry.morphAttributes.normal || geometry.morphAttributes.color;
         const morphTargetsCount = morphAttribute !== void 0 ? morphAttribute.length : 0;
-        const materialProperties = properties.get(material2);
+        const materialProperties = properties.get(material);
         const lights = currentRenderState.state.lights;
         if (_clippingEnabled === true) {
           if (_localClippingEnabled === true || camera2 !== _currentCamera) {
-            const useCache = camera2 === _currentCamera && material2.id === _currentMaterialId;
-            clipping.setState(material2, camera2, useCache);
+            const useCache = camera2 === _currentCamera && material.id === _currentMaterialId;
+            clipping.setState(material, camera2, useCache);
           }
         }
         let needsProgramChange = false;
-        if (material2.version === materialProperties.__version) {
+        if (material.version === materialProperties.__version) {
           if (materialProperties.needsLights && materialProperties.lightsStateVersion !== lights.state.version) {
             needsProgramChange = true;
           } else if (materialProperties.outputColorSpace !== colorSpace) {
@@ -26270,7 +35122,7 @@ void main() {
             needsProgramChange = true;
           } else if (materialProperties.envMap !== envMap) {
             needsProgramChange = true;
-          } else if (material2.fog === true && materialProperties.fog !== fog) {
+          } else if (material.fog === true && materialProperties.fog !== fog) {
             needsProgramChange = true;
           } else if (materialProperties.numClippingPlanes !== void 0 && (materialProperties.numClippingPlanes !== clipping.numPlanes || materialProperties.numIntersection !== clipping.numIntersection)) {
             needsProgramChange = true;
@@ -26293,13 +35145,13 @@ void main() {
           }
         } else {
           needsProgramChange = true;
-          materialProperties.__version = material2.version;
+          materialProperties.__version = material.version;
         }
         let program = materialProperties.currentProgram;
         if (needsProgramChange === true) {
-          program = getProgram(material2, scene2, object);
-          if (_nodesHandler && material2.isNodeMaterial) {
-            _nodesHandler.onUpdateProgram(material2, program, materialProperties);
+          program = getProgram(material, scene2, object);
+          if (_nodesHandler && material.isNodeMaterial) {
+            _nodesHandler.onUpdateProgram(material, program, materialProperties);
           }
         }
         let refreshProgram = false;
@@ -26311,8 +35163,8 @@ void main() {
           refreshMaterial = true;
           refreshLights = true;
         }
-        if (material2.id !== _currentMaterialId) {
-          _currentMaterialId = material2.id;
+        if (material.id !== _currentMaterialId) {
+          _currentMaterialId = material.id;
           refreshMaterial = true;
         }
         if (materialProperties.needsLights) {
@@ -26341,7 +35193,7 @@ void main() {
               2 / (Math.log(camera2.far + 1) / Math.LN2)
             );
           }
-          if (material2.isMeshPhongMaterial || material2.isMeshToonMaterial || material2.isMeshLambertMaterial || material2.isMeshBasicMaterial || material2.isMeshStandardMaterial || material2.isShaderMaterial) {
+          if (material.isMeshPhongMaterial || material.isMeshToonMaterial || material.isMeshLambertMaterial || material.isMeshBasicMaterial || material.isMeshStandardMaterial || material.isShaderMaterial) {
             p_uniforms.setValue(_gl, "isOrthographic", camera2.isOrthographicCamera === true);
           }
           if (_currentCamera !== camera2) {
@@ -26380,15 +35232,15 @@ void main() {
             p_uniforms.setValue(_gl, "batchingColorTexture", object._colorsTexture, textures);
           }
         }
-        const morphAttributes = geometry2.morphAttributes;
+        const morphAttributes = geometry.morphAttributes;
         if (morphAttributes.position !== void 0 || morphAttributes.normal !== void 0 || morphAttributes.color !== void 0) {
-          morphtargets.update(object, geometry2, program);
+          morphtargets.update(object, geometry, program);
         }
         if (refreshMaterial || materialProperties.receiveShadow !== object.receiveShadow) {
           materialProperties.receiveShadow = object.receiveShadow;
           p_uniforms.setValue(_gl, "receiveShadow", object.receiveShadow);
         }
-        if ((material2.isMeshStandardMaterial || material2.isMeshLambertMaterial || material2.isMeshPhongMaterial) && material2.envMap === null && scene2.environment !== null) {
+        if ((material.isMeshStandardMaterial || material.isMeshLambertMaterial || material.isMeshPhongMaterial) && material.envMap === null && scene2.environment !== null) {
           m_uniforms.envMapIntensity.value = scene2.environmentIntensity;
         }
         if (m_uniforms.dfgLUT !== void 0) {
@@ -26399,10 +35251,10 @@ void main() {
           if (materialProperties.needsLights) {
             markUniformsLightsNeedsUpdate(m_uniforms, refreshLights);
           }
-          if (fog && material2.fog === true) {
+          if (fog && material.fog === true) {
             materials.refreshFogUniforms(m_uniforms, fog);
           }
-          materials.refreshMaterialUniforms(m_uniforms, material2, _pixelRatio, _height, currentRenderState.state.transmissionRenderTarget[camera2.id]);
+          materials.refreshMaterialUniforms(m_uniforms, material, _pixelRatio, _height, currentRenderState.state.transmissionRenderTarget[camera2.id]);
           if (materialProperties.needsLights && materialProperties.lightProbeGrid) {
             const volume = materialProperties.lightProbeGrid;
             m_uniforms.probesSH.value = volume.texture;
@@ -26412,18 +35264,18 @@ void main() {
           }
           WebGLUniforms.upload(_gl, getUniformList(materialProperties), m_uniforms, textures);
         }
-        if (material2.isShaderMaterial && material2.uniformsNeedUpdate === true) {
+        if (material.isShaderMaterial && material.uniformsNeedUpdate === true) {
           WebGLUniforms.upload(_gl, getUniformList(materialProperties), m_uniforms, textures);
-          material2.uniformsNeedUpdate = false;
+          material.uniformsNeedUpdate = false;
         }
-        if (material2.isSpriteMaterial) {
+        if (material.isSpriteMaterial) {
           p_uniforms.setValue(_gl, "center", object.center);
         }
         p_uniforms.setValue(_gl, "modelViewMatrix", object.modelViewMatrix);
         p_uniforms.setValue(_gl, "normalMatrix", object.normalMatrix);
         p_uniforms.setValue(_gl, "modelMatrix", object.matrixWorld);
-        if (material2.uniformsGroups !== void 0) {
-          const groups = material2.uniformsGroups;
+        if (material.uniformsGroups !== void 0) {
+          const groups = material.uniformsGroups;
           for (let i = 0, l = groups.length; i < l; i++) {
             const group = groups[i];
             uniformsGroups.update(group, program);
@@ -26444,8 +35296,8 @@ void main() {
         uniforms.rectAreaLights.needsUpdate = value;
         uniforms.hemisphereLights.needsUpdate = value;
       }
-      function materialNeedsLights(material2) {
-        return material2.isMeshLambertMaterial || material2.isMeshToonMaterial || material2.isMeshPhongMaterial || material2.isMeshStandardMaterial || material2.isShadowMaterial || material2.isShaderMaterial && material2.lights === true;
+      function materialNeedsLights(material) {
+        return material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && material.lights === true;
       }
       this.getActiveCubeFace = function() {
         return _currentActiveCubeFace;
@@ -26835,11 +35687,2631 @@ void main() {
     }
   };
 
+  // node_modules/three/examples/jsm/utils/BufferGeometryUtils.js
+  function toTrianglesDrawMode(geometry, drawMode) {
+    if (drawMode === TrianglesDrawMode) {
+      console.warn("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Geometry already defined as triangles.");
+      return geometry;
+    }
+    if (drawMode === TriangleFanDrawMode || drawMode === TriangleStripDrawMode) {
+      let index = geometry.getIndex();
+      if (index === null) {
+        const indices = [];
+        const position = geometry.getAttribute("position");
+        if (position !== void 0) {
+          for (let i = 0; i < position.count; i++) {
+            indices.push(i);
+          }
+          geometry.setIndex(indices);
+          index = geometry.getIndex();
+        } else {
+          console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Undefined position attribute. Processing not possible.");
+          return geometry;
+        }
+      }
+      const numberOfTriangles = index.count - 2;
+      const newIndices = [];
+      if (drawMode === TriangleFanDrawMode) {
+        for (let i = 1; i <= numberOfTriangles; i++) {
+          newIndices.push(index.getX(0));
+          newIndices.push(index.getX(i));
+          newIndices.push(index.getX(i + 1));
+        }
+      } else {
+        for (let i = 0; i < numberOfTriangles; i++) {
+          if (i % 2 === 0) {
+            newIndices.push(index.getX(i));
+            newIndices.push(index.getX(i + 1));
+            newIndices.push(index.getX(i + 2));
+          } else {
+            newIndices.push(index.getX(i + 2));
+            newIndices.push(index.getX(i + 1));
+            newIndices.push(index.getX(i));
+          }
+        }
+      }
+      if (newIndices.length / 3 !== numberOfTriangles) {
+        console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unable to generate correct amount of triangles.");
+      }
+      const newGeometry = geometry.clone();
+      newGeometry.setIndex(newIndices);
+      newGeometry.clearGroups();
+      return newGeometry;
+    } else {
+      console.error("THREE.BufferGeometryUtils.toTrianglesDrawMode(): Unknown draw mode:", drawMode);
+      return geometry;
+    }
+  }
+
+  // node_modules/three/examples/jsm/utils/SkeletonUtils.js
+  function clone(source) {
+    const sourceLookup = /* @__PURE__ */ new Map();
+    const cloneLookup = /* @__PURE__ */ new Map();
+    const clone2 = source.clone();
+    parallelTraverse(source, clone2, function(sourceNode, clonedNode) {
+      sourceLookup.set(clonedNode, sourceNode);
+      cloneLookup.set(sourceNode, clonedNode);
+    });
+    clone2.traverse(function(node) {
+      if (!node.isSkinnedMesh) return;
+      const clonedMesh = node;
+      const sourceMesh = sourceLookup.get(node);
+      const sourceBones = sourceMesh.skeleton.bones;
+      clonedMesh.skeleton = sourceMesh.skeleton.clone();
+      clonedMesh.bindMatrix.copy(sourceMesh.bindMatrix);
+      clonedMesh.skeleton.bones = sourceBones.map(function(bone) {
+        return cloneLookup.get(bone);
+      });
+      clonedMesh.bind(clonedMesh.skeleton, clonedMesh.bindMatrix);
+    });
+    return clone2;
+  }
+  function parallelTraverse(a, b, callback) {
+    callback(a, b);
+    for (let i = 0; i < a.children.length; i++) {
+      parallelTraverse(a.children[i], b.children[i], callback);
+    }
+  }
+
+  // node_modules/three/examples/jsm/loaders/GLTFLoader.js
+  var GLTFLoader = class extends Loader {
+    /**
+     * Constructs a new glTF loader.
+     *
+     * @param {LoadingManager} [manager] - The loading manager.
+     */
+    constructor(manager2) {
+      super(manager2);
+      this.dracoLoader = null;
+      this.ktx2Loader = null;
+      this.meshoptDecoder = null;
+      this.pluginCallbacks = [];
+      this.register(function(parser) {
+        return new GLTFMaterialsClearcoatExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsDispersionExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFTextureBasisUExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFTextureWebPExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFTextureAVIFExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsSheenExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsTransmissionExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsVolumeExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsIorExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsEmissiveStrengthExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsSpecularExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsIridescenceExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsAnisotropyExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMaterialsBumpExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFLightsExtension(parser);
+      });
+      this.register(function(parser) {
+        return new GLTFMeshoptCompression(parser, EXTENSIONS.EXT_MESHOPT_COMPRESSION);
+      });
+      this.register(function(parser) {
+        return new GLTFMeshoptCompression(parser, EXTENSIONS.KHR_MESHOPT_COMPRESSION);
+      });
+      this.register(function(parser) {
+        return new GLTFMeshGpuInstancing(parser);
+      });
+    }
+    /**
+     * Starts loading from the given URL and passes the loaded glTF asset
+     * to the `onLoad()` callback.
+     *
+     * @param {string} url - The path/URL of the file to be loaded. This can also be a data URI.
+     * @param {function(GLTFLoader~LoadObject)} onLoad - Executed when the loading process has been finished.
+     * @param {onProgressCallback} onProgress - Executed while the loading is in progress.
+     * @param {onErrorCallback} onError - Executed when errors occur.
+     */
+    load(url, onLoad, onProgress, onError) {
+      const scope = this;
+      let resourcePath;
+      if (this.resourcePath !== "") {
+        resourcePath = this.resourcePath;
+      } else if (this.path !== "") {
+        const relativeUrl = LoaderUtils.extractUrlBase(url);
+        resourcePath = LoaderUtils.resolveURL(relativeUrl, this.path);
+      } else {
+        resourcePath = LoaderUtils.extractUrlBase(url);
+      }
+      this.manager.itemStart(url);
+      const _onError = function(e) {
+        if (onError) {
+          onError(e);
+        } else {
+          console.error(e);
+        }
+        scope.manager.itemError(url);
+        scope.manager.itemEnd(url);
+      };
+      const loader = new FileLoader(this.manager);
+      loader.setPath(this.path);
+      loader.setResponseType("arraybuffer");
+      loader.setRequestHeader(this.requestHeader);
+      loader.setWithCredentials(this.withCredentials);
+      loader.load(url, function(data) {
+        try {
+          scope.parse(data, resourcePath, function(gltf) {
+            onLoad(gltf);
+            scope.manager.itemEnd(url);
+          }, _onError);
+        } catch (e) {
+          _onError(e);
+        }
+      }, onProgress, _onError);
+    }
+    /**
+     * Sets the given Draco loader to this loader. Required for decoding assets
+     * compressed with the `KHR_draco_mesh_compression` extension.
+     *
+     * @param {DRACOLoader} dracoLoader - The Draco loader to set.
+     * @return {GLTFLoader} A reference to this loader.
+     */
+    setDRACOLoader(dracoLoader) {
+      this.dracoLoader = dracoLoader;
+      return this;
+    }
+    /**
+     * Sets the given KTX2 loader to this loader. Required for loading KTX2
+     * compressed textures.
+     *
+     * @param {KTX2Loader} ktx2Loader - The KTX2 loader to set.
+     * @return {GLTFLoader} A reference to this loader.
+     */
+    setKTX2Loader(ktx2Loader) {
+      this.ktx2Loader = ktx2Loader;
+      return this;
+    }
+    /**
+     * Sets the given meshopt decoder. Required for decoding assets
+     * compressed with the `EXT_meshopt_compression` extension.
+     *
+     * @param {Object} meshoptDecoder - The meshopt decoder to set.
+     * @return {GLTFLoader} A reference to this loader.
+     */
+    setMeshoptDecoder(meshoptDecoder) {
+      this.meshoptDecoder = meshoptDecoder;
+      return this;
+    }
+    /**
+     * Registers a plugin callback. This API is internally used to implement the various
+     * glTF extensions but can also used by third-party code to add additional logic
+     * to the loader.
+     *
+     * @param {function(parser:GLTFParser)} callback - The callback function to register.
+     * @return {GLTFLoader} A reference to this loader.
+     */
+    register(callback) {
+      if (this.pluginCallbacks.indexOf(callback) === -1) {
+        this.pluginCallbacks.push(callback);
+      }
+      return this;
+    }
+    /**
+     * Unregisters a plugin callback.
+     *
+     * @param {Function} callback - The callback function to unregister.
+     * @return {GLTFLoader} A reference to this loader.
+     */
+    unregister(callback) {
+      if (this.pluginCallbacks.indexOf(callback) !== -1) {
+        this.pluginCallbacks.splice(this.pluginCallbacks.indexOf(callback), 1);
+      }
+      return this;
+    }
+    /**
+     * Parses the given glTF data and returns the resulting group.
+     *
+     * @param {string|ArrayBuffer} data - The raw glTF data.
+     * @param {string} path - The URL base path.
+     * @param {function(GLTFLoader~LoadObject)} onLoad - Executed when the loading process has been finished.
+     * @param {onErrorCallback} onError - Executed when errors occur.
+     */
+    parse(data, path, onLoad, onError) {
+      let json;
+      const extensions = {};
+      const plugins = {};
+      const textDecoder = new TextDecoder();
+      if (typeof data === "string") {
+        json = JSON.parse(data);
+      } else if (data instanceof ArrayBuffer) {
+        const magic = textDecoder.decode(new Uint8Array(data, 0, 4));
+        if (magic === BINARY_EXTENSION_HEADER_MAGIC) {
+          try {
+            extensions[EXTENSIONS.KHR_BINARY_GLTF] = new GLTFBinaryExtension(data);
+          } catch (error2) {
+            if (onError) onError(error2);
+            return;
+          }
+          json = JSON.parse(extensions[EXTENSIONS.KHR_BINARY_GLTF].content);
+        } else {
+          json = JSON.parse(textDecoder.decode(data));
+        }
+      } else {
+        json = data;
+      }
+      if (json.asset === void 0 || json.asset.version[0] < 2) {
+        if (onError) onError(new Error("THREE.GLTFLoader: Unsupported asset. glTF versions >=2.0 are supported."));
+        return;
+      }
+      const parser = new GLTFParser(json, {
+        path: path || this.resourcePath || "",
+        crossOrigin: this.crossOrigin,
+        requestHeader: this.requestHeader,
+        manager: this.manager,
+        ktx2Loader: this.ktx2Loader,
+        meshoptDecoder: this.meshoptDecoder
+      });
+      parser.fileLoader.setRequestHeader(this.requestHeader);
+      for (let i = 0; i < this.pluginCallbacks.length; i++) {
+        const plugin = this.pluginCallbacks[i](parser);
+        if (!plugin.name) console.error("THREE.GLTFLoader: Invalid plugin found: missing name");
+        plugins[plugin.name] = plugin;
+        extensions[plugin.name] = true;
+      }
+      if (json.extensionsUsed) {
+        for (let i = 0; i < json.extensionsUsed.length; ++i) {
+          const extensionName = json.extensionsUsed[i];
+          const extensionsRequired = json.extensionsRequired || [];
+          switch (extensionName) {
+            case EXTENSIONS.KHR_MATERIALS_UNLIT:
+              extensions[extensionName] = new GLTFMaterialsUnlitExtension();
+              break;
+            case EXTENSIONS.KHR_DRACO_MESH_COMPRESSION:
+              extensions[extensionName] = new GLTFDracoMeshCompressionExtension(json, this.dracoLoader);
+              break;
+            case EXTENSIONS.KHR_TEXTURE_TRANSFORM:
+              extensions[extensionName] = new GLTFTextureTransformExtension();
+              break;
+            case EXTENSIONS.KHR_MESH_QUANTIZATION:
+              extensions[extensionName] = new GLTFMeshQuantizationExtension();
+              break;
+            default:
+              if (extensionsRequired.indexOf(extensionName) >= 0 && plugins[extensionName] === void 0) {
+                console.warn('THREE.GLTFLoader: Unknown extension "' + extensionName + '".');
+              }
+          }
+        }
+      }
+      parser.setExtensions(extensions);
+      parser.setPlugins(plugins);
+      parser.parse(onLoad, onError);
+    }
+    /**
+     * Async version of {@link GLTFLoader#parse}.
+     *
+     * @async
+     * @param {string|ArrayBuffer} data - The raw glTF data.
+     * @param {string} path - The URL base path.
+     * @return {Promise<GLTFLoader~LoadObject>} A Promise that resolves with the loaded glTF when the parsing has been finished.
+     */
+    parseAsync(data, path) {
+      const scope = this;
+      return new Promise(function(resolve, reject) {
+        scope.parse(data, path, resolve, reject);
+      });
+    }
+  };
+  function GLTFRegistry() {
+    let objects = {};
+    return {
+      get: function(key) {
+        return objects[key];
+      },
+      add: function(key, object) {
+        objects[key] = object;
+      },
+      remove: function(key) {
+        delete objects[key];
+      },
+      removeAll: function() {
+        objects = {};
+      }
+    };
+  }
+  function getMaterialExtension(parser, materialIndex, extensionName) {
+    const materialDef = parser.json.materials[materialIndex];
+    if (materialDef.extensions && materialDef.extensions[extensionName]) {
+      return materialDef.extensions[extensionName];
+    }
+    return null;
+  }
+  var EXTENSIONS = {
+    KHR_BINARY_GLTF: "KHR_binary_glTF",
+    KHR_DRACO_MESH_COMPRESSION: "KHR_draco_mesh_compression",
+    KHR_LIGHTS_PUNCTUAL: "KHR_lights_punctual",
+    KHR_MATERIALS_CLEARCOAT: "KHR_materials_clearcoat",
+    KHR_MATERIALS_DISPERSION: "KHR_materials_dispersion",
+    KHR_MATERIALS_IOR: "KHR_materials_ior",
+    KHR_MATERIALS_SHEEN: "KHR_materials_sheen",
+    KHR_MATERIALS_SPECULAR: "KHR_materials_specular",
+    KHR_MATERIALS_TRANSMISSION: "KHR_materials_transmission",
+    KHR_MATERIALS_IRIDESCENCE: "KHR_materials_iridescence",
+    KHR_MATERIALS_ANISOTROPY: "KHR_materials_anisotropy",
+    KHR_MATERIALS_UNLIT: "KHR_materials_unlit",
+    KHR_MATERIALS_VOLUME: "KHR_materials_volume",
+    KHR_TEXTURE_BASISU: "KHR_texture_basisu",
+    KHR_TEXTURE_TRANSFORM: "KHR_texture_transform",
+    KHR_MESH_QUANTIZATION: "KHR_mesh_quantization",
+    KHR_MATERIALS_EMISSIVE_STRENGTH: "KHR_materials_emissive_strength",
+    EXT_MATERIALS_BUMP: "EXT_materials_bump",
+    EXT_TEXTURE_WEBP: "EXT_texture_webp",
+    EXT_TEXTURE_AVIF: "EXT_texture_avif",
+    EXT_MESHOPT_COMPRESSION: "EXT_meshopt_compression",
+    KHR_MESHOPT_COMPRESSION: "KHR_meshopt_compression",
+    EXT_MESH_GPU_INSTANCING: "EXT_mesh_gpu_instancing"
+  };
+  var GLTFLightsExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_LIGHTS_PUNCTUAL;
+      this.cache = { refs: {}, uses: {} };
+    }
+    _markDefs() {
+      const parser = this.parser;
+      const nodeDefs = this.parser.json.nodes || [];
+      for (let nodeIndex = 0, nodeLength = nodeDefs.length; nodeIndex < nodeLength; nodeIndex++) {
+        const nodeDef = nodeDefs[nodeIndex];
+        if (nodeDef.extensions && nodeDef.extensions[this.name] && nodeDef.extensions[this.name].light !== void 0) {
+          parser._addNodeRef(this.cache, nodeDef.extensions[this.name].light);
+        }
+      }
+    }
+    _loadLight(lightIndex) {
+      const parser = this.parser;
+      const cacheKey = "light:" + lightIndex;
+      let dependency = parser.cache.get(cacheKey);
+      if (dependency) return dependency;
+      const json = parser.json;
+      const extensions = json.extensions && json.extensions[this.name] || {};
+      const lightDefs = extensions.lights || [];
+      const lightDef = lightDefs[lightIndex];
+      let lightNode;
+      const color = new Color(16777215);
+      if (lightDef.color !== void 0) color.setRGB(lightDef.color[0], lightDef.color[1], lightDef.color[2], LinearSRGBColorSpace);
+      const range = lightDef.range !== void 0 ? lightDef.range : 0;
+      switch (lightDef.type) {
+        case "directional":
+          lightNode = new DirectionalLight(color);
+          lightNode.target.position.set(0, 0, -1);
+          lightNode.add(lightNode.target);
+          break;
+        case "point":
+          lightNode = new PointLight(color);
+          lightNode.distance = range;
+          break;
+        case "spot":
+          lightNode = new SpotLight(color);
+          lightNode.distance = range;
+          lightDef.spot = lightDef.spot || {};
+          lightDef.spot.innerConeAngle = lightDef.spot.innerConeAngle !== void 0 ? lightDef.spot.innerConeAngle : 0;
+          lightDef.spot.outerConeAngle = lightDef.spot.outerConeAngle !== void 0 ? lightDef.spot.outerConeAngle : Math.PI / 4;
+          lightNode.angle = lightDef.spot.outerConeAngle;
+          lightNode.penumbra = 1 - lightDef.spot.innerConeAngle / lightDef.spot.outerConeAngle;
+          lightNode.target.position.set(0, 0, -1);
+          lightNode.add(lightNode.target);
+          break;
+        default:
+          throw new Error("THREE.GLTFLoader: Unexpected light type: " + lightDef.type);
+      }
+      lightNode.position.set(0, 0, 0);
+      assignExtrasToUserData(lightNode, lightDef);
+      if (lightDef.intensity !== void 0) lightNode.intensity = lightDef.intensity;
+      lightNode.name = parser.createUniqueName(lightDef.name || "light_" + lightIndex);
+      dependency = Promise.resolve(lightNode);
+      parser.cache.add(cacheKey, dependency);
+      return dependency;
+    }
+    getDependency(type, index) {
+      if (type !== "light") return;
+      return this._loadLight(index);
+    }
+    createNodeAttachment(nodeIndex) {
+      const self2 = this;
+      const parser = this.parser;
+      const json = parser.json;
+      const nodeDef = json.nodes[nodeIndex];
+      const lightDef = nodeDef.extensions && nodeDef.extensions[this.name] || {};
+      const lightIndex = lightDef.light;
+      if (lightIndex === void 0) return null;
+      return this._loadLight(lightIndex).then(function(light) {
+        return parser._getNodeRef(self2.cache, lightIndex, light);
+      });
+    }
+  };
+  var GLTFMaterialsUnlitExtension = class {
+    constructor() {
+      this.name = EXTENSIONS.KHR_MATERIALS_UNLIT;
+    }
+    getMaterialType() {
+      return MeshBasicMaterial;
+    }
+    extendParams(materialParams, materialDef, parser) {
+      const pending = [];
+      materialParams.color = new Color(1, 1, 1);
+      materialParams.opacity = 1;
+      const metallicRoughness = materialDef.pbrMetallicRoughness;
+      if (metallicRoughness) {
+        if (Array.isArray(metallicRoughness.baseColorFactor)) {
+          const array = metallicRoughness.baseColorFactor;
+          materialParams.color.setRGB(array[0], array[1], array[2], LinearSRGBColorSpace);
+          materialParams.opacity = array[3];
+        }
+        if (metallicRoughness.baseColorTexture !== void 0) {
+          pending.push(parser.assignTexture(materialParams, "map", metallicRoughness.baseColorTexture, SRGBColorSpace));
+        }
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsEmissiveStrengthExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_EMISSIVE_STRENGTH;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      if (extension.emissiveStrength !== void 0) {
+        materialParams.emissiveIntensity = extension.emissiveStrength;
+      }
+      return Promise.resolve();
+    }
+  };
+  var GLTFMaterialsClearcoatExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_CLEARCOAT;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      if (extension.clearcoatFactor !== void 0) {
+        materialParams.clearcoat = extension.clearcoatFactor;
+      }
+      if (extension.clearcoatTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "clearcoatMap", extension.clearcoatTexture));
+      }
+      if (extension.clearcoatRoughnessFactor !== void 0) {
+        materialParams.clearcoatRoughness = extension.clearcoatRoughnessFactor;
+      }
+      if (extension.clearcoatRoughnessTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "clearcoatRoughnessMap", extension.clearcoatRoughnessTexture));
+      }
+      if (extension.clearcoatNormalTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "clearcoatNormalMap", extension.clearcoatNormalTexture));
+        if (extension.clearcoatNormalTexture.scale !== void 0) {
+          const scale = extension.clearcoatNormalTexture.scale;
+          materialParams.clearcoatNormalScale = new Vector2(scale, scale);
+        }
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsDispersionExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_DISPERSION;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      materialParams.dispersion = extension.dispersion !== void 0 ? extension.dispersion : 0;
+      return Promise.resolve();
+    }
+  };
+  var GLTFMaterialsIridescenceExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_IRIDESCENCE;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      if (extension.iridescenceFactor !== void 0) {
+        materialParams.iridescence = extension.iridescenceFactor;
+      }
+      if (extension.iridescenceTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "iridescenceMap", extension.iridescenceTexture));
+      }
+      if (extension.iridescenceIor !== void 0) {
+        materialParams.iridescenceIOR = extension.iridescenceIor;
+      }
+      if (materialParams.iridescenceThicknessRange === void 0) {
+        materialParams.iridescenceThicknessRange = [100, 400];
+      }
+      if (extension.iridescenceThicknessMinimum !== void 0) {
+        materialParams.iridescenceThicknessRange[0] = extension.iridescenceThicknessMinimum;
+      }
+      if (extension.iridescenceThicknessMaximum !== void 0) {
+        materialParams.iridescenceThicknessRange[1] = extension.iridescenceThicknessMaximum;
+      }
+      if (extension.iridescenceThicknessTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "iridescenceThicknessMap", extension.iridescenceThicknessTexture));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsSheenExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_SHEEN;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      materialParams.sheenColor = new Color(0, 0, 0);
+      materialParams.sheenRoughness = 0;
+      materialParams.sheen = 1;
+      if (extension.sheenColorFactor !== void 0) {
+        const colorFactor = extension.sheenColorFactor;
+        materialParams.sheenColor.setRGB(colorFactor[0], colorFactor[1], colorFactor[2], LinearSRGBColorSpace);
+      }
+      if (extension.sheenRoughnessFactor !== void 0) {
+        materialParams.sheenRoughness = extension.sheenRoughnessFactor;
+      }
+      if (extension.sheenColorTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "sheenColorMap", extension.sheenColorTexture, SRGBColorSpace));
+      }
+      if (extension.sheenRoughnessTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "sheenRoughnessMap", extension.sheenRoughnessTexture));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsTransmissionExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_TRANSMISSION;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      if (extension.transmissionFactor !== void 0) {
+        materialParams.transmission = extension.transmissionFactor;
+      }
+      if (extension.transmissionTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "transmissionMap", extension.transmissionTexture));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsVolumeExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_VOLUME;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      materialParams.thickness = extension.thicknessFactor !== void 0 ? extension.thicknessFactor : 0;
+      if (extension.thicknessTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "thicknessMap", extension.thicknessTexture));
+      }
+      materialParams.attenuationDistance = extension.attenuationDistance || Infinity;
+      const colorArray = extension.attenuationColor || [1, 1, 1];
+      materialParams.attenuationColor = new Color().setRGB(colorArray[0], colorArray[1], colorArray[2], LinearSRGBColorSpace);
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsIorExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_IOR;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      materialParams.ior = extension.ior !== void 0 ? extension.ior : 1.5;
+      if (materialParams.ior === 0) materialParams.ior = 1e3;
+      return Promise.resolve();
+    }
+  };
+  var GLTFMaterialsSpecularExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_SPECULAR;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      materialParams.specularIntensity = extension.specularFactor !== void 0 ? extension.specularFactor : 1;
+      if (extension.specularTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "specularIntensityMap", extension.specularTexture));
+      }
+      const colorArray = extension.specularColorFactor || [1, 1, 1];
+      materialParams.specularColor = new Color().setRGB(colorArray[0], colorArray[1], colorArray[2], LinearSRGBColorSpace);
+      if (extension.specularColorTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "specularColorMap", extension.specularColorTexture, SRGBColorSpace));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsBumpExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.EXT_MATERIALS_BUMP;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      materialParams.bumpScale = extension.bumpFactor !== void 0 ? extension.bumpFactor : 1;
+      if (extension.bumpTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "bumpMap", extension.bumpTexture));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFMaterialsAnisotropyExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_MATERIALS_ANISOTROPY;
+    }
+    getMaterialType(materialIndex) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      return extension !== null ? MeshPhysicalMaterial : null;
+    }
+    extendMaterialParams(materialIndex, materialParams) {
+      const extension = getMaterialExtension(this.parser, materialIndex, this.name);
+      if (extension === null) return Promise.resolve();
+      const pending = [];
+      if (extension.anisotropyStrength !== void 0) {
+        materialParams.anisotropy = extension.anisotropyStrength;
+      }
+      if (extension.anisotropyRotation !== void 0) {
+        materialParams.anisotropyRotation = extension.anisotropyRotation;
+      }
+      if (extension.anisotropyTexture !== void 0) {
+        pending.push(this.parser.assignTexture(materialParams, "anisotropyMap", extension.anisotropyTexture));
+      }
+      return Promise.all(pending);
+    }
+  };
+  var GLTFTextureBasisUExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.KHR_TEXTURE_BASISU;
+    }
+    loadTexture(textureIndex) {
+      const parser = this.parser;
+      const json = parser.json;
+      const textureDef = json.textures[textureIndex];
+      if (!textureDef.extensions || !textureDef.extensions[this.name]) {
+        return null;
+      }
+      const extension = textureDef.extensions[this.name];
+      const loader = parser.options.ktx2Loader;
+      if (!loader) {
+        if (json.extensionsRequired && json.extensionsRequired.indexOf(this.name) >= 0) {
+          throw new Error("THREE.GLTFLoader: setKTX2Loader must be called before loading KTX2 textures");
+        } else {
+          return null;
+        }
+      }
+      return parser.loadTextureImage(textureIndex, extension.source, loader);
+    }
+  };
+  var GLTFTextureWebPExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.EXT_TEXTURE_WEBP;
+    }
+    loadTexture(textureIndex) {
+      const name = this.name;
+      const parser = this.parser;
+      const json = parser.json;
+      const textureDef = json.textures[textureIndex];
+      if (!textureDef.extensions || !textureDef.extensions[name]) {
+        return null;
+      }
+      const extension = textureDef.extensions[name];
+      const source = json.images[extension.source];
+      let loader = parser.textureLoader;
+      if (source.uri) {
+        const handler = parser.options.manager.getHandler(source.uri);
+        if (handler !== null) loader = handler;
+      }
+      return parser.loadTextureImage(textureIndex, extension.source, loader);
+    }
+  };
+  var GLTFTextureAVIFExtension = class {
+    constructor(parser) {
+      this.parser = parser;
+      this.name = EXTENSIONS.EXT_TEXTURE_AVIF;
+    }
+    loadTexture(textureIndex) {
+      const name = this.name;
+      const parser = this.parser;
+      const json = parser.json;
+      const textureDef = json.textures[textureIndex];
+      if (!textureDef.extensions || !textureDef.extensions[name]) {
+        return null;
+      }
+      const extension = textureDef.extensions[name];
+      const source = json.images[extension.source];
+      let loader = parser.textureLoader;
+      if (source.uri) {
+        const handler = parser.options.manager.getHandler(source.uri);
+        if (handler !== null) loader = handler;
+      }
+      return parser.loadTextureImage(textureIndex, extension.source, loader);
+    }
+  };
+  var GLTFMeshoptCompression = class {
+    constructor(parser, name) {
+      this.name = name;
+      this.parser = parser;
+    }
+    loadBufferView(index) {
+      const json = this.parser.json;
+      const bufferView = json.bufferViews[index];
+      if (bufferView.extensions && bufferView.extensions[this.name]) {
+        const extensionDef = bufferView.extensions[this.name];
+        const buffer = this.parser.getDependency("buffer", extensionDef.buffer);
+        const decoder = this.parser.options.meshoptDecoder;
+        if (!decoder || !decoder.supported) {
+          if (json.extensionsRequired && json.extensionsRequired.indexOf(this.name) >= 0) {
+            throw new Error("THREE.GLTFLoader: setMeshoptDecoder must be called before loading compressed files");
+          } else {
+            return null;
+          }
+        }
+        return buffer.then(function(res) {
+          const byteOffset = extensionDef.byteOffset || 0;
+          const byteLength = extensionDef.byteLength || 0;
+          const count = extensionDef.count;
+          const stride = extensionDef.byteStride;
+          const source = new Uint8Array(res, byteOffset, byteLength);
+          if (decoder.decodeGltfBufferAsync) {
+            return decoder.decodeGltfBufferAsync(count, stride, source, extensionDef.mode, extensionDef.filter).then(function(res2) {
+              return res2.buffer;
+            });
+          } else {
+            return decoder.ready.then(function() {
+              const result = new ArrayBuffer(count * stride);
+              decoder.decodeGltfBuffer(new Uint8Array(result), count, stride, source, extensionDef.mode, extensionDef.filter);
+              return result;
+            });
+          }
+        });
+      } else {
+        return null;
+      }
+    }
+  };
+  var GLTFMeshGpuInstancing = class {
+    constructor(parser) {
+      this.name = EXTENSIONS.EXT_MESH_GPU_INSTANCING;
+      this.parser = parser;
+    }
+    createNodeMesh(nodeIndex) {
+      const json = this.parser.json;
+      const nodeDef = json.nodes[nodeIndex];
+      if (!nodeDef.extensions || !nodeDef.extensions[this.name] || nodeDef.mesh === void 0) {
+        return null;
+      }
+      const meshDef = json.meshes[nodeDef.mesh];
+      for (const primitive of meshDef.primitives) {
+        if (primitive.mode !== WEBGL_CONSTANTS.TRIANGLES && primitive.mode !== WEBGL_CONSTANTS.TRIANGLE_STRIP && primitive.mode !== WEBGL_CONSTANTS.TRIANGLE_FAN && primitive.mode !== void 0) {
+          return null;
+        }
+      }
+      const extensionDef = nodeDef.extensions[this.name];
+      const attributesDef = extensionDef.attributes;
+      const pending = [];
+      const attributes = {};
+      for (const key in attributesDef) {
+        pending.push(this.parser.getDependency("accessor", attributesDef[key]).then((accessor) => {
+          attributes[key] = accessor;
+          return attributes[key];
+        }));
+      }
+      if (pending.length < 1) {
+        return null;
+      }
+      pending.push(this.parser.createNodeMesh(nodeIndex));
+      return Promise.all(pending).then((results) => {
+        const nodeObject = results.pop();
+        const meshes = nodeObject.isGroup ? nodeObject.children : [nodeObject];
+        const count = results[0].count;
+        const instancedMeshes = [];
+        for (const mesh of meshes) {
+          const m = new Matrix4();
+          const p = new Vector3();
+          const q = new Quaternion();
+          const s = new Vector3(1, 1, 1);
+          const instancedMesh = new InstancedMesh(mesh.geometry, mesh.material, count);
+          for (let i = 0; i < count; i++) {
+            if (attributes.TRANSLATION) {
+              p.fromBufferAttribute(attributes.TRANSLATION, i);
+            }
+            if (attributes.ROTATION) {
+              q.fromBufferAttribute(attributes.ROTATION, i);
+            }
+            if (attributes.SCALE) {
+              s.fromBufferAttribute(attributes.SCALE, i);
+            }
+            instancedMesh.setMatrixAt(i, m.compose(p, q, s));
+          }
+          for (const attributeName in attributes) {
+            if (attributeName === "_COLOR_0") {
+              const attr = attributes[attributeName];
+              instancedMesh.instanceColor = new InstancedBufferAttribute(attr.array, attr.itemSize, attr.normalized);
+            } else if (attributeName !== "TRANSLATION" && attributeName !== "ROTATION" && attributeName !== "SCALE") {
+              mesh.geometry.setAttribute(attributeName, attributes[attributeName]);
+            }
+          }
+          Object3D.prototype.copy.call(instancedMesh, mesh);
+          this.parser.assignFinalMaterial(instancedMesh);
+          instancedMeshes.push(instancedMesh);
+        }
+        if (nodeObject.isGroup) {
+          nodeObject.clear();
+          nodeObject.add(...instancedMeshes);
+          return nodeObject;
+        }
+        return instancedMeshes[0];
+      });
+    }
+  };
+  var BINARY_EXTENSION_HEADER_MAGIC = "glTF";
+  var BINARY_EXTENSION_HEADER_LENGTH = 12;
+  var BINARY_EXTENSION_CHUNK_TYPES = { JSON: 1313821514, BIN: 5130562 };
+  var GLTFBinaryExtension = class {
+    constructor(data) {
+      this.name = EXTENSIONS.KHR_BINARY_GLTF;
+      this.content = null;
+      this.body = null;
+      const headerView = new DataView(data, 0, BINARY_EXTENSION_HEADER_LENGTH);
+      const textDecoder = new TextDecoder();
+      this.header = {
+        magic: textDecoder.decode(new Uint8Array(data.slice(0, 4))),
+        version: headerView.getUint32(4, true),
+        length: headerView.getUint32(8, true)
+      };
+      if (this.header.magic !== BINARY_EXTENSION_HEADER_MAGIC) {
+        throw new Error("THREE.GLTFLoader: Unsupported glTF-Binary header.");
+      } else if (this.header.version < 2) {
+        throw new Error("THREE.GLTFLoader: Legacy binary file detected.");
+      }
+      const chunkContentsLength = this.header.length - BINARY_EXTENSION_HEADER_LENGTH;
+      const chunkView = new DataView(data, BINARY_EXTENSION_HEADER_LENGTH);
+      let chunkIndex = 0;
+      while (chunkIndex < chunkContentsLength) {
+        const chunkLength = chunkView.getUint32(chunkIndex, true);
+        chunkIndex += 4;
+        const chunkType = chunkView.getUint32(chunkIndex, true);
+        chunkIndex += 4;
+        if (chunkType === BINARY_EXTENSION_CHUNK_TYPES.JSON) {
+          const contentArray = new Uint8Array(data, BINARY_EXTENSION_HEADER_LENGTH + chunkIndex, chunkLength);
+          this.content = textDecoder.decode(contentArray);
+        } else if (chunkType === BINARY_EXTENSION_CHUNK_TYPES.BIN) {
+          const byteOffset = BINARY_EXTENSION_HEADER_LENGTH + chunkIndex;
+          this.body = data.slice(byteOffset, byteOffset + chunkLength);
+        }
+        chunkIndex += chunkLength;
+      }
+      if (this.content === null) {
+        throw new Error("THREE.GLTFLoader: JSON content not found.");
+      }
+    }
+  };
+  var GLTFDracoMeshCompressionExtension = class {
+    constructor(json, dracoLoader) {
+      if (!dracoLoader) {
+        throw new Error("THREE.GLTFLoader: No DRACOLoader instance provided.");
+      }
+      this.name = EXTENSIONS.KHR_DRACO_MESH_COMPRESSION;
+      this.json = json;
+      this.dracoLoader = dracoLoader;
+      this.dracoLoader.preload();
+    }
+    decodePrimitive(primitive, parser) {
+      const json = this.json;
+      const dracoLoader = this.dracoLoader;
+      const bufferViewIndex = primitive.extensions[this.name].bufferView;
+      const gltfAttributeMap = primitive.extensions[this.name].attributes;
+      const threeAttributeMap = {};
+      const attributeNormalizedMap = {};
+      const attributeTypeMap = {};
+      for (const attributeName in gltfAttributeMap) {
+        const threeAttributeName = ATTRIBUTES[attributeName] || attributeName.toLowerCase();
+        threeAttributeMap[threeAttributeName] = gltfAttributeMap[attributeName];
+      }
+      for (const attributeName in primitive.attributes) {
+        const threeAttributeName = ATTRIBUTES[attributeName] || attributeName.toLowerCase();
+        if (gltfAttributeMap[attributeName] !== void 0) {
+          const accessorDef = json.accessors[primitive.attributes[attributeName]];
+          const componentType = WEBGL_COMPONENT_TYPES[accessorDef.componentType];
+          attributeTypeMap[threeAttributeName] = componentType.name;
+          attributeNormalizedMap[threeAttributeName] = accessorDef.normalized === true;
+        }
+      }
+      return parser.getDependency("bufferView", bufferViewIndex).then(function(bufferView) {
+        return new Promise(function(resolve, reject) {
+          dracoLoader.decodeDracoFile(bufferView, function(geometry) {
+            for (const attributeName in geometry.attributes) {
+              const attribute = geometry.attributes[attributeName];
+              const normalized = attributeNormalizedMap[attributeName];
+              if (normalized !== void 0) attribute.normalized = normalized;
+            }
+            resolve(geometry);
+          }, threeAttributeMap, attributeTypeMap, LinearSRGBColorSpace, reject);
+        });
+      });
+    }
+  };
+  var GLTFTextureTransformExtension = class {
+    constructor() {
+      this.name = EXTENSIONS.KHR_TEXTURE_TRANSFORM;
+    }
+    extendTexture(texture, transform) {
+      if ((transform.texCoord === void 0 || transform.texCoord === texture.channel) && transform.offset === void 0 && transform.rotation === void 0 && transform.scale === void 0) {
+        return texture;
+      }
+      texture = texture.clone();
+      if (transform.texCoord !== void 0) {
+        texture.channel = transform.texCoord;
+      }
+      if (transform.offset !== void 0) {
+        texture.offset.fromArray(transform.offset);
+      }
+      if (transform.rotation !== void 0) {
+        texture.rotation = transform.rotation;
+      }
+      if (transform.scale !== void 0) {
+        texture.repeat.fromArray(transform.scale);
+      }
+      texture.needsUpdate = true;
+      return texture;
+    }
+  };
+  var GLTFMeshQuantizationExtension = class {
+    constructor() {
+      this.name = EXTENSIONS.KHR_MESH_QUANTIZATION;
+    }
+  };
+  var GLTFCubicSplineInterpolant = class extends Interpolant {
+    constructor(parameterPositions, sampleValues, sampleSize, resultBuffer) {
+      super(parameterPositions, sampleValues, sampleSize, resultBuffer);
+    }
+    copySampleValue_(index) {
+      const result = this.resultBuffer, values = this.sampleValues, valueSize = this.valueSize, offset = index * valueSize * 3 + valueSize;
+      for (let i = 0; i !== valueSize; i++) {
+        result[i] = values[offset + i];
+      }
+      return result;
+    }
+    interpolate_(i1, t0, t, t1) {
+      const result = this.resultBuffer;
+      const values = this.sampleValues;
+      const stride = this.valueSize;
+      const stride2 = stride * 2;
+      const stride3 = stride * 3;
+      const td = t1 - t0;
+      const p = (t - t0) / td;
+      const pp = p * p;
+      const ppp = pp * p;
+      const offset1 = i1 * stride3;
+      const offset0 = offset1 - stride3;
+      const s2 = -2 * ppp + 3 * pp;
+      const s3 = ppp - pp;
+      const s0 = 1 - s2;
+      const s1 = s3 - pp + p;
+      for (let i = 0; i !== stride; i++) {
+        const p0 = values[offset0 + i + stride];
+        const m0 = values[offset0 + i + stride2] * td;
+        const p1 = values[offset1 + i + stride];
+        const m1 = values[offset1 + i] * td;
+        result[i] = s0 * p0 + s1 * m0 + s2 * p1 + s3 * m1;
+      }
+      return result;
+    }
+  };
+  var _quaternion = new Quaternion();
+  var GLTFCubicSplineQuaternionInterpolant = class extends GLTFCubicSplineInterpolant {
+    interpolate_(i1, t0, t, t1) {
+      const result = super.interpolate_(i1, t0, t, t1);
+      _quaternion.fromArray(result).normalize().toArray(result);
+      return result;
+    }
+  };
+  var WEBGL_CONSTANTS = {
+    FLOAT: 5126,
+    //FLOAT_MAT2: 35674,
+    FLOAT_MAT3: 35675,
+    FLOAT_MAT4: 35676,
+    FLOAT_VEC2: 35664,
+    FLOAT_VEC3: 35665,
+    FLOAT_VEC4: 35666,
+    LINEAR: 9729,
+    REPEAT: 10497,
+    SAMPLER_2D: 35678,
+    POINTS: 0,
+    LINES: 1,
+    LINE_LOOP: 2,
+    LINE_STRIP: 3,
+    TRIANGLES: 4,
+    TRIANGLE_STRIP: 5,
+    TRIANGLE_FAN: 6,
+    UNSIGNED_BYTE: 5121,
+    UNSIGNED_SHORT: 5123
+  };
+  var WEBGL_COMPONENT_TYPES = {
+    5120: Int8Array,
+    5121: Uint8Array,
+    5122: Int16Array,
+    5123: Uint16Array,
+    5125: Uint32Array,
+    5126: Float32Array
+  };
+  var WEBGL_FILTERS = {
+    9728: NearestFilter,
+    9729: LinearFilter,
+    9984: NearestMipmapNearestFilter,
+    9985: LinearMipmapNearestFilter,
+    9986: NearestMipmapLinearFilter,
+    9987: LinearMipmapLinearFilter
+  };
+  var WEBGL_WRAPPINGS = {
+    33071: ClampToEdgeWrapping,
+    33648: MirroredRepeatWrapping,
+    10497: RepeatWrapping
+  };
+  var WEBGL_TYPE_SIZES = {
+    "SCALAR": 1,
+    "VEC2": 2,
+    "VEC3": 3,
+    "VEC4": 4,
+    "MAT2": 4,
+    "MAT3": 9,
+    "MAT4": 16
+  };
+  var ATTRIBUTES = {
+    POSITION: "position",
+    NORMAL: "normal",
+    TANGENT: "tangent",
+    TEXCOORD_0: "uv",
+    TEXCOORD_1: "uv1",
+    TEXCOORD_2: "uv2",
+    TEXCOORD_3: "uv3",
+    COLOR_0: "color",
+    WEIGHTS_0: "skinWeight",
+    JOINTS_0: "skinIndex"
+  };
+  var PATH_PROPERTIES = {
+    scale: "scale",
+    translation: "position",
+    rotation: "quaternion",
+    weights: "morphTargetInfluences"
+  };
+  var INTERPOLATION = {
+    CUBICSPLINE: void 0,
+    // We use a custom interpolant (GLTFCubicSplineInterpolation) for CUBICSPLINE tracks. Each
+    // keyframe track will be initialized with a default interpolation type, then modified.
+    LINEAR: InterpolateLinear,
+    STEP: InterpolateDiscrete
+  };
+  var ALPHA_MODES = {
+    OPAQUE: "OPAQUE",
+    MASK: "MASK",
+    BLEND: "BLEND"
+  };
+  function createDefaultMaterial(cache) {
+    if (cache["DefaultMaterial"] === void 0) {
+      cache["DefaultMaterial"] = new MeshStandardMaterial({
+        color: 16777215,
+        emissive: 0,
+        metalness: 1,
+        roughness: 1,
+        transparent: false,
+        depthTest: true,
+        side: FrontSide
+      });
+    }
+    return cache["DefaultMaterial"];
+  }
+  function addUnknownExtensionsToUserData(knownExtensions, object, objectDef) {
+    for (const name in objectDef.extensions) {
+      if (knownExtensions[name] === void 0) {
+        object.userData.gltfExtensions = object.userData.gltfExtensions || {};
+        object.userData.gltfExtensions[name] = objectDef.extensions[name];
+      }
+    }
+  }
+  function assignExtrasToUserData(object, gltfDef) {
+    if (gltfDef.extras !== void 0) {
+      if (typeof gltfDef.extras === "object") {
+        Object.assign(object.userData, gltfDef.extras);
+      } else {
+        console.warn("THREE.GLTFLoader: Ignoring primitive type .extras, " + gltfDef.extras);
+      }
+    }
+  }
+  function addMorphTargets(geometry, targets, parser) {
+    let hasMorphPosition = false;
+    let hasMorphNormal = false;
+    let hasMorphColor = false;
+    for (let i = 0, il = targets.length; i < il; i++) {
+      const target = targets[i];
+      if (target.POSITION !== void 0) hasMorphPosition = true;
+      if (target.NORMAL !== void 0) hasMorphNormal = true;
+      if (target.COLOR_0 !== void 0) hasMorphColor = true;
+      if (hasMorphPosition && hasMorphNormal && hasMorphColor) break;
+    }
+    if (!hasMorphPosition && !hasMorphNormal && !hasMorphColor) return Promise.resolve(geometry);
+    const pendingPositionAccessors = [];
+    const pendingNormalAccessors = [];
+    const pendingColorAccessors = [];
+    for (let i = 0, il = targets.length; i < il; i++) {
+      const target = targets[i];
+      if (hasMorphPosition) {
+        const pendingAccessor = target.POSITION !== void 0 ? parser.getDependency("accessor", target.POSITION) : geometry.attributes.position;
+        pendingPositionAccessors.push(pendingAccessor);
+      }
+      if (hasMorphNormal) {
+        const pendingAccessor = target.NORMAL !== void 0 ? parser.getDependency("accessor", target.NORMAL) : geometry.attributes.normal;
+        pendingNormalAccessors.push(pendingAccessor);
+      }
+      if (hasMorphColor) {
+        const pendingAccessor = target.COLOR_0 !== void 0 ? parser.getDependency("accessor", target.COLOR_0) : geometry.attributes.color;
+        pendingColorAccessors.push(pendingAccessor);
+      }
+    }
+    return Promise.all([
+      Promise.all(pendingPositionAccessors),
+      Promise.all(pendingNormalAccessors),
+      Promise.all(pendingColorAccessors)
+    ]).then(function(accessors) {
+      const morphPositions = accessors[0];
+      const morphNormals = accessors[1];
+      const morphColors = accessors[2];
+      if (hasMorphPosition) geometry.morphAttributes.position = morphPositions;
+      if (hasMorphNormal) geometry.morphAttributes.normal = morphNormals;
+      if (hasMorphColor) geometry.morphAttributes.color = morphColors;
+      geometry.morphTargetsRelative = true;
+      return geometry;
+    });
+  }
+  function updateMorphTargets(mesh, meshDef) {
+    mesh.updateMorphTargets();
+    if (meshDef.weights !== void 0) {
+      for (let i = 0, il = meshDef.weights.length; i < il; i++) {
+        mesh.morphTargetInfluences[i] = meshDef.weights[i];
+      }
+    }
+    if (meshDef.extras && Array.isArray(meshDef.extras.targetNames)) {
+      const targetNames = meshDef.extras.targetNames;
+      if (mesh.morphTargetInfluences.length === targetNames.length) {
+        mesh.morphTargetDictionary = {};
+        for (let i = 0, il = targetNames.length; i < il; i++) {
+          mesh.morphTargetDictionary[targetNames[i]] = i;
+        }
+      } else {
+        console.warn("THREE.GLTFLoader: Invalid extras.targetNames length. Ignoring names.");
+      }
+    }
+  }
+  function createPrimitiveKey(primitiveDef) {
+    let geometryKey;
+    const dracoExtension = primitiveDef.extensions && primitiveDef.extensions[EXTENSIONS.KHR_DRACO_MESH_COMPRESSION];
+    if (dracoExtension) {
+      geometryKey = "draco:" + dracoExtension.bufferView + ":" + dracoExtension.indices + ":" + createAttributesKey(dracoExtension.attributes);
+    } else {
+      geometryKey = primitiveDef.indices + ":" + createAttributesKey(primitiveDef.attributes) + ":" + primitiveDef.mode;
+    }
+    if (primitiveDef.targets !== void 0) {
+      for (let i = 0, il = primitiveDef.targets.length; i < il; i++) {
+        geometryKey += ":" + createAttributesKey(primitiveDef.targets[i]);
+      }
+    }
+    return geometryKey;
+  }
+  function createAttributesKey(attributes) {
+    let attributesKey = "";
+    const keys = Object.keys(attributes).sort();
+    for (let i = 0, il = keys.length; i < il; i++) {
+      attributesKey += keys[i] + ":" + attributes[keys[i]] + ";";
+    }
+    return attributesKey;
+  }
+  function getNormalizedComponentScale(constructor) {
+    switch (constructor) {
+      case Int8Array:
+        return 1 / 127;
+      case Uint8Array:
+        return 1 / 255;
+      case Int16Array:
+        return 1 / 32767;
+      case Uint16Array:
+        return 1 / 65535;
+      default:
+        throw new Error("THREE.GLTFLoader: Unsupported normalized accessor component type.");
+    }
+  }
+  function getImageURIMimeType(uri) {
+    if (uri.search(/\.jpe?g($|\?)/i) > 0 || uri.search(/^data\:image\/jpeg/) === 0) return "image/jpeg";
+    if (uri.search(/\.webp($|\?)/i) > 0 || uri.search(/^data\:image\/webp/) === 0) return "image/webp";
+    if (uri.search(/\.ktx2($|\?)/i) > 0 || uri.search(/^data\:image\/ktx2/) === 0) return "image/ktx2";
+    return "image/png";
+  }
+  var _identityMatrix2 = new Matrix4();
+  var GLTFParser = class {
+    constructor(json = {}, options = {}) {
+      this.json = json;
+      this.extensions = {};
+      this.plugins = {};
+      this.options = options;
+      this.cache = new GLTFRegistry();
+      this.associations = /* @__PURE__ */ new Map();
+      this.primitiveCache = {};
+      this.nodeCache = {};
+      this.meshCache = { refs: {}, uses: {} };
+      this.cameraCache = { refs: {}, uses: {} };
+      this.lightCache = { refs: {}, uses: {} };
+      this.sourceCache = {};
+      this.textureCache = {};
+      this.nodeNamesUsed = {};
+      let isSafari = false;
+      let safariVersion = -1;
+      let isFirefox = false;
+      let firefoxVersion = -1;
+      if (typeof navigator !== "undefined" && typeof navigator.userAgent !== "undefined") {
+        const userAgent = navigator.userAgent;
+        isSafari = /^((?!chrome|android).)*safari/i.test(userAgent) === true;
+        const safariMatch = userAgent.match(/Version\/(\d+)/);
+        safariVersion = isSafari && safariMatch ? parseInt(safariMatch[1], 10) : -1;
+        isFirefox = userAgent.indexOf("Firefox") > -1;
+        firefoxVersion = isFirefox ? userAgent.match(/Firefox\/([0-9]+)\./)[1] : -1;
+      }
+      if (typeof createImageBitmap === "undefined" || isSafari && safariVersion < 17 || isFirefox && firefoxVersion < 98) {
+        this.textureLoader = new TextureLoader(this.options.manager);
+      } else {
+        this.textureLoader = new ImageBitmapLoader(this.options.manager);
+      }
+      this.textureLoader.setCrossOrigin(this.options.crossOrigin);
+      this.textureLoader.setRequestHeader(this.options.requestHeader);
+      this.fileLoader = new FileLoader(this.options.manager);
+      this.fileLoader.setResponseType("arraybuffer");
+      if (this.options.crossOrigin === "use-credentials") {
+        this.fileLoader.setWithCredentials(true);
+      }
+    }
+    setExtensions(extensions) {
+      this.extensions = extensions;
+    }
+    setPlugins(plugins) {
+      this.plugins = plugins;
+    }
+    parse(onLoad, onError) {
+      const parser = this;
+      const json = this.json;
+      const extensions = this.extensions;
+      this.cache.removeAll();
+      this.nodeCache = {};
+      this._invokeAll(function(ext) {
+        return ext._markDefs && ext._markDefs();
+      });
+      Promise.all(this._invokeAll(function(ext) {
+        return ext.beforeRoot && ext.beforeRoot();
+      })).then(function() {
+        return Promise.all([
+          parser.getDependencies("scene"),
+          parser.getDependencies("animation"),
+          parser.getDependencies("camera")
+        ]);
+      }).then(function(dependencies) {
+        const result = {
+          scene: dependencies[0][json.scene || 0],
+          scenes: dependencies[0],
+          animations: dependencies[1],
+          cameras: dependencies[2],
+          asset: json.asset,
+          parser,
+          userData: {}
+        };
+        addUnknownExtensionsToUserData(extensions, result, json);
+        assignExtrasToUserData(result, json);
+        return Promise.all(parser._invokeAll(function(ext) {
+          return ext.afterRoot && ext.afterRoot(result);
+        })).then(function() {
+          for (const scene2 of result.scenes) {
+            scene2.updateMatrixWorld();
+          }
+          onLoad(result);
+        });
+      }).catch(onError);
+    }
+    /**
+     * Marks the special nodes/meshes in json for efficient parse.
+     *
+     * @private
+     */
+    _markDefs() {
+      const nodeDefs = this.json.nodes || [];
+      const skinDefs = this.json.skins || [];
+      const meshDefs = this.json.meshes || [];
+      for (let skinIndex = 0, skinLength = skinDefs.length; skinIndex < skinLength; skinIndex++) {
+        const joints = skinDefs[skinIndex].joints;
+        for (let i = 0, il = joints.length; i < il; i++) {
+          nodeDefs[joints[i]].isBone = true;
+        }
+      }
+      for (let nodeIndex = 0, nodeLength = nodeDefs.length; nodeIndex < nodeLength; nodeIndex++) {
+        const nodeDef = nodeDefs[nodeIndex];
+        if (nodeDef.mesh !== void 0) {
+          this._addNodeRef(this.meshCache, nodeDef.mesh);
+          if (nodeDef.skin !== void 0) {
+            meshDefs[nodeDef.mesh].isSkinnedMesh = true;
+          }
+        }
+        if (nodeDef.camera !== void 0) {
+          this._addNodeRef(this.cameraCache, nodeDef.camera);
+        }
+      }
+    }
+    /**
+     * Counts references to shared node / Object3D resources. These resources
+     * can be reused, or "instantiated", at multiple nodes in the scene
+     * hierarchy. Mesh, Camera, and Light instances are instantiated and must
+     * be marked. Non-scenegraph resources (like Materials, Geometries, and
+     * Textures) can be reused directly and are not marked here.
+     *
+     * Example: CesiumMilkTruck sample model reuses "Wheel" meshes.
+     *
+     * @private
+     * @param {Object} cache
+     * @param {Object3D} index
+     */
+    _addNodeRef(cache, index) {
+      if (index === void 0) return;
+      if (cache.refs[index] === void 0) {
+        cache.refs[index] = cache.uses[index] = 0;
+      }
+      cache.refs[index]++;
+    }
+    /**
+     * Returns a reference to a shared resource, cloning it if necessary.
+     *
+     * @private
+     * @param {Object} cache
+     * @param {number} index
+     * @param {Object} object
+     * @return {Object}
+     */
+    _getNodeRef(cache, index, object) {
+      if (cache.refs[index] <= 1) return object;
+      const ref = object.clone();
+      const updateMappings = (original, clone2) => {
+        const mappings = this.associations.get(original);
+        if (mappings != null) {
+          this.associations.set(clone2, mappings);
+        }
+        for (const [i, child] of original.children.entries()) {
+          updateMappings(child, clone2.children[i]);
+        }
+      };
+      updateMappings(object, ref);
+      ref.name += "_instance_" + cache.uses[index]++;
+      return ref;
+    }
+    _invokeOne(func) {
+      const extensions = Object.values(this.plugins);
+      extensions.push(this);
+      for (let i = 0; i < extensions.length; i++) {
+        const result = func(extensions[i]);
+        if (result) return result;
+      }
+      return null;
+    }
+    _invokeAll(func) {
+      const extensions = Object.values(this.plugins);
+      extensions.unshift(this);
+      const pending = [];
+      for (let i = 0; i < extensions.length; i++) {
+        const result = func(extensions[i]);
+        if (result) pending.push(result);
+      }
+      return pending;
+    }
+    /**
+     * Requests the specified dependency asynchronously, with caching.
+     *
+     * @private
+     * @param {string} type
+     * @param {number} index
+     * @return {Promise<Object3D|Material|Texture|AnimationClip|ArrayBuffer|Object>}
+     */
+    getDependency(type, index) {
+      const cacheKey = type + ":" + index;
+      let dependency = this.cache.get(cacheKey);
+      if (!dependency) {
+        switch (type) {
+          case "scene":
+            dependency = this.loadScene(index);
+            break;
+          case "node":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadNode && ext.loadNode(index);
+            });
+            break;
+          case "mesh":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadMesh && ext.loadMesh(index);
+            });
+            break;
+          case "accessor":
+            dependency = this.loadAccessor(index);
+            break;
+          case "bufferView":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadBufferView && ext.loadBufferView(index);
+            });
+            break;
+          case "buffer":
+            dependency = this.loadBuffer(index);
+            break;
+          case "material":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadMaterial && ext.loadMaterial(index);
+            });
+            break;
+          case "texture":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadTexture && ext.loadTexture(index);
+            });
+            break;
+          case "skin":
+            dependency = this.loadSkin(index);
+            break;
+          case "animation":
+            dependency = this._invokeOne(function(ext) {
+              return ext.loadAnimation && ext.loadAnimation(index);
+            });
+            break;
+          case "camera":
+            dependency = this.loadCamera(index);
+            break;
+          default:
+            dependency = this._invokeOne(function(ext) {
+              return ext != this && ext.getDependency && ext.getDependency(type, index);
+            });
+            if (!dependency) {
+              throw new Error("Unknown type: " + type);
+            }
+            break;
+        }
+        this.cache.add(cacheKey, dependency);
+      }
+      return dependency;
+    }
+    /**
+     * Requests all dependencies of the specified type asynchronously, with caching.
+     *
+     * @private
+     * @param {string} type
+     * @return {Promise<Array<Object>>}
+     */
+    getDependencies(type) {
+      let dependencies = this.cache.get(type);
+      if (!dependencies) {
+        const parser = this;
+        const defs = this.json[type + (type === "mesh" ? "es" : "s")] || [];
+        dependencies = Promise.all(defs.map(function(def, index) {
+          return parser.getDependency(type, index);
+        }));
+        this.cache.add(type, dependencies);
+      }
+      return dependencies;
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#buffers-and-buffer-views
+     *
+     * @private
+     * @param {number} bufferIndex
+     * @return {Promise<ArrayBuffer>}
+     */
+    loadBuffer(bufferIndex) {
+      const bufferDef = this.json.buffers[bufferIndex];
+      const loader = this.fileLoader;
+      if (bufferDef.type && bufferDef.type !== "arraybuffer") {
+        throw new Error("THREE.GLTFLoader: " + bufferDef.type + " buffer type is not supported.");
+      }
+      if (bufferDef.uri === void 0 && bufferIndex === 0) {
+        return Promise.resolve(this.extensions[EXTENSIONS.KHR_BINARY_GLTF].body);
+      }
+      const options = this.options;
+      return new Promise(function(resolve, reject) {
+        loader.load(LoaderUtils.resolveURL(bufferDef.uri, options.path), resolve, void 0, function() {
+          reject(new Error('THREE.GLTFLoader: Failed to load buffer "' + bufferDef.uri + '".'));
+        });
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#buffers-and-buffer-views
+     *
+     * @private
+     * @param {number} bufferViewIndex
+     * @return {Promise<ArrayBuffer>}
+     */
+    loadBufferView(bufferViewIndex) {
+      const bufferViewDef = this.json.bufferViews[bufferViewIndex];
+      return this.getDependency("buffer", bufferViewDef.buffer).then(function(buffer) {
+        const byteLength = bufferViewDef.byteLength || 0;
+        const byteOffset = bufferViewDef.byteOffset || 0;
+        return buffer.slice(byteOffset, byteOffset + byteLength);
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#accessors
+     *
+     * @private
+     * @param {number} accessorIndex
+     * @return {Promise<BufferAttribute|InterleavedBufferAttribute>}
+     */
+    loadAccessor(accessorIndex) {
+      const parser = this;
+      const json = this.json;
+      const accessorDef = this.json.accessors[accessorIndex];
+      if (accessorDef.bufferView === void 0 && accessorDef.sparse === void 0) {
+        const itemSize = WEBGL_TYPE_SIZES[accessorDef.type];
+        const TypedArray = WEBGL_COMPONENT_TYPES[accessorDef.componentType];
+        const normalized = accessorDef.normalized === true;
+        const array = new TypedArray(accessorDef.count * itemSize);
+        return Promise.resolve(new BufferAttribute(array, itemSize, normalized));
+      }
+      const pendingBufferViews = [];
+      if (accessorDef.bufferView !== void 0) {
+        pendingBufferViews.push(this.getDependency("bufferView", accessorDef.bufferView));
+      } else {
+        pendingBufferViews.push(null);
+      }
+      if (accessorDef.sparse !== void 0) {
+        pendingBufferViews.push(this.getDependency("bufferView", accessorDef.sparse.indices.bufferView));
+        pendingBufferViews.push(this.getDependency("bufferView", accessorDef.sparse.values.bufferView));
+      }
+      return Promise.all(pendingBufferViews).then(function(bufferViews) {
+        const bufferView = bufferViews[0];
+        const itemSize = WEBGL_TYPE_SIZES[accessorDef.type];
+        const TypedArray = WEBGL_COMPONENT_TYPES[accessorDef.componentType];
+        const elementBytes = TypedArray.BYTES_PER_ELEMENT;
+        const itemBytes = elementBytes * itemSize;
+        const byteOffset = accessorDef.byteOffset || 0;
+        const byteStride = accessorDef.bufferView !== void 0 ? json.bufferViews[accessorDef.bufferView].byteStride : void 0;
+        const normalized = accessorDef.normalized === true;
+        let array, bufferAttribute;
+        if (byteStride && byteStride !== itemBytes) {
+          const ibSlice = Math.floor(byteOffset / byteStride);
+          const ibCacheKey = "InterleavedBuffer:" + accessorDef.bufferView + ":" + accessorDef.componentType + ":" + ibSlice + ":" + accessorDef.count;
+          let ib = parser.cache.get(ibCacheKey);
+          if (!ib) {
+            array = new TypedArray(bufferView, ibSlice * byteStride, accessorDef.count * byteStride / elementBytes);
+            ib = new InterleavedBuffer(array, byteStride / elementBytes);
+            parser.cache.add(ibCacheKey, ib);
+          }
+          bufferAttribute = new InterleavedBufferAttribute(ib, itemSize, byteOffset % byteStride / elementBytes, normalized);
+        } else {
+          if (bufferView === null) {
+            array = new TypedArray(accessorDef.count * itemSize);
+          } else {
+            array = new TypedArray(bufferView, byteOffset, accessorDef.count * itemSize);
+          }
+          bufferAttribute = new BufferAttribute(array, itemSize, normalized);
+        }
+        if (accessorDef.sparse !== void 0) {
+          const itemSizeIndices = WEBGL_TYPE_SIZES.SCALAR;
+          const TypedArrayIndices = WEBGL_COMPONENT_TYPES[accessorDef.sparse.indices.componentType];
+          const byteOffsetIndices = accessorDef.sparse.indices.byteOffset || 0;
+          const byteOffsetValues = accessorDef.sparse.values.byteOffset || 0;
+          const sparseIndices = new TypedArrayIndices(bufferViews[1], byteOffsetIndices, accessorDef.sparse.count * itemSizeIndices);
+          const sparseValues = new TypedArray(bufferViews[2], byteOffsetValues, accessorDef.sparse.count * itemSize);
+          if (bufferView !== null) {
+            bufferAttribute = new BufferAttribute(bufferAttribute.array.slice(), bufferAttribute.itemSize, bufferAttribute.normalized);
+          }
+          bufferAttribute.normalized = false;
+          for (let i = 0, il = sparseIndices.length; i < il; i++) {
+            const index = sparseIndices[i];
+            bufferAttribute.setX(index, sparseValues[i * itemSize]);
+            if (itemSize >= 2) bufferAttribute.setY(index, sparseValues[i * itemSize + 1]);
+            if (itemSize >= 3) bufferAttribute.setZ(index, sparseValues[i * itemSize + 2]);
+            if (itemSize >= 4) bufferAttribute.setW(index, sparseValues[i * itemSize + 3]);
+            if (itemSize >= 5) throw new Error("THREE.GLTFLoader: Unsupported itemSize in sparse BufferAttribute.");
+          }
+          bufferAttribute.normalized = normalized;
+        }
+        return bufferAttribute;
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#textures
+     *
+     * @private
+     * @param {number} textureIndex
+     * @return {Promise<?Texture>}
+     */
+    loadTexture(textureIndex) {
+      const json = this.json;
+      const options = this.options;
+      const textureDef = json.textures[textureIndex];
+      const sourceIndex = textureDef.source;
+      const sourceDef = json.images[sourceIndex];
+      let loader = this.textureLoader;
+      if (sourceDef.uri) {
+        const handler = options.manager.getHandler(sourceDef.uri);
+        if (handler !== null) loader = handler;
+      }
+      return this.loadTextureImage(textureIndex, sourceIndex, loader);
+    }
+    loadTextureImage(textureIndex, sourceIndex, loader) {
+      const parser = this;
+      const json = this.json;
+      const textureDef = json.textures[textureIndex];
+      const sourceDef = json.images[sourceIndex];
+      const cacheKey = (sourceDef.uri || sourceDef.bufferView) + ":" + textureDef.sampler;
+      if (this.textureCache[cacheKey]) {
+        return this.textureCache[cacheKey];
+      }
+      const promise = this.loadImageSource(sourceIndex, loader).then(function(texture) {
+        texture.flipY = false;
+        texture.name = textureDef.name || sourceDef.name || "";
+        if (texture.name === "" && typeof sourceDef.uri === "string" && sourceDef.uri.startsWith("data:image/") === false) {
+          texture.name = sourceDef.uri;
+        }
+        const samplers = json.samplers || {};
+        const sampler = samplers[textureDef.sampler] || {};
+        texture.magFilter = WEBGL_FILTERS[sampler.magFilter] || LinearFilter;
+        texture.minFilter = WEBGL_FILTERS[sampler.minFilter] || LinearMipmapLinearFilter;
+        texture.wrapS = WEBGL_WRAPPINGS[sampler.wrapS] || RepeatWrapping;
+        texture.wrapT = WEBGL_WRAPPINGS[sampler.wrapT] || RepeatWrapping;
+        texture.generateMipmaps = !texture.isCompressedTexture && texture.minFilter !== NearestFilter && texture.minFilter !== LinearFilter;
+        parser.associations.set(texture, { textures: textureIndex });
+        return texture;
+      }).catch(function() {
+        return null;
+      });
+      this.textureCache[cacheKey] = promise;
+      return promise;
+    }
+    loadImageSource(sourceIndex, loader) {
+      const parser = this;
+      const json = this.json;
+      const options = this.options;
+      if (this.sourceCache[sourceIndex] !== void 0) {
+        return this.sourceCache[sourceIndex].then((texture) => texture.clone());
+      }
+      const sourceDef = json.images[sourceIndex];
+      const URL2 = self.URL || self.webkitURL;
+      let sourceURI = sourceDef.uri || "";
+      let isObjectURL = false;
+      if (sourceDef.bufferView !== void 0) {
+        sourceURI = parser.getDependency("bufferView", sourceDef.bufferView).then(function(bufferView) {
+          isObjectURL = true;
+          const blob = new Blob([bufferView], { type: sourceDef.mimeType });
+          sourceURI = URL2.createObjectURL(blob);
+          return sourceURI;
+        });
+      } else if (sourceDef.uri === void 0) {
+        throw new Error("THREE.GLTFLoader: Image " + sourceIndex + " is missing URI and bufferView");
+      }
+      const promise = Promise.resolve(sourceURI).then(function(sourceURI2) {
+        return new Promise(function(resolve, reject) {
+          let onLoad = resolve;
+          if (loader.isImageBitmapLoader === true) {
+            onLoad = function(imageBitmap) {
+              const texture = new Texture(imageBitmap);
+              texture.needsUpdate = true;
+              resolve(texture);
+            };
+          }
+          loader.load(LoaderUtils.resolveURL(sourceURI2, options.path), onLoad, void 0, reject);
+        });
+      }).then(function(texture) {
+        if (isObjectURL === true) {
+          URL2.revokeObjectURL(sourceURI);
+        }
+        assignExtrasToUserData(texture, sourceDef);
+        texture.userData.mimeType = sourceDef.mimeType || getImageURIMimeType(sourceDef.uri);
+        return texture;
+      }).catch(function(error2) {
+        console.error("THREE.GLTFLoader: Couldn't load texture", sourceURI);
+        throw error2;
+      });
+      this.sourceCache[sourceIndex] = promise;
+      return promise;
+    }
+    /**
+     * Asynchronously assigns a texture to the given material parameters.
+     *
+     * @private
+     * @param {Object} materialParams
+     * @param {string} mapName
+     * @param {Object} mapDef
+     * @param {string} [colorSpace]
+     * @return {Promise<Texture>}
+     */
+    assignTexture(materialParams, mapName, mapDef, colorSpace) {
+      const parser = this;
+      return this.getDependency("texture", mapDef.index).then(function(texture) {
+        if (!texture) return null;
+        if (mapDef.texCoord !== void 0 && mapDef.texCoord > 0) {
+          texture = texture.clone();
+          texture.channel = mapDef.texCoord;
+        }
+        if (parser.extensions[EXTENSIONS.KHR_TEXTURE_TRANSFORM]) {
+          const transform = mapDef.extensions !== void 0 ? mapDef.extensions[EXTENSIONS.KHR_TEXTURE_TRANSFORM] : void 0;
+          if (transform) {
+            const gltfReference = parser.associations.get(texture);
+            texture = parser.extensions[EXTENSIONS.KHR_TEXTURE_TRANSFORM].extendTexture(texture, transform);
+            parser.associations.set(texture, gltfReference);
+          }
+        }
+        if (colorSpace !== void 0) {
+          texture.colorSpace = colorSpace;
+        }
+        materialParams[mapName] = texture;
+        return texture;
+      });
+    }
+    /**
+     * Assigns final material to a Mesh, Line, or Points instance. The instance
+     * already has a material (generated from the glTF material options alone)
+     * but reuse of the same glTF material may require multiple threejs materials
+     * to accommodate different primitive types, defines, etc. New materials will
+     * be created if necessary, and reused from a cache.
+     *
+     * @private
+     * @param {Object3D} mesh Mesh, Line, or Points instance.
+     */
+    assignFinalMaterial(mesh) {
+      const geometry = mesh.geometry;
+      let material = mesh.material;
+      const useDerivativeTangents = geometry.attributes.tangent === void 0;
+      const useVertexColors = geometry.attributes.color !== void 0;
+      const useFlatShading = geometry.attributes.normal === void 0;
+      if (mesh.isPoints) {
+        const cacheKey = "PointsMaterial:" + material.uuid;
+        let pointsMaterial = this.cache.get(cacheKey);
+        if (!pointsMaterial) {
+          pointsMaterial = new PointsMaterial();
+          Material.prototype.copy.call(pointsMaterial, material);
+          pointsMaterial.color.copy(material.color);
+          pointsMaterial.map = material.map;
+          pointsMaterial.sizeAttenuation = false;
+          this.cache.add(cacheKey, pointsMaterial);
+        }
+        material = pointsMaterial;
+      } else if (mesh.isLine) {
+        const cacheKey = "LineBasicMaterial:" + material.uuid;
+        let lineMaterial = this.cache.get(cacheKey);
+        if (!lineMaterial) {
+          lineMaterial = new LineBasicMaterial();
+          Material.prototype.copy.call(lineMaterial, material);
+          lineMaterial.color.copy(material.color);
+          lineMaterial.map = material.map;
+          this.cache.add(cacheKey, lineMaterial);
+        }
+        material = lineMaterial;
+      }
+      if (useDerivativeTangents || useVertexColors || useFlatShading) {
+        let cacheKey = "ClonedMaterial:" + material.uuid + ":";
+        if (useDerivativeTangents) cacheKey += "derivative-tangents:";
+        if (useVertexColors) cacheKey += "vertex-colors:";
+        if (useFlatShading) cacheKey += "flat-shading:";
+        let cachedMaterial = this.cache.get(cacheKey);
+        if (!cachedMaterial) {
+          cachedMaterial = material.clone();
+          if (useVertexColors) cachedMaterial.vertexColors = true;
+          if (useFlatShading) cachedMaterial.flatShading = true;
+          if (useDerivativeTangents) {
+            if (cachedMaterial.normalScale) cachedMaterial.normalScale.y *= -1;
+            if (cachedMaterial.clearcoatNormalScale) cachedMaterial.clearcoatNormalScale.y *= -1;
+          }
+          this.cache.add(cacheKey, cachedMaterial);
+          this.associations.set(cachedMaterial, this.associations.get(material));
+        }
+        material = cachedMaterial;
+      }
+      mesh.material = material;
+    }
+    getMaterialType() {
+      return MeshStandardMaterial;
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#materials
+     *
+     * @private
+     * @param {number} materialIndex
+     * @return {Promise<Material>}
+     */
+    loadMaterial(materialIndex) {
+      const parser = this;
+      const json = this.json;
+      const extensions = this.extensions;
+      const materialDef = json.materials[materialIndex];
+      let materialType;
+      const materialParams = {};
+      const materialExtensions = materialDef.extensions || {};
+      const pending = [];
+      if (materialExtensions[EXTENSIONS.KHR_MATERIALS_UNLIT]) {
+        const kmuExtension = extensions[EXTENSIONS.KHR_MATERIALS_UNLIT];
+        materialType = kmuExtension.getMaterialType();
+        pending.push(kmuExtension.extendParams(materialParams, materialDef, parser));
+      } else {
+        const metallicRoughness = materialDef.pbrMetallicRoughness || {};
+        materialParams.color = new Color(1, 1, 1);
+        materialParams.opacity = 1;
+        if (Array.isArray(metallicRoughness.baseColorFactor)) {
+          const array = metallicRoughness.baseColorFactor;
+          materialParams.color.setRGB(array[0], array[1], array[2], LinearSRGBColorSpace);
+          materialParams.opacity = array[3];
+        }
+        if (metallicRoughness.baseColorTexture !== void 0) {
+          pending.push(parser.assignTexture(materialParams, "map", metallicRoughness.baseColorTexture, SRGBColorSpace));
+        }
+        materialParams.metalness = metallicRoughness.metallicFactor !== void 0 ? metallicRoughness.metallicFactor : 1;
+        materialParams.roughness = metallicRoughness.roughnessFactor !== void 0 ? metallicRoughness.roughnessFactor : 1;
+        if (metallicRoughness.metallicRoughnessTexture !== void 0) {
+          pending.push(parser.assignTexture(materialParams, "metalnessMap", metallicRoughness.metallicRoughnessTexture));
+          pending.push(parser.assignTexture(materialParams, "roughnessMap", metallicRoughness.metallicRoughnessTexture));
+        }
+        materialType = this._invokeOne(function(ext) {
+          return ext.getMaterialType && ext.getMaterialType(materialIndex);
+        });
+        pending.push(Promise.all(this._invokeAll(function(ext) {
+          return ext.extendMaterialParams && ext.extendMaterialParams(materialIndex, materialParams);
+        })));
+      }
+      if (materialDef.doubleSided === true) {
+        materialParams.side = DoubleSide;
+      }
+      const alphaMode = materialDef.alphaMode || ALPHA_MODES.OPAQUE;
+      if (alphaMode === ALPHA_MODES.BLEND) {
+        materialParams.transparent = true;
+        materialParams.depthWrite = false;
+      } else {
+        materialParams.transparent = false;
+        if (alphaMode === ALPHA_MODES.MASK) {
+          materialParams.alphaTest = materialDef.alphaCutoff !== void 0 ? materialDef.alphaCutoff : 0.5;
+        }
+      }
+      if (materialDef.normalTexture !== void 0 && materialType !== MeshBasicMaterial) {
+        pending.push(parser.assignTexture(materialParams, "normalMap", materialDef.normalTexture));
+        materialParams.normalScale = new Vector2(1, 1);
+        if (materialDef.normalTexture.scale !== void 0) {
+          const scale = materialDef.normalTexture.scale;
+          materialParams.normalScale.set(scale, scale);
+        }
+      }
+      if (materialDef.occlusionTexture !== void 0 && materialType !== MeshBasicMaterial) {
+        pending.push(parser.assignTexture(materialParams, "aoMap", materialDef.occlusionTexture));
+        if (materialDef.occlusionTexture.strength !== void 0) {
+          materialParams.aoMapIntensity = materialDef.occlusionTexture.strength;
+        }
+      }
+      if (materialDef.emissiveFactor !== void 0 && materialType !== MeshBasicMaterial) {
+        const emissiveFactor = materialDef.emissiveFactor;
+        materialParams.emissive = new Color().setRGB(emissiveFactor[0], emissiveFactor[1], emissiveFactor[2], LinearSRGBColorSpace);
+      }
+      if (materialDef.emissiveTexture !== void 0 && materialType !== MeshBasicMaterial) {
+        pending.push(parser.assignTexture(materialParams, "emissiveMap", materialDef.emissiveTexture, SRGBColorSpace));
+      }
+      return Promise.all(pending).then(function() {
+        const material = new materialType(materialParams);
+        if (materialDef.name) material.name = materialDef.name;
+        assignExtrasToUserData(material, materialDef);
+        parser.associations.set(material, { materials: materialIndex });
+        if (materialDef.extensions) addUnknownExtensionsToUserData(extensions, material, materialDef);
+        return material;
+      });
+    }
+    /**
+     * When Object3D instances are targeted by animation, they need unique names.
+     *
+     * @private
+     * @param {string} originalName
+     * @return {string}
+     */
+    createUniqueName(originalName) {
+      const sanitizedName = PropertyBinding.sanitizeNodeName(originalName || "");
+      if (sanitizedName in this.nodeNamesUsed) {
+        return sanitizedName + "_" + ++this.nodeNamesUsed[sanitizedName];
+      } else {
+        this.nodeNamesUsed[sanitizedName] = 0;
+        return sanitizedName;
+      }
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#geometry
+     *
+     * Creates BufferGeometries from primitives.
+     *
+     * @private
+     * @param {Array<GLTF.Primitive>} primitives
+     * @return {Promise<Array<BufferGeometry>>}
+     */
+    loadGeometries(primitives) {
+      const parser = this;
+      const extensions = this.extensions;
+      const cache = this.primitiveCache;
+      function createDracoPrimitive(primitive) {
+        return extensions[EXTENSIONS.KHR_DRACO_MESH_COMPRESSION].decodePrimitive(primitive, parser).then(function(geometry) {
+          return addPrimitiveAttributes(geometry, primitive, parser);
+        });
+      }
+      const pending = [];
+      for (let i = 0, il = primitives.length; i < il; i++) {
+        const primitive = primitives[i];
+        const cacheKey = createPrimitiveKey(primitive);
+        const cached = cache[cacheKey];
+        if (cached) {
+          pending.push(cached.promise);
+        } else {
+          let geometryPromise;
+          if (primitive.extensions && primitive.extensions[EXTENSIONS.KHR_DRACO_MESH_COMPRESSION]) {
+            geometryPromise = createDracoPrimitive(primitive);
+          } else {
+            geometryPromise = addPrimitiveAttributes(new BufferGeometry(), primitive, parser);
+          }
+          cache[cacheKey] = { primitive, promise: geometryPromise };
+          pending.push(geometryPromise);
+        }
+      }
+      return Promise.all(pending);
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/blob/master/specification/2.0/README.md#meshes
+     *
+     * @private
+     * @param {number} meshIndex
+     * @return {Promise<Group|Mesh|SkinnedMesh|Line|Points>}
+     */
+    loadMesh(meshIndex) {
+      const parser = this;
+      const json = this.json;
+      const extensions = this.extensions;
+      const meshDef = json.meshes[meshIndex];
+      const primitives = meshDef.primitives;
+      const pending = [];
+      for (let i = 0, il = primitives.length; i < il; i++) {
+        const material = primitives[i].material === void 0 ? createDefaultMaterial(this.cache) : this.getDependency("material", primitives[i].material);
+        pending.push(material);
+      }
+      pending.push(parser.loadGeometries(primitives));
+      return Promise.all(pending).then(function(results) {
+        const materials = results.slice(0, results.length - 1);
+        const geometries = results[results.length - 1];
+        const meshes = [];
+        for (let i = 0, il = geometries.length; i < il; i++) {
+          const geometry = geometries[i];
+          const primitive = primitives[i];
+          let mesh;
+          const material = materials[i];
+          if (primitive.mode === WEBGL_CONSTANTS.TRIANGLES || primitive.mode === WEBGL_CONSTANTS.TRIANGLE_STRIP || primitive.mode === WEBGL_CONSTANTS.TRIANGLE_FAN || primitive.mode === void 0) {
+            mesh = meshDef.isSkinnedMesh === true ? new SkinnedMesh(geometry, material) : new Mesh(geometry, material);
+            if (mesh.isSkinnedMesh === true) {
+              mesh.normalizeSkinWeights();
+            }
+            if (primitive.mode === WEBGL_CONSTANTS.TRIANGLE_STRIP) {
+              mesh.geometry = toTrianglesDrawMode(mesh.geometry, TriangleStripDrawMode);
+            } else if (primitive.mode === WEBGL_CONSTANTS.TRIANGLE_FAN) {
+              mesh.geometry = toTrianglesDrawMode(mesh.geometry, TriangleFanDrawMode);
+            }
+          } else if (primitive.mode === WEBGL_CONSTANTS.LINES) {
+            mesh = new LineSegments(geometry, material);
+          } else if (primitive.mode === WEBGL_CONSTANTS.LINE_STRIP) {
+            mesh = new Line(geometry, material);
+          } else if (primitive.mode === WEBGL_CONSTANTS.LINE_LOOP) {
+            mesh = new LineLoop(geometry, material);
+          } else if (primitive.mode === WEBGL_CONSTANTS.POINTS) {
+            mesh = new Points(geometry, material);
+          } else {
+            throw new Error("THREE.GLTFLoader: Primitive mode unsupported: " + primitive.mode);
+          }
+          if (Object.keys(mesh.geometry.morphAttributes).length > 0) {
+            updateMorphTargets(mesh, meshDef);
+          }
+          mesh.name = parser.createUniqueName(meshDef.name || "mesh_" + meshIndex);
+          assignExtrasToUserData(mesh, meshDef);
+          if (primitive.extensions) addUnknownExtensionsToUserData(extensions, mesh, primitive);
+          parser.assignFinalMaterial(mesh);
+          meshes.push(mesh);
+        }
+        for (let i = 0, il = meshes.length; i < il; i++) {
+          parser.associations.set(meshes[i], {
+            meshes: meshIndex,
+            primitives: i
+          });
+        }
+        if (meshes.length === 1) {
+          if (meshDef.extensions) addUnknownExtensionsToUserData(extensions, meshes[0], meshDef);
+          return meshes[0];
+        }
+        const group = new Group();
+        if (meshDef.extensions) addUnknownExtensionsToUserData(extensions, group, meshDef);
+        parser.associations.set(group, { meshes: meshIndex });
+        for (let i = 0, il = meshes.length; i < il; i++) {
+          group.add(meshes[i]);
+        }
+        return group;
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#cameras
+     *
+     * @private
+     * @param {number} cameraIndex
+     * @return {Promise<Camera>|undefined}
+     */
+    loadCamera(cameraIndex) {
+      let camera2;
+      const cameraDef = this.json.cameras[cameraIndex];
+      const params = cameraDef[cameraDef.type];
+      if (!params) {
+        console.warn("THREE.GLTFLoader: Missing camera parameters.");
+        return;
+      }
+      if (cameraDef.type === "perspective") {
+        camera2 = new PerspectiveCamera(MathUtils.radToDeg(params.yfov), params.aspectRatio || 1, params.znear || 1, params.zfar || 2e6);
+      } else if (cameraDef.type === "orthographic") {
+        camera2 = new OrthographicCamera(-params.xmag, params.xmag, params.ymag, -params.ymag, params.znear, params.zfar);
+      }
+      if (cameraDef.name) camera2.name = this.createUniqueName(cameraDef.name);
+      assignExtrasToUserData(camera2, cameraDef);
+      return Promise.resolve(camera2);
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#skins
+     *
+     * @private
+     * @param {number} skinIndex
+     * @return {Promise<Skeleton>}
+     */
+    loadSkin(skinIndex) {
+      const skinDef = this.json.skins[skinIndex];
+      const pending = [];
+      for (let i = 0, il = skinDef.joints.length; i < il; i++) {
+        pending.push(this._loadNodeShallow(skinDef.joints[i]));
+      }
+      if (skinDef.inverseBindMatrices !== void 0) {
+        pending.push(this.getDependency("accessor", skinDef.inverseBindMatrices));
+      } else {
+        pending.push(null);
+      }
+      return Promise.all(pending).then(function(results) {
+        const inverseBindMatrices = results.pop();
+        const jointNodes = results;
+        const bones = [];
+        const boneInverses = [];
+        for (let i = 0, il = jointNodes.length; i < il; i++) {
+          const jointNode = jointNodes[i];
+          if (jointNode) {
+            bones.push(jointNode);
+            const mat = new Matrix4();
+            if (inverseBindMatrices !== null) {
+              mat.fromArray(inverseBindMatrices.array, i * 16);
+            }
+            boneInverses.push(mat);
+          } else {
+            console.warn('THREE.GLTFLoader: Joint "%s" could not be found.', skinDef.joints[i]);
+          }
+        }
+        return new Skeleton(bones, boneInverses);
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#animations
+     *
+     * @private
+     * @param {number} animationIndex
+     * @return {Promise<AnimationClip>}
+     */
+    loadAnimation(animationIndex) {
+      const json = this.json;
+      const parser = this;
+      const animationDef = json.animations[animationIndex];
+      const animationName = animationDef.name ? animationDef.name : "animation_" + animationIndex;
+      const pendingNodes = [];
+      const pendingInputAccessors = [];
+      const pendingOutputAccessors = [];
+      const pendingSamplers = [];
+      const pendingTargets = [];
+      for (let i = 0, il = animationDef.channels.length; i < il; i++) {
+        const channel = animationDef.channels[i];
+        const sampler = animationDef.samplers[channel.sampler];
+        const target = channel.target;
+        const name = target.node;
+        const input = animationDef.parameters !== void 0 ? animationDef.parameters[sampler.input] : sampler.input;
+        const output = animationDef.parameters !== void 0 ? animationDef.parameters[sampler.output] : sampler.output;
+        if (target.node === void 0) continue;
+        pendingNodes.push(this.getDependency("node", name));
+        pendingInputAccessors.push(this.getDependency("accessor", input));
+        pendingOutputAccessors.push(this.getDependency("accessor", output));
+        pendingSamplers.push(sampler);
+        pendingTargets.push(target);
+      }
+      return Promise.all([
+        Promise.all(pendingNodes),
+        Promise.all(pendingInputAccessors),
+        Promise.all(pendingOutputAccessors),
+        Promise.all(pendingSamplers),
+        Promise.all(pendingTargets)
+      ]).then(function(dependencies) {
+        const nodes = dependencies[0];
+        const inputAccessors = dependencies[1];
+        const outputAccessors = dependencies[2];
+        const samplers = dependencies[3];
+        const targets = dependencies[4];
+        const tracks = [];
+        for (let i = 0, il = nodes.length; i < il; i++) {
+          const node = nodes[i];
+          const inputAccessor = inputAccessors[i];
+          const outputAccessor = outputAccessors[i];
+          const sampler = samplers[i];
+          const target = targets[i];
+          if (node === void 0) continue;
+          if (node.updateMatrix) {
+            node.updateMatrix();
+          }
+          const createdTracks = parser._createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target);
+          if (createdTracks) {
+            for (let k = 0; k < createdTracks.length; k++) {
+              tracks.push(createdTracks[k]);
+            }
+          }
+        }
+        const animation = new AnimationClip(animationName, void 0, tracks);
+        assignExtrasToUserData(animation, animationDef);
+        return animation;
+      });
+    }
+    createNodeMesh(nodeIndex) {
+      const json = this.json;
+      const parser = this;
+      const nodeDef = json.nodes[nodeIndex];
+      if (nodeDef.mesh === void 0) return null;
+      return parser.getDependency("mesh", nodeDef.mesh).then(function(mesh) {
+        const node = parser._getNodeRef(parser.meshCache, nodeDef.mesh, mesh);
+        if (nodeDef.weights !== void 0) {
+          node.traverse(function(o) {
+            if (!o.isMesh) return;
+            for (let i = 0, il = nodeDef.weights.length; i < il; i++) {
+              o.morphTargetInfluences[i] = nodeDef.weights[i];
+            }
+          });
+        }
+        return node;
+      });
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#nodes-and-hierarchy
+     *
+     * @private
+     * @param {number} nodeIndex
+     * @return {Promise<Object3D>}
+     */
+    loadNode(nodeIndex) {
+      const json = this.json;
+      const parser = this;
+      const nodeDef = json.nodes[nodeIndex];
+      const nodePending = parser._loadNodeShallow(nodeIndex);
+      const childPending = [];
+      const childrenDef = nodeDef.children || [];
+      for (let i = 0, il = childrenDef.length; i < il; i++) {
+        childPending.push(parser.getDependency("node", childrenDef[i]));
+      }
+      const skeletonPending = nodeDef.skin === void 0 ? Promise.resolve(null) : parser.getDependency("skin", nodeDef.skin);
+      return Promise.all([
+        nodePending,
+        Promise.all(childPending),
+        skeletonPending
+      ]).then(function(results) {
+        const node = results[0];
+        const children = results[1];
+        const skeleton = results[2];
+        if (skeleton !== null) {
+          node.traverse(function(mesh) {
+            if (!mesh.isSkinnedMesh) return;
+            mesh.bind(skeleton, _identityMatrix2);
+          });
+        }
+        for (let i = 0, il = children.length; i < il; i++) {
+          node.add(children[i]);
+        }
+        if (node.userData.pivot !== void 0 && children.length > 0) {
+          const pivot = node.userData.pivot;
+          const pivotChild = children[0];
+          node.pivot = new Vector3().fromArray(pivot);
+          node.position.x -= pivot[0];
+          node.position.y -= pivot[1];
+          node.position.z -= pivot[2];
+          pivotChild.position.set(0, 0, 0);
+          delete node.userData.pivot;
+        }
+        return node;
+      });
+    }
+    // ._loadNodeShallow() parses a single node.
+    // skin and child nodes are created and added in .loadNode() (no '_' prefix).
+    _loadNodeShallow(nodeIndex) {
+      const json = this.json;
+      const extensions = this.extensions;
+      const parser = this;
+      if (this.nodeCache[nodeIndex] !== void 0) {
+        return this.nodeCache[nodeIndex];
+      }
+      const nodeDef = json.nodes[nodeIndex];
+      const nodeName = nodeDef.name ? parser.createUniqueName(nodeDef.name) : "";
+      const pending = [];
+      const meshPromise = parser._invokeOne(function(ext) {
+        return ext.createNodeMesh && ext.createNodeMesh(nodeIndex);
+      });
+      if (meshPromise) {
+        pending.push(meshPromise);
+      }
+      if (nodeDef.camera !== void 0) {
+        pending.push(parser.getDependency("camera", nodeDef.camera).then(function(camera2) {
+          return parser._getNodeRef(parser.cameraCache, nodeDef.camera, camera2);
+        }));
+      }
+      parser._invokeAll(function(ext) {
+        return ext.createNodeAttachment && ext.createNodeAttachment(nodeIndex);
+      }).forEach(function(promise) {
+        pending.push(promise);
+      });
+      this.nodeCache[nodeIndex] = Promise.all(pending).then(function(objects) {
+        let node;
+        if (nodeDef.isBone === true) {
+          node = new Bone();
+        } else if (objects.length > 1) {
+          node = new Group();
+        } else if (objects.length === 1) {
+          node = objects[0];
+        } else {
+          node = new Object3D();
+        }
+        if (node !== objects[0]) {
+          for (let i = 0, il = objects.length; i < il; i++) {
+            node.add(objects[i]);
+          }
+        }
+        if (nodeDef.name) {
+          node.userData.name = nodeDef.name;
+          node.name = nodeName;
+        }
+        assignExtrasToUserData(node, nodeDef);
+        if (nodeDef.extensions) addUnknownExtensionsToUserData(extensions, node, nodeDef);
+        if (nodeDef.matrix !== void 0) {
+          const matrix = new Matrix4();
+          matrix.fromArray(nodeDef.matrix);
+          node.applyMatrix4(matrix);
+        } else {
+          if (nodeDef.translation !== void 0) {
+            node.position.fromArray(nodeDef.translation);
+          }
+          if (nodeDef.rotation !== void 0) {
+            node.quaternion.fromArray(nodeDef.rotation);
+          }
+          if (nodeDef.scale !== void 0) {
+            node.scale.fromArray(nodeDef.scale);
+          }
+        }
+        if (!parser.associations.has(node)) {
+          parser.associations.set(node, {});
+        } else if (nodeDef.mesh !== void 0 && parser.meshCache.refs[nodeDef.mesh] > 1) {
+          const mapping = parser.associations.get(node);
+          parser.associations.set(node, { ...mapping });
+        }
+        parser.associations.get(node).nodes = nodeIndex;
+        return node;
+      });
+      return this.nodeCache[nodeIndex];
+    }
+    /**
+     * Specification: https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#scenes
+     *
+     * @private
+     * @param {number} sceneIndex
+     * @return {Promise<Group>}
+     */
+    loadScene(sceneIndex) {
+      const extensions = this.extensions;
+      const sceneDef = this.json.scenes[sceneIndex];
+      const parser = this;
+      const scene2 = new Group();
+      if (sceneDef.name) scene2.name = parser.createUniqueName(sceneDef.name);
+      assignExtrasToUserData(scene2, sceneDef);
+      if (sceneDef.extensions) addUnknownExtensionsToUserData(extensions, scene2, sceneDef);
+      const nodeIds = sceneDef.nodes || [];
+      const pending = [];
+      for (let i = 0, il = nodeIds.length; i < il; i++) {
+        pending.push(parser.getDependency("node", nodeIds[i]));
+      }
+      return Promise.all(pending).then(function(nodes) {
+        for (let i = 0, il = nodes.length; i < il; i++) {
+          const node = nodes[i];
+          if (node.parent !== null) {
+            scene2.add(clone(node));
+          } else {
+            scene2.add(node);
+          }
+        }
+        const reduceAssociations = (node) => {
+          const reducedAssociations = /* @__PURE__ */ new Map();
+          for (const [key, value] of parser.associations) {
+            if (key instanceof Material || key instanceof Texture) {
+              reducedAssociations.set(key, value);
+            }
+          }
+          node.traverse((node2) => {
+            const mappings = parser.associations.get(node2);
+            if (mappings != null) {
+              reducedAssociations.set(node2, mappings);
+            }
+          });
+          return reducedAssociations;
+        };
+        parser.associations = reduceAssociations(scene2);
+        return scene2;
+      });
+    }
+    _createAnimationTracks(node, inputAccessor, outputAccessor, sampler, target) {
+      const tracks = [];
+      const targetName = node.name ? node.name : node.uuid;
+      const targetNames = [];
+      function collectMorphTargets(object) {
+        if (object.morphTargetInfluences) {
+          targetNames.push(object.name ? object.name : object.uuid);
+        }
+      }
+      if (PATH_PROPERTIES[target.path] === PATH_PROPERTIES.weights) {
+        collectMorphTargets(node);
+        if (node.isGroup) {
+          node.children.forEach(collectMorphTargets);
+        }
+      } else {
+        targetNames.push(targetName);
+      }
+      let TypedKeyframeTrack;
+      switch (PATH_PROPERTIES[target.path]) {
+        case PATH_PROPERTIES.weights:
+          TypedKeyframeTrack = NumberKeyframeTrack;
+          break;
+        case PATH_PROPERTIES.rotation:
+          TypedKeyframeTrack = QuaternionKeyframeTrack;
+          break;
+        case PATH_PROPERTIES.translation:
+        case PATH_PROPERTIES.scale:
+          TypedKeyframeTrack = VectorKeyframeTrack;
+          break;
+        default:
+          switch (outputAccessor.itemSize) {
+            case 1:
+              TypedKeyframeTrack = NumberKeyframeTrack;
+              break;
+            case 2:
+            case 3:
+            default:
+              TypedKeyframeTrack = VectorKeyframeTrack;
+              break;
+          }
+          break;
+      }
+      const interpolation = sampler.interpolation !== void 0 ? INTERPOLATION[sampler.interpolation] : InterpolateLinear;
+      const outputArray = this._getArrayFromAccessor(outputAccessor);
+      for (let j = 0, jl = targetNames.length; j < jl; j++) {
+        const track = new TypedKeyframeTrack(
+          targetNames[j] + "." + PATH_PROPERTIES[target.path],
+          inputAccessor.array,
+          outputArray,
+          interpolation
+        );
+        if (sampler.interpolation === "CUBICSPLINE") {
+          this._createCubicSplineTrackInterpolant(track);
+        }
+        tracks.push(track);
+      }
+      return tracks;
+    }
+    _getArrayFromAccessor(accessor) {
+      let outputArray = accessor.array;
+      if (accessor.normalized) {
+        const scale = getNormalizedComponentScale(outputArray.constructor);
+        const scaled = new Float32Array(outputArray.length);
+        for (let j = 0, jl = outputArray.length; j < jl; j++) {
+          scaled[j] = outputArray[j] * scale;
+        }
+        outputArray = scaled;
+      }
+      return outputArray;
+    }
+    _createCubicSplineTrackInterpolant(track) {
+      track.createInterpolant = function InterpolantFactoryMethodGLTFCubicSpline(result) {
+        const interpolantType = this instanceof QuaternionKeyframeTrack ? GLTFCubicSplineQuaternionInterpolant : GLTFCubicSplineInterpolant;
+        return new interpolantType(this.times, this.values, this.getValueSize() / 3, result);
+      };
+      track.createInterpolant.isInterpolantFactoryMethodGLTFCubicSpline = true;
+    }
+  };
+  function computeBounds(geometry, primitiveDef, parser) {
+    const attributes = primitiveDef.attributes;
+    const box = new Box3();
+    if (attributes.POSITION !== void 0) {
+      const accessor = parser.json.accessors[attributes.POSITION];
+      const min = accessor.min;
+      const max = accessor.max;
+      if (min !== void 0 && max !== void 0) {
+        box.set(
+          new Vector3(min[0], min[1], min[2]),
+          new Vector3(max[0], max[1], max[2])
+        );
+        if (accessor.normalized) {
+          const boxScale = getNormalizedComponentScale(WEBGL_COMPONENT_TYPES[accessor.componentType]);
+          box.min.multiplyScalar(boxScale);
+          box.max.multiplyScalar(boxScale);
+        }
+      } else {
+        console.warn("THREE.GLTFLoader: Missing min/max properties for accessor POSITION.");
+        return;
+      }
+    } else {
+      return;
+    }
+    const targets = primitiveDef.targets;
+    if (targets !== void 0) {
+      const maxDisplacement = new Vector3();
+      const vector = new Vector3();
+      for (let i = 0, il = targets.length; i < il; i++) {
+        const target = targets[i];
+        if (target.POSITION !== void 0) {
+          const accessor = parser.json.accessors[target.POSITION];
+          const min = accessor.min;
+          const max = accessor.max;
+          if (min !== void 0 && max !== void 0) {
+            vector.setX(Math.max(Math.abs(min[0]), Math.abs(max[0])));
+            vector.setY(Math.max(Math.abs(min[1]), Math.abs(max[1])));
+            vector.setZ(Math.max(Math.abs(min[2]), Math.abs(max[2])));
+            if (accessor.normalized) {
+              const boxScale = getNormalizedComponentScale(WEBGL_COMPONENT_TYPES[accessor.componentType]);
+              vector.multiplyScalar(boxScale);
+            }
+            maxDisplacement.max(vector);
+          } else {
+            console.warn("THREE.GLTFLoader: Missing min/max properties for accessor POSITION.");
+          }
+        }
+      }
+      box.expandByVector(maxDisplacement);
+    }
+    geometry.boundingBox = box;
+    const sphere = new Sphere();
+    box.getCenter(sphere.center);
+    sphere.radius = box.min.distanceTo(box.max) / 2;
+    geometry.boundingSphere = sphere;
+  }
+  function addPrimitiveAttributes(geometry, primitiveDef, parser) {
+    const attributes = primitiveDef.attributes;
+    const pending = [];
+    function assignAttributeAccessor(accessorIndex, attributeName) {
+      return parser.getDependency("accessor", accessorIndex).then(function(accessor) {
+        geometry.setAttribute(attributeName, accessor);
+      });
+    }
+    for (const gltfAttributeName in attributes) {
+      const threeAttributeName = ATTRIBUTES[gltfAttributeName] || gltfAttributeName.toLowerCase();
+      if (threeAttributeName in geometry.attributes) continue;
+      pending.push(assignAttributeAccessor(attributes[gltfAttributeName], threeAttributeName));
+    }
+    if (primitiveDef.indices !== void 0 && !geometry.index) {
+      const accessor = parser.getDependency("accessor", primitiveDef.indices).then(function(accessor2) {
+        geometry.setIndex(accessor2);
+      });
+      pending.push(accessor);
+    }
+    if (ColorManagement.workingColorSpace !== LinearSRGBColorSpace && "COLOR_0" in attributes) {
+      console.warn(`THREE.GLTFLoader: Converting vertex colors from "srgb-linear" to "${ColorManagement.workingColorSpace}" not supported.`);
+    }
+    assignExtrasToUserData(geometry, primitiveDef);
+    computeBounds(geometry, primitiveDef, parser);
+    return Promise.all(pending).then(function() {
+      return primitiveDef.targets !== void 0 ? addMorphTargets(geometry, primitiveDef.targets, parser) : geometry;
+    });
+  }
+
   // node_modules/three/examples/jsm/controls/OrbitControls.js
   var _changeEvent = { type: "change" };
   var _startEvent = { type: "start" };
   var _endEvent = { type: "end" };
-  var _ray = new Ray();
+  var _ray2 = new Ray();
   var _plane = new Plane();
   var _TILT_LIMIT = Math.cos(70 * MathUtils.DEG2RAD);
   var _v = new Vector3();
@@ -27179,13 +38651,13 @@ void main() {
           if (this.screenSpacePanning) {
             this.target.set(0, 0, -1).transformDirection(this.object.matrix).multiplyScalar(newRadius).add(this.object.position);
           } else {
-            _ray.origin.copy(this.object.position);
-            _ray.direction.set(0, 0, -1).transformDirection(this.object.matrix);
-            if (Math.abs(this.object.up.dot(_ray.direction)) < _TILT_LIMIT) {
+            _ray2.origin.copy(this.object.position);
+            _ray2.direction.set(0, 0, -1).transformDirection(this.object.matrix);
+            if (Math.abs(this.object.up.dot(_ray2.direction)) < _TILT_LIMIT) {
               this.object.lookAt(this.target);
             } else {
               _plane.setFromNormalAndCoplanarPoint(this.object.up, this.target);
-              _ray.intersectPlane(_plane, this.target);
+              _ray2.intersectPlane(_plane, this.target);
             }
           }
         }
@@ -27746,8 +39218,14 @@ void main() {
   }
 
   // <stdin>
+  var import_lodash = __toESM(require_lodash());
+  var loadedStimuli = [];
+  var manager = new LoadingManager();
+  manager.onLoad = function() {
+    animate();
+  };
   var scene = new Scene();
-  scene.background = new Color("rgb(245,245,245)");
+  scene.fog = new FogExp2(657938, 0.01);
   var container = document.querySelector("div.post-content.md-content");
   var width = container.clientWidth;
   var height = 500;
@@ -27755,24 +39233,188 @@ void main() {
   var renderer = new WebGLRenderer({ antialias: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setClearColor("#ffffff");
+  renderer.setClearColor(657938, 1);
   var camera = new PerspectiveCamera(10, width / height, 0.75, 1e3);
   camera.position.z = 20;
   document.getElementById("three-root").appendChild(renderer.domElement);
-  var ambientLight = new AmbientLight(16777215, 0.8);
+  var ambientLight = new AmbientLight(16777215, 1.8);
   scene.add(ambientLight);
-  var geometry = new BoxGeometry(1, 1, 1);
-  var material = new MeshStandardMaterial({ color: 65280 });
-  var cube = new Mesh(geometry, material);
-  scene.add(cube);
+  var dirLight = new DirectionalLight(8956671, 1.2);
+  dirLight.position.set(5, 8, 6);
+  scene.add(dirLight);
+  var rimLight = new DirectionalLight(16737860, 0.5);
+  rimLight.position.set(-5, -4, -3);
+  scene.add(rimLight);
+  var SPHERE_R = 4;
+  var CUBE_HALF = 0.28;
+  var PALETTE = [6706653, 4504524, 16737860, 16755234, 5622903, 14501034, 3381759, 15658581];
+  var SPEED = 0.01;
+  var TOTAL_CUBES = 20;
+  var cubes = [];
+  var cubeHalves = [];
+  var velocities = [];
+  var rotVelocities = [];
+  var timer = new Timer();
+  var sphereGeo = new SphereGeometry(SPHERE_R, 32, 32);
+  var sphereMat = new MeshBasicMaterial({ color: 3359846, wireframe: true, transparent: true, opacity: 0.12 });
+  var sphereMesh = new Mesh(sphereGeo, sphereMat);
+  scene.add(sphereMesh);
+  function randInSphere(r) {
+    let v;
+    do {
+      v = new Vector3(
+        import_lodash.default.random(-1, 1, true),
+        import_lodash.default.random(-1, 1, true),
+        import_lodash.default.random(-1, 1, true)
+      );
+    } while (v.length() > 1);
+    return v.multiplyScalar(r * 0.8);
+  }
+  function randVel() {
+    return new Vector3(
+      import_lodash.default.random(-1, 1, true),
+      import_lodash.default.random(-1, 1, true),
+      import_lodash.default.random(-1, 1, true)
+    ).normalize().multiplyScalar(SPEED);
+  }
+  function randRotVel() {
+    return new Vector3(
+      import_lodash.default.random(-0.03, 0.03, true),
+      import_lodash.default.random(-0.03, 0.03, true),
+      import_lodash.default.random(-0.03, 0.03, true)
+    );
+  }
+  function buildCubes() {
+    for (let i = 0; i < TOTAL_CUBES; i++) {
+      const half = CUBE_HALF * import_lodash.default.random(0.25, 1, true);
+      const geo = new BoxGeometry(half * 2, half * 2, half * 2);
+      const mat = new MeshPhongMaterial({
+        color: PALETTE[i % PALETTE.length],
+        shininess: 90,
+        flatShading: false
+      });
+      const mesh = new Mesh(geo, mat);
+      mesh.position.copy(randInSphere(SPHERE_R));
+      scene.add(mesh);
+      cubes.push(mesh);
+      cubeHalves.push(half);
+      velocities.push(randVel());
+      rotVelocities.push(randRotVel());
+    }
+  }
+  buildCubes();
+  function applyVelocities(cube, vel, rotVel, delta) {
+    cube.position.addScaledVector(vel, delta * 60);
+    cube.rotation.x += rotVel.x * delta * 60;
+    cube.rotation.y += rotVel.y * delta * 60;
+    cube.rotation.z += rotVel.z * delta * 60;
+  }
+  function checkIfInSphere(cube, half) {
+    return cube.position.length() > SPHERE_R - half * 1.5;
+  }
+  function reflectBack(cube, vel, half) {
+    const dist = cube.position.length();
+    const normal = cube.position.clone().divideScalar(dist);
+    vel.reflect(normal);
+    cube.position.copy(normal.multiplyScalar(SPHERE_R - half * 1.5));
+  }
+  function processCollisions(cube, vel, half, i, delta) {
+    const pos = cube.position;
+    for (let j = i + 1; j < TOTAL_CUBES; j++) {
+      const posJ = cubes[j].position;
+      const dx = pos.x - posJ.x;
+      const dy = pos.y - posJ.y;
+      const dz = pos.z - posJ.z;
+      const distSq = dx * dx + dy * dy + dz * dz;
+      const contactDist = (half + cubeHalves[j]) * 2.2;
+      const contactDistSq = contactDist * contactDist;
+      if (distSq < contactDistSq && distSq > 1e-4) {
+        const sep = Math.sqrt(distSq);
+        const invSep = 1 / sep;
+        const ax = dx * invSep;
+        const ay = dy * invSep;
+        const az = dz * invSep;
+        const velJ = velocities[j];
+        const dotI = vel.x * ax + vel.y * ay + vel.z * az;
+        const dotJ = velJ.x * ax + velJ.y * ay + velJ.z * az;
+        const dDot = dotI - dotJ;
+        vel.x -= dDot * ax;
+        vel.y -= dDot * ay;
+        vel.z -= dDot * az;
+        velJ.x += dDot * ax;
+        velJ.y += dDot * ay;
+        velJ.z += dDot * az;
+        const push = (contactDist - sep) * 0.5 * delta * 60 + 0.01;
+        const scale = push * invSep;
+        pos.x += dx * scale;
+        pos.y += dy * scale;
+        pos.z += dz * scale;
+        posJ.x -= dx * scale;
+        posJ.y -= dy * scale;
+        posJ.z -= dz * scale;
+      }
+    }
+  }
+  function update(delta) {
+    for (let i = 0; i < TOTAL_CUBES; i++) {
+      const cube = cubes[i];
+      const vel = velocities[i];
+      const rotVel = rotVelocities[i];
+      const half = cubeHalves[i];
+      applyVelocities(cube, vel, rotVel, delta);
+      if (checkIfInSphere(cube, half)) {
+        reflectBack(cube, vel, half);
+      }
+      processCollisions(cube, vel, half, i, delta);
+    }
+    sphereMesh.rotation.y += 2e-3 * delta * 60;
+  }
+  function preLoadModels() {
+    const objectLoader = new GLTFLoader(manager);
+    let stimuliToLoad = ["DISTRACTOR_CUBE_1.glb"];
+    let modelPath = "/models/";
+    for (let i = 0; i < stimuliToLoad.length; i++) {
+      objectLoader.load(
+        // resource URL
+        modelPath + stimuliToLoad[i] + ".glb",
+        // called when the resource is loaded
+        function(gltf) {
+          let model = gltf.scene;
+          loadedStimuli.push(model);
+          scene.add(model);
+        },
+        function(xhr) {
+          console.log(xhr.loaded / xhr.total * 100 + "% loaded");
+        },
+        // called when loading has errors
+        function(error2) {
+          console.log("An error happened", error2);
+        }
+      );
+    }
+    ;
+  }
   var controls = new OrbitControls(camera, renderer.domElement);
-  animate();
   function animate() {
     requestID = requestAnimationFrame(animate);
+    timer.update();
+    const delta = Math.min(timer.getDelta(), 0.1);
+    update(delta);
     renderer.render(scene, camera);
   }
+  preLoadModels();
 })();
 /*! Bundled license information:
+
+lodash/lodash.js:
+  (**
+   * @license
+   * Lodash <https://lodash.com/>
+   * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+   * Released under MIT license <https://lodash.com/license>
+   * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+   * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+   *)
 
 three/build/three.core.js:
 three/build/three.module.js:
