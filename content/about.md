@@ -56,6 +56,12 @@ Deverill, E., Dewis, H., Lepori, F., Maiello, G., Russell, I. H., & Godwin, H. J
 ### Prasad Mane
 
 
+{{< aboutImage
+    src="/searchLab/images/Prasad.JPG"
+    alt="Portrait"
+    width="250"
+>}}
+
 Prasad Mane is currently a second-year PhD student at the University of Southampton. His research interests include visual attention, working memory, and visual awareness. He has been working on Multiple Object Tracking and Multiple Object Awareness paradigms using methods such as eye tracking and behavioral experiments. More recently, he has been involved in collaborative open science research projects. In addition to his research, he spends part of his time assisting Hayward and other lecturers with teaching duties. Outside of work, he enjoys playing sports with colleagues on campus.
 
 Publications
@@ -64,6 +70,14 @@ Presentations
 
 
 ### Mansi Pattni
+
+
+{{< aboutImage
+    src="/searchLab/images/Mansi.jpg"
+    alt="Portrait"
+    width="250"
+>}}
+
 
 Mansi Pattni is a PhD candidate in Psychology at the University of Southampton. Her research focuses on understanding and combating misinformation in the age of generative artificial intelligence. Specifically, she investigates how people detect and evaluate hyperrealistic AI-generated images, and develops interventions designed to improve human discrimination between authentic and synthetic content. Drawing on her interdisciplinary background in psychology and journalism, Mansi examines the cognitive processes underlying image perception, trust, and decision-making. Her work aims to contribute to evidence-based solutions that help people navigate complex digital environments and become more resilient to visual misinformation.
 
