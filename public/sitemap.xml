@@ -3,17 +3,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://hjgodwin.github.io/searchLab/</loc>
+    <loc>http://localhost:1313/searchLab/</loc>
     <lastmod>2026-05-22T22:55:18+01:00</lastmod>
   </url><url>
-    <loc>https://hjgodwin.github.io/searchLab/about/</loc>
+    <loc>http://localhost:1313/searchLab/about/</loc>
   </url><url>
-    <loc>https://hjgodwin.github.io/searchLab/categories/</loc>
+    <loc>http://localhost:1313/searchLab/categories/</loc>
   </url><url>
-    <loc>https://hjgodwin.github.io/searchLab/presentations/</loc>
+    <loc>http://localhost:1313/searchLab/presentations/</loc>
   </url><url>
-    <loc>https://hjgodwin.github.io/searchLab/publications/</loc>
+    <loc>http://localhost:1313/searchLab/publications/</loc>
   </url><url>
-    <loc>https://hjgodwin.github.io/searchLab/tags/</loc>
+    <loc>http://localhost:1313/searchLab/tags/</loc>
   </url>
 </urlset>
