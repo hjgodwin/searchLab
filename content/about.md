@@ -11,7 +11,7 @@ Our team is based at the University of Southampton, UK - here's some more inform
 ### Hayward Godwin
 
 {{< aboutImage
-    src="/images/hayward.jpg"
+    src="searchLab/images/hayward.jpg"
     alt="Portrait"
     width="250"
 >}}
@@ -26,7 +26,7 @@ A full list of my publications can be found here.
 ### Haden Dewis
 
 {{< aboutImage
-    src="/images/haden.jpg"
+    src="searchLab/images/haden.jpg"
     alt="Portrait"
     width="250"
 >}}
