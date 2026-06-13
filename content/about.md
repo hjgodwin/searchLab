@@ -34,43 +34,46 @@ A full list of my publications can be found here.
 Haden Dewis is currently a lecturer and post-doc at the University of Southampton. Much of his research focuses on attention, cognition, and how these combine with physical interactions during tasks within the real world. Haden has experience in a range of experimental methodologies including eye tracking, motion tracking, computer vision, and standard psychology-based behavioural techniques. Unsurprisingly, Haden has a particular interests in programming and complex data analyses. More recently, Haden has branched out into open science research, specifically regarding data sharing and how this can be improved, and clinical research with a focus on eye movements and working memory during traumatic experiences.
  
 Publications                                                                                                                
+Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). No Stone Unturned: Prevalence Effects in Interactive Search are Different to Those in Visual Search. *Psychonomic Bulletin & Review.* 33(154). https://doi.org/10.3758/s13423-026-02919-2
 
-Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). No Stone Unturned: Prevalence Effects in Interactive Search are Different to Those in Visual Search. Psychon Bulletin & Review 33(154). https://doi.org/10.3758/s13423-026-02919-2
-Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). What Drives Object Selection? The Combined Role of Temporal Costs and Effort during Interactive Search. Quarterly Journal of Experimental Psychology (in press). https://doi.org/10.1177/17470218261436006
-University of Southampton Psychology Collaboration, Maiello, G., Pooresmaeili, A., Morriss, J., Howsley, L., Deverill, E., Dewis, H., & Godwin, H. J. (2026). Fixation termination during visual search with simulated visual impairments. Journal of Cognitive Psychology, 38(1), 54–64. https://doi.org/10.1080/20445911.2025.2586787.
-Dewis H., Godwin, H. J., Houpt, J. W., Hout, M. C., & Howsley, L. (2026). Low Prevalence Targets are Primarily missed due to Mind Wandering. Attention, Perception & Psychophysics (in press).
-Palmer-Cooper., E., C., Mamode., L., E., Dewis, H., & Woollard D. (2026). Exploring Predictors of Phantom Phone Signals: Phone Use, Hallucination-Proneness and Delusional Ideation. Cognitive Neuropsychiatry (in press).
-Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2025). Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily. Attention, Perception, & Psychophysics. https://doi.org/10.3758/s13414-025-03083-w
-Godwin, H. J., Dewis, H., Wolfe, J. M., Hout, M. C., Broadbent, P., Darch, P. T., & Ernst. D. (2025). A sharing practices review of the visual search and eye movements literature reveals recommendations for our field and others. Behavioral Research Methods. https://doi.org/10.3758/s13428-025-02759-3
-Deverill, E., Dewis, H., Lepori, F., Maiello, G., Russell, I. H., & Godwin, H. J. (2025). How do the effects of effort influence interactive search behavior? Visual Cognition, 33(6), 383–395. https://doi.org/10.1080/13506285.2026.2616307
-Godwin, H. J., Liversedge, S. P., Mestry, N., Dewis, H., & Donnelly, N. (2024). Time on task effects during interactive visual search. Journal of Experimental Psychology: Applied. https://doi.org/10.1037/xap0000521
-Witzel, C., & Dewis, H. (2022). Why bananas look yellow: The dominant hue of object colours. Vision Research, 200, 108078. https://doi.org/10.1016/j.visres.2022.108078
+Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). What Drives Object Selection? The Combined Role of Temporal Costs and Effort during Interactive Search. *Quarterly Journal of Experimental Psychology.* (in press). https://doi.org/10.1177/17470218261436006
+
+University of Southampton Psychology Collaboration, Maiello, G., Pooresmaeili, A., Morriss, J., Howsley, L., Deverill, E., Dewis, H., & Godwin, H. J. (2026). Fixation termination during visual search with simulated visual impairments. *Journal of Cognitive Psychology*, 38(1), 54–64. https://doi.org/10.1080/20445911.2025.2586787.
+
+Dewis H., Godwin, H. J., Houpt, J. W., Hout, M. C., & Howsley, L. (2026). Low Prevalence Targets are Primarily missed due to Mind Wandering. *Attention, Perception & Psychophysics.* (in press).
+
+Palmer-Cooper., E., C., Mamode., L., E., Dewis, H., & Woollard D. (2026). Exploring Predictors of Phantom Phone Signals: Phone Use, Hallucination-Proneness and Delusional Ideation. *Cognitive Neuropsychiatry*. (in press).
+
+Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2025). Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily. *Attention, Perception, & Psychophysics*. https://doi.org/10.3758/s13414-025-03083-w
+
+Godwin, H. J., Dewis, H., Wolfe, J. M., Hout, M. C., Broadbent, P., Darch, P. T., & Ernst. D. (2025). A sharing practices review of the visual search and eye movements literature reveals recommendations for our field and others. *Behavioral Research Methods.* https://doi.org/10.3758/s13428-025-02759-3
+
+Deverill, E., Dewis, H., Lepori, F., Maiello, G., Russell, I. H., & Godwin, H. J. (2025). How do the effects of effort influence interactive search behavior? *Visual Cognition*, 33(6), 383–395. https://doi.org/10.1080/13506285.2026.2616307
+
+Godwin, H. J., Liversedge, S. P., Mestry, N., Dewis, H., & Donnelly, N. (2024). Time on task effects during interactive visual search. *Journal of Experimental Psychology: Applied*. https://doi.org/10.1037/xap0000521
+
+Witzel, C., & Dewis, H. (2022). Why bananas look yellow: The dominant hue of object colours. *Vision Research*, 200, 108078. https://doi.org/10.1016/j.visres.2022.108078
  
 Presentations 
 
-Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2025). Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily. Applied Vision Association 30th Christmas Meeting 2025
-Dewis, H., Godwin, H. J., Liversedge, S. P., Mestry, N., & Donnelly, N. (2025). Time on task effects during interactive visual search. The UKRI Defence & Security Symposium 2025.
-Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2024). An Interdisciplinary Approach to Understanding why Targets Are Missed During Interactive Searches. South Coast Doctoral Training Partnership Final Year Conference 2025.
-Dewis, H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2024). I’ll Believe it When I See It: How the Effects of Low Target Prevalence are Manifested in Interactive Search Tasks. Centre of Cognition and Perception Talks 2024.
-Godwin, H. J., Liversedge, S. P., Mestry, N., Dewis, H., & Donnelly, N. (2024). Time on task effects during interactive visual search. The UKRI Defence and Security Conference 2023.
-Godwin, H. J., Broadbent, P., & Dewis, H. (2023). The MARQUEE Project: Marking Assessments and Reviewing them Quickly, Easily, and Efficiently. The Centre for Higher Education Festival 2023.
+Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2025). Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily. Applied Vision Association 30th Christmas Meeting 2025.
+
 Witzel, C., & Dewis, H. (2021, 1-3. December 2021). Why bananas are yellow: The dominant hue of object colours. Neuromatch 4.0, Online.
+
 Witzel, C., & Dewis, H. (2021). Why bananas look yellow: The Dominant Hue of Object Colours. The 43rd European Conference on Visual Perception 2021. Perception, 50, 92.
+
 Dewis, H., & Palmer-Cooper., E., C. (2021). Phantom Phone Signals: Relationship with Hallucinations and Delusions. The Early Careers Hallucination Research Conference 2021.
 No stone unturned: Prevalence effects in interactive search are different than those in visual search
-Psychonomic Bulletin & Review - When carrying out a search for a target object, manipulation with the environment may be required to successfully detect the target. These searches are known as...
- 
 
 ### Emma Deverill
-
 
 I am currently a PhD student at the University of Southampton, where I also completed my BSc and MSc degrees. During this time, Hayward has been the primary supervisor for all of my research projects. Much of my research focuses on search behaviour, mostly looking into physical interactivity with arrays, attention, and differences between real-world and virtual environments. I have experience with passive marker motion capture, eye-tracking, computer-based metrics, and standard behavioural measures.
  
 Publications
 
-University of Southampton Psychology Collaboration, Maiello, G., Pooresmaeili, A., Morriss, J., Howsley, L., Deverill, E., Dewis, H., & Godwin, H. J. (2026). Fixation termination during visual search with simulated visual impairments. Journal of Cognitive Psychology, 38(1), 54–64. https://doi.org/10.1080/20445911.2025.2586787
+University of Southampton Psychology Collaboration, Maiello, G., Pooresmaeili, A., Morriss, J., Howsley, L., Deverill, E., Dewis, H., & Godwin, H. J. (2026). Fixation termination during visual search with simulated visual impairments. *Journal of Cognitive Psychology*, 38(1), 54–64. https://doi.org/10.1080/20445911.2025.2586787
 
-Deverill, E., Dewis, H., Lepori, F., Maiello, G., Russell, I. H., & Godwin, H. J. (2025). How do the effects of effort influence interactive search behavior? Visual Cognition, 33(6), 383–395. https://doi.org/10.1080/13506285.2026.2616307
+Deverill, E., Dewis, H., Lepori, F., Maiello, G., Russell, I. H., & Godwin, H. J. (2025). How do the effects of effort influence interactive search behavior? *Visual Cognition*, 33(6), 383–395. https://doi.org/10.1080/13506285.2026.2616307
 
 Presentations
 
@@ -107,14 +110,15 @@ Mane, P., Dewis, H., & Godwin, H. (2025). Beyond the binary: Eye tracking eviden
 
 Mansi Pattni is a PhD candidate in Psychology at the University of Southampton. Her research focuses on understanding and combating misinformation in the age of generative artificial intelligence. Specifically, she investigates how people detect and evaluate hyperrealistic AI-generated images, and develops interventions designed to improve human discrimination between authentic and synthetic content. Drawing on her interdisciplinary background in psychology and journalism, Mansi examines the cognitive processes underlying image perception, trust, and decision-making. Her work aims to contribute to evidence-based solutions that help people navigate complex digital environments and become more resilient to visual misinformation.
 
-Research:
+Publications
 
 Seabrooke, T., Pattni, M., & Higham, P. A. (2025). Enhancing human detection of real and AI-generated hyperrealistic faces. PsyArXiv. 10.31234/osf.io/xjemh_v1
 Wimmer, M., Skelton, F., Webster, T. C., Ullah, M. Z., Alexander, K., Spencer, E., Howarth, A., Marshall, M., Pasternak, N., Robertson, D., Brown, P., Gummerum, M., Skipper, Y., Wright, J., Modirrousta-Galian, A., Pattni, M., Seabrooke, T., Higham, P., Talley, A., ... Collomosse, J. (2025). FalseWebs Network Policy Paper: Understanding and Addressing Misinformation in Scotland. Open Science Framework. https://doi.org/10.31234/osf.io/nw73u_v1
 
-Presentations:
+Presentations
 
 Pattni, M., Seabrooke, T., & Higham, P. (2024, September 25–27). Developing interventions to help people discriminate between AI-generated and real images of human faces [Invited talk]. RSE False Webs Conference, Edinburgh Napier University, Edinburgh, United Kingdom.
+
 Pattni, M., Seabrooke, T., & Higham, P. (2025, January 8–10). Enhancing human detection of real and AI-generated hyperrealistic faces [Paper presentation]. Experimental Psychology Society Conference, University College London, London, United Kingdom.
 Pattni, M., Seabrooke, T., & Higham, P. (2025, March 20). Enhancing human detection of real and AI-generated hyperrealistic faces [Invited talk]. Emotions and Health Lab, Australian National University. (Online)
 
