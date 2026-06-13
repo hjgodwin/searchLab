@@ -228,7 +228,7 @@ function preLoadModels() {
 }
 
 
-const controls = new OrbitControls(camera, renderer.domElement);
+//const controls = new OrbitControls(camera, renderer.domElement);
 
 function animate() {
   requestID = requestAnimationFrame(animate);
