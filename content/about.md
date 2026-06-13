@@ -21,7 +21,7 @@ I am currently an Associate Professor and have been working at the University of
 
 I am currently the Director of the Psychology BSc course in our department; prior to this, I had the same role overseeing the MSc Psychology course. At present, I don't have a great deal of teaching, but get to supervise dissertation students and teach the Open Science in Psychology MSc course module.
 
-A full list of my publications can be found here.
+A full list of my publications can be found [here]({{< ref "content/publications" >}}) and presentations can be found [here]().
 
 ### Haden Dewis
 
