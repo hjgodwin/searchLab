@@ -5525,8 +5525,6 @@
 
   // node_modules/three/build/three.core.js
   var REVISION = "184";
-  var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
-  var TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
   var CullFaceNone = 0;
   var CullFaceBack = 1;
   var CullFaceFront = 2;
@@ -5913,8 +5911,8 @@
   function randFloatSpread(range) {
     return range * (0.5 - Math.random());
   }
-  function seededRandom(s) {
-    if (s !== void 0) _seed = s;
+  function seededRandom(s2) {
+    if (s2 !== void 0) _seed = s2;
     let t = _seed += 1831565813;
     t = Math.imul(t ^ t >>> 15, t | 1);
     t ^= t + Math.imul(t ^ t >>> 7, t | 61);
@@ -6404,9 +6402,9 @@
      * @param {number} s - The scalar to add.
      * @return {Vector2} A reference to this vector.
      */
-    addScalar(s) {
-      this.x += s;
-      this.y += s;
+    addScalar(s2) {
+      this.x += s2;
+      this.y += s2;
       return this;
     }
     /**
@@ -6428,9 +6426,9 @@
      * @param {number} s - The factor that scales `v`.
      * @return {Vector2} A reference to this vector.
      */
-    addScaledVector(v, s) {
-      this.x += v.x * s;
-      this.y += v.y * s;
+    addScaledVector(v, s2) {
+      this.x += v.x * s2;
+      this.y += v.y * s2;
       return this;
     }
     /**
@@ -6450,9 +6448,9 @@
      * @param {number} s - The scalar to subtract.
      * @return {Vector2} A reference to this vector.
      */
-    subScalar(s) {
-      this.x -= s;
-      this.y -= s;
+    subScalar(s2) {
+      this.x -= s2;
+      this.y -= s2;
       return this;
     }
     /**
@@ -6840,11 +6838,11 @@
      * @return {Vector2} A reference to this vector.
      */
     rotateAround(center, angle) {
-      const c = Math.cos(angle), s = Math.sin(angle);
+      const c = Math.cos(angle), s2 = Math.sin(angle);
       const x = this.x - center.x;
       const y = this.y - center.y;
-      this.x = x * c - y * s + center.x;
-      this.y = x * s + y * c + center.y;
+      this.x = x * c - y * s2 + center.x;
+      this.y = x * s2 + y * c + center.y;
       return this;
     }
     /**
@@ -6904,21 +6902,21 @@
           w1 = -w1;
           dot = -dot;
         }
-        let s = 1 - t;
+        let s2 = 1 - t;
         if (dot < 0.9995) {
           const theta = Math.acos(dot);
           const sin = Math.sin(theta);
-          s = Math.sin(s * theta) / sin;
+          s2 = Math.sin(s2 * theta) / sin;
           t = Math.sin(t * theta) / sin;
-          x0 = x0 * s + x1 * t;
-          y0 = y0 * s + y1 * t;
-          z0 = z0 * s + z1 * t;
-          w0 = w0 * s + w1 * t;
+          x0 = x0 * s2 + x1 * t;
+          y0 = y0 * s2 + y1 * t;
+          z0 = z0 * s2 + z1 * t;
+          w0 = w0 * s2 + w1 * t;
         } else {
-          x0 = x0 * s + x1 * t;
-          y0 = y0 * s + y1 * t;
-          z0 = z0 * s + z1 * t;
-          w0 = w0 * s + w1 * t;
+          x0 = x0 * s2 + x1 * t;
+          y0 = y0 * s2 + y1 * t;
+          z0 = z0 * s2 + z1 * t;
+          w0 = w0 * s2 + w1 * t;
           const f = 1 / Math.sqrt(x0 * x0 + y0 * y0 + z0 * z0 + w0 * w0);
           x0 *= f;
           y0 *= f;
@@ -7119,10 +7117,10 @@
      * @return {Quaternion} A reference to this quaternion.
      */
     setFromAxisAngle(axis, angle) {
-      const halfAngle = angle / 2, s = Math.sin(halfAngle);
-      this._x = axis.x * s;
-      this._y = axis.y * s;
-      this._z = axis.z * s;
+      const halfAngle = angle / 2, s2 = Math.sin(halfAngle);
+      this._x = axis.x * s2;
+      this._y = axis.y * s2;
+      this._z = axis.z * s2;
       this._w = Math.cos(halfAngle);
       this._onChangeCallback();
       return this;
@@ -7136,29 +7134,29 @@
     setFromRotationMatrix(m) {
       const te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10], trace = m11 + m22 + m33;
       if (trace > 0) {
-        const s = 0.5 / Math.sqrt(trace + 1);
-        this._w = 0.25 / s;
-        this._x = (m32 - m23) * s;
-        this._y = (m13 - m31) * s;
-        this._z = (m21 - m12) * s;
+        const s2 = 0.5 / Math.sqrt(trace + 1);
+        this._w = 0.25 / s2;
+        this._x = (m32 - m23) * s2;
+        this._y = (m13 - m31) * s2;
+        this._z = (m21 - m12) * s2;
       } else if (m11 > m22 && m11 > m33) {
-        const s = 2 * Math.sqrt(1 + m11 - m22 - m33);
-        this._w = (m32 - m23) / s;
-        this._x = 0.25 * s;
-        this._y = (m12 + m21) / s;
-        this._z = (m13 + m31) / s;
+        const s2 = 2 * Math.sqrt(1 + m11 - m22 - m33);
+        this._w = (m32 - m23) / s2;
+        this._x = 0.25 * s2;
+        this._y = (m12 + m21) / s2;
+        this._z = (m13 + m31) / s2;
       } else if (m22 > m33) {
-        const s = 2 * Math.sqrt(1 + m22 - m11 - m33);
-        this._w = (m13 - m31) / s;
-        this._x = (m12 + m21) / s;
-        this._y = 0.25 * s;
-        this._z = (m23 + m32) / s;
+        const s2 = 2 * Math.sqrt(1 + m22 - m11 - m33);
+        this._w = (m13 - m31) / s2;
+        this._x = (m12 + m21) / s2;
+        this._y = 0.25 * s2;
+        this._z = (m23 + m32) / s2;
       } else {
-        const s = 2 * Math.sqrt(1 + m33 - m11 - m22);
-        this._w = (m21 - m12) / s;
-        this._x = (m13 + m31) / s;
-        this._y = (m23 + m32) / s;
-        this._z = 0.25 * s;
+        const s2 = 2 * Math.sqrt(1 + m33 - m11 - m22);
+        this._w = (m21 - m12) / s2;
+        this._x = (m13 + m31) / s2;
+        this._y = (m23 + m32) / s2;
+        this._z = 0.25 * s2;
       }
       this._onChangeCallback();
       return this;
@@ -7354,22 +7352,22 @@
         w = -w;
         dot = -dot;
       }
-      let s = 1 - t;
+      let s2 = 1 - t;
       if (dot < 0.9995) {
         const theta = Math.acos(dot);
         const sin = Math.sin(theta);
-        s = Math.sin(s * theta) / sin;
+        s2 = Math.sin(s2 * theta) / sin;
         t = Math.sin(t * theta) / sin;
-        this._x = this._x * s + x * t;
-        this._y = this._y * s + y * t;
-        this._z = this._z * s + z * t;
-        this._w = this._w * s + w * t;
+        this._x = this._x * s2 + x * t;
+        this._y = this._y * s2 + y * t;
+        this._z = this._z * s2 + z * t;
+        this._w = this._w * s2 + w * t;
         this._onChangeCallback();
       } else {
-        this._x = this._x * s + x * t;
-        this._y = this._y * s + y * t;
-        this._z = this._z * s + z * t;
-        this._w = this._w * s + w * t;
+        this._x = this._x * s2 + x * t;
+        this._y = this._y * s2 + y * t;
+        this._z = this._z * s2 + z * t;
+        this._w = this._w * s2 + w * t;
         this.normalize();
       }
       return this;
@@ -7632,10 +7630,10 @@
      * @param {number} s - The scalar to add.
      * @return {Vector3} A reference to this vector.
      */
-    addScalar(s) {
-      this.x += s;
-      this.y += s;
-      this.z += s;
+    addScalar(s2) {
+      this.x += s2;
+      this.y += s2;
+      this.z += s2;
       return this;
     }
     /**
@@ -7658,10 +7656,10 @@
      * @param {number} s - The factor that scales `v`.
      * @return {Vector3} A reference to this vector.
      */
-    addScaledVector(v, s) {
-      this.x += v.x * s;
-      this.y += v.y * s;
-      this.z += v.z * s;
+    addScaledVector(v, s2) {
+      this.x += v.x * s2;
+      this.y += v.y * s2;
+      this.z += v.z * s2;
       return this;
     }
     /**
@@ -7682,10 +7680,10 @@
      * @param {number} s - The scalar to subtract.
      * @return {Vector3} A reference to this vector.
      */
-    subScalar(s) {
-      this.x -= s;
-      this.y -= s;
-      this.z -= s;
+    subScalar(s2) {
+      this.x -= s2;
+      this.y -= s2;
+      this.z -= s2;
       return this;
     }
     /**
@@ -8188,8 +8186,8 @@
      * @param {Spherical} s - The spherical coordinates.
      * @return {Vector3} A reference to this vector.
      */
-    setFromSpherical(s) {
-      return this.setFromSphericalCoords(s.radius, s.phi, s.theta);
+    setFromSpherical(s2) {
+      return this.setFromSphericalCoords(s2.radius, s2.phi, s2.theta);
     }
     /**
      * Sets the vector components from the given spherical coordinates.
@@ -8578,17 +8576,17 @@
      * @param {number} s - The scalar.
      * @return {Matrix3} A reference to this matrix.
      */
-    multiplyScalar(s) {
+    multiplyScalar(s2) {
       const te = this.elements;
-      te[0] *= s;
-      te[3] *= s;
-      te[6] *= s;
-      te[1] *= s;
-      te[4] *= s;
-      te[7] *= s;
-      te[2] *= s;
-      te[5] *= s;
-      te[8] *= s;
+      te[0] *= s2;
+      te[3] *= s2;
+      te[6] *= s2;
+      te[1] *= s2;
+      te[4] *= s2;
+      te[7] *= s2;
+      te[2] *= s2;
+      te[5] *= s2;
+      te[8] *= s2;
       return this;
     }
     /**
@@ -8685,14 +8683,14 @@
      */
     setUvTransform(tx, ty, sx, sy, rotation, cx, cy) {
       const c = Math.cos(rotation);
-      const s = Math.sin(rotation);
+      const s2 = Math.sin(rotation);
       this.set(
         sx * c,
-        sx * s,
-        -sx * (c * cx + s * cy) + cx + tx,
-        -sy * s,
+        sx * s2,
+        -sx * (c * cx + s2 * cy) + cx + tx,
+        -sy * s2,
         sy * c,
-        -sy * (-s * cx + c * cy) + cy + ty,
+        -sy * (-s2 * cx + c * cy) + cy + ty,
         0,
         0,
         1
@@ -8775,12 +8773,12 @@
      */
     makeRotation(theta) {
       const c = Math.cos(theta);
-      const s = Math.sin(theta);
+      const s2 = Math.sin(theta);
       this.set(
         c,
-        -s,
+        -s2,
         0,
-        s,
+        s2,
         c,
         0,
         0,
@@ -9697,11 +9695,11 @@
      * @param {number} s - The scalar to add.
      * @return {Vector4} A reference to this vector.
      */
-    addScalar(s) {
-      this.x += s;
-      this.y += s;
-      this.z += s;
-      this.w += s;
+    addScalar(s2) {
+      this.x += s2;
+      this.y += s2;
+      this.z += s2;
+      this.w += s2;
       return this;
     }
     /**
@@ -9725,11 +9723,11 @@
      * @param {number} s - The factor that scales `v`.
      * @return {Vector4} A reference to this vector.
      */
-    addScaledVector(v, s) {
-      this.x += v.x * s;
-      this.y += v.y * s;
-      this.z += v.z * s;
-      this.w += v.w * s;
+    addScaledVector(v, s2) {
+      this.x += v.x * s2;
+      this.y += v.y * s2;
+      this.z += v.z * s2;
+      this.w += v.w * s2;
       return this;
     }
     /**
@@ -9751,11 +9749,11 @@
      * @param {number} s - The scalar to subtract.
      * @return {Vector4} A reference to this vector.
      */
-    subScalar(s) {
-      this.x -= s;
-      this.y -= s;
-      this.z -= s;
-      this.w -= s;
+    subScalar(s2) {
+      this.x -= s2;
+      this.y -= s2;
+      this.z -= s2;
+      this.w -= s2;
       return this;
     }
     /**
@@ -9844,15 +9842,15 @@
      */
     setAxisAngleFromQuaternion(q) {
       this.w = 2 * Math.acos(q.w);
-      const s = Math.sqrt(1 - q.w * q.w);
-      if (s < 1e-4) {
+      const s2 = Math.sqrt(1 - q.w * q.w);
+      if (s2 < 1e-4) {
         this.x = 1;
         this.y = 0;
         this.z = 0;
       } else {
-        this.x = q.x / s;
-        this.y = q.y / s;
-        this.z = q.z / s;
+        this.x = q.x / s2;
+        this.y = q.y / s2;
+        this.z = q.z / s2;
       }
       return this;
     }
@@ -9912,11 +9910,11 @@
         this.set(x, y, z, angle);
         return this;
       }
-      let s = Math.sqrt((m32 - m23) * (m32 - m23) + (m13 - m31) * (m13 - m31) + (m21 - m12) * (m21 - m12));
-      if (Math.abs(s) < 1e-3) s = 1;
-      this.x = (m32 - m23) / s;
-      this.y = (m13 - m31) / s;
-      this.z = (m21 - m12) / s;
+      let s2 = Math.sqrt((m32 - m23) * (m32 - m23) + (m13 - m31) * (m13 - m31) + (m21 - m12) * (m21 - m12));
+      if (Math.abs(s2) < 1e-3) s2 = 1;
+      this.x = (m32 - m23) / s2;
+      this.y = (m13 - m31) / s2;
+      this.z = (m21 - m12) / s2;
       this.w = Math.acos((m11 + m22 + m33 - 1) / 2);
       return this;
     }
@@ -10990,24 +10988,24 @@
      * @param {number} s - The scalar.
      * @return {Matrix4} A reference to this matrix.
      */
-    multiplyScalar(s) {
+    multiplyScalar(s2) {
       const te = this.elements;
-      te[0] *= s;
-      te[4] *= s;
-      te[8] *= s;
-      te[12] *= s;
-      te[1] *= s;
-      te[5] *= s;
-      te[9] *= s;
-      te[13] *= s;
-      te[2] *= s;
-      te[6] *= s;
-      te[10] *= s;
-      te[14] *= s;
-      te[3] *= s;
-      te[7] *= s;
-      te[11] *= s;
-      te[15] *= s;
+      te[0] *= s2;
+      te[4] *= s2;
+      te[8] *= s2;
+      te[12] *= s2;
+      te[1] *= s2;
+      te[5] *= s2;
+      te[9] *= s2;
+      te[13] *= s2;
+      te[2] *= s2;
+      te[6] *= s2;
+      te[10] *= s2;
+      te[14] *= s2;
+      te[3] *= s2;
+      te[7] *= s2;
+      te[11] *= s2;
+      te[15] *= s2;
       return this;
     }
     /**
@@ -11204,7 +11202,7 @@
      * @return {Matrix4} A reference to this matrix.
      */
     makeRotationX(theta) {
-      const c = Math.cos(theta), s = Math.sin(theta);
+      const c = Math.cos(theta), s2 = Math.sin(theta);
       this.set(
         1,
         0,
@@ -11212,10 +11210,10 @@
         0,
         0,
         c,
-        -s,
+        -s2,
         0,
         0,
-        s,
+        s2,
         c,
         0,
         0,
@@ -11233,17 +11231,17 @@
      * @return {Matrix4} A reference to this matrix.
      */
     makeRotationY(theta) {
-      const c = Math.cos(theta), s = Math.sin(theta);
+      const c = Math.cos(theta), s2 = Math.sin(theta);
       this.set(
         c,
         0,
-        s,
+        s2,
         0,
         0,
         1,
         0,
         0,
-        -s,
+        -s2,
         0,
         c,
         0,
@@ -11262,13 +11260,13 @@
      * @return {Matrix4} A reference to this matrix.
      */
     makeRotationZ(theta) {
-      const c = Math.cos(theta), s = Math.sin(theta);
+      const c = Math.cos(theta), s2 = Math.sin(theta);
       this.set(
         c,
-        -s,
+        -s2,
         0,
         0,
-        s,
+        s2,
         c,
         0,
         0,
@@ -11296,21 +11294,21 @@
      */
     makeRotationAxis(axis, angle) {
       const c = Math.cos(angle);
-      const s = Math.sin(angle);
+      const s2 = Math.sin(angle);
       const t = 1 - c;
       const x = axis.x, y = axis.y, z = axis.z;
       const tx = t * x, ty = t * y;
       this.set(
         tx * x + c,
-        tx * y - s * z,
-        tx * z + s * y,
+        tx * y - s2 * z,
+        tx * z + s2 * y,
         0,
-        tx * y + s * z,
+        tx * y + s2 * z,
         ty * y + c,
-        ty * z - s * x,
+        ty * z - s2 * x,
         0,
-        tx * z - s * y,
-        ty * z + s * x,
+        tx * z - s2 * y,
+        ty * z + s2 * x,
         t * z * z + c,
         0,
         0,
@@ -13436,14 +13434,14 @@
      * @param {string} [colorSpace=ColorManagement.workingColorSpace] - The color space.
      * @return {Color} A reference to this color.
      */
-    setHSL(h, s, l, colorSpace = ColorManagement.workingColorSpace) {
+    setHSL(h, s2, l, colorSpace = ColorManagement.workingColorSpace) {
       h = euclideanModulo(h, 1);
-      s = clamp(s, 0, 1);
+      s2 = clamp(s2, 0, 1);
       l = clamp(l, 0, 1);
-      if (s === 0) {
+      if (s2 === 0) {
         this.r = this.g = this.b = l;
       } else {
-        const p = l <= 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = l <= 0.5 ? l * (1 + s2) : l + s2 - l * s2;
         const q = 2 * l - p;
         this.r = hue2rgb(q, p, h + 1 / 3);
         this.g = hue2rgb(q, p, h);
@@ -13713,9 +13711,9 @@
      * @param {number} l - Lightness value between `0.0` and `1.0`.
      * @return {Color} A reference to this color.
      */
-    offsetHSL(h, s, l) {
+    offsetHSL(h, s2, l) {
       this.getHSL(_hslA);
-      return this.setHSL(_hslA.h + h, _hslA.s + s, _hslA.l + l);
+      return this.setHSL(_hslA.h + h, _hslA.s + s2, _hslA.l + l);
     }
     /**
      * Adds the RGB values of the given color to the RGB values of this color.
@@ -13748,10 +13746,10 @@
      * @param {number} s - The scalar to add.
      * @return {Color} A reference to this color.
      */
-    addScalar(s) {
-      this.r += s;
-      this.g += s;
-      this.b += s;
+    addScalar(s2) {
+      this.r += s2;
+      this.g += s2;
+      this.b += s2;
       return this;
     }
     /**
@@ -13784,10 +13782,10 @@
      * @param {number} s - The scalar to multiply.
      * @return {Color} A reference to this color.
      */
-    multiplyScalar(s) {
-      this.r *= s;
-      this.g *= s;
-      this.b *= s;
+    multiplyScalar(s2) {
+      this.r *= s2;
+      this.g *= s2;
+      this.b *= s2;
       return this;
     }
     /**
@@ -13836,9 +13834,9 @@
       this.getHSL(_hslA);
       color.getHSL(_hslB);
       const h = lerp(_hslA.h, _hslB.h, alpha);
-      const s = lerp(_hslA.s, _hslB.s, alpha);
+      const s2 = lerp(_hslA.s, _hslB.s, alpha);
       const l = lerp(_hslA.l, _hslB.l, alpha);
-      this.setHSL(h, s, l);
+      this.setHSL(h, s2, l);
       return this;
     }
     /**
@@ -13933,42 +13931,6 @@
   };
   var _color = /* @__PURE__ */ new Color();
   Color.NAMES = _colorKeywords;
-  var FogExp2 = class _FogExp2 {
-    /**
-     * Constructs a new fog.
-     *
-     * @param {number|Color} color - The fog's color.
-     * @param {number} [density=0.00025] - Defines how fast the fog will grow dense.
-     */
-    constructor(color, density = 25e-5) {
-      this.isFogExp2 = true;
-      this.name = "";
-      this.color = new Color(color);
-      this.density = density;
-    }
-    /**
-     * Returns a new fog with copied values from this instance.
-     *
-     * @return {FogExp2} A clone of this instance.
-     */
-    clone() {
-      return new _FogExp2(this.color, this.density);
-    }
-    /**
-     * Serializes the fog into JSON.
-     *
-     * @param {?(Object|string)} meta - An optional value holding meta information about the serialization.
-     * @return {Object} A JSON object representing the serialized fog
-     */
-    toJSON() {
-      return {
-        type: "FogExp2",
-        name: this.name,
-        color: this.color.getHex(),
-        density: this.density
-      };
-    }
-  };
   var Scene = class extends Object3D {
     /**
      * Constructs a new scene.
@@ -17883,7 +17845,7 @@
      * @param {Raycaster} raycaster - The raycaster.
      * @param {Array<Object>} intersects - The target array that holds the intersection points.
      */
-    raycast(raycaster, intersects) {
+    raycast(raycaster2, intersects) {
       const geometry = this.geometry;
       const material = this.material;
       const matrixWorld = this.matrixWorld;
@@ -17891,19 +17853,19 @@
       if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
       _sphere$6.copy(geometry.boundingSphere);
       _sphere$6.applyMatrix4(matrixWorld);
-      _ray$3.copy(raycaster.ray).recast(raycaster.near);
+      _ray$3.copy(raycaster2.ray).recast(raycaster2.near);
       if (_sphere$6.containsPoint(_ray$3.origin) === false) {
         if (_ray$3.intersectSphere(_sphere$6, _sphereHitAt) === null) return;
-        if (_ray$3.origin.distanceToSquared(_sphereHitAt) > (raycaster.far - raycaster.near) ** 2) return;
+        if (_ray$3.origin.distanceToSquared(_sphereHitAt) > (raycaster2.far - raycaster2.near) ** 2) return;
       }
       _inverseMatrix$3.copy(matrixWorld).invert();
-      _ray$3.copy(raycaster.ray).applyMatrix4(_inverseMatrix$3);
+      _ray$3.copy(raycaster2.ray).applyMatrix4(_inverseMatrix$3);
       if (geometry.boundingBox !== null) {
         if (_ray$3.intersectsBox(geometry.boundingBox) === false) return;
       }
-      this._computeIntersections(raycaster, intersects, _ray$3);
+      this._computeIntersections(raycaster2, intersects, _ray$3);
     }
-    _computeIntersections(raycaster, intersects, rayLocalSpace) {
+    _computeIntersections(raycaster2, intersects, rayLocalSpace) {
       let intersection;
       const geometry = this.geometry;
       const material = this.material;
@@ -17925,7 +17887,7 @@
               const a = index.getX(j);
               const b = index.getX(j + 1);
               const c = index.getX(j + 2);
-              intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+              intersection = checkGeometryIntersection(this, groupMaterial, raycaster2, rayLocalSpace, uv, uv1, normal, a, b, c);
               if (intersection) {
                 intersection.faceIndex = Math.floor(j / 3);
                 intersection.face.materialIndex = group.materialIndex;
@@ -17940,7 +17902,7 @@
             const a = index.getX(i);
             const b = index.getX(i + 1);
             const c = index.getX(i + 2);
-            intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+            intersection = checkGeometryIntersection(this, material, raycaster2, rayLocalSpace, uv, uv1, normal, a, b, c);
             if (intersection) {
               intersection.faceIndex = Math.floor(i / 3);
               intersects.push(intersection);
@@ -17958,7 +17920,7 @@
               const a = j;
               const b = j + 1;
               const c = j + 2;
-              intersection = checkGeometryIntersection(this, groupMaterial, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+              intersection = checkGeometryIntersection(this, groupMaterial, raycaster2, rayLocalSpace, uv, uv1, normal, a, b, c);
               if (intersection) {
                 intersection.faceIndex = Math.floor(j / 3);
                 intersection.face.materialIndex = group.materialIndex;
@@ -17973,7 +17935,7 @@
             const a = i;
             const b = i + 1;
             const c = i + 2;
-            intersection = checkGeometryIntersection(this, material, raycaster, rayLocalSpace, uv, uv1, normal, a, b, c);
+            intersection = checkGeometryIntersection(this, material, raycaster2, rayLocalSpace, uv, uv1, normal, a, b, c);
             if (intersection) {
               intersection.faceIndex = Math.floor(i / 3);
               intersects.push(intersection);
@@ -17983,29 +17945,29 @@
       }
     }
   };
-  function checkIntersection$1(object, material, raycaster, ray, pA, pB, pC, point) {
-    let intersect;
+  function checkIntersection$1(object, material, raycaster2, ray, pA, pB, pC, point) {
+    let intersect2;
     if (material.side === BackSide) {
-      intersect = ray.intersectTriangle(pC, pB, pA, true, point);
+      intersect2 = ray.intersectTriangle(pC, pB, pA, true, point);
     } else {
-      intersect = ray.intersectTriangle(pA, pB, pC, material.side === FrontSide, point);
+      intersect2 = ray.intersectTriangle(pA, pB, pC, material.side === FrontSide, point);
     }
-    if (intersect === null) return null;
+    if (intersect2 === null) return null;
     _intersectionPointWorld.copy(point);
     _intersectionPointWorld.applyMatrix4(object.matrixWorld);
-    const distance = raycaster.ray.origin.distanceTo(_intersectionPointWorld);
-    if (distance < raycaster.near || distance > raycaster.far) return null;
+    const distance = raycaster2.ray.origin.distanceTo(_intersectionPointWorld);
+    if (distance < raycaster2.near || distance > raycaster2.far) return null;
     return {
       distance,
       point: _intersectionPointWorld.clone(),
       object
     };
   }
-  function checkGeometryIntersection(object, material, raycaster, ray, uv, uv1, normal, a, b, c) {
+  function checkGeometryIntersection(object, material, raycaster2, ray, uv, uv1, normal, a, b, c) {
     object.getVertexPosition(a, _vA);
     object.getVertexPosition(b, _vB);
     object.getVertexPosition(c, _vC);
-    const intersection = checkIntersection$1(object, material, raycaster, ray, _vA, _vB, _vC, _intersectionPoint);
+    const intersection = checkIntersection$1(object, material, raycaster2, ray, _vA, _vB, _vC, _intersectionPoint);
     if (intersection) {
       const barycoord = new Vector3();
       Triangle.getBarycoord(_intersectionPoint, _vA, _vB, _vC, barycoord);
@@ -18106,20 +18068,20 @@
       if (source.boundingSphere !== null) this.boundingSphere = source.boundingSphere.clone();
       return this;
     }
-    raycast(raycaster, intersects) {
+    raycast(raycaster2, intersects) {
       const material = this.material;
       const matrixWorld = this.matrixWorld;
       if (material === void 0) return;
       if (this.boundingSphere === null) this.computeBoundingSphere();
       _sphere$5.copy(this.boundingSphere);
       _sphere$5.applyMatrix4(matrixWorld);
-      if (raycaster.ray.intersectsSphere(_sphere$5) === false) return;
+      if (raycaster2.ray.intersectsSphere(_sphere$5) === false) return;
       _inverseMatrix$2.copy(matrixWorld).invert();
-      _ray$2.copy(raycaster.ray).applyMatrix4(_inverseMatrix$2);
+      _ray$2.copy(raycaster2.ray).applyMatrix4(_inverseMatrix$2);
       if (this.boundingBox !== null) {
         if (_ray$2.intersectsBox(this.boundingBox) === false) return;
       }
-      this._computeIntersections(raycaster, intersects, _ray$2);
+      this._computeIntersections(raycaster2, intersects, _ray$2);
     }
     getVertexPosition(index, target) {
       super.getVertexPosition(index, target);
@@ -18591,7 +18553,7 @@
         objectInfluences[i] = array[dataIndex + i];
       }
     }
-    raycast(raycaster, intersects) {
+    raycast(raycaster2, intersects) {
       const matrixWorld = this.matrixWorld;
       const raycastTimes = this.count;
       _mesh$1.geometry = this.geometry;
@@ -18600,17 +18562,17 @@
       if (this.boundingSphere === null) this.computeBoundingSphere();
       _sphere$4.copy(this.boundingSphere);
       _sphere$4.applyMatrix4(matrixWorld);
-      if (raycaster.ray.intersectsSphere(_sphere$4) === false) return;
+      if (raycaster2.ray.intersectsSphere(_sphere$4) === false) return;
       for (let instanceId = 0; instanceId < raycastTimes; instanceId++) {
         this.getMatrixAt(instanceId, _instanceLocalMatrix);
         _instanceWorldMatrix.multiplyMatrices(matrixWorld, _instanceLocalMatrix);
         _mesh$1.matrixWorld = _instanceWorldMatrix;
-        _mesh$1.raycast(raycaster, _instanceIntersects);
+        _mesh$1.raycast(raycaster2, _instanceIntersects);
         for (let i = 0, l = _instanceIntersects.length; i < l; i++) {
-          const intersect = _instanceIntersects[i];
-          intersect.instanceId = instanceId;
-          intersect.object = this;
-          intersects.push(intersect);
+          const intersect2 = _instanceIntersects[i];
+          intersect2.instanceId = instanceId;
+          intersect2.object = this;
+          intersects.push(intersect2);
         }
         _instanceIntersects.length = 0;
       }
@@ -19195,18 +19157,18 @@
      * @param {Raycaster} raycaster - The raycaster.
      * @param {Array<Object>} intersects - The target array that holds the intersection points.
      */
-    raycast(raycaster, intersects) {
+    raycast(raycaster2, intersects) {
       const geometry = this.geometry;
       const matrixWorld = this.matrixWorld;
-      const threshold = raycaster.params.Line.threshold;
+      const threshold = raycaster2.params.Line.threshold;
       const drawRange = geometry.drawRange;
       if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
       _sphere$1.copy(geometry.boundingSphere);
       _sphere$1.applyMatrix4(matrixWorld);
       _sphere$1.radius += threshold;
-      if (raycaster.ray.intersectsSphere(_sphere$1) === false) return;
+      if (raycaster2.ray.intersectsSphere(_sphere$1) === false) return;
       _inverseMatrix$1.copy(matrixWorld).invert();
-      _ray$1.copy(raycaster.ray).applyMatrix4(_inverseMatrix$1);
+      _ray$1.copy(raycaster2.ray).applyMatrix4(_inverseMatrix$1);
       const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
       const localThresholdSq = localThreshold * localThreshold;
       const step = this.isLineSegments ? 2 : 1;
@@ -19219,32 +19181,32 @@
         for (let i = start, l = end - 1; i < l; i += step) {
           const a = index.getX(i);
           const b = index.getX(i + 1);
-          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, a, b, i);
-          if (intersect) {
-            intersects.push(intersect);
+          const intersect2 = checkIntersection(this, raycaster2, _ray$1, localThresholdSq, a, b, i);
+          if (intersect2) {
+            intersects.push(intersect2);
           }
         }
         if (this.isLineLoop) {
           const a = index.getX(end - 1);
           const b = index.getX(start);
-          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, a, b, end - 1);
-          if (intersect) {
-            intersects.push(intersect);
+          const intersect2 = checkIntersection(this, raycaster2, _ray$1, localThresholdSq, a, b, end - 1);
+          if (intersect2) {
+            intersects.push(intersect2);
           }
         }
       } else {
         const start = Math.max(0, drawRange.start);
         const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
         for (let i = start, l = end - 1; i < l; i += step) {
-          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, i, i + 1, i);
-          if (intersect) {
-            intersects.push(intersect);
+          const intersect2 = checkIntersection(this, raycaster2, _ray$1, localThresholdSq, i, i + 1, i);
+          if (intersect2) {
+            intersects.push(intersect2);
           }
         }
         if (this.isLineLoop) {
-          const intersect = checkIntersection(this, raycaster, _ray$1, localThresholdSq, end - 1, start, end - 1);
-          if (intersect) {
-            intersects.push(intersect);
+          const intersect2 = checkIntersection(this, raycaster2, _ray$1, localThresholdSq, end - 1, start, end - 1);
+          if (intersect2) {
+            intersects.push(intersect2);
           }
         }
       }
@@ -19271,15 +19233,15 @@
       }
     }
   };
-  function checkIntersection(object, raycaster, ray, thresholdSq, a, b, i) {
+  function checkIntersection(object, raycaster2, ray, thresholdSq, a, b, i) {
     const positionAttribute = object.geometry.attributes.position;
     _vStart.fromBufferAttribute(positionAttribute, a);
     _vEnd.fromBufferAttribute(positionAttribute, b);
     const distSq = ray.distanceSqToSegment(_vStart, _vEnd, _intersectPointOnRay, _intersectPointOnSegment);
     if (distSq > thresholdSq) return;
     _intersectPointOnRay.applyMatrix4(object.matrixWorld);
-    const distance = raycaster.ray.origin.distanceTo(_intersectPointOnRay);
-    if (distance < raycaster.near || distance > raycaster.far) return;
+    const distance = raycaster2.ray.origin.distanceTo(_intersectPointOnRay);
+    if (distance < raycaster2.near || distance > raycaster2.far) return;
     return {
       distance,
       // What do we want? intersection point on the ray or on the segment??
@@ -19403,18 +19365,18 @@
      * @param {Raycaster} raycaster - The raycaster.
      * @param {Array<Object>} intersects - The target array that holds the intersection points.
      */
-    raycast(raycaster, intersects) {
+    raycast(raycaster2, intersects) {
       const geometry = this.geometry;
       const matrixWorld = this.matrixWorld;
-      const threshold = raycaster.params.Points.threshold;
+      const threshold = raycaster2.params.Points.threshold;
       const drawRange = geometry.drawRange;
       if (geometry.boundingSphere === null) geometry.computeBoundingSphere();
       _sphere.copy(geometry.boundingSphere);
       _sphere.applyMatrix4(matrixWorld);
       _sphere.radius += threshold;
-      if (raycaster.ray.intersectsSphere(_sphere) === false) return;
+      if (raycaster2.ray.intersectsSphere(_sphere) === false) return;
       _inverseMatrix.copy(matrixWorld).invert();
-      _ray.copy(raycaster.ray).applyMatrix4(_inverseMatrix);
+      _ray.copy(raycaster2.ray).applyMatrix4(_inverseMatrix);
       const localThreshold = threshold / ((this.scale.x + this.scale.y + this.scale.z) / 3);
       const localThresholdSq = localThreshold * localThreshold;
       const index = geometry.index;
@@ -19426,14 +19388,14 @@
         for (let i = start, il = end; i < il; i++) {
           const a = index.getX(i);
           _position$3.fromBufferAttribute(positionAttribute, a);
-          testPoint(_position$3, a, localThresholdSq, matrixWorld, raycaster, intersects, this);
+          testPoint(_position$3, a, localThresholdSq, matrixWorld, raycaster2, intersects, this);
         }
       } else {
         const start = Math.max(0, drawRange.start);
         const end = Math.min(positionAttribute.count, drawRange.start + drawRange.count);
         for (let i = start, l = end; i < l; i++) {
           _position$3.fromBufferAttribute(positionAttribute, i);
-          testPoint(_position$3, i, localThresholdSq, matrixWorld, raycaster, intersects, this);
+          testPoint(_position$3, i, localThresholdSq, matrixWorld, raycaster2, intersects, this);
         }
       }
     }
@@ -19459,14 +19421,14 @@
       }
     }
   };
-  function testPoint(point, index, localThresholdSq, matrixWorld, raycaster, intersects, object) {
+  function testPoint(point, index, localThresholdSq, matrixWorld, raycaster2, intersects, object) {
     const rayPointDistanceSq = _ray.distanceSqToPoint(point);
     if (rayPointDistanceSq < localThresholdSq) {
       const intersectPoint = new Vector3();
       _ray.closestPointToPoint(point, intersectPoint);
       intersectPoint.applyMatrix4(matrixWorld);
-      const distance = raycaster.ray.origin.distanceTo(intersectPoint);
-      if (distance < raycaster.near || distance > raycaster.far) return;
+      const distance = raycaster2.ray.origin.distanceTo(intersectPoint);
+      if (distance < raycaster2.near || distance > raycaster2.far) return;
       intersects.push({
         distance,
         distanceToRay: Math.sqrt(rayPointDistanceSq),
@@ -20350,93 +20312,6 @@
       return this;
     }
   };
-  var MeshPhongMaterial = class extends Material {
-    /**
-     * Constructs a new mesh phong material.
-     *
-     * @param {Object} [parameters] - An object with one or more properties
-     * defining the material's appearance. Any property of the material
-     * (including any property from inherited materials) can be passed
-     * in here. Color values can be passed any type of value accepted
-     * by {@link Color#set}.
-     */
-    constructor(parameters) {
-      super();
-      this.isMeshPhongMaterial = true;
-      this.type = "MeshPhongMaterial";
-      this.color = new Color(16777215);
-      this.specular = new Color(1118481);
-      this.shininess = 30;
-      this.map = null;
-      this.lightMap = null;
-      this.lightMapIntensity = 1;
-      this.aoMap = null;
-      this.aoMapIntensity = 1;
-      this.emissive = new Color(0);
-      this.emissiveIntensity = 1;
-      this.emissiveMap = null;
-      this.bumpMap = null;
-      this.bumpScale = 1;
-      this.normalMap = null;
-      this.normalMapType = TangentSpaceNormalMap;
-      this.normalScale = new Vector2(1, 1);
-      this.displacementMap = null;
-      this.displacementScale = 1;
-      this.displacementBias = 0;
-      this.specularMap = null;
-      this.alphaMap = null;
-      this.envMap = null;
-      this.envMapRotation = new Euler();
-      this.combine = MultiplyOperation;
-      this.reflectivity = 1;
-      this.envMapIntensity = 1;
-      this.refractionRatio = 0.98;
-      this.wireframe = false;
-      this.wireframeLinewidth = 1;
-      this.wireframeLinecap = "round";
-      this.wireframeLinejoin = "round";
-      this.flatShading = false;
-      this.fog = true;
-      this.setValues(parameters);
-    }
-    copy(source) {
-      super.copy(source);
-      this.color.copy(source.color);
-      this.specular.copy(source.specular);
-      this.shininess = source.shininess;
-      this.map = source.map;
-      this.lightMap = source.lightMap;
-      this.lightMapIntensity = source.lightMapIntensity;
-      this.aoMap = source.aoMap;
-      this.aoMapIntensity = source.aoMapIntensity;
-      this.emissive.copy(source.emissive);
-      this.emissiveMap = source.emissiveMap;
-      this.emissiveIntensity = source.emissiveIntensity;
-      this.bumpMap = source.bumpMap;
-      this.bumpScale = source.bumpScale;
-      this.normalMap = source.normalMap;
-      this.normalMapType = source.normalMapType;
-      this.normalScale.copy(source.normalScale);
-      this.displacementMap = source.displacementMap;
-      this.displacementScale = source.displacementScale;
-      this.displacementBias = source.displacementBias;
-      this.specularMap = source.specularMap;
-      this.alphaMap = source.alphaMap;
-      this.envMap = source.envMap;
-      this.envMapRotation.copy(source.envMapRotation);
-      this.combine = source.combine;
-      this.reflectivity = source.reflectivity;
-      this.envMapIntensity = source.envMapIntensity;
-      this.refractionRatio = source.refractionRatio;
-      this.wireframe = source.wireframe;
-      this.wireframeLinewidth = source.wireframeLinewidth;
-      this.wireframeLinecap = source.wireframeLinecap;
-      this.wireframeLinejoin = source.wireframeLinejoin;
-      this.flatShading = source.flatShading;
-      this.fog = source.fog;
-      return this;
-    }
-  };
   var MeshDepthMaterial = class extends Material {
     /**
      * Constructs a new mesh depth material.
@@ -20848,23 +20723,23 @@
         const inTangentOffset = i1 * tangentStride + i * 2;
         const c1x = inTangents[inTangentOffset];
         const c1y = inTangents[inTangentOffset + 1];
-        let s = (t - t0) / (t1 - t0);
-        let s2, s3, oneMinusS, oneMinusS2, oneMinusS3;
+        let s2 = (t - t0) / (t1 - t0);
+        let s22, s3, oneMinusS, oneMinusS2, oneMinusS3;
         for (let iter = 0; iter < 8; iter++) {
-          s2 = s * s;
-          s3 = s2 * s;
-          oneMinusS = 1 - s;
+          s22 = s2 * s2;
+          s3 = s22 * s2;
+          oneMinusS = 1 - s2;
           oneMinusS2 = oneMinusS * oneMinusS;
           oneMinusS3 = oneMinusS2 * oneMinusS;
-          const bx = oneMinusS3 * t0 + 3 * oneMinusS2 * s * c0x + 3 * oneMinusS * s2 * c1x + s3 * t1;
+          const bx = oneMinusS3 * t0 + 3 * oneMinusS2 * s2 * c0x + 3 * oneMinusS * s22 * c1x + s3 * t1;
           const error2 = bx - t;
           if (Math.abs(error2) < 1e-10) break;
-          const dbx = 3 * oneMinusS2 * (c0x - t0) + 6 * oneMinusS * s * (c1x - c0x) + 3 * s2 * (t1 - c1x);
+          const dbx = 3 * oneMinusS2 * (c0x - t0) + 6 * oneMinusS * s2 * (c1x - c0x) + 3 * s22 * (t1 - c1x);
           if (Math.abs(dbx) < 1e-10) break;
-          s = s - error2 / dbx;
-          s = Math.max(0, Math.min(1, s));
+          s2 = s2 - error2 / dbx;
+          s2 = Math.max(0, Math.min(1, s2));
         }
-        result[i] = oneMinusS3 * v0 + 3 * oneMinusS2 * s * c0y + 3 * oneMinusS * s2 * c1y + s3 * v1;
+        result[i] = oneMinusS3 * v0 + 3 * oneMinusS2 * s2 * c0y + 3 * oneMinusS * s22 * c1y + s3 * v1;
       }
       return result;
     }
@@ -23928,94 +23803,145 @@
     ]
   ];
   var _controlInterpolantsResultBuffer = new Float32Array(1);
-  var Spherical = class {
+  var _matrix = /* @__PURE__ */ new Matrix4();
+  var Raycaster = class {
     /**
-     * Constructs a new spherical.
+     * Constructs a new raycaster.
      *
-     * @param {number} [radius=1] - The radius, or the Euclidean distance (straight-line distance) from the point to the origin.
-     * @param {number} [phi=0] - The polar angle in radians from the y (up) axis.
-     * @param {number} [theta=0] - The equator/azimuthal angle in radians around the y (up) axis.
+     * @param {Vector3} origin - The origin vector where the ray casts from.
+     * @param {Vector3} direction - The (normalized) direction vector that gives direction to the ray.
+     * @param {number} [near=0] - All results returned are further away than near. Near can't be negative.
+     * @param {number} [far=Infinity] - All results returned are closer than far. Far can't be lower than near.
      */
-    constructor(radius = 1, phi = 0, theta = 0) {
-      this.radius = radius;
-      this.phi = phi;
-      this.theta = theta;
+    constructor(origin, direction, near = 0, far = Infinity) {
+      this.ray = new Ray(origin, direction);
+      this.near = near;
+      this.far = far;
+      this.camera = null;
+      this.layers = new Layers();
+      this.params = {
+        Mesh: {},
+        Line: { threshold: 1 },
+        LOD: {},
+        Points: { threshold: 1 },
+        Sprite: {}
+      };
     }
     /**
-     * Sets the spherical components by copying the given values.
+     * Updates the ray with a new origin and direction by copying the values from the arguments.
      *
-     * @param {number} radius - The radius.
-     * @param {number} phi - The polar angle.
-     * @param {number} theta - The azimuthal angle.
-     * @return {Spherical} A reference to this spherical.
+     * @param {Vector3} origin - The origin vector where the ray casts from.
+     * @param {Vector3} direction - The (normalized) direction vector that gives direction to the ray.
      */
-    set(radius, phi, theta) {
-      this.radius = radius;
-      this.phi = phi;
-      this.theta = theta;
-      return this;
+    set(origin, direction) {
+      this.ray.set(origin, direction);
     }
     /**
-     * Copies the values of the given spherical to this instance.
+     * Uses the given coordinates and camera to compute a new origin and direction for the internal ray.
      *
-     * @param {Spherical} other - The spherical to copy.
-     * @return {Spherical} A reference to this spherical.
+     * @param {Vector2} coords - 2D coordinates of the mouse, in normalized device coordinates (NDC).
+     * X and Y components should be between `-1` and `1`.
+     * @param {Camera} camera - The camera from which the ray should originate.
      */
-    copy(other) {
-      this.radius = other.radius;
-      this.phi = other.phi;
-      this.theta = other.theta;
-      return this;
-    }
-    /**
-     * Restricts the polar angle [page:.phi phi] to be between `0.000001` and pi -
-     * `0.000001`.
-     *
-     * @return {Spherical} A reference to this spherical.
-     */
-    makeSafe() {
-      const EPS = 1e-6;
-      this.phi = clamp(this.phi, EPS, Math.PI - EPS);
-      return this;
-    }
-    /**
-     * Sets the spherical components from the given vector which is assumed to hold
-     * Cartesian coordinates.
-     *
-     * @param {Vector3} v - The vector to set.
-     * @return {Spherical} A reference to this spherical.
-     */
-    setFromVector3(v) {
-      return this.setFromCartesianCoords(v.x, v.y, v.z);
-    }
-    /**
-     * Sets the spherical components from the given Cartesian coordinates.
-     *
-     * @param {number} x - The x value.
-     * @param {number} y - The y value.
-     * @param {number} z - The z value.
-     * @return {Spherical} A reference to this spherical.
-     */
-    setFromCartesianCoords(x, y, z) {
-      this.radius = Math.sqrt(x * x + y * y + z * z);
-      if (this.radius === 0) {
-        this.theta = 0;
-        this.phi = 0;
+    setFromCamera(coords, camera2) {
+      if (camera2.isPerspectiveCamera) {
+        this.ray.origin.setFromMatrixPosition(camera2.matrixWorld);
+        this.ray.direction.set(coords.x, coords.y, 0.5).unproject(camera2).sub(this.ray.origin).normalize();
+        this.camera = camera2;
+      } else if (camera2.isOrthographicCamera) {
+        this.ray.origin.set(coords.x, coords.y, (camera2.near + camera2.far) / (camera2.near - camera2.far)).unproject(camera2);
+        this.ray.direction.set(0, 0, -1).transformDirection(camera2.matrixWorld);
+        this.camera = camera2;
       } else {
-        this.theta = Math.atan2(x, z);
-        this.phi = Math.acos(clamp(y / this.radius, -1, 1));
+        error("Raycaster: Unsupported camera type: " + camera2.type);
       }
+    }
+    /**
+     * Uses the given WebXR controller to compute a new origin and direction for the internal ray.
+     *
+     * @param {WebXRController} controller - The controller to copy the position and direction from.
+     * @return {Raycaster} A reference to this raycaster.
+     */
+    setFromXRController(controller) {
+      _matrix.identity().extractRotation(controller.matrixWorld);
+      this.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+      this.ray.direction.set(0, 0, -1).applyMatrix4(_matrix);
       return this;
     }
     /**
-     * Returns a new spherical with copied values from this instance.
-     *
-     * @return {Spherical} A clone of this instance.
+     * The intersection point of a raycaster intersection test.
+     * @typedef {Object} Raycaster~Intersection
+     * @property {number} distance - The distance from the ray's origin to the intersection point.
+     * @property {number} distanceToRay -  Some 3D objects e.g. {@link Points} provide the distance of the
+     * intersection to the nearest point on the ray. For other objects it will be `undefined`.
+     * @property {Vector3} point - The intersection point, in world coordinates.
+     * @property {Object} face - The face that has been intersected.
+     * @property {number} faceIndex - The face index.
+     * @property {Object3D} object - The 3D object that has been intersected.
+     * @property {Vector2} uv - U,V coordinates at point of intersection.
+     * @property {Vector2} uv1 - Second set of U,V coordinates at point of intersection.
+     * @property {Vector3} normal - Interpolated normal vector at point of intersection.
+     * @property {number} instanceId - The index number of the instance where the ray
+     * intersects the {@link InstancedMesh}.
      */
-    clone() {
-      return new this.constructor().copy(this);
+    /**
+     * Checks all intersection between the ray and the object with or without the
+     * descendants. Intersections are returned sorted by distance, closest first.
+     *
+     * `Raycaster` delegates to the `raycast()` method of the passed 3D object, when
+     * evaluating whether the ray intersects the object or not. This allows meshes to respond
+     * differently to ray casting than lines or points.
+     *
+     * Note that for meshes, faces must be pointed towards the origin of the ray in order
+     * to be detected; intersections of the ray passing through the back of a face will not
+     * be detected. To raycast against both faces of an object, you'll want to set  {@link Material#side}
+     * to `THREE.DoubleSide`.
+     *
+     * @param {Object3D} object - The 3D object to check for intersection with the ray.
+     * @param {boolean} [recursive=true] - If set to `true`, it also checks all descendants.
+     * Otherwise it only checks intersection with the object.
+     * @param {Array<Raycaster~Intersection>} [intersects=[]] The target array that holds the result of the method.
+     * @return {Array<Raycaster~Intersection>} An array holding the intersection points.
+     */
+    intersectObject(object, recursive = true, intersects = []) {
+      intersect(object, this, intersects, recursive);
+      intersects.sort(ascSort);
+      return intersects;
+    }
+    /**
+     * Checks all intersection between the ray and the objects with or without
+     * the descendants. Intersections are returned sorted by distance, closest first.
+     *
+     * @param {Array<Object3D>} objects - The 3D objects to check for intersection with the ray.
+     * @param {boolean} [recursive=true] - If set to `true`, it also checks all descendants.
+     * Otherwise it only checks intersection with the object.
+     * @param {Array<Raycaster~Intersection>} [intersects=[]] The target array that holds the result of the method.
+     * @return {Array<Raycaster~Intersection>} An array holding the intersection points.
+     */
+    intersectObjects(objects, recursive = true, intersects = []) {
+      for (let i = 0, l = objects.length; i < l; i++) {
+        intersect(objects[i], this, intersects, recursive);
+      }
+      intersects.sort(ascSort);
+      return intersects;
     }
   };
+  function ascSort(a, b) {
+    return a.distance - b.distance;
+  }
+  function intersect(object, raycaster2, intersects, recursive) {
+    let propagate = true;
+    if (object.layers.test(raycaster2.layers)) {
+      const result = object.raycast(raycaster2, intersects);
+      if (result === false) propagate = false;
+    }
+    if (propagate === true && recursive === true) {
+      const children = object.children;
+      for (let i = 0, l = children.length; i < l; i++) {
+        intersect(children[i], raycaster2, intersects, true);
+      }
+    }
+  }
   var Matrix2 = class _Matrix2 {
     static {
       _Matrix2.prototype.isMatrix2 = true;
@@ -24087,55 +24013,49 @@
       return this;
     }
   };
-  var Controls = class extends EventDispatcher {
+  var GridHelper = class extends LineSegments {
     /**
-     * Constructs a new controls instance.
+     * Constructs a new grid helper.
      *
-     * @param {Object3D} object - The object that is managed by the controls.
-     * @param {?HTMLElement} domElement - The HTML element used for event listeners.
+     * @param {number} [size=10] - The size of the grid.
+     * @param {number} [divisions=10] - The number of divisions across the grid.
+     * @param {number|Color|string} [color1=0x444444] - The color of the center line.
+     * @param {number|Color|string} [color2=0x888888] - The color of the lines of the grid.
      */
-    constructor(object, domElement = null) {
-      super();
-      this.object = object;
-      this.domElement = domElement;
-      this.enabled = true;
-      this.state = -1;
-      this.keys = {};
-      this.mouseButtons = { LEFT: null, MIDDLE: null, RIGHT: null };
-      this.touches = { ONE: null, TWO: null };
-    }
-    /**
-     * Connects the controls to the DOM. This method has so called "side effects" since
-     * it adds the module's event listeners to the DOM.
-     *
-     * @param {HTMLElement} element - The DOM element to connect to.
-     */
-    connect(element) {
-      if (element === void 0) {
-        warn("Controls: connect() now requires an element.");
-        return;
+    constructor(size = 10, divisions = 10, color1 = 4473924, color2 = 8947848) {
+      color1 = new Color(color1);
+      color2 = new Color(color2);
+      const center = divisions / 2;
+      const step = size / divisions;
+      const halfSize = size / 2;
+      const vertices = [], colors = [];
+      for (let i = 0, j = 0, k = -halfSize; i <= divisions; i++, k += step) {
+        vertices.push(-halfSize, 0, k, halfSize, 0, k);
+        vertices.push(k, 0, -halfSize, k, 0, halfSize);
+        const color = i === center ? color1 : color2;
+        color.toArray(colors, j);
+        j += 3;
+        color.toArray(colors, j);
+        j += 3;
+        color.toArray(colors, j);
+        j += 3;
+        color.toArray(colors, j);
+        j += 3;
       }
-      if (this.domElement !== null) this.disconnect();
-      this.domElement = element;
+      const geometry = new BufferGeometry();
+      geometry.setAttribute("position", new Float32BufferAttribute(vertices, 3));
+      geometry.setAttribute("color", new Float32BufferAttribute(colors, 3));
+      const material = new LineBasicMaterial({ vertexColors: true, toneMapped: false });
+      super(geometry, material);
+      this.type = "GridHelper";
     }
     /**
-     * Disconnects the controls from the DOM.
-     */
-    disconnect() {
-    }
-    /**
-     * Call this method if you no longer want use to the controls. It frees all internal
-     * resources and removes all event listeners.
+     * Frees the GPU-related resources allocated by this instance. Call this
+     * method whenever this instance is no longer used in your app.
      */
     dispose() {
-    }
-    /**
-     * Controls should implement this method if they have to update their internal state
-     * per simulation step.
-     *
-     * @param {number} [delta] - The time delta in seconds.
-     */
-    update() {
+      this.geometry.dispose();
+      this.material.dispose();
     }
   };
   function getByteLength(width2, height2, format, type) {
@@ -29346,7 +29266,7 @@
     const opaque = [];
     const transmissive = [];
     const transparent = [];
-    function init() {
+    function init2() {
       renderItemsIndex = 0;
       opaque.length = 0;
       transmissive.length = 0;
@@ -29427,7 +29347,7 @@
       opaque,
       transmissive,
       transparent,
-      init,
+      init: init2,
       push,
       unshift,
       finish,
@@ -29833,7 +29753,7 @@
     const lightsArray = [];
     const shadowsArray = [];
     const lightProbeGridArray = [];
-    function init(camera2) {
+    function init2(camera2) {
       state.camera = camera2;
       lightsArray.length = 0;
       shadowsArray.length = 0;
@@ -29864,7 +29784,7 @@
       textureUnits: 0
     };
     return {
-      init,
+      init: init2,
       state,
       setupLights,
       setupLightsView,
@@ -36609,7 +36529,7 @@ void main() {
           const m = new Matrix4();
           const p = new Vector3();
           const q = new Quaternion();
-          const s = new Vector3(1, 1, 1);
+          const s2 = new Vector3(1, 1, 1);
           const instancedMesh = new InstancedMesh(mesh.geometry, mesh.material, count);
           for (let i = 0; i < count; i++) {
             if (attributes.TRANSLATION) {
@@ -36619,9 +36539,9 @@ void main() {
               q.fromBufferAttribute(attributes.ROTATION, i);
             }
             if (attributes.SCALE) {
-              s.fromBufferAttribute(attributes.SCALE, i);
+              s2.fromBufferAttribute(attributes.SCALE, i);
             }
-            instancedMesh.setMatrixAt(i, m.compose(p, q, s));
+            instancedMesh.setMatrixAt(i, m.compose(p, q, s2));
           }
           for (const attributeName in attributes) {
             if (attributeName === "_COLOR_0") {
@@ -38307,958 +38227,44 @@ void main() {
     });
   }
 
-  // node_modules/three/examples/jsm/controls/OrbitControls.js
-  var _changeEvent = { type: "change" };
-  var _startEvent = { type: "start" };
-  var _endEvent = { type: "end" };
-  var _ray2 = new Ray();
-  var _plane = new Plane();
-  var _TILT_LIMIT = Math.cos(70 * MathUtils.DEG2RAD);
-  var _v = new Vector3();
-  var _twoPI = 2 * Math.PI;
-  var _STATE = {
-    NONE: -1,
-    ROTATE: 0,
-    DOLLY: 1,
-    PAN: 2,
-    TOUCH_ROTATE: 3,
-    TOUCH_PAN: 4,
-    TOUCH_DOLLY_PAN: 5,
-    TOUCH_DOLLY_ROTATE: 6
-  };
-  var _EPS = 1e-6;
-  var OrbitControls = class extends Controls {
-    /**
-     * Constructs a new controls instance.
-     *
-     * @param {Object3D} object - The object that is managed by the controls.
-     * @param {?HTMLElement} domElement - The HTML element used for event listeners.
-     */
-    constructor(object, domElement = null) {
-      super(object, domElement);
-      this.state = _STATE.NONE;
-      this.target = new Vector3();
-      this.cursor = new Vector3();
-      this.minDistance = 0;
-      this.maxDistance = Infinity;
-      this.minZoom = 0;
-      this.maxZoom = Infinity;
-      this.minTargetRadius = 0;
-      this.maxTargetRadius = Infinity;
-      this.minPolarAngle = 0;
-      this.maxPolarAngle = Math.PI;
-      this.minAzimuthAngle = -Infinity;
-      this.maxAzimuthAngle = Infinity;
-      this.enableDamping = false;
-      this.dampingFactor = 0.05;
-      this.enableZoom = true;
-      this.zoomSpeed = 1;
-      this.enableRotate = true;
-      this.rotateSpeed = 1;
-      this.keyRotateSpeed = 1;
-      this.enablePan = true;
-      this.panSpeed = 1;
-      this.screenSpacePanning = true;
-      this.keyPanSpeed = 7;
-      this.zoomToCursor = false;
-      this.autoRotate = false;
-      this.autoRotateSpeed = 2;
-      this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
-      this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
-      this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
-      this.target0 = this.target.clone();
-      this.position0 = this.object.position.clone();
-      this.zoom0 = this.object.zoom;
-      this._cursorStyle = "auto";
-      this._domElementKeyEvents = null;
-      this._lastPosition = new Vector3();
-      this._lastQuaternion = new Quaternion();
-      this._lastTargetPosition = new Vector3();
-      this._quat = new Quaternion().setFromUnitVectors(object.up, new Vector3(0, 1, 0));
-      this._quatInverse = this._quat.clone().invert();
-      this._spherical = new Spherical();
-      this._sphericalDelta = new Spherical();
-      this._scale = 1;
-      this._panOffset = new Vector3();
-      this._rotateStart = new Vector2();
-      this._rotateEnd = new Vector2();
-      this._rotateDelta = new Vector2();
-      this._panStart = new Vector2();
-      this._panEnd = new Vector2();
-      this._panDelta = new Vector2();
-      this._dollyStart = new Vector2();
-      this._dollyEnd = new Vector2();
-      this._dollyDelta = new Vector2();
-      this._dollyDirection = new Vector3();
-      this._mouse = new Vector2();
-      this._performCursorZoom = false;
-      this._pointers = [];
-      this._pointerPositions = {};
-      this._controlActive = false;
-      this._onPointerMove = onPointerMove.bind(this);
-      this._onPointerDown = onPointerDown.bind(this);
-      this._onPointerUp = onPointerUp.bind(this);
-      this._onContextMenu = onContextMenu.bind(this);
-      this._onMouseWheel = onMouseWheel.bind(this);
-      this._onKeyDown = onKeyDown.bind(this);
-      this._onTouchStart = onTouchStart.bind(this);
-      this._onTouchMove = onTouchMove.bind(this);
-      this._onMouseDown = onMouseDown.bind(this);
-      this._onMouseMove = onMouseMove.bind(this);
-      this._interceptControlDown = interceptControlDown.bind(this);
-      this._interceptControlUp = interceptControlUp.bind(this);
-      if (this.domElement !== null) {
-        this.connect(this.domElement);
-      }
-      this.update();
-    }
-    /**
-     * Defines the visual representation of the cursor.
-     *
-     * @type {('auto'|'grab')}
-     * @default 'auto'
-     */
-    set cursorStyle(type) {
-      this._cursorStyle = type;
-      if (type === "grab") {
-        this.domElement.style.cursor = "grab";
-      } else {
-        this.domElement.style.cursor = "auto";
-      }
-    }
-    get cursorStyle() {
-      return this._cursorStyle;
-    }
-    connect(element) {
-      super.connect(element);
-      this.domElement.addEventListener("pointerdown", this._onPointerDown);
-      this.domElement.addEventListener("pointercancel", this._onPointerUp);
-      this.domElement.addEventListener("contextmenu", this._onContextMenu);
-      this.domElement.addEventListener("wheel", this._onMouseWheel, { passive: false });
-      const document2 = this.domElement.getRootNode();
-      document2.addEventListener("keydown", this._interceptControlDown, { passive: true, capture: true });
-      this.domElement.style.touchAction = "none";
-    }
-    disconnect() {
-      this.domElement.removeEventListener("pointerdown", this._onPointerDown);
-      this.domElement.ownerDocument.removeEventListener("pointermove", this._onPointerMove);
-      this.domElement.ownerDocument.removeEventListener("pointerup", this._onPointerUp);
-      this.domElement.removeEventListener("pointercancel", this._onPointerUp);
-      this.domElement.removeEventListener("wheel", this._onMouseWheel);
-      this.domElement.removeEventListener("contextmenu", this._onContextMenu);
-      this.stopListenToKeyEvents();
-      const document2 = this.domElement.getRootNode();
-      document2.removeEventListener("keydown", this._interceptControlDown, { capture: true });
-      this.domElement.style.touchAction = "";
-    }
-    dispose() {
-      this.disconnect();
-    }
-    /**
-     * Get the current vertical rotation, in radians.
-     *
-     * @return {number} The current vertical rotation, in radians.
-     */
-    getPolarAngle() {
-      return this._spherical.phi;
-    }
-    /**
-     * Get the current horizontal rotation, in radians.
-     *
-     * @return {number} The current horizontal rotation, in radians.
-     */
-    getAzimuthalAngle() {
-      return this._spherical.theta;
-    }
-    /**
-     * Returns the distance from the camera to the target.
-     *
-     * @return {number} The distance from the camera to the target.
-     */
-    getDistance() {
-      return this.object.position.distanceTo(this.target);
-    }
-    /**
-     * Adds key event listeners to the given DOM element.
-     * `window` is a recommended argument for using this method.
-     *
-     * @param {HTMLElement} domElement - The DOM element
-     */
-    listenToKeyEvents(domElement) {
-      domElement.addEventListener("keydown", this._onKeyDown);
-      this._domElementKeyEvents = domElement;
-    }
-    /**
-     * Removes the key event listener previously defined with `listenToKeyEvents()`.
-     */
-    stopListenToKeyEvents() {
-      if (this._domElementKeyEvents !== null) {
-        this._domElementKeyEvents.removeEventListener("keydown", this._onKeyDown);
-        this._domElementKeyEvents = null;
-      }
-    }
-    /**
-     * Save the current state of the controls. This can later be recovered with `reset()`.
-     */
-    saveState() {
-      this.target0.copy(this.target);
-      this.position0.copy(this.object.position);
-      this.zoom0 = this.object.zoom;
-    }
-    /**
-     * Reset the controls to their state from either the last time the `saveState()`
-     * was called, or the initial state.
-     */
-    reset() {
-      this.target.copy(this.target0);
-      this.object.position.copy(this.position0);
-      this.object.zoom = this.zoom0;
-      this.object.updateProjectionMatrix();
-      this.dispatchEvent(_changeEvent);
-      this.update();
-      this.state = _STATE.NONE;
-    }
-    /**
-     * Programmatically pan the camera.
-     *
-     * @param {number} deltaX - The horizontal pan amount in pixels.
-     * @param {number} deltaY - The vertical pan amount in pixels.
-     */
-    pan(deltaX, deltaY) {
-      this._pan(deltaX, deltaY);
-      this.update();
-    }
-    /**
-     * Programmatically dolly in (zoom in for perspective camera).
-     *
-     * @param {number} dollyScale - The dolly scale factor.
-     */
-    dollyIn(dollyScale) {
-      this._dollyIn(dollyScale);
-      this.update();
-    }
-    /**
-     * Programmatically dolly out (zoom out for perspective camera).
-     *
-     * @param {number} dollyScale - The dolly scale factor.
-     */
-    dollyOut(dollyScale) {
-      this._dollyOut(dollyScale);
-      this.update();
-    }
-    /**
-     * Programmatically rotate the camera left (around the vertical axis).
-     *
-     * @param {number} angle - The rotation angle in radians.
-     */
-    rotateLeft(angle) {
-      this._rotateLeft(angle);
-      this.update();
-    }
-    /**
-     * Programmatically rotate the camera up (around the horizontal axis).
-     *
-     * @param {number} angle - The rotation angle in radians.
-     */
-    rotateUp(angle) {
-      this._rotateUp(angle);
-      this.update();
-    }
-    update(deltaTime = null) {
-      const position = this.object.position;
-      _v.copy(position).sub(this.target);
-      _v.applyQuaternion(this._quat);
-      this._spherical.setFromVector3(_v);
-      if (this.autoRotate && this.state === _STATE.NONE) {
-        this._rotateLeft(this._getAutoRotationAngle(deltaTime));
-      }
-      if (this.enableDamping) {
-        this._spherical.theta += this._sphericalDelta.theta * this.dampingFactor;
-        this._spherical.phi += this._sphericalDelta.phi * this.dampingFactor;
-      } else {
-        this._spherical.theta += this._sphericalDelta.theta;
-        this._spherical.phi += this._sphericalDelta.phi;
-      }
-      let min = this.minAzimuthAngle;
-      let max = this.maxAzimuthAngle;
-      if (isFinite(min) && isFinite(max)) {
-        if (min < -Math.PI) min += _twoPI;
-        else if (min > Math.PI) min -= _twoPI;
-        if (max < -Math.PI) max += _twoPI;
-        else if (max > Math.PI) max -= _twoPI;
-        if (min <= max) {
-          this._spherical.theta = Math.max(min, Math.min(max, this._spherical.theta));
-        } else {
-          this._spherical.theta = this._spherical.theta > (min + max) / 2 ? Math.max(min, this._spherical.theta) : Math.min(max, this._spherical.theta);
-        }
-      }
-      this._spherical.phi = Math.max(this.minPolarAngle, Math.min(this.maxPolarAngle, this._spherical.phi));
-      this._spherical.makeSafe();
-      if (this.enableDamping === true) {
-        this.target.addScaledVector(this._panOffset, this.dampingFactor);
-      } else {
-        this.target.add(this._panOffset);
-      }
-      this.target.sub(this.cursor);
-      this.target.clampLength(this.minTargetRadius, this.maxTargetRadius);
-      this.target.add(this.cursor);
-      let zoomChanged = false;
-      if (this.zoomToCursor && this._performCursorZoom || this.object.isOrthographicCamera) {
-        this._spherical.radius = this._clampDistance(this._spherical.radius);
-      } else {
-        const prevRadius = this._spherical.radius;
-        this._spherical.radius = this._clampDistance(this._spherical.radius * this._scale);
-        zoomChanged = prevRadius != this._spherical.radius;
-      }
-      _v.setFromSpherical(this._spherical);
-      _v.applyQuaternion(this._quatInverse);
-      position.copy(this.target).add(_v);
-      this.object.lookAt(this.target);
-      if (this.enableDamping === true) {
-        this._sphericalDelta.theta *= 1 - this.dampingFactor;
-        this._sphericalDelta.phi *= 1 - this.dampingFactor;
-        this._panOffset.multiplyScalar(1 - this.dampingFactor);
-      } else {
-        this._sphericalDelta.set(0, 0, 0);
-        this._panOffset.set(0, 0, 0);
-      }
-      if (this.zoomToCursor && this._performCursorZoom) {
-        let newRadius = null;
-        if (this.object.isPerspectiveCamera) {
-          const prevRadius = _v.length();
-          newRadius = this._clampDistance(prevRadius * this._scale);
-          const radiusDelta = prevRadius - newRadius;
-          this.object.position.addScaledVector(this._dollyDirection, radiusDelta);
-          this.object.updateMatrixWorld();
-          zoomChanged = !!radiusDelta;
-        } else if (this.object.isOrthographicCamera) {
-          const mouseBefore = new Vector3(this._mouse.x, this._mouse.y, 0);
-          mouseBefore.unproject(this.object);
-          const prevZoom = this.object.zoom;
-          this.object.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.object.zoom / this._scale));
-          this.object.updateProjectionMatrix();
-          zoomChanged = prevZoom !== this.object.zoom;
-          const mouseAfter = new Vector3(this._mouse.x, this._mouse.y, 0);
-          mouseAfter.unproject(this.object);
-          this.object.position.sub(mouseAfter).add(mouseBefore);
-          this.object.updateMatrixWorld();
-          newRadius = _v.length();
-        } else {
-          console.warn("WARNING: OrbitControls.js encountered an unknown camera type - zoom to cursor disabled.");
-          this.zoomToCursor = false;
-        }
-        if (newRadius !== null) {
-          if (this.screenSpacePanning) {
-            this.target.set(0, 0, -1).transformDirection(this.object.matrix).multiplyScalar(newRadius).add(this.object.position);
-          } else {
-            _ray2.origin.copy(this.object.position);
-            _ray2.direction.set(0, 0, -1).transformDirection(this.object.matrix);
-            if (Math.abs(this.object.up.dot(_ray2.direction)) < _TILT_LIMIT) {
-              this.object.lookAt(this.target);
-            } else {
-              _plane.setFromNormalAndCoplanarPoint(this.object.up, this.target);
-              _ray2.intersectPlane(_plane, this.target);
-            }
-          }
-        }
-      } else if (this.object.isOrthographicCamera) {
-        const prevZoom = this.object.zoom;
-        this.object.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.object.zoom / this._scale));
-        if (prevZoom !== this.object.zoom) {
-          this.object.updateProjectionMatrix();
-          zoomChanged = true;
-        }
-      }
-      this._scale = 1;
-      this._performCursorZoom = false;
-      if (zoomChanged || this._lastPosition.distanceToSquared(this.object.position) > _EPS || 8 * (1 - this._lastQuaternion.dot(this.object.quaternion)) > _EPS || this._lastTargetPosition.distanceToSquared(this.target) > _EPS) {
-        this.dispatchEvent(_changeEvent);
-        this._lastPosition.copy(this.object.position);
-        this._lastQuaternion.copy(this.object.quaternion);
-        this._lastTargetPosition.copy(this.target);
-        return true;
-      }
-      return false;
-    }
-    _getAutoRotationAngle(deltaTime) {
-      if (deltaTime !== null) {
-        return _twoPI / 60 * this.autoRotateSpeed * deltaTime;
-      } else {
-        return _twoPI / 60 / 60 * this.autoRotateSpeed;
-      }
-    }
-    _getZoomScale(delta) {
-      const normalizedDelta = Math.abs(delta * 0.01);
-      return Math.pow(0.95, this.zoomSpeed * normalizedDelta);
-    }
-    _rotateLeft(angle) {
-      this._sphericalDelta.theta -= angle;
-    }
-    _rotateUp(angle) {
-      this._sphericalDelta.phi -= angle;
-    }
-    _panLeft(distance, objectMatrix) {
-      _v.setFromMatrixColumn(objectMatrix, 0);
-      _v.multiplyScalar(-distance);
-      this._panOffset.add(_v);
-    }
-    _panUp(distance, objectMatrix) {
-      if (this.screenSpacePanning === true) {
-        _v.setFromMatrixColumn(objectMatrix, 1);
-      } else {
-        _v.setFromMatrixColumn(objectMatrix, 0);
-        _v.crossVectors(this.object.up, _v);
-      }
-      _v.multiplyScalar(distance);
-      this._panOffset.add(_v);
-    }
-    // deltaX and deltaY are in pixels; right and down are positive
-    _pan(deltaX, deltaY) {
-      const element = this.domElement;
-      if (this.object.isPerspectiveCamera) {
-        const position = this.object.position;
-        _v.copy(position).sub(this.target);
-        let targetDistance = _v.length();
-        targetDistance *= Math.tan(this.object.fov / 2 * Math.PI / 180);
-        this._panLeft(2 * deltaX * targetDistance / element.clientHeight, this.object.matrix);
-        this._panUp(2 * deltaY * targetDistance / element.clientHeight, this.object.matrix);
-      } else if (this.object.isOrthographicCamera) {
-        this._panLeft(deltaX * (this.object.right - this.object.left) / this.object.zoom / element.clientWidth, this.object.matrix);
-        this._panUp(deltaY * (this.object.top - this.object.bottom) / this.object.zoom / element.clientHeight, this.object.matrix);
-      } else {
-        console.warn("WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.");
-        this.enablePan = false;
-      }
-    }
-    _dollyOut(dollyScale) {
-      if (this.object.isPerspectiveCamera || this.object.isOrthographicCamera) {
-        this._scale /= dollyScale;
-      } else {
-        console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
-        this.enableZoom = false;
-      }
-    }
-    _dollyIn(dollyScale) {
-      if (this.object.isPerspectiveCamera || this.object.isOrthographicCamera) {
-        this._scale *= dollyScale;
-      } else {
-        console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
-        this.enableZoom = false;
-      }
-    }
-    _updateZoomParameters(x, y) {
-      if (!this.zoomToCursor) {
-        return;
-      }
-      this._performCursorZoom = true;
-      const rect = this.domElement.getBoundingClientRect();
-      const dx = x - rect.left;
-      const dy = y - rect.top;
-      const w = rect.width;
-      const h = rect.height;
-      this._mouse.x = dx / w * 2 - 1;
-      this._mouse.y = -(dy / h) * 2 + 1;
-      this._dollyDirection.set(this._mouse.x, this._mouse.y, 1).unproject(this.object).sub(this.object.position).normalize();
-    }
-    _clampDistance(dist) {
-      return Math.max(this.minDistance, Math.min(this.maxDistance, dist));
-    }
-    //
-    // event callbacks - update the object state
-    //
-    _handleMouseDownRotate(event) {
-      this._rotateStart.set(event.clientX, event.clientY);
-    }
-    _handleMouseDownDolly(event) {
-      this._updateZoomParameters(event.clientX, event.clientX);
-      this._dollyStart.set(event.clientX, event.clientY);
-    }
-    _handleMouseDownPan(event) {
-      this._panStart.set(event.clientX, event.clientY);
-    }
-    _handleMouseMoveRotate(event) {
-      this._rotateEnd.set(event.clientX, event.clientY);
-      this._rotateDelta.subVectors(this._rotateEnd, this._rotateStart).multiplyScalar(this.rotateSpeed);
-      const element = this.domElement;
-      this._rotateLeft(_twoPI * this._rotateDelta.x / element.clientHeight);
-      this._rotateUp(_twoPI * this._rotateDelta.y / element.clientHeight);
-      this._rotateStart.copy(this._rotateEnd);
-      this.update();
-    }
-    _handleMouseMoveDolly(event) {
-      this._dollyEnd.set(event.clientX, event.clientY);
-      this._dollyDelta.subVectors(this._dollyEnd, this._dollyStart);
-      if (this._dollyDelta.y > 0) {
-        this._dollyOut(this._getZoomScale(this._dollyDelta.y));
-      } else if (this._dollyDelta.y < 0) {
-        this._dollyIn(this._getZoomScale(this._dollyDelta.y));
-      }
-      this._dollyStart.copy(this._dollyEnd);
-      this.update();
-    }
-    _handleMouseMovePan(event) {
-      this._panEnd.set(event.clientX, event.clientY);
-      this._panDelta.subVectors(this._panEnd, this._panStart).multiplyScalar(this.panSpeed);
-      this._pan(this._panDelta.x, this._panDelta.y);
-      this._panStart.copy(this._panEnd);
-      this.update();
-    }
-    _handleMouseWheel(event) {
-      this._updateZoomParameters(event.clientX, event.clientY);
-      if (event.deltaY < 0) {
-        this._dollyIn(this._getZoomScale(event.deltaY));
-      } else if (event.deltaY > 0) {
-        this._dollyOut(this._getZoomScale(event.deltaY));
-      }
-      this.update();
-    }
-    _handleKeyDown(event) {
-      let needsUpdate = false;
-      switch (event.code) {
-        case this.keys.UP:
-          if (event.ctrlKey || event.metaKey || event.shiftKey) {
-            if (this.enableRotate) {
-              this._rotateUp(_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-            }
-          } else {
-            if (this.enablePan) {
-              this._pan(0, this.keyPanSpeed);
-            }
-          }
-          needsUpdate = true;
-          break;
-        case this.keys.BOTTOM:
-          if (event.ctrlKey || event.metaKey || event.shiftKey) {
-            if (this.enableRotate) {
-              this._rotateUp(-_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-            }
-          } else {
-            if (this.enablePan) {
-              this._pan(0, -this.keyPanSpeed);
-            }
-          }
-          needsUpdate = true;
-          break;
-        case this.keys.LEFT:
-          if (event.ctrlKey || event.metaKey || event.shiftKey) {
-            if (this.enableRotate) {
-              this._rotateLeft(_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-            }
-          } else {
-            if (this.enablePan) {
-              this._pan(this.keyPanSpeed, 0);
-            }
-          }
-          needsUpdate = true;
-          break;
-        case this.keys.RIGHT:
-          if (event.ctrlKey || event.metaKey || event.shiftKey) {
-            if (this.enableRotate) {
-              this._rotateLeft(-_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-            }
-          } else {
-            if (this.enablePan) {
-              this._pan(-this.keyPanSpeed, 0);
-            }
-          }
-          needsUpdate = true;
-          break;
-      }
-      if (needsUpdate) {
-        event.preventDefault();
-        this.update();
-      }
-    }
-    _handleTouchStartRotate(event) {
-      if (this._pointers.length === 1) {
-        this._rotateStart.set(event.pageX, event.pageY);
-      } else {
-        const position = this._getSecondPointerPosition(event);
-        const x = 0.5 * (event.pageX + position.x);
-        const y = 0.5 * (event.pageY + position.y);
-        this._rotateStart.set(x, y);
-      }
-    }
-    _handleTouchStartPan(event) {
-      if (this._pointers.length === 1) {
-        this._panStart.set(event.pageX, event.pageY);
-      } else {
-        const position = this._getSecondPointerPosition(event);
-        const x = 0.5 * (event.pageX + position.x);
-        const y = 0.5 * (event.pageY + position.y);
-        this._panStart.set(x, y);
-      }
-    }
-    _handleTouchStartDolly(event) {
-      const position = this._getSecondPointerPosition(event);
-      const dx = event.pageX - position.x;
-      const dy = event.pageY - position.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      this._dollyStart.set(0, distance);
-    }
-    _handleTouchStartDollyPan(event) {
-      if (this.enableZoom) this._handleTouchStartDolly(event);
-      if (this.enablePan) this._handleTouchStartPan(event);
-    }
-    _handleTouchStartDollyRotate(event) {
-      if (this.enableZoom) this._handleTouchStartDolly(event);
-      if (this.enableRotate) this._handleTouchStartRotate(event);
-    }
-    _handleTouchMoveRotate(event) {
-      if (this._pointers.length == 1) {
-        this._rotateEnd.set(event.pageX, event.pageY);
-      } else {
-        const position = this._getSecondPointerPosition(event);
-        const x = 0.5 * (event.pageX + position.x);
-        const y = 0.5 * (event.pageY + position.y);
-        this._rotateEnd.set(x, y);
-      }
-      this._rotateDelta.subVectors(this._rotateEnd, this._rotateStart).multiplyScalar(this.rotateSpeed);
-      const element = this.domElement;
-      this._rotateLeft(_twoPI * this._rotateDelta.x / element.clientHeight);
-      this._rotateUp(_twoPI * this._rotateDelta.y / element.clientHeight);
-      this._rotateStart.copy(this._rotateEnd);
-    }
-    _handleTouchMovePan(event) {
-      if (this._pointers.length === 1) {
-        this._panEnd.set(event.pageX, event.pageY);
-      } else {
-        const position = this._getSecondPointerPosition(event);
-        const x = 0.5 * (event.pageX + position.x);
-        const y = 0.5 * (event.pageY + position.y);
-        this._panEnd.set(x, y);
-      }
-      this._panDelta.subVectors(this._panEnd, this._panStart).multiplyScalar(this.panSpeed);
-      this._pan(this._panDelta.x, this._panDelta.y);
-      this._panStart.copy(this._panEnd);
-    }
-    _handleTouchMoveDolly(event) {
-      const position = this._getSecondPointerPosition(event);
-      const dx = event.pageX - position.x;
-      const dy = event.pageY - position.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-      this._dollyEnd.set(0, distance);
-      this._dollyDelta.set(0, Math.pow(this._dollyEnd.y / this._dollyStart.y, this.zoomSpeed));
-      this._dollyOut(this._dollyDelta.y);
-      this._dollyStart.copy(this._dollyEnd);
-      const centerX = (event.pageX + position.x) * 0.5;
-      const centerY = (event.pageY + position.y) * 0.5;
-      this._updateZoomParameters(centerX, centerY);
-    }
-    _handleTouchMoveDollyPan(event) {
-      if (this.enableZoom) this._handleTouchMoveDolly(event);
-      if (this.enablePan) this._handleTouchMovePan(event);
-    }
-    _handleTouchMoveDollyRotate(event) {
-      if (this.enableZoom) this._handleTouchMoveDolly(event);
-      if (this.enableRotate) this._handleTouchMoveRotate(event);
-    }
-    // pointers
-    _addPointer(event) {
-      this._pointers.push(event.pointerId);
-    }
-    _removePointer(event) {
-      delete this._pointerPositions[event.pointerId];
-      for (let i = 0; i < this._pointers.length; i++) {
-        if (this._pointers[i] == event.pointerId) {
-          this._pointers.splice(i, 1);
-          return;
-        }
-      }
-    }
-    _isTrackingPointer(event) {
-      for (let i = 0; i < this._pointers.length; i++) {
-        if (this._pointers[i] == event.pointerId) return true;
-      }
-      return false;
-    }
-    _trackPointer(event) {
-      let position = this._pointerPositions[event.pointerId];
-      if (position === void 0) {
-        position = new Vector2();
-        this._pointerPositions[event.pointerId] = position;
-      }
-      position.set(event.pageX, event.pageY);
-    }
-    _getSecondPointerPosition(event) {
-      const pointerId = event.pointerId === this._pointers[0] ? this._pointers[1] : this._pointers[0];
-      return this._pointerPositions[pointerId];
-    }
-    //
-    _customWheelEvent(event) {
-      const mode = event.deltaMode;
-      const newEvent = {
-        clientX: event.clientX,
-        clientY: event.clientY,
-        deltaY: event.deltaY
-      };
-      switch (mode) {
-        case 1:
-          newEvent.deltaY *= 16;
-          break;
-        case 2:
-          newEvent.deltaY *= 100;
-          break;
-      }
-      if (event.ctrlKey && !this._controlActive) {
-        newEvent.deltaY *= 10;
-      }
-      return newEvent;
-    }
-  };
-  function onPointerDown(event) {
-    if (this.enabled === false) return;
-    if (this._pointers.length === 0) {
-      this.domElement.setPointerCapture(event.pointerId);
-      this.domElement.ownerDocument.addEventListener("pointermove", this._onPointerMove);
-      this.domElement.ownerDocument.addEventListener("pointerup", this._onPointerUp);
-    }
-    if (this._isTrackingPointer(event)) return;
-    this._addPointer(event);
-    if (event.pointerType === "touch") {
-      this._onTouchStart(event);
-    } else {
-      this._onMouseDown(event);
-    }
-    if (this._cursorStyle === "grab") {
-      this.domElement.style.cursor = "grabbing";
-    }
-  }
-  function onPointerMove(event) {
-    if (this.enabled === false) return;
-    if (event.pointerType === "touch") {
-      this._onTouchMove(event);
-    } else {
-      this._onMouseMove(event);
-    }
-  }
-  function onPointerUp(event) {
-    this._removePointer(event);
-    switch (this._pointers.length) {
-      case 0:
-        this.domElement.releasePointerCapture(event.pointerId);
-        this.domElement.ownerDocument.removeEventListener("pointermove", this._onPointerMove);
-        this.domElement.ownerDocument.removeEventListener("pointerup", this._onPointerUp);
-        this.dispatchEvent(_endEvent);
-        this.state = _STATE.NONE;
-        if (this._cursorStyle === "grab") {
-          this.domElement.style.cursor = "grab";
-        }
-        break;
-      case 1:
-        const pointerId = this._pointers[0];
-        const position = this._pointerPositions[pointerId];
-        this._onTouchStart({ pointerId, pageX: position.x, pageY: position.y });
-        break;
-    }
-  }
-  function onMouseDown(event) {
-    let mouseAction;
-    switch (event.button) {
-      case 0:
-        mouseAction = this.mouseButtons.LEFT;
-        break;
-      case 1:
-        mouseAction = this.mouseButtons.MIDDLE;
-        break;
-      case 2:
-        mouseAction = this.mouseButtons.RIGHT;
-        break;
-      default:
-        mouseAction = -1;
-    }
-    switch (mouseAction) {
-      case MOUSE.DOLLY:
-        if (this.enableZoom === false) return;
-        this._handleMouseDownDolly(event);
-        this.state = _STATE.DOLLY;
-        break;
-      case MOUSE.ROTATE:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enablePan === false) return;
-          this._handleMouseDownPan(event);
-          this.state = _STATE.PAN;
-        } else {
-          if (this.enableRotate === false) return;
-          this._handleMouseDownRotate(event);
-          this.state = _STATE.ROTATE;
-        }
-        break;
-      case MOUSE.PAN:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enableRotate === false) return;
-          this._handleMouseDownRotate(event);
-          this.state = _STATE.ROTATE;
-        } else {
-          if (this.enablePan === false) return;
-          this._handleMouseDownPan(event);
-          this.state = _STATE.PAN;
-        }
-        break;
-      default:
-        this.state = _STATE.NONE;
-    }
-    if (this.state !== _STATE.NONE) {
-      this.dispatchEvent(_startEvent);
-    }
-  }
-  function onMouseMove(event) {
-    switch (this.state) {
-      case _STATE.ROTATE:
-        if (this.enableRotate === false) return;
-        this._handleMouseMoveRotate(event);
-        break;
-      case _STATE.DOLLY:
-        if (this.enableZoom === false) return;
-        this._handleMouseMoveDolly(event);
-        break;
-      case _STATE.PAN:
-        if (this.enablePan === false) return;
-        this._handleMouseMovePan(event);
-        break;
-    }
-  }
-  function onMouseWheel(event) {
-    if (this.enabled === false || this.enableZoom === false || this.state !== _STATE.NONE) return;
-    event.preventDefault();
-    this.dispatchEvent(_startEvent);
-    this._handleMouseWheel(this._customWheelEvent(event));
-    this.dispatchEvent(_endEvent);
-  }
-  function onKeyDown(event) {
-    if (this.enabled === false) return;
-    this._handleKeyDown(event);
-  }
-  function onTouchStart(event) {
-    this._trackPointer(event);
-    switch (this._pointers.length) {
-      case 1:
-        switch (this.touches.ONE) {
-          case TOUCH.ROTATE:
-            if (this.enableRotate === false) return;
-            this._handleTouchStartRotate(event);
-            this.state = _STATE.TOUCH_ROTATE;
-            break;
-          case TOUCH.PAN:
-            if (this.enablePan === false) return;
-            this._handleTouchStartPan(event);
-            this.state = _STATE.TOUCH_PAN;
-            break;
-          default:
-            this.state = _STATE.NONE;
-        }
-        break;
-      case 2:
-        switch (this.touches.TWO) {
-          case TOUCH.DOLLY_PAN:
-            if (this.enableZoom === false && this.enablePan === false) return;
-            this._handleTouchStartDollyPan(event);
-            this.state = _STATE.TOUCH_DOLLY_PAN;
-            break;
-          case TOUCH.DOLLY_ROTATE:
-            if (this.enableZoom === false && this.enableRotate === false) return;
-            this._handleTouchStartDollyRotate(event);
-            this.state = _STATE.TOUCH_DOLLY_ROTATE;
-            break;
-          default:
-            this.state = _STATE.NONE;
-        }
-        break;
-      default:
-        this.state = _STATE.NONE;
-    }
-    if (this.state !== _STATE.NONE) {
-      this.dispatchEvent(_startEvent);
-    }
-  }
-  function onTouchMove(event) {
-    this._trackPointer(event);
-    switch (this.state) {
-      case _STATE.TOUCH_ROTATE:
-        if (this.enableRotate === false) return;
-        this._handleTouchMoveRotate(event);
-        this.update();
-        break;
-      case _STATE.TOUCH_PAN:
-        if (this.enablePan === false) return;
-        this._handleTouchMovePan(event);
-        this.update();
-        break;
-      case _STATE.TOUCH_DOLLY_PAN:
-        if (this.enableZoom === false && this.enablePan === false) return;
-        this._handleTouchMoveDollyPan(event);
-        this.update();
-        break;
-      case _STATE.TOUCH_DOLLY_ROTATE:
-        if (this.enableZoom === false && this.enableRotate === false) return;
-        this._handleTouchMoveDollyRotate(event);
-        this.update();
-        break;
-      default:
-        this.state = _STATE.NONE;
-    }
-  }
-  function onContextMenu(event) {
-    if (this.enabled === false) return;
-    event.preventDefault();
-  }
-  function interceptControlDown(event) {
-    if (event.key === "Control") {
-      this._controlActive = true;
-      const document2 = this.domElement.getRootNode();
-      document2.addEventListener("keyup", this._interceptControlUp, { passive: true, capture: true });
-    }
-  }
-  function interceptControlUp(event) {
-    if (event.key === "Control") {
-      this._controlActive = false;
-      const document2 = this.domElement.getRootNode();
-      document2.removeEventListener("keyup", this._interceptControlUp, { passive: true, capture: true });
-    }
-  }
-
   // <stdin>
   var import_lodash = __toESM(require_lodash());
+  var scene;
+  var camera;
+  var renderer;
+  var requestID;
+  var paused = false;
+  scene = new Scene();
   var loadedStimuli = [];
+  var objectsInScene = [];
+  var raycaster = new Raycaster();
+  var pointer = new Vector2();
+  var selectedObject = null;
+  function raycastScene(event = null) {
+    raycaster.setFromCamera(pointer, camera);
+    const intersects = raycaster.intersectObjects(objectsInScene);
+    return intersects;
+  }
   var manager = new LoadingManager();
   manager.onLoad = function() {
-    animate();
+    init();
   };
-  var scene = new Scene();
-  scene.fog = new FogExp2(657938, 0.01);
   var container = document.querySelector("div.post-content.md-content");
   var width = container.clientWidth;
   var height = 500;
-  var requestID;
-  var renderer = new WebGLRenderer({ antialias: true });
-  renderer.setSize(width, height);
-  renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setClearColor(657938, 1);
-  var camera = new PerspectiveCamera(10, width / height, 0.75, 1e3);
-  camera.position.z = 20;
-  document.getElementById("three-root").appendChild(renderer.domElement);
-  var ambientLight = new AmbientLight(16777215, 1.8);
-  scene.add(ambientLight);
-  var dirLight = new DirectionalLight(8956671, 1.2);
-  dirLight.position.set(5, 8, 6);
-  scene.add(dirLight);
-  var rimLight = new DirectionalLight(16737860, 0.5);
-  rimLight.position.set(-5, -4, -3);
-  scene.add(rimLight);
-  var SPHERE_R = 4;
+  var SPHERE_R = 10;
   var CUBE_HALF = 0.28;
   var PALETTE = [6706653, 4504524, 16737860, 16755234, 5622903, 14501034, 3381759, 15658581];
   var SPEED = 0.01;
-  var TOTAL_CUBES = 20;
+  var TOTAL_CUBES = 50;
   var cubes = [];
   var cubeHalves = [];
   var velocities = [];
   var rotVelocities = [];
   var timer = new Timer();
   var sphereGeo = new SphereGeometry(SPHERE_R, 32, 32);
-  var sphereMat = new MeshBasicMaterial({ color: 3359846, wireframe: true, transparent: true, opacity: 0.12 });
+  var sphereMat = new MeshBasicMaterial({ color: 3359846, wireframe: true, transparent: true, opacity: 0.5 });
   var sphereMesh = new Mesh(sphereGeo, sphereMat);
-  scene.add(sphereMesh);
   function randInSphere(r) {
     let v;
     do {
@@ -39285,29 +38291,51 @@ void main() {
     );
   }
   function buildCubes() {
-    for (let i = 0; i < TOTAL_CUBES; i++) {
+    const updatedTotalCubes = TOTAL_CUBES - loadedStimuli.length;
+    for (let i = 0; i < loadedStimuli.length; i++) {
+      const mesh = loadedStimuli[i];
+      let randScale;
+      if (mesh.name.includes("DISTRACTOR") | mesh.name.includes("TARGET")) {
+        randScale = import_lodash.default.random(0.1, 0.25, true);
+      } else {
+        randScale = import_lodash.default.random(0.1, 0.5, true);
+      }
+      mesh.scale.set(randScale, randScale, randScale);
+      const bbox = new Box3().setFromObject(mesh);
+      const size = new Vector3();
+      bbox.getSize(size);
+      const half = Math.max(size.x, size.y, size.z) / 2;
+      mesh.position.copy(randInSphere(SPHERE_R));
+      scene.add(mesh);
+      objectsInScene.push(mesh);
+      cubes.push(mesh);
+      cubeHalves.push(half);
+      velocities.push(randVel());
+      rotVelocities.push(randRotVel());
+    }
+    for (let i = 0; i < updatedTotalCubes; i++) {
       const half = CUBE_HALF * import_lodash.default.random(0.25, 1, true);
       const geo = new BoxGeometry(half * 2, half * 2, half * 2);
-      const mat = new MeshPhongMaterial({
+      const mat = new MeshStandardMaterial({
         color: PALETTE[i % PALETTE.length],
-        shininess: 90,
-        flatShading: false
+        roughness: import_lodash.default.random(0.1, 1, true)
       });
       const mesh = new Mesh(geo, mat);
       mesh.position.copy(randInSphere(SPHERE_R));
+      mesh.userData.cardName = "Other";
       scene.add(mesh);
+      objectsInScene.push(mesh);
       cubes.push(mesh);
       cubeHalves.push(half);
       velocities.push(randVel());
       rotVelocities.push(randRotVel());
     }
   }
-  buildCubes();
   function applyVelocities(cube, vel, rotVel, delta) {
-    cube.position.addScaledVector(vel, delta * 60);
-    cube.rotation.x += rotVel.x * delta * 60;
-    cube.rotation.y += rotVel.y * delta * 60;
-    cube.rotation.z += rotVel.z * delta * 60;
+    cube.position.addScaledVector(vel, delta * 30);
+    cube.rotation.x += rotVel.x * delta * 30;
+    cube.rotation.y += rotVel.y * delta * 30;
+    cube.rotation.z += rotVel.z * delta * 30;
   }
   function checkIfInSphere(cube, half) {
     return cube.position.length() > SPHERE_R - half * 1.5;
@@ -39369,19 +38397,119 @@ void main() {
     }
     sphereMesh.rotation.y += 2e-3 * delta * 60;
   }
+  function init() {
+    renderer = new WebGLRenderer({ antialias: true });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setClearColor(657938, 1);
+    document.getElementById("three-root").appendChild(renderer.domElement);
+    camera = new PerspectiveCamera(10, width / height, 0.1, 1e3);
+    camera.position.z = 50;
+    const ambientLight = new AmbientLight(16777215, 1.8);
+    scene.add(ambientLight);
+    const dirLight = new DirectionalLight(8956671, 1.2);
+    dirLight.position.set(5, 8, 6);
+    scene.add(dirLight);
+    const rimLight = new DirectionalLight(16737860, 0.5);
+    rimLight.position.set(-5, -4, -3);
+    scene.add(rimLight);
+    const gridSize = 150;
+    const divisions = 50;
+    const gridHelper = new GridHelper(gridSize, divisions, 41772, 41772);
+    gridHelper.material.opacity = 0.35;
+    gridHelper.material.transparent = true;
+    gridHelper.rotateX(1.5708);
+    gridHelper.position.z = -400;
+    scene.add(gridHelper);
+    window.addEventListener("resize", onWindowResize);
+    container.addEventListener("pointermove", (event) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    });
+    container.addEventListener("pointerdown", (event) => {
+      const rect = renderer.domElement.getBoundingClientRect();
+      pointer.x = (event.clientX - rect.left) / rect.width * 2 - 1;
+      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+      const intersects = raycastScene();
+      console.log(intersects);
+      if (!paused & intersects.length > 0) {
+        selectedObject = intersects[0].object;
+        console.log(selectedObject.userData);
+        paused = true;
+        const card = CARDS.find((card2) => card2.name === selectedObject.userData.cardName);
+        document.body.appendChild(makeCard(card));
+      }
+    });
+    buildCubes();
+    animate();
+  }
   function preLoadModels() {
     const objectLoader = new GLTFLoader(manager);
-    let stimuliToLoad = ["DISTRACTOR_CUBE_1.glb"];
-    let modelPath = "/models/";
+    let stimuliToLoad = ["DISTRACTOR_CUBE_1", "TARGET_CUBE_1", "hadenCube", "haywardCube", "prasadCube", "mansiCube", "coinPaperCube", "easyDoesItCube", "emmaPaperCube", "noStoneUnturnedCube"];
+    let modelPath = "models/";
     for (let i = 0; i < stimuliToLoad.length; i++) {
       objectLoader.load(
         // resource URL
         modelPath + stimuliToLoad[i] + ".glb",
         // called when the resource is loaded
         function(gltf) {
-          let model = gltf.scene;
-          loadedStimuli.push(model);
-          scene.add(model);
+          const model = gltf.scene;
+          const modelName = stimuliToLoad[i];
+          let cardName;
+          if (modelName == "DISTRACTOR_CUBE_1") {
+            cardName = "DistractorCube";
+          }
+          if (modelName == "TARGET_CUBE_1") {
+            cardName = "TargetCube";
+          }
+          if (modelName == "hadenCube") {
+            cardName = "Haden";
+          }
+          if (modelName == "haywardCube") {
+            cardName = "Hayward";
+          }
+          if (modelName == "prasadCube") {
+            cardName = "Prasad";
+          }
+          if (modelName == "mansiCube") {
+            cardName = "Mansi";
+          }
+          if (modelName == "coinPaperCube") {
+            cardName = "coinPaper";
+          }
+          if (modelName == "easyDoesItCube") {
+            cardName = "easyDoesIt";
+          }
+          if (modelName == "emmaPaperCube") {
+            cardName = "emmaPaper";
+          }
+          if (modelName == "noStoneUnturnedCube") {
+            cardName = "noStoneUnturned";
+          }
+          model.userData.cardName = cardName;
+          model.traverse((o) => {
+            if (o.isMesh) {
+              o.userData.cardName = cardName;
+            }
+          });
+          if (modelName == "DISTRACTOR_CUBE_1") {
+            model.name = "DISTRACTOR_CUBE";
+            loadedStimuli.push(model);
+            for (let j = 0; j < 5; j++) {
+              const dClone = model.clone();
+              loadedStimuli.push(dClone);
+            }
+          } else if (modelName == "TARGET_CUBE_1") {
+            model.name = "TARGET_CUBE";
+            loadedStimuli.push(model);
+            for (let j = 0; j < 3; j++) {
+              const tClone = model.clone();
+              loadedStimuli.push(tClone);
+            }
+          } else {
+            loadedStimuli.push(model);
+          }
         },
         function(xhr) {
           console.log(xhr.loaded / xhr.total * 100 + "% loaded");
@@ -39394,14 +38522,241 @@ void main() {
     }
     ;
   }
-  var controls = new OrbitControls(camera, renderer.domElement);
+  function onWindowResize() {
+    const w = container.clientWidth;
+    const h = 500;
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+    renderer.setSize(w, h);
+  }
   function animate() {
     requestID = requestAnimationFrame(animate);
     timer.update();
     const delta = Math.min(timer.getDelta(), 0.1);
-    update(delta);
+    if (!paused) {
+      update(delta);
+    }
     renderer.render(scene, camera);
   }
+  var CSS = `
+  .card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 360px;
+    z-index: 9999;
+    background: #111113;
+    border: 1px solid #2a2a2e;
+    border-radius: 10px;
+    padding: 14px 16px 12px;
+    font-family: sans-serif;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 10px;
+    animation: drop 0.18s cubic-bezier(0.22,1,0.36,1);
+    overflow: hidden;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent 100%);
+  }
+  @keyframes drop {
+    from { opacity: 0; transform: translate(-50%, -46%) scale(0.98); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  .card-label {
+    grid-column: 1; grid-row: 1;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: #555;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+  .card-close {
+    grid-column: 2; grid-row: 1 / 4;
+    align-self: start;
+    background: none;
+    border: none;
+    color: #3a3a3e;
+    cursor: pointer;
+    padding: 0;
+    font-size: 18px;
+    line-height: 1;
+    transition: color 0.1s;
+    margin-top: 1px;
+  }
+  .card-close:hover { color: #888; }
+  .card-title {
+    grid-column: 1; grid-row: 2;
+    font-size: 14px;
+    font-weight: 500;
+    color: #dddde0;
+    margin: 0 0 6px;
+    line-height: 1.3;
+  }
+  .card-body {
+    grid-column: 1; grid-row: 3;
+    font-size: 12.5px;
+    color: #666;
+    line-height: 1.55;
+    margin: 0;
+  }
+`;
+  var s = document.createElement("style");
+  s.textContent = CSS;
+  document.head.appendChild(s);
+  function makeCard(data) {
+    const el = document.createElement("div");
+    el.className = `card type-${data.type}`;
+    const label = document.createElement("div");
+    label.className = "card-label";
+    label.textContent = data.label;
+    const title = document.createElement("p");
+    title.className = "card-title";
+    title.textContent = data.title;
+    const body = document.createElement("div");
+    body.className = "card-body";
+    body.innerHTML = data.body;
+    const close = document.createElement("button");
+    close.className = "card-close";
+    close.setAttribute("aria-label", "Dismiss");
+    close.innerHTML = "\xD7";
+    close.addEventListener("click", () => {
+      el.style.transition = "opacity 0.12s";
+      el.style.opacity = "0";
+      setTimeout(() => {
+        el.remove();
+        paused = false;
+      }, 130);
+    });
+    el.append(label, close, title, body);
+    console.log(el);
+    return el;
+  }
+  var CARDS = [
+    {
+      name: "easyDoesIt",
+      type: "plain",
+      label: "Paper",
+      title: "Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily",
+      body: `
+    <p>Our findings suggest that the perceived effort required to interact with an object is an extremely strong driver of attentional selection within interactive search behaviors. Here, targets may be slower to be detected when that target is obscured within or by an object that conveys, in some shape or form, greater difficulty to examine compared with other objects</p>
+    <a href="https://doi.org/10.3758/s13414-025-03083-w" target="_blank">Read it here!</a>
+    `
+    },
+    {
+      name: "coinPaper",
+      type: "plain",
+      label: "Paper",
+      title: "What Drives Object Selection? The Combined Role of Temporal Costs and Effort During Interactive Search",
+      body: `
+    <p>In our task, we found that searchers would first use a combination of both perceived effort and time to determine what makes an object \u201Ceasy\u201D or \u201Chard\u201D to interact with in relation to all other objects, before prioritizing interactions with said easier objects.</p>
+    <a href="https://doi.org/10.1177/17470218261436006" target="_blank">Read it here!</a>
+    `
+    },
+    {
+      name: "noStoneUnturned",
+      type: "plain",
+      label: "Paper",
+      title: "No stone unturned: Prevalence effects in interactive search are different than those in visual search",
+      body: `
+    <p>We found strong evidence against the influence of target-prevalence upon response times and all other search exhaustiveness measures. Contrary to traditional visual search findings, changes in response accuracy were not a result of reductions in search exhaustiveness. We conclude that, during interactive search, even when prevalence is low, searchers operate under a no-stone-unturned approach. Under this approach, searchers are unwilling to provide an \u201Cabsent\u201D response without checking most\u2014if not all\u2014possible places, regions or areas in a display that could contain a target.</p>
+    <a href="https://doi.org/10.3758/s13423-026-02919-2" target="_blank">Read it here!</a>
+    `
+    },
+    {
+      name: "emmaPaper",
+      type: "plain",
+      label: "Paper",
+      title: "How do the e\uFB00ects of e\uFB00ort influence interactivesearch behavior?",
+      body: `
+    <p>We offer three important contributions to the literature. First, our methodology enabled us to determine that, within our study, interactive search utilized a \u201Cnearest-next\u201D strategy, with searchers choosing to interact with the nearest cube to them on each trial. Second, contrary to expectations from purely visual search tasks, rather than waiting and examining the already-visible cube faces at the start of each trial, searchers opted instead to begin interacting with objects immediately. Third, response accuracy rates were no different between target-present and target-absent trials, suggesting that there is at least one point at which interactive search differs from visual search.</p>
+    <a href="https://doi.org/10.3758/s13414-025-03083-w" target="_blank">Read it here!</a>
+    `
+    },
+    {
+      name: "Haden",
+      type: "plain",
+      label: "Lab Member",
+      title: "Haden Dewis",
+      body: `
+    <p>Some info about Haden</p>
+    <a href="" target="_blank">Full bio here.</a>
+    `
+    },
+    {
+      name: "Hayward",
+      type: "plain",
+      label: "Lab Member",
+      title: "Hayward Godwin",
+      body: `
+    <p>Some info about Hayward</p>
+    <a href="" target="_blank">Full bio here.</a>
+    `
+    },
+    {
+      name: "Prasad",
+      type: "plain",
+      label: "Lab Member",
+      title: "Prasad Mane",
+      body: `
+    <p>Some info about Prasad</p>
+    <a href="" target="_blank">Full bio here.</a>
+    `
+    },
+    {
+      name: "Emma",
+      type: "plain",
+      label: "Lab Member",
+      title: "Emma Deverill",
+      body: `
+    <p>Some info about Emma</p>
+    <a href="" target="_blank">Full bio here.</a>
+    `
+    },
+    {
+      name: "Mansi",
+      type: "plain",
+      label: "Lab Member",
+      title: "Mansi Pattni",
+      body: `
+    <p>Some info about Mansi</p>
+    <a href="" target="_blank">Full bio here.</a>
+    `
+    },
+    {
+      name: "DistractorCube",
+      type: "plain",
+      label: "Stimuli",
+      title: "Distractor Cube",
+      body: `
+    <p>Some info about distractor cubes</p>
+    `
+    },
+    {
+      name: "TargetCube",
+      type: "plain",
+      label: "Stimuli",
+      title: "Target Cube",
+      body: `
+    <p>Some info about distractor cubes</p>
+    `
+    },
+    {
+      name: "Other",
+      type: "plain",
+      label: "Other",
+      title: "Random Cube",
+      body: `
+    <p>Some info about random cube</p>
+    `
+    }
+  ];
   preLoadModels();
 })();
 /*! Bundled license information:
