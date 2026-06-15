@@ -4,6 +4,8 @@ draft: false
 title: 'Publications'
 ---
 
+Del Sordo G. C., Dewis, H., Darch, P. T., Hout, M. C., & Godwin, H. J. (in press). ‘It Makes Sense to me’: Examining Data File Column Names in the Visual Cognitive Literature. *Behaviour Research Methods*.
+
 Muir S., Jenner, S., Crozier, S., Lee, C. E., Godwin, H. J., Payne, H., Maynard, O. M., Munafò, M. R., Vogel, C., & Baird, J. (in press). [Women intend to buy, and attend more to, healthy foods in supermarkets: Attention to Product Placement ObseRved in WOmen in a Virtual Supermarket Environment (The APPROVE study).](https://link.springer.com/article/10.1186/s12889-026-27679-5) *BMC Medicine*.
 
 Dewis, H., Metcalf, C.D., Warner, M.B., Polfreman, R., & Godwin, H. J. (in press). [No stone unturned: Prevalence effects in interactive search are different to those in visual search.](https://link.springer.com/article/10.3758/s13423-026-02919-2) *Psychonomic Bulletin & Review*.

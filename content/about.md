@@ -33,7 +33,10 @@ A full list of my publications can be found [here]({{< ref "publications.md" >}}
 
 Haden Dewis is currently a lecturer and post-doc at the University of Southampton. Much of his research focuses on attention, cognition, and how these combine with physical interactions during tasks within the real world. Haden has experience in a range of experimental methodologies including eye tracking, motion tracking, computer vision, and standard psychology-based behavioural techniques. Unsurprisingly, Haden has a particular interests in programming and complex data analyses. More recently, Haden has branched out into open science research, specifically regarding data sharing and how this can be improved, and clinical research with a focus on eye movements and working memory during traumatic experiences.
  
-**Publications**.                                                                                        
+**Publications**.                  
+
+Del Sordo G. C., Dewis, H., Darch, P. T., Hout, M. C., & Godwin, H. J. (in press). ‘It Makes Sense to me’: Examining Data File Column Names in the Visual Cognitive Literature. *Behaviour Research Methods*.
+
 Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). No Stone Unturned: Prevalence Effects in Interactive Search are Different to Those in Visual Search. *Psychonomic Bulletin & Review.* 33(154). https://doi.org/10.3758/s13423-026-02919-2
 
 Dewis H., Godwin, H. J., Metcalf, C. D., Warner, M. B., & Polfreman, R. (2026). What Drives Object Selection? The Combined Role of Temporal Costs and Effort during Interactive Search. *Quarterly Journal of Experimental Psychology.* (in press). https://doi.org/10.1177/17470218261436006
