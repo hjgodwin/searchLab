@@ -70,7 +70,13 @@ No stone unturned: Prevalence effects in interactive search are different than t
 
 ### Emma Deverill
 
-I am currently a PhD student at the University of Southampton, where I also completed my BSc and MSc degrees. During this time, Hayward has been the primary supervisor for all of my research projects. Much of my research focuses on search behaviour, mostly looking into physical interactivity with arrays, attention, and differences between real-world and virtual environments. I have experience with passive marker motion capture, eye-tracking, computer-based metrics, and standard behavioural measures.
+{{< aboutImage
+    src="/searchLab/images/Emma.heic"
+    alt="Portrait"
+    width="250"
+>}}
+
+Emma Deverill is currently a first-year PhD student at the University of Southampton. Her research focuses on search and attention, mostly looking into physical interactivity with search arrays and differences between real-world and virtual environments. Emma has experience with passive marker motion capture, eye-tracking, computer-based metrics, and standard behavioural measures. Beyond her own research, Emma has contributed to a number of other research projects, primarily led by Hayward, while also supporting undergraduate teaching and delivering lab demonstrations during the University’s open days.
  
 **Publications**
 
