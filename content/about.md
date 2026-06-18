@@ -71,7 +71,7 @@ No stone unturned: Prevalence effects in interactive search are different than t
 ### Emma Deverill
 
 {{< aboutImage
-    src="/searchLab/images/Emma.heic"
+    src="/searchLab/images/Emma.png"
     alt="Portrait"
     width="250"
 >}}
