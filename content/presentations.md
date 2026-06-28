@@ -3,7 +3,11 @@ draft: false
 title: 'Presentations'
 ---
 
+### 2026
+
 Godwin, H. J., Dewis. H, Darch, P., Del Sordo, G. C., Bokhove, C., Buchanan, E., & Hout, M. C. (2026). One Column Name to Rule Them All: Can we agree on how to Label Participant Identifier Columns in our Datasets? Hackathon presented at the Society for the Improvement of Psychological Science annual confernce (online).
+
+### 2025
 
 Mane, P, Dewis, H., Vieira, J, & Godwin, H. J. (2025). Beyond the binary: Eye-tracking evidence of imprecise visual awareness in the Multiple Object Awareness paradigm. Poster presented at the Applied Vision Association 2025 Conference: Birmingham, UK (December 2025).
 
@@ -13,6 +17,8 @@ Deverill, E., Dewis, H., Lepori, F, Maiello, G., Russell, I. H., & Godwin, H. J.
 
 Vieira, J, Teixeira, E., Godwin, H. J., & Drieghe, D. (2025). Definitely Ignored: Parafoveal Processing of Articles in Brazilian Portuguese. Poster presented at the 1st Annual Meeting of the Latin America Conference on Eye Movements: Viña del Mar, Chile (December, 2025).
 
+### 2023
+
 Hernandez, M., Hout, M. C., Godwin, H. J., Polak, J., White, B., & Zsido, A. (2023). An exploration of prevalence effects for threatening and non-threatening targets. Poster presented at the 64th Annual Meeting of the Psychonomic Society: San Francisco, California (November, 2023).
 
 Hernandez, M., White, B., Hout, M. C., Godwin, H. J., Polak, J., & Zsido, A. (2023). Investigating prevalence effects during visual search for threatening and non-threatening items. Paper presented at the Rocky Mountain Psychological Association conference (Albuquerque; April, 2023).
@@ -21,15 +27,23 @@ Drieghe, D., Lee, C., Blythe, H.I., & Godwin, H. (2023). Individual Differences 
 
 Drieghe, D., Lee, C., & Godwin, H. (2023). A multiverse exploration of choices in cleaning and analysing eye movements during reading. Lecture held at the Meeting of the Experimental Psychology Society. July 12 – 14, Swansea, (UK). 
 
+### 2022
+
 Drieghe, D., Lee, C., & Godwin, H. (2022). A multiverse exploration of choices in cleaning and analysing eye movements during reading. Invited talk to the symposium to honour Alexander Pollatsek’s legacy to eye movement research. Lecture held at the XXIth European Conference on Eye Movements, August 21 - 25, Leicester, (UK). 
 
 Hout, M. C., Godwin, H. J., Polak, J., & Zsido, A. N. (2022). Investigating prevalence effects during visual search for threatening targets. Poster presented at the 63rd Annual Meeting of the Psychonomic Society (Boston; November, 2022).
 
+### 2020
+
 Madrid, J., White, B., Godwin, H. J., Scarince, C., & Hout, M. C. (2020). Some assembly required: Examining strategy use during multi-modal search for Lego bricks. Poster presented at the 61st Annual Meeting of the Psychonomic Society (virtual; November, 2020).
+
+### 2019
 
 White, B. L., Godwin, H. J., Madrid, J., Scarince, C., & Hout, M. C. (2019). Every search is awesome!: A pilot study using Lego to examine three-dimensional visual search. Poster presented at the 27th annual Object Perception, Attention and Memory conference: Montreal, Canada (November, 2019).
 
 Godwin, H. J., Butnaru, A., & Hout, M. C. (2019, July). Using the abacus task to study overestimation of accuracy in eye movements. Presented at the EPS Meeting in Bournemouth, UK.
+
+### 2016
 
 Godwin, H. J., Fitzsimmons, G., Weal, M., Liversedge, S. P., Menneer, T., & Hout, M. C. (2016, November). Knowing when to quit searching for information. Paper presented at the 57th Annual Meeting of the Psychonomic Society in Boston, Massachusetts.
 
@@ -52,6 +66,8 @@ May). Search for targets in fixed or random locations within consistent routes. 
 
 Sabik, M., Scarince, C., Papesh, M., Godwin, H. J., Goldinger, S., Hout, M. C. (2016, 
 May). Rare Targets Induce Less “Perceptual Readiness:” Evidence from Pupillometry. Poster presented at the Vision Sciences Society, St Pete Beach, Florida.
+
+### 2015
 
 Godwin, H. J., Menneer, T., Liversedge, S. P., Cave, K. R., Holliman, N. S., & Donnelly, N. (2015, November). Mixed benefits from conducting visual search in stereoscopic depth. Poster presented at the 56th Annual Meeting of the Psychonomic Society, Chicago.
 
@@ -109,6 +125,8 @@ Godwin, H. J., Holliman, N. S., Menneer, T., Liversedge, S. P., Cave, K. R., & D
 
 Harvey, H., Walker, R., Liversedge, S. P., Godwin, H. J., & Fitzsimmons, G. (2015, January). A comparison of reading static and horizontally scrolling text. Presented at Experimental Psychology Society, London, UK.
 
+### 2014
+
 Godwin, H. J., Menneer, T., Liversedge, S. P., Cave, K. R., Holliman, N. S., & Donnelly, N. 
 (2014, November). Does the dual-target cost in visual search increase when objects overlap, and can it be ameliorated by the presence of depth information? Poster presented at the 55th Annual Meeting of the Psychonomic Society, Long Beach, California.
 
@@ -133,6 +151,8 @@ semantic similarity in guiding visual search for numbers. Poster presented at th
 
 Riggs, C. A., Godwin, H. J., Menneer, T., Liversedge, S. P., & Donnelly, N. (2014, May). How does visual search behaviour adapt when partners have a response bias? Poster presented at the Vision Sciences Society, St Pete Beach, Florida.
 
+### 2013
+
 Glautier, S., Godwin, H. J., Menneer, T. & Donnelly, N. (2013, September). Flexible configural learning of non-linear discriminations and detection of stimulus compounds. Presented at XXVth International Congress of the Spanish Society for Comparative Psychology, Donostia-San Sebastian, Spain.
 
 Godwin, H. J., Menneer, T, Riggs, C. A., Cave, K. R., & Donnelly, N. (2013, August). Low 
@@ -155,6 +175,8 @@ tracking to assess attentional bias and attentional control in chronic pain. Pos
 
 Leyland, L., Godwin, H. J., Benson, V. & Liversedge, S. P. (2013, April). Using eye movements to reveal underlying factors in hemispatial neglect: Why is information neglected? Poster presented at Experimental Psychology Society, Lancaster, UK.
 
+### 2012
+
 Jones, M. O., Godwin, H. J., Reynolds, P., Mann, C. M., Riggs, C., Donnelly, N. and 
 Liversedge, S. P. (2012, October). Perambulatory eye-tracking using the EyeCalibrator system. Poster presented at Pervasive Eye Tracking and Mobile Eye-Based Interaction 2012, Pittsburgh, US.
 
@@ -162,15 +184,21 @@ Godwin, H. J., Liversedge, S. P., Kirkby, J. A., Cornes, K., Boardman, M. & Donn
 
 Kass, J., Mann, C., Harland, B., Gillett, J., Godwin, H, J., Liversedge, S. P. and Donnelly, N. (2012, September). Using eye-movements and verbalization to investigate spectatorship in Edouard Manet’s painting (1882) ‘A Bar at the Folies-Bergère’. At 1st Visual Science of Art Conference, Alghero (l’Alguer), Italy.
 
+### 2011
+
 Godwin, H. J., Benson, V. & Drieghe, D. (2011, August). Using visual interruptions to explore the extent and time course of fixation planning in visual search. Poster presented at the European Conference on Eye Movements, Marseille, France.
 
 Leyland, L., Meadmore, K. L., Godwin, H. J., Benson, V., Burridge, J. H., Freeman, C. T., 
 Hughes, A., Rogers, E. & Liversedge, S. P. (2011, August). Patterns of eye movements during cancellation tasks in stroke patients exhibiting hemispatial neglect. Poster presented at the European Conference on Eye Movements, Marseille, France.
 
+### 2010
+
 Godwin, H. J., Liversedge, S. P., & Donnelly, N. (2010, June). Eye movements and eye 
 tracking: mobile solutions for complex problems. Poster presented at the London Technology Network & Royal United Services Institute: Sparking Innovation in Science & Technology for Security Annual Conference, London.
 
 Mestry, N., Menneer, T., Godwin, H. J., McCarthy, R. & Donnelly, N. (2010, May). Are deficits in emotional face processing preventing perception of the Thatcher Illusion in a case of prosopagnosia? Poster presented at the Vision Sciences Society, Naples, Florida.
+
+### 2009
 
 Godwin, H. J., Menneer, T., Cave, K. R., Cutler, V., & Donnelly, N. (2009, May). The 
 prevalence effect is imbalanced: it is stronger for high target presentation rates, than for low. Poster presented at the Vision Sciences Society, Naples, Florida.
@@ -179,6 +207,8 @@ Godwin, H.J., Donnelly, N., Liversedge, S. P. & Menneer, T. (2009, April). Job d
 
 Godwin, H. J., Menneer, T., & Donnelly, N. (2009, April). Job design factors impacting the 
 performance of screening personnel: the optimisation of tip rates. Presented at The Human Factors in Transport Security Academic Forum, Oxford.
+
+### 2008
 
 Godwin, H. J., Menneer, T., Way, R. L., Cave, K. R., & Donnelly, N. (2008, October). 
 Examining the cause of the target prevalence effect in visual search. Poster presented at the British Psychological Society: Cognitive Section Annual Conference, Southampton.
@@ -189,11 +219,15 @@ understanding visual search and environmental distraction. Presented at the Brit
 Godwin, H. J., Menneer, T., Cave, K. R., Helman, S., Way, R. L., & Donnelly, N. (2008, May). 
 Don’t distract the searcher: search performance for X-ray security screening images is reduced with the addition of a simple mental arithmetic task. Poster presented at the Vision Sciences Society, Naples, Florida.
 
+### 2007
+
 Godwin, H. J., Menneer, T., Helman, S., Donnelly, N. (2007, September). Investigating the 
 impact of searching for multiple infrequent threat items upon visual search performance in X-ray baggage images. Poster presented at The Human Factors in Transport Security Academic Forum, Oxford.
 
 Godwin, H. J., Menneer, T., Helman, S., Cave, K. R., and Donnelly, N. (2007, May). In difficult 
 visual search, high frequency targets are found at the expense of low frequency targets. Poster presented at The Vision Sciences Society Annual Conference, Sarasota, Florida.
+
+### 2006
 
 Donnelly, N. Menneer, T., Godwin, H. J., Stroud, M. and Cave, K. R. (2006, October). 
 Searching for multiple items in X-ray baggage search. Presented at InterTag, Zurich.
