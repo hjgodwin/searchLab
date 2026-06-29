@@ -20,6 +20,26 @@
     </item>
     
     <item>
+      <title>eyeTrackR</title>
+      <link>http://localhost:1313/searchLab/eyetrackr/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/searchLab/eyetrackr/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
+      <title>Interactive Search Toolbox</title>
+      <link>http://localhost:1313/searchLab/ist/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>http://localhost:1313/searchLab/ist/</guid>
+      <description></description>
+      
+    </item>
+    
+    <item>
       <title>Output It Forward </title>
       <link>http://localhost:1313/searchLab/oif/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>

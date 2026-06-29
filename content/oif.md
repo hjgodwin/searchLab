@@ -10,7 +10,7 @@ Output it Forward (OIF for short) is a Chrome extension that helps with this. By
 
 After it scans whatever is in your browser tab, it will then provide a pop-up to help you see what links to shared outputs have been detected. Alongside that, it will highlight in yellow in the loaded article itself where the outputs have been found. 
 
-{{< button href="#button" target="https://chromewebstore.google.com/detail/oif-highlighter/bjdgccfgndglkemkaebcdpnpccdpeadp?utm_source=item-share-cb" >}}
+{{< button href="#button" target="_blank" href="https://chromewebstore.google.com/detail/oif-highlighter/bjdgccfgndglkemkaebcdpnpccdpeadp?utm_source=item-share-cb" >}}
 Download from the Chrome Web Store
 {{< /button >}}
 
@@ -18,7 +18,7 @@ Download from the Chrome Web Store
 
 It's also available for you to adapt and update on Github.
 
-{{< button href="#button" target="https://github.com/giovannacdelsordo/output-it-forward" >}}
+{{< button href="#button" target="_blank" href="https://github.com/giovannacdelsordo/output-it-forward" >}}
 Source from Github
 {{< /button >}}
 
@@ -26,7 +26,7 @@ The extension was made to facilitate a sharing practices review that we engaged 
 
 
 {{< figure
-    src="/images/oif.png"
+    src="/searchLab/images/oif.png"
     alt="Example of the Output it Forward Chrome Extension working"
     caption="OIF Example"
     >}}
