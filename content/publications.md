@@ -4,7 +4,11 @@ draft: false
 title: 'Publications'
 ---
 
+Titles of each publication are links to published manuscripts, either in the journal itself when open access, or a preprint. 
+
 ### 2026
+
+Dewis, H, Hout, M. C., Houpt, J. W., Howsley, L., & Godwin, H. J. (in press). [Low prevalence targets are primarily missed due to mind wandering.](https://link.springer.com/article/10.3758/s13414-026-03296-7) *Attention Perception & Psychophysics*
 
 Del Sordo G. C., Dewis, H., Darch, P. T., Hout, M. C., & Godwin, H. J. (in press). ‘It Makes Sense to me’: Examining Data File Column Names in the Visual Cognitive Literature. *Behaviour Research Methods*.
 
