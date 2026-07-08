@@ -4,7 +4,7 @@
   dir="ltr"
   class="scroll-smooth"
   data-default-appearance="dark"
-  data-auto-appearance="true"><head><script src="/searchLab/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=searchLab/livereload" data-no-instant defer></script>
+  data-auto-appearance="true"><head>
   <meta charset="utf-8">
   
     <meta http-equiv="content-language" content="en">
@@ -34,7 +34,7 @@
   
   
   
-  <link rel="canonical" href="http://localhost:1313/searchLab/ist/">
+  <link rel="canonical" href="https://hjgodwin.github.io/searchLab/ist/">
   
   
 
@@ -43,15 +43,15 @@
   
 
   
-  <meta property="og:url" content="http://localhost:1313/searchLab/ist/">
-  <meta property="og:site_name" content="Search, Attention and Memory Lab">
-  <meta property="og:title" content="Interactive Search Toolbox">
-  <meta property="og:locale" content="en">
-  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://hjgodwin.github.io/searchLab/ist/">
+	<meta property="og:site_name" content="Search, Attention and Memory Lab">
+	<meta property="og:title" content="Interactive Search Toolbox">
+	<meta property="og:locale" content="en">
+	<meta property="og:type" content="article">
 
   
-  <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Interactive Search Toolbox">
+	<meta name="twitter:card" content="summary">
+	<meta name="twitter:title" content="Interactive Search Toolbox">
 
   
   
@@ -136,8 +136,8 @@
       defer
       type="text/javascript"
       id="script-bundle"
-      src="/searchLab/js/main.bundle.min.d201dca88fa147186e8d837b7a92b10c5e4559c08d1cac5cd8ef4f71f116f8b40af22641081764ebbe690b798546e3bda45d5e4c51c21fc841f426b2d733b597.js"
-      integrity="sha512-0gHcqI&#43;hRxhujYN7epKxDF5FWcCNHKxc2O9PcfEW&#43;LQK8iZBCBdk675pC3mFRuO9pF1eTFHCH8hB9Cay1zO1lw=="
+      src="/searchLab/js/main.bundle.min.2e4a40a56a1c26644ff4dab6790eabc19d06af6171ea5b7ce1d008ad294537fedc437e8d1b2d28ae15b50ecb35defd0e442ddca3a21cb41b95435b3f03fd29fd.js"
+      integrity="sha512-LkpApWocJmRP9Nq2eQ6rwZ0Gr2Fx6lt84dAIrSlFN/7cQ36NGy0orhW1Dss13v0ORC3co6IctBuVQ1s/A/0p/Q=="
       data-copy="Copy"
       data-copied="Copied"></script>
   
@@ -208,7 +208,7 @@
     "headline": "Interactive Search Toolbox",
     
     "inLanguage": "en",
-    "url" : "http://localhost:1313/searchLab/ist/",
+    "url" : "https://hjgodwin.github.io/searchLab/ist/",
     "author" : {
       "@type": "Person",
       "name": ""
@@ -229,6 +229,12 @@
 
 
   
+  
+    
+
+
+
+
   
 
   
@@ -460,6 +466,17 @@
                 
                 <span class="text-sm font-sm" title="">
                   Using Pixi.js with jsPsych
+                </span>
+              </a>
+            
+              <a
+                href="/searchLab/istguide/"
+                
+                aria-label="Using the Interactive Search Toolbox"
+                class="flex items-center bf-icon-color-hover">
+                
+                <span class="text-sm font-sm" title="Using the Interactive Search Toolbox">
+                  Using the Interactive Search Toolbox
                 </span>
               </a>
             
@@ -752,6 +769,17 @@
                   </span>
                 </a>
               
+                <a
+                  href="/searchLab/istguide/"
+                  aria-label="Using the Interactive Search Toolbox"
+                  
+                  class="flex items-center gap-3 p-2 group bf-icon-color-hover text-neutral-700 dark:text-neutral-200">
+                  
+                  <span title="Using the Interactive Search Toolbox" class="text-lg">
+                    Using the Interactive Search Toolbox
+                  </span>
+                </a>
+              
             </div>
           </div>
         </div>
@@ -816,6 +844,23 @@
 
 
 
+
+  <script>
+    (function () {
+      var mainmenu = document.querySelector(".main-menu");
+      if (!mainmenu) return;
+
+      var path = window.location.pathname;
+      var links = mainmenu.querySelectorAll('a[href="' + path + '"]');
+
+      links.forEach(function (link) {
+        var targets = link.querySelectorAll("span");
+        targets.forEach(function (el) {
+          el.classList.add("active");
+        });
+      });
+    })();
+  </script>
 
 
     
@@ -922,7 +967,7 @@
         
 
         <div class="article-content max-w-prose mb-20">
-          <p><em>This page is under construction.</em></p>
+          <p><em>This page is under construction!</em></p>
 
           
           
@@ -1001,7 +1046,7 @@
 <div
   id="search-wrapper"
   class="invisible fixed inset-0 flex h-screen w-screen cursor-default flex-col bg-neutral-500/50 p-4 backdrop-blur-sm dark:bg-neutral-900/50 sm:p-6 md:p-[10vh] lg:p-[12vh] z-500"
-  data-url="http://localhost:1313/searchLab/">
+  data-url="https://hjgodwin.github.io/searchLab/">
   <div
     id="search-modal"
     class="flex flex-col w-full max-w-3xl min-h-0 mx-auto border rounded-md shadow-lg top-20 border-neutral-200 bg-neutral dark:border-neutral-700 dark:bg-neutral-800">

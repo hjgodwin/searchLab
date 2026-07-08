@@ -68,6 +68,12 @@
   pageRef = "pixi_jsPsych"
   weight =4
 
+[[main]]
+  name = "Using the Interactive Search Toolbox"
+  parent = "Guides"
+  pageRef = "istGuide"
+  weight =4
+
 
 [[main]]
   name = "Publications"
