@@ -131,3 +131,20 @@ Pattni, M., Seabrooke, T., & Higham, P. (2024, September 25–27). Developing in
 Pattni, M., Seabrooke, T., & Higham, P. (2025, January 8–10). Enhancing human detection of real and AI-generated hyperrealistic faces [Paper presentation]. Experimental Psychology Society Conference, University College London, London, United Kingdom.
 Pattni, M., Seabrooke, T., & Higham, P. (2025, March 20). Enhancing human detection of real and AI-generated hyperrealistic faces [Invited talk]. Emotions and Health Lab, Australian National University. (Online)
 
+## Recent Members
+
+### Lois Howsley
+
+{{< figure
+    src="/searchLab/images/lois.jpeg"
+    alt="Photo of Lois"
+    caption="Here is Lois visiting SR Research's offices when on holiday."
+    >}}
+
+Lois Howsley is currently a Trainee Educational Psychologist, completing her doctorate at the University of East London. During her undergraduate degree at the University of Southampton, her research focused on search and attention, with her dissertation using eye-tracking to study mind wandering during visual search. Whilst Lois’ research has more recently included educational psychology, she maintains a strong interest in applying findings from cognitive research to support children and young people.
+
+**Publications**
+
+Dewis, H, Hout, M. C., Houpt, J. W., Howsley, L., & Godwin, H. J. (in press). [Low prevalence targets are primarily missed due to mind wandering.](https://link.springer.com/article/10.3758/s13414-026-03296-7) *Attention Perception & Psychophysics*
+
+University of Southampton Psychology Collaboration, Maiello, G., Pooresmaeili, A., Morriss, J, Deverill, E., Dewis, H, & Godwin, H. J. (2026). [Fixation Termination during Visual Search with Simulated Visual Impairments.](https://www.tandfonline.com/doi/full/10.1080/20445911.2025.2586787) *Journal of Cognitive Psychology*, 38, 1, 54-64. https://doi.org/10.1080/20445911.2025.2586787
