@@ -2,79 +2,79 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Search, Attention and Memory Lab</title>
-    <link>https://hjgodwin.github.io/searchLab/</link>
+    <link>http://localhost:1313/searchLab/</link>
     <description>Recent content in Home on Search, Attention and Memory Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2026 </copyright>
-    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="https://hjgodwin.github.io/searchLab/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jan 0001 00:00:00 +0000</lastBuildDate><atom:link href="http://localhost:1313/searchLab/index.xml" rel="self" type="application/rss+xml" />
     
     <item>
       <title>About</title>
-      <link>https://hjgodwin.github.io/searchLab/about/</link>
+      <link>http://localhost:1313/searchLab/about/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/about/</guid>
+      <guid>http://localhost:1313/searchLab/about/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>eyeTrackR</title>
-      <link>https://hjgodwin.github.io/searchLab/eyetrackr/</link>
+      <link>http://localhost:1313/searchLab/eyetrackr/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/eyetrackr/</guid>
+      <guid>http://localhost:1313/searchLab/eyetrackr/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Interactive Search Toolbox</title>
-      <link>https://hjgodwin.github.io/searchLab/ist/</link>
+      <link>http://localhost:1313/searchLab/ist/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/ist/</guid>
+      <guid>http://localhost:1313/searchLab/ist/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Output It Forward </title>
-      <link>https://hjgodwin.github.io/searchLab/oif/</link>
+      <link>http://localhost:1313/searchLab/oif/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/oif/</guid>
+      <guid>http://localhost:1313/searchLab/oif/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Presentations</title>
-      <link>https://hjgodwin.github.io/searchLab/presentations/</link>
+      <link>http://localhost:1313/searchLab/presentations/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/presentations/</guid>
+      <guid>http://localhost:1313/searchLab/presentations/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Publications</title>
-      <link>https://hjgodwin.github.io/searchLab/publications/</link>
+      <link>http://localhost:1313/searchLab/publications/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/publications/</guid>
+      <guid>http://localhost:1313/searchLab/publications/</guid>
       <description></description>
       
     </item>
     
     <item>
       <title>Using the Interactive Search Toolbox</title>
-      <link>https://hjgodwin.github.io/searchLab/istguide/</link>
+      <link>http://localhost:1313/searchLab/istguide/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://hjgodwin.github.io/searchLab/istguide/</guid>
+      <guid>http://localhost:1313/searchLab/istguide/</guid>
       <description></description>
       
     </item>

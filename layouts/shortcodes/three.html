@@ -1,6 +1,34 @@
-<div id="three-root"></div>
+<!--
+<div id="three-root" style="
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -20;
+  pointer-events: auto;
+"></div>
 
 {{ $js := resources.Get "js/scene.js" | js.Build }}
+
+<script
+  type="module"
+  src="{{ $js.RelPermalink }}"
+></script>
+
+{{ $js := resources.Get "js/scene.js" | js.Build }}
+
+-->
+
+{{ $opts := dict
+    "targetPath" "js/scene.js"
+    "format" "esm"
+    "externals" (slice "@dimforge/rapier3d-compat")
+}}
+
+{{ $js := resources.Get "js/scene.js" | js.Build $opts }}
+
+
 
 <script
   type="module"

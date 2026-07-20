@@ -2,12 +2,12 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Authors on Search, Attention and Memory Lab</title>
-    <link>https://hjgodwin.github.io/searchLab/authors/</link>
+    <link>http://localhost:1313/searchLab/authors/</link>
     <description>Recent content in Authors on Search, Attention and Memory Lab</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
     <copyright>© 2026 </copyright>
-    <atom:link href="https://hjgodwin.github.io/searchLab/authors/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/searchLab/authors/index.xml" rel="self" type="application/rss+xml" />
     
   </channel>
 </rss>

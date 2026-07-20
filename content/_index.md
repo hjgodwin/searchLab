@@ -6,4 +6,6 @@ title: 'Home'
 
 Welcome to the Search Lab Website - here you can find information about us and our research. 
 
+{{< threejs-scene height="500px" >}}
+
 {{< three >}}
