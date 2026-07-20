@@ -3,43 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>http://localhost:1313/searchLab/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/</loc>
     <lastmod>2026-05-22T22:55:18+01:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/about/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/about/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/eyetrackr/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/eyetrackr/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/ist/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/ist/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/oif/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/oif/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/presentations/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/presentations/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/publications/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/publications/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
-    <loc>http://localhost:1313/searchLab/istguide/</loc>
+    <loc>https://hjgodwin.github.io/searchLab/istguide/</loc>
     <changefreq>daily</changefreq>
     <priority>0.5</priority>
   </url>
