@@ -18,6 +18,11 @@ RAPIER.init().then(() => {
         physicsIntervalID = setInterval(physicsStep, 1000 / 60)
     };
 
+    const worldPosition = new THREE.Vector3()
+        const worldPointer = new THREE.Vector3()
+        let pointerInitialized = false
+        const pointer = new THREE.Vector2()
+
     function createPhysicsObject(mesh, type = "cuboid") {
         let rigidBodyDesc, colliderDesc;
 
@@ -129,6 +134,72 @@ RAPIER.init().then(() => {
         return physicsObject;
     }
 
+    function createShuffler(rootMesh, spawnPosition, useConvexHull = false) {
+            // Create the single kinematic rigid body at the root's spawn position
+            let rigidBodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased()
+                .setTranslation(spawnPosition.x, spawnPosition.y, spawnPosition.z);
+            rigidBodyDesc.setRotation(
+                { x: rootMesh.quaternion.x, y: rootMesh.quaternion.y, z: rootMesh.quaternion.z, w: rootMesh.quaternion.w },
+                true
+            );
+    
+            const rigidBody = world.createRigidBody(rigidBodyDesc);
+            rigidBody.lockRotations(true, true);
+    
+            // Make sure local transforms are current before we read them
+            rootMesh.updateWorldMatrix(true, true);
+    
+            const colliders = [];
+    
+            rootMesh.traverse((child) => {
+                if (!child.isMesh || !child.geometry) return;
+    
+                // Get this child's transform RELATIVE TO rootMesh (the rigid body's frame),
+                // not relative to world space.
+                const localMatrix = new THREE.Matrix4().copy(child.matrixWorld);
+                localMatrix.premultiply(new THREE.Matrix4().copy(rootMesh.matrixWorld).invert());
+    
+                const localPos = new THREE.Vector3();
+                const localQuat = new THREE.Quaternion();
+                const localScale = new THREE.Vector3();
+                localMatrix.decompose(localPos, localQuat, localScale);
+    
+                let colliderDesc;
+    
+                if (useConvexHull) {
+                    const position = child.geometry.attributes.position;
+                    const points = new Float32Array(position.array);
+                    colliderDesc = RAPIER.ColliderDesc.convexHull(points);
+    
+                    if (!colliderDesc) {
+                        console.warn("Convex hull failed for", child.name, "- falling back to bounding sphere");
+                        child.geometry.computeBoundingSphere();
+                        colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                    }
+                } else {
+                    child.geometry.computeBoundingSphere();
+                    colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                }
+    
+                // Position/orient this collider relative to the rigid body
+                colliderDesc.setTranslation(localPos.x, localPos.y, localPos.z);
+                colliderDesc.setRotation({ x: localQuat.x, y: localQuat.y, z: localQuat.z, w: localQuat.w });
+    
+                const collider = world.createCollider(colliderDesc, rigidBody);
+                colliders.push(collider);
+            });
+    
+            rootMesh.position.copy(rigidBody.translation());
+            rootMesh.quaternion.copy(rigidBody.rotation());
+    
+            physicsIDs += 1;
+            const ID = physicsIDs;
+    
+            const physicsObject = { RB: rigidBody, COLLIDER: colliders, MESH: rootMesh, ID: ID };
+    
+            return physicsObject;
+        }
+
     function preLoadTextures() {
         /////////////////////////////////////////////////////////////////////////
         // SETUP HDRIs //////////////////////////////////////////////////////////
@@ -183,22 +254,25 @@ RAPIER.init().then(() => {
     container.appendChild(renderer.domElement);
 
 
-    const geometry = new THREE.TorusKnotGeometry(0.7, 0.2, 100, 16);
-    const material = new THREE.MeshNormalMaterial();
-    const mesh = new THREE.Mesh(geometry, material);
+    const geometry = new THREE.SphereGeometry( 1, 16, 8 );
+    const material = new THREE.MeshStandardMaterial( { color: 0xffff00 } );
+    const mesh = new THREE.Mesh( geometry, material );
+    const cursorObj = createShuffler(mesh,mesh.position,false)
+    //const cursorObj = createPhysicsObject(mesh, 'ball')
+
     //scene.add(mesh);
 
-    const groundGeometry = new THREE.PlaneGeometry(50, 50);
+    const groundGeometry = new THREE.PlaneGeometry(150, 150);
     const groundMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotateX(1.5708)
     //scene.add( ground );
-    const groundColliderDesc = RAPIER.ColliderDesc.cuboid(25.0, 0.01, 25.0);
+    const groundColliderDesc = RAPIER.ColliderDesc.cuboid(75.0, 20, 75.0).setTranslation(0, -20, 0);
     world.createCollider(groundColliderDesc);
 
 
 
-    for (let i = 0; i < 100; i++) {
+    for (let i = 0; i < 150; i++) {
         const cubeSize = _.random(0.5, 1.5, true)
         const cubeGeom = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
         const material = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
@@ -207,7 +281,7 @@ RAPIER.init().then(() => {
         cubeMesh.rotation.set(_.random(-6.28319, 6.28319, true), _.random(-6.28319, 6.28319, true), _.random(-6.28319, 6.28319, true))
         scene.add(cubeMesh);
         const physObj = createPhysicsObject(cubeMesh);
-        physObj.RB.setAngvel({ x: _.random(-1, 1, true), y: _.random(-1, 1, true), z: _.random(-1, 1, true) }, true);
+        physObj.RB.setAngvel({ x: _.random(-2, 2, true), y: _.random(-2, 2, true), z: _.random(-2, 2, true) }, true);
     }
 
 
@@ -218,18 +292,51 @@ RAPIER.init().then(() => {
 
 
 
-    const controls = new OrbitControls(camera, renderer.domElement);
+    //const controls = new OrbitControls(camera, renderer.domElement);
 
     camera.position.set(0, 20, 0);
     camera.lookAt(0, 0, 0)
-    controls.update();
+    //controls.update();
     //camera.position.z = 3;
+
+
+
+    function mouseToWorld(distanceTarget = null) {
+        // distanceTarget determines how far away from the camera this position will be
+
+        // Set world pointer to be x and y NDC 
+        worldPointer.set(pointer.x, pointer.y, 0)
+
+        // Convert NDC to world - This places the object at the position of the camera
+        worldPointer.unproject(camera);
+
+        // Subtract the camera position from it
+        worldPointer.sub(camera.position).normalize();
+
+        // Calculate how far away the object is 
+        let distance
+        if (distanceTarget == null) {
+            // If no object provided, place the object at the zero point of the scene
+            distance = camera.position.length()
+        } else {
+            // Else maintain its current distance
+            distance = camera.position.distanceTo(distanceTarget)
+        }
+
+        // Add this distance to the coords
+        worldPointer.multiplyScalar(distance)
+
+        // Create final position
+        worldPosition.copy(camera.position).add(worldPointer)
+
+        return (worldPosition);
+
+    }
+
+
 
     function animate() {
         requestAnimationFrame(animate);
-        controls.update();
-        mesh.rotation.x += 0.005;
-        mesh.rotation.y += 0.008;
         renderer.render(scene, camera);
     }
 
@@ -242,7 +349,18 @@ RAPIER.init().then(() => {
 
 
 
-    //window.addEventListener('pointermove', function () { console.log('moving') })
+    window.addEventListener('pointermove', function (event) { 
+        
+        pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+        pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+        const target = mouseToWorld()
+        
+        cursorObj.RB.setTranslation({ x: target.x, y: target.y, z: target.z }, true);
+        cursorObj.RB.setLinvel({ x: 0, y: 0, z: 0 }, true);   
+        cursorObj.RB.setAngvel({ x: 0, y: 0, z: 0 }, true);   
+        cursorObj.MESH.position.copy(cursorObj.RB.translation());
+    })
 
     function physicsStep() {
         for (let i = physicsObjects.length - 1; i >= 0; i--) {

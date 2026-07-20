@@ -5524,8 +5524,6 @@ var require_lodash = __commonJS({
 
 // node_modules/three/build/three.core.js
 var REVISION = "185";
-var MOUSE = { LEFT: 0, MIDDLE: 1, RIGHT: 2, ROTATE: 0, DOLLY: 1, PAN: 2 };
-var TOUCH = { ROTATE: 0, PAN: 1, DOLLY_PAN: 2, DOLLY_ROTATE: 3 };
 var CullFaceNone = 0;
 var CullFaceBack = 1;
 var CullFaceFront = 2;
@@ -5849,7 +5847,6 @@ var EventDispatcher = class {
   }
 };
 var _lut = ["00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "0a", "0b", "0c", "0d", "0e", "0f", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "1a", "1b", "1c", "1d", "1e", "1f", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "2a", "2b", "2c", "2d", "2e", "2f", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "3a", "3b", "3c", "3d", "3e", "3f", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "4a", "4b", "4c", "4d", "4e", "4f", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "5a", "5b", "5c", "5d", "5e", "5f", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "6a", "6b", "6c", "6d", "6e", "6f", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "7a", "7b", "7c", "7d", "7e", "7f", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "8a", "8b", "8c", "8d", "8e", "8f", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "9a", "9b", "9c", "9d", "9e", "9f", "a0", "a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "aa", "ab", "ac", "ad", "ae", "af", "b0", "b1", "b2", "b3", "b4", "b5", "b6", "b7", "b8", "b9", "ba", "bb", "bc", "bd", "be", "bf", "c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9", "ca", "cb", "cc", "cd", "ce", "cf", "d0", "d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8", "d9", "da", "db", "dc", "dd", "de", "df", "e0", "e1", "e2", "e3", "e4", "e5", "e6", "e7", "e8", "e9", "ea", "eb", "ec", "ed", "ee", "ef", "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "fa", "fb", "fc", "fd", "fe", "ff"];
-var _seed = 1234567;
 var DEG2RAD = Math.PI / 180;
 var RAD2DEG = 180 / Math.PI;
 function generateUUID() {
@@ -5866,101 +5863,8 @@ function clamp(value, min, max) {
 function euclideanModulo(n, m) {
   return (n % m + m) % m;
 }
-function mapLinear(x, a1, a2, b1, b2) {
-  return b1 + (x - a1) * (b2 - b1) / (a2 - a1);
-}
-function inverseLerp(x, y, value) {
-  if (x !== y) {
-    return (value - x) / (y - x);
-  } else {
-    return 0;
-  }
-}
 function lerp(x, y, t) {
   return (1 - t) * x + t * y;
-}
-function damp(x, y, lambda, dt) {
-  return lerp(x, y, 1 - Math.exp(-lambda * dt));
-}
-function pingpong(x, length = 1) {
-  return length - Math.abs(euclideanModulo(x, length * 2) - length);
-}
-function smoothstep(x, min, max) {
-  if (x <= min) return 0;
-  if (x >= max) return 1;
-  x = (x - min) / (max - min);
-  return x * x * (3 - 2 * x);
-}
-function smootherstep(x, min, max) {
-  if (x <= min) return 0;
-  if (x >= max) return 1;
-  x = (x - min) / (max - min);
-  return x * x * x * (x * (x * 6 - 15) + 10);
-}
-function randInt(low, high) {
-  return low + Math.floor(Math.random() * (high - low + 1));
-}
-function randFloat(low, high) {
-  return low + Math.random() * (high - low);
-}
-function randFloatSpread(range) {
-  return range * (0.5 - Math.random());
-}
-function seededRandom(s) {
-  if (s !== void 0) _seed = s;
-  let t = _seed += 1831565813;
-  t = Math.imul(t ^ t >>> 15, t | 1);
-  t ^= t + Math.imul(t ^ t >>> 7, t | 61);
-  return ((t ^ t >>> 14) >>> 0) / 4294967296;
-}
-function degToRad(degrees) {
-  return degrees * DEG2RAD;
-}
-function radToDeg(radians) {
-  return radians * RAD2DEG;
-}
-function isPowerOfTwo(value) {
-  return (value & value - 1) === 0 && value !== 0;
-}
-function ceilPowerOfTwo(value) {
-  return Math.pow(2, Math.ceil(Math.log(value) / Math.LN2));
-}
-function floorPowerOfTwo(value) {
-  return Math.pow(2, Math.floor(Math.log(value) / Math.LN2));
-}
-function setQuaternionFromProperEuler(q, a, b, c, order) {
-  const cos = Math.cos;
-  const sin = Math.sin;
-  const c2 = cos(b / 2);
-  const s2 = sin(b / 2);
-  const c13 = cos((a + c) / 2);
-  const s13 = sin((a + c) / 2);
-  const c1_3 = cos((a - c) / 2);
-  const s1_3 = sin((a - c) / 2);
-  const c3_1 = cos((c - a) / 2);
-  const s3_1 = sin((c - a) / 2);
-  switch (order) {
-    case "XYX":
-      q.set(c2 * s13, s2 * c1_3, s2 * s1_3, c2 * c13);
-      break;
-    case "YZY":
-      q.set(s2 * s1_3, c2 * s13, s2 * c1_3, c2 * c13);
-      break;
-    case "ZXZ":
-      q.set(s2 * c1_3, s2 * s1_3, c2 * s13, c2 * c13);
-      break;
-    case "XZX":
-      q.set(c2 * s13, s2 * s3_1, s2 * c3_1, c2 * c13);
-      break;
-    case "YXY":
-      q.set(s2 * c3_1, c2 * s13, s2 * s3_1, c2 * c13);
-      break;
-    case "ZYZ":
-      q.set(s2 * s3_1, s2 * c3_1, c2 * s13, c2 * c13);
-      break;
-    default:
-      warn("MathUtils: .setQuaternionFromProperEuler() encountered an unknown order: " + order);
-  }
 }
 function denormalize(value, array) {
   switch (array.constructor) {
@@ -6002,250 +5906,6 @@ function normalize(value, array) {
       throw new Error("THREE.MathUtils: Invalid component type.");
   }
 }
-var MathUtils = {
-  DEG2RAD,
-  RAD2DEG,
-  /**
-   * Generate a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)
-   * (universally unique identifier).
-   *
-   * @static
-   * @method
-   * @return {string} The UUID.
-   */
-  generateUUID,
-  /**
-   * Clamps the given value between min and max.
-   *
-   * @static
-   * @method
-   * @param {number} value - The value to clamp.
-   * @param {number} min - The min value.
-   * @param {number} max - The max value.
-   * @return {number} The clamped value.
-   */
-  clamp,
-  /**
-   * Computes the Euclidean modulo of the given parameters that
-   * is `( ( n % m ) + m ) % m`.
-   *
-   * @static
-   * @method
-   * @param {number} n - The first parameter.
-   * @param {number} m - The second parameter.
-   * @return {number} The Euclidean modulo.
-   */
-  euclideanModulo,
-  /**
-   * Performs a linear mapping from range `<a1, a2>` to range `<b1, b2>`
-   * for the given value.
-   *
-   * @static
-   * @method
-   * @param {number} x - The value to be mapped.
-   * @param {number} a1 - Minimum value for range A.
-   * @param {number} a2 - Maximum value for range A.
-   * @param {number} b1 - Minimum value for range B.
-   * @param {number} b2 - Maximum value for range B.
-   * @return {number} The mapped value.
-   */
-  mapLinear,
-  /**
-   * Returns the percentage in the closed interval `[0, 1]` of the given value
-   * between the start and end point.
-   *
-   * @static
-   * @method
-   * @param {number} x - The start point
-   * @param {number} y - The end point.
-   * @param {number} value - A value between start and end.
-   * @return {number} The interpolation factor.
-   */
-  inverseLerp,
-  /**
-   * Returns a value linearly interpolated from two known points based on the given interval -
-   * `t = 0` will return `x` and `t = 1` will return `y`.
-   *
-   * @static
-   * @method
-   * @param {number} x - The start point
-   * @param {number} y - The end point.
-   * @param {number} t - The interpolation factor in the closed interval `[0, 1]`.
-   * @return {number} The interpolated value.
-   */
-  lerp,
-  /**
-   * Smoothly interpolate a number from `x` to `y` in  a spring-like manner using a delta
-   * time to maintain frame rate independent movement. For details, see
-   * [Frame rate independent damping using lerp](http://www.rorydriscoll.com/2016/03/07/frame-rate-independent-damping-using-lerp/).
-   *
-   * @static
-   * @method
-   * @param {number} x - The current point.
-   * @param {number} y - The target point.
-   * @param {number} lambda - A higher lambda value will make the movement more sudden,
-   * and a lower value will make the movement more gradual.
-   * @param {number} dt - Delta time in seconds.
-   * @return {number} The interpolated value.
-   */
-  damp,
-  /**
-   * Returns a value that alternates between `0` and the given `length` parameter.
-   *
-   * @static
-   * @method
-   * @param {number} x - The value to pingpong.
-   * @param {number} [length=1] - The positive value the function will pingpong to.
-   * @return {number} The alternated value.
-   */
-  pingpong,
-  /**
-   * Returns a value in the range `[0,1]` that represents the percentage that `x` has
-   * moved between `min` and `max`, but smoothed or slowed down the closer `x` is to
-   * the `min` and `max`.
-   *
-   * See [Smoothstep](http://en.wikipedia.org/wiki/Smoothstep) for more details.
-   *
-   * @static
-   * @method
-   * @param {number} x - The value to evaluate based on its position between min and max.
-   * @param {number} min - The min value. Any x value below min will be `0`.
-   * @param {number} max - The max value. Any x value above max will be `1`.
-   * @return {number} The alternated value.
-   */
-  smoothstep,
-  /**
-   * A [variation on smoothstep](https://en.wikipedia.org/wiki/Smoothstep#Variations)
-   * that has zero 1st and 2nd order derivatives at x=0 and x=1.
-   *
-   * @static
-   * @method
-   * @param {number} x - The value to evaluate based on its position between min and max.
-   * @param {number} min - The min value. Any x value below min will be `0`.
-   * @param {number} max - The max value. Any x value above max will be `1`.
-   * @return {number} The alternated value.
-   */
-  smootherstep,
-  /**
-   * Returns a random integer from `<low, high>` interval.
-   *
-   * @static
-   * @method
-   * @param {number} low - The lower value boundary.
-   * @param {number} high - The upper value boundary
-   * @return {number} A random integer.
-   */
-  randInt,
-  /**
-   * Returns a random float from `<low, high>` interval.
-   *
-   * @static
-   * @method
-   * @param {number} low - The lower value boundary.
-   * @param {number} high - The upper value boundary
-   * @return {number} A random float.
-   */
-  randFloat,
-  /**
-   * Returns a random integer from `<-range/2, range/2>` interval.
-   *
-   * @static
-   * @method
-   * @param {number} range - Defines the value range.
-   * @return {number} A random float.
-   */
-  randFloatSpread,
-  /**
-   * Returns a deterministic pseudo-random float in the interval `[0, 1]`.
-   *
-   * @static
-   * @method
-   * @param {number} [s] - The integer seed.
-   * @return {number} A random float.
-   */
-  seededRandom,
-  /**
-   * Converts degrees to radians.
-   *
-   * @static
-   * @method
-   * @param {number} degrees - A value in degrees.
-   * @return {number} The converted value in radians.
-   */
-  degToRad,
-  /**
-   * Converts radians to degrees.
-   *
-   * @static
-   * @method
-   * @param {number} radians - A value in radians.
-   * @return {number} The converted value in degrees.
-   */
-  radToDeg,
-  /**
-   * Returns `true` if the given number is a power of two.
-   *
-   * @static
-   * @method
-   * @param {number} value - The value to check.
-   * @return {boolean} Whether the given number is a power of two or not.
-   */
-  isPowerOfTwo,
-  /**
-   * Returns the smallest power of two that is greater than or equal to the given number.
-   *
-   * @static
-   * @method
-   * @param {number} value - The value to find a POT for.
-   * @return {number} The smallest power of two that is greater than or equal to the given number.
-   */
-  ceilPowerOfTwo,
-  /**
-   * Returns the largest power of two that is less than or equal to the given number.
-   *
-   * @static
-   * @method
-   * @param {number} value - The value to find a POT for.
-   * @return {number} The largest power of two that is less than or equal to the given number.
-   */
-  floorPowerOfTwo,
-  /**
-   * Sets the given quaternion from the [Intrinsic Proper Euler Angles](https://en.wikipedia.org/wiki/Euler_angles)
-   * defined by the given angles and order.
-   *
-   * Rotations are applied to the axes in the order specified by order:
-   * rotation by angle `a` is applied first, then by angle `b`, then by angle `c`.
-   *
-   * @static
-   * @method
-   * @param {Quaternion} q - The quaternion to set.
-   * @param {number} a - The rotation applied to the first axis, in radians.
-   * @param {number} b - The rotation applied to the second axis, in radians.
-   * @param {number} c - The rotation applied to the third axis, in radians.
-   * @param {('XYX'|'XZX'|'YXY'|'YZY'|'ZXZ'|'ZYZ')} order - A string specifying the axes order.
-   */
-  setQuaternionFromProperEuler,
-  /**
-   * Normalizes the given value according to the given typed array.
-   *
-   * @static
-   * @method
-   * @param {number} value - The float value in the range `[0,1]` to normalize.
-   * @param {TypedArray} array - The typed array that defines the data type of the value.
-   * @return {number} The normalize value.
-   */
-  normalize,
-  /**
-   * Denormalizes the given value according to the given typed array.
-   *
-   * @static
-   * @method
-   * @param {number} value - The value to denormalize.
-   * @param {TypedArray} array - The typed array that defines the data type of the value.
-   * @return {number} The denormalize (float) value in the range `[0,1]`.
-   */
-  denormalize
-};
 var Vector2 = class _Vector2 {
   static {
     _Vector2.prototype.isVector2 = true;
@@ -18750,88 +18410,81 @@ var PlaneGeometry = class _PlaneGeometry extends BufferGeometry {
     return new _PlaneGeometry(data.width, data.height, data.widthSegments, data.heightSegments);
   }
 };
-var TorusKnotGeometry = class _TorusKnotGeometry extends BufferGeometry {
+var SphereGeometry = class _SphereGeometry extends BufferGeometry {
   /**
-   * Constructs a new torus knot geometry.
+   * Constructs a new sphere geometry.
    *
-   * @param {number} [radius=1] - Radius of the torus knot.
-   * @param {number} [tube=0.4] - Radius of the tube.
-   * @param {number} [tubularSegments=64] - The number of tubular segments.
-   * @param {number} [radialSegments=8] - The number of radial segments.
-   * @param {number} [p=2] - This value determines, how many times the geometry winds around its axis of rotational symmetry.
-   * @param {number} [q=3] - This value determines, how many times the geometry winds around a circle in the interior of the torus.
+   * @param {number} [radius=1] - The sphere radius.
+   * @param {number} [widthSegments=32] - The number of horizontal segments. Minimum value is `3`.
+   * @param {number} [heightSegments=16] - The number of vertical segments. Minimum value is `2`.
+   * @param {number} [phiStart=0] - The horizontal starting angle in radians.
+   * @param {number} [phiLength=Math.PI*2] - The horizontal sweep angle size.
+   * @param {number} [thetaStart=0] - The vertical starting angle in radians.
+   * @param {number} [thetaLength=Math.PI] - The vertical sweep angle size.
    */
-  constructor(radius = 1, tube = 0.4, tubularSegments = 64, radialSegments = 8, p = 2, q = 3) {
+  constructor(radius = 1, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI) {
     super();
-    this.type = "TorusKnotGeometry";
+    this.type = "SphereGeometry";
     this.parameters = {
       radius,
-      tube,
-      tubularSegments,
-      radialSegments,
-      p,
-      q
+      widthSegments,
+      heightSegments,
+      phiStart,
+      phiLength,
+      thetaStart,
+      thetaLength
     };
-    tubularSegments = Math.floor(tubularSegments);
-    radialSegments = Math.floor(radialSegments);
+    widthSegments = Math.max(3, Math.floor(widthSegments));
+    heightSegments = Math.max(2, Math.floor(heightSegments));
+    const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
+    let index = 0;
+    const grid = [];
+    const vertex2 = new Vector3();
+    const normal = new Vector3();
     const indices = [];
     const vertices = [];
     const normals = [];
     const uvs = [];
-    const vertex2 = new Vector3();
-    const normal = new Vector3();
-    const P1 = new Vector3();
-    const P2 = new Vector3();
-    const B = new Vector3();
-    const T = new Vector3();
-    const N = new Vector3();
-    for (let i = 0; i <= tubularSegments; ++i) {
-      const u = i / tubularSegments * p * Math.PI * 2;
-      calculatePositionOnCurve(u, p, q, radius, P1);
-      calculatePositionOnCurve(u + 0.01, p, q, radius, P2);
-      T.subVectors(P2, P1);
-      N.addVectors(P2, P1);
-      B.crossVectors(T, N);
-      N.crossVectors(B, T);
-      B.normalize();
-      N.normalize();
-      for (let j = 0; j <= radialSegments; ++j) {
-        const v = j / radialSegments * Math.PI * 2;
-        const cx = -tube * Math.cos(v);
-        const cy = tube * Math.sin(v);
-        vertex2.x = P1.x + (cx * N.x + cy * B.x);
-        vertex2.y = P1.y + (cx * N.y + cy * B.y);
-        vertex2.z = P1.z + (cx * N.z + cy * B.z);
-        vertices.push(vertex2.x, vertex2.y, vertex2.z);
-        normal.subVectors(vertex2, P1).normalize();
-        normals.push(normal.x, normal.y, normal.z);
-        uvs.push(i / tubularSegments);
-        uvs.push(j / radialSegments);
+    for (let iy = 0; iy <= heightSegments; iy++) {
+      const verticesRow = [];
+      const v = iy / heightSegments;
+      const theta = thetaStart + v * thetaLength;
+      const y = radius * Math.cos(theta);
+      const ringRadius = Math.sqrt(radius * radius - y * y);
+      let uOffset = 0;
+      if (iy === 0 && thetaStart === 0) {
+        uOffset = 0.5 / widthSegments;
+      } else if (iy === heightSegments && thetaEnd === Math.PI) {
+        uOffset = -0.5 / widthSegments;
       }
+      for (let ix = 0; ix <= widthSegments; ix++) {
+        const u = ix / widthSegments;
+        const phi = phiStart + u * phiLength;
+        vertex2.x = -ringRadius * Math.cos(phi);
+        vertex2.y = y;
+        vertex2.z = ringRadius * Math.sin(phi);
+        vertices.push(vertex2.x, vertex2.y, vertex2.z);
+        normal.copy(vertex2).normalize();
+        normals.push(normal.x, normal.y, normal.z);
+        uvs.push(u + uOffset, 1 - v);
+        verticesRow.push(index++);
+      }
+      grid.push(verticesRow);
     }
-    for (let j = 1; j <= tubularSegments; j++) {
-      for (let i = 1; i <= radialSegments; i++) {
-        const a = (radialSegments + 1) * (j - 1) + (i - 1);
-        const b = (radialSegments + 1) * j + (i - 1);
-        const c = (radialSegments + 1) * j + i;
-        const d = (radialSegments + 1) * (j - 1) + i;
-        indices.push(a, b, d);
-        indices.push(b, c, d);
+    for (let iy = 0; iy < heightSegments; iy++) {
+      for (let ix = 0; ix < widthSegments; ix++) {
+        const a = grid[iy][ix + 1];
+        const b = grid[iy][ix];
+        const c = grid[iy + 1][ix];
+        const d = grid[iy + 1][ix + 1];
+        if (iy !== 0 || thetaStart > 0) indices.push(a, b, d);
+        if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d);
       }
     }
     this.setIndex(indices);
     this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
     this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
     this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
-    function calculatePositionOnCurve(u, p2, q2, radius2, position) {
-      const cu = Math.cos(u);
-      const su = Math.sin(u);
-      const quOverP = q2 / p2 * u;
-      const cs = Math.cos(quOverP);
-      position.x = radius2 * (2 + cs) * 0.5 * cu;
-      position.y = radius2 * (2 + cs) * su * 0.5;
-      position.z = radius2 * Math.sin(quOverP) * 0.5;
-    }
   }
   copy(source) {
     super.copy(source);
@@ -18843,10 +18496,10 @@ var TorusKnotGeometry = class _TorusKnotGeometry extends BufferGeometry {
    * JSON object.
    *
    * @param {Object} data - A JSON object representing the serialized geometry.
-   * @return {TorusKnotGeometry} A new instance.
+   * @return {SphereGeometry} A new instance.
    */
   static fromJSON(data) {
-    return new _TorusKnotGeometry(data.radius, data.tube, data.tubularSegments, data.radialSegments, data.p, data.q);
+    return new _SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
   }
 };
 function cloneUniforms(src) {
@@ -19187,49 +18840,6 @@ var MeshStandardMaterial = class extends Material {
     this.wireframeLinejoin = source.wireframeLinejoin;
     this.flatShading = source.flatShading;
     this.fog = source.fog;
-    return this;
-  }
-};
-var MeshNormalMaterial = class extends Material {
-  /**
-   * Constructs a new mesh normal material.
-   *
-   * @param {Object} [parameters] - An object with one or more properties
-   * defining the material's appearance. Any property of the material
-   * (including any property from inherited materials) can be passed
-   * in here. Color values can be passed any type of value accepted
-   * by {@link Color#set}.
-   */
-  constructor(parameters) {
-    super();
-    this.isMeshNormalMaterial = true;
-    this.type = "MeshNormalMaterial";
-    this.bumpMap = null;
-    this.bumpScale = 1;
-    this.normalMap = null;
-    this.normalMapType = TangentSpaceNormalMap;
-    this.normalScale = new Vector2(1, 1);
-    this.displacementMap = null;
-    this.displacementScale = 1;
-    this.displacementBias = 0;
-    this.wireframe = false;
-    this.wireframeLinewidth = 1;
-    this.flatShading = false;
-    this.setValues(parameters);
-  }
-  copy(source) {
-    super.copy(source);
-    this.bumpMap = source.bumpMap;
-    this.bumpScale = source.bumpScale;
-    this.normalMap = source.normalMap;
-    this.normalMapType = source.normalMapType;
-    this.normalScale.copy(source.normalScale);
-    this.displacementMap = source.displacementMap;
-    this.displacementScale = source.displacementScale;
-    this.displacementBias = source.displacementBias;
-    this.wireframe = source.wireframe;
-    this.wireframeLinewidth = source.wireframeLinewidth;
-    this.flatShading = source.flatShading;
     return this;
   }
 };
@@ -21619,94 +21229,6 @@ PropertyBinding.prototype.SetterByBindingTypeAndVersioning = [
   ]
 ];
 var _controlInterpolantsResultBuffer = new Float32Array(1);
-var Spherical = class {
-  /**
-   * Constructs a new spherical.
-   *
-   * @param {number} [radius=1] - The radius, or the Euclidean distance (straight-line distance) from the point to the origin.
-   * @param {number} [phi=0] - The polar angle in radians from the y (up) axis.
-   * @param {number} [theta=0] - The equator/azimuthal angle in radians around the y (up) axis.
-   */
-  constructor(radius = 1, phi = 0, theta = 0) {
-    this.radius = radius;
-    this.phi = phi;
-    this.theta = theta;
-  }
-  /**
-   * Sets the spherical components by copying the given values.
-   *
-   * @param {number} radius - The radius.
-   * @param {number} phi - The polar angle.
-   * @param {number} theta - The azimuthal angle.
-   * @return {Spherical} A reference to this spherical.
-   */
-  set(radius, phi, theta) {
-    this.radius = radius;
-    this.phi = phi;
-    this.theta = theta;
-    return this;
-  }
-  /**
-   * Copies the values of the given spherical to this instance.
-   *
-   * @param {Spherical} other - The spherical to copy.
-   * @return {Spherical} A reference to this spherical.
-   */
-  copy(other) {
-    this.radius = other.radius;
-    this.phi = other.phi;
-    this.theta = other.theta;
-    return this;
-  }
-  /**
-   * Restricts the polar angle [page:.phi phi] to be between `0.000001` and pi -
-   * `0.000001`.
-   *
-   * @return {Spherical} A reference to this spherical.
-   */
-  makeSafe() {
-    const EPS = 1e-6;
-    this.phi = clamp(this.phi, EPS, Math.PI - EPS);
-    return this;
-  }
-  /**
-   * Sets the spherical components from the given vector which is assumed to hold
-   * Cartesian coordinates.
-   *
-   * @param {Vector3} v - The vector to set.
-   * @return {Spherical} A reference to this spherical.
-   */
-  setFromVector3(v) {
-    return this.setFromCartesianCoords(v.x, v.y, v.z);
-  }
-  /**
-   * Sets the spherical components from the given Cartesian coordinates.
-   *
-   * @param {number} x - The x value.
-   * @param {number} y - The y value.
-   * @param {number} z - The z value.
-   * @return {Spherical} A reference to this spherical.
-   */
-  setFromCartesianCoords(x, y, z) {
-    this.radius = Math.sqrt(x * x + y * y + z * z);
-    if (this.radius === 0) {
-      this.theta = 0;
-      this.phi = 0;
-    } else {
-      this.theta = Math.atan2(x, z);
-      this.phi = Math.acos(clamp(y / this.radius, -1, 1));
-    }
-    return this;
-  }
-  /**
-   * Returns a new spherical with copied values from this instance.
-   *
-   * @return {Spherical} A clone of this instance.
-   */
-  clone() {
-    return new this.constructor().copy(this);
-  }
-};
 var Matrix2 = class _Matrix2 {
   static {
     _Matrix2.prototype.isMatrix2 = true;
@@ -21776,57 +21298,6 @@ var Matrix2 = class _Matrix2 {
     te[1] = n21;
     te[3] = n22;
     return this;
-  }
-};
-var Controls = class extends EventDispatcher {
-  /**
-   * Constructs a new controls instance.
-   *
-   * @param {Object3D} object - The object that is managed by the controls.
-   * @param {?HTMLElement} domElement - The HTML element used for event listeners.
-   */
-  constructor(object, domElement = null) {
-    super();
-    this.object = object;
-    this.domElement = domElement;
-    this.enabled = true;
-    this.state = -1;
-    this.keys = {};
-    this.mouseButtons = { LEFT: null, MIDDLE: null, RIGHT: null };
-    this.touches = { ONE: null, TWO: null };
-  }
-  /**
-   * Connects the controls to the DOM. This method has so called "side effects" since
-   * it adds the module's event listeners to the DOM.
-   *
-   * @param {HTMLElement} element - The DOM element to connect to.
-   */
-  connect(element) {
-    if (element === void 0) {
-      warn("Controls: connect() now requires an element.");
-      return;
-    }
-    if (this.domElement !== null) this.disconnect();
-    this.domElement = element;
-  }
-  /**
-   * Disconnects the controls from the DOM.
-   */
-  disconnect() {
-  }
-  /**
-   * Call this method if you no longer want use to the controls. It frees all internal
-   * resources and removes all event listeners.
-   */
-  dispose() {
-  }
-  /**
-   * Controls should implement this method if they have to update their internal state
-   * per simulation step.
-   *
-   * @param {number} [delta] - The time delta in seconds.
-   */
-  update() {
   }
 };
 function getByteLength(width, height, format, type) {
@@ -33653,916 +33124,6 @@ var HDRLoader = class extends DataTextureLoader {
   }
 };
 
-// node_modules/three/examples/jsm/controls/OrbitControls.js
-var _changeEvent = { type: "change" };
-var _startEvent = { type: "start" };
-var _endEvent = { type: "end" };
-var _ray = new Ray();
-var _plane = new Plane();
-var _TILT_LIMIT = Math.cos(70 * MathUtils.DEG2RAD);
-var _v = new Vector3();
-var _twoPI = 2 * Math.PI;
-var _STATE = {
-  NONE: -1,
-  ROTATE: 0,
-  DOLLY: 1,
-  PAN: 2,
-  TOUCH_ROTATE: 3,
-  TOUCH_PAN: 4,
-  TOUCH_DOLLY_PAN: 5,
-  TOUCH_DOLLY_ROTATE: 6
-};
-var _EPS = 1e-6;
-var OrbitControls = class extends Controls {
-  /**
-   * Constructs a new controls instance.
-   *
-   * @param {Object3D} object - The object that is managed by the controls.
-   * @param {?HTMLElement} domElement - The HTML element used for event listeners.
-   */
-  constructor(object, domElement = null) {
-    super(object, domElement);
-    this.state = _STATE.NONE;
-    this.target = new Vector3();
-    this.cursor = new Vector3();
-    this.minDistance = 0;
-    this.maxDistance = Infinity;
-    this.minZoom = 0;
-    this.maxZoom = Infinity;
-    this.minTargetRadius = 0;
-    this.maxTargetRadius = Infinity;
-    this.minPolarAngle = 0;
-    this.maxPolarAngle = Math.PI;
-    this.minAzimuthAngle = -Infinity;
-    this.maxAzimuthAngle = Infinity;
-    this.enableDamping = false;
-    this.dampingFactor = 0.05;
-    this.enableZoom = true;
-    this.zoomSpeed = 1;
-    this.enableRotate = true;
-    this.rotateSpeed = 1;
-    this.keyRotateSpeed = 1;
-    this.enablePan = true;
-    this.panSpeed = 1;
-    this.screenSpacePanning = true;
-    this.keyPanSpeed = 7;
-    this.zoomToCursor = false;
-    this.autoRotate = false;
-    this.autoRotateSpeed = 2;
-    this.keys = { LEFT: "ArrowLeft", UP: "ArrowUp", RIGHT: "ArrowRight", BOTTOM: "ArrowDown" };
-    this.mouseButtons = { LEFT: MOUSE.ROTATE, MIDDLE: MOUSE.DOLLY, RIGHT: MOUSE.PAN };
-    this.touches = { ONE: TOUCH.ROTATE, TWO: TOUCH.DOLLY_PAN };
-    this.target0 = this.target.clone();
-    this.position0 = this.object.position.clone();
-    this.zoom0 = this.object.zoom;
-    this._cursorStyle = "auto";
-    this._domElementKeyEvents = null;
-    this._lastPosition = new Vector3();
-    this._lastQuaternion = new Quaternion();
-    this._lastTargetPosition = new Vector3();
-    this._quat = new Quaternion().setFromUnitVectors(object.up, new Vector3(0, 1, 0));
-    this._quatInverse = this._quat.clone().invert();
-    this._spherical = new Spherical();
-    this._sphericalDelta = new Spherical();
-    this._scale = 1;
-    this._panOffset = new Vector3();
-    this._rotateStart = new Vector2();
-    this._rotateEnd = new Vector2();
-    this._rotateDelta = new Vector2();
-    this._panStart = new Vector2();
-    this._panEnd = new Vector2();
-    this._panDelta = new Vector2();
-    this._dollyStart = new Vector2();
-    this._dollyEnd = new Vector2();
-    this._dollyDelta = new Vector2();
-    this._dollyDirection = new Vector3();
-    this._mouse = new Vector2();
-    this._performCursorZoom = false;
-    this._pointers = [];
-    this._pointerPositions = {};
-    this._controlActive = false;
-    this._onPointerMove = onPointerMove.bind(this);
-    this._onPointerDown = onPointerDown.bind(this);
-    this._onPointerUp = onPointerUp.bind(this);
-    this._onContextMenu = onContextMenu.bind(this);
-    this._onMouseWheel = onMouseWheel.bind(this);
-    this._onKeyDown = onKeyDown.bind(this);
-    this._onTouchStart = onTouchStart.bind(this);
-    this._onTouchMove = onTouchMove.bind(this);
-    this._onMouseDown = onMouseDown.bind(this);
-    this._onMouseMove = onMouseMove.bind(this);
-    this._interceptControlDown = interceptControlDown.bind(this);
-    this._interceptControlUp = interceptControlUp.bind(this);
-    if (this.domElement !== null) {
-      this.connect(this.domElement);
-    }
-    this.update();
-  }
-  /**
-   * Defines the visual representation of the cursor.
-   *
-   * @type {('auto'|'grab')}
-   * @default 'auto'
-   */
-  set cursorStyle(type) {
-    this._cursorStyle = type;
-    if (type === "grab") {
-      this.domElement.style.cursor = "grab";
-    } else {
-      this.domElement.style.cursor = "auto";
-    }
-  }
-  get cursorStyle() {
-    return this._cursorStyle;
-  }
-  connect(element) {
-    super.connect(element);
-    this.domElement.addEventListener("pointerdown", this._onPointerDown);
-    this.domElement.addEventListener("pointercancel", this._onPointerUp);
-    this.domElement.addEventListener("contextmenu", this._onContextMenu);
-    this.domElement.addEventListener("wheel", this._onMouseWheel, { passive: false });
-    const document2 = this.domElement.getRootNode();
-    document2.addEventListener("keydown", this._interceptControlDown, { passive: true, capture: true });
-    this.domElement.style.touchAction = "none";
-  }
-  disconnect() {
-    this.domElement.removeEventListener("pointerdown", this._onPointerDown);
-    this.domElement.ownerDocument.removeEventListener("pointermove", this._onPointerMove);
-    this.domElement.ownerDocument.removeEventListener("pointerup", this._onPointerUp);
-    this.domElement.removeEventListener("pointercancel", this._onPointerUp);
-    this.domElement.removeEventListener("wheel", this._onMouseWheel);
-    this.domElement.removeEventListener("contextmenu", this._onContextMenu);
-    this.stopListenToKeyEvents();
-    const document2 = this.domElement.getRootNode();
-    document2.removeEventListener("keydown", this._interceptControlDown, { capture: true });
-    this.domElement.style.touchAction = "";
-  }
-  dispose() {
-    this.disconnect();
-  }
-  /**
-   * Get the current vertical rotation, in radians.
-   *
-   * @return {number} The current vertical rotation, in radians.
-   */
-  getPolarAngle() {
-    return this._spherical.phi;
-  }
-  /**
-   * Get the current horizontal rotation, in radians.
-   *
-   * @return {number} The current horizontal rotation, in radians.
-   */
-  getAzimuthalAngle() {
-    return this._spherical.theta;
-  }
-  /**
-   * Returns the distance from the camera to the target.
-   *
-   * @return {number} The distance from the camera to the target.
-   */
-  getDistance() {
-    return this.object.position.distanceTo(this.target);
-  }
-  /**
-   * Adds key event listeners to the given DOM element.
-   * `window` is a recommended argument for using this method.
-   *
-   * @param {HTMLElement} domElement - The DOM element
-   */
-  listenToKeyEvents(domElement) {
-    domElement.addEventListener("keydown", this._onKeyDown);
-    this._domElementKeyEvents = domElement;
-  }
-  /**
-   * Removes the key event listener previously defined with `listenToKeyEvents()`.
-   */
-  stopListenToKeyEvents() {
-    if (this._domElementKeyEvents !== null) {
-      this._domElementKeyEvents.removeEventListener("keydown", this._onKeyDown);
-      this._domElementKeyEvents = null;
-    }
-  }
-  /**
-   * Save the current state of the controls. This can later be recovered with `reset()`.
-   */
-  saveState() {
-    this.target0.copy(this.target);
-    this.position0.copy(this.object.position);
-    this.zoom0 = this.object.zoom;
-  }
-  /**
-   * Reset the controls to their state from either the last time the `saveState()`
-   * was called, or the initial state.
-   */
-  reset() {
-    this.target.copy(this.target0);
-    this.object.position.copy(this.position0);
-    this.object.zoom = this.zoom0;
-    this.object.updateProjectionMatrix();
-    this.dispatchEvent(_changeEvent);
-    this.update();
-    this.state = _STATE.NONE;
-  }
-  /**
-   * Programmatically pan the camera.
-   *
-   * @param {number} deltaX - The horizontal pan amount in pixels.
-   * @param {number} deltaY - The vertical pan amount in pixels.
-   */
-  pan(deltaX, deltaY) {
-    this._pan(deltaX, deltaY);
-    this.update();
-  }
-  /**
-   * Programmatically dolly in (zoom in for perspective camera).
-   *
-   * @param {number} dollyScale - The dolly scale factor.
-   */
-  dollyIn(dollyScale) {
-    this._dollyIn(dollyScale);
-    this.update();
-  }
-  /**
-   * Programmatically dolly out (zoom out for perspective camera).
-   *
-   * @param {number} dollyScale - The dolly scale factor.
-   */
-  dollyOut(dollyScale) {
-    this._dollyOut(dollyScale);
-    this.update();
-  }
-  /**
-   * Programmatically rotate the camera left (around the vertical axis).
-   *
-   * @param {number} angle - The rotation angle in radians.
-   */
-  rotateLeft(angle) {
-    this._rotateLeft(angle);
-    this.update();
-  }
-  /**
-   * Programmatically rotate the camera up (around the horizontal axis).
-   *
-   * @param {number} angle - The rotation angle in radians.
-   */
-  rotateUp(angle) {
-    this._rotateUp(angle);
-    this.update();
-  }
-  update(deltaTime = null) {
-    const position = this.object.position;
-    _v.copy(position).sub(this.target);
-    _v.applyQuaternion(this._quat);
-    this._spherical.setFromVector3(_v);
-    if (this.autoRotate && this.state === _STATE.NONE) {
-      this._rotateLeft(this._getAutoRotationAngle(deltaTime));
-    }
-    if (this.enableDamping) {
-      this._spherical.theta += this._sphericalDelta.theta * this.dampingFactor;
-      this._spherical.phi += this._sphericalDelta.phi * this.dampingFactor;
-    } else {
-      this._spherical.theta += this._sphericalDelta.theta;
-      this._spherical.phi += this._sphericalDelta.phi;
-    }
-    let min = this.minAzimuthAngle;
-    let max = this.maxAzimuthAngle;
-    if (isFinite(min) && isFinite(max)) {
-      if (min < -Math.PI) min += _twoPI;
-      else if (min > Math.PI) min -= _twoPI;
-      if (max < -Math.PI) max += _twoPI;
-      else if (max > Math.PI) max -= _twoPI;
-      if (min <= max) {
-        this._spherical.theta = Math.max(min, Math.min(max, this._spherical.theta));
-      } else {
-        this._spherical.theta = this._spherical.theta > (min + max) / 2 ? Math.max(min, this._spherical.theta) : Math.min(max, this._spherical.theta);
-      }
-    }
-    this._spherical.phi = Math.max(this.minPolarAngle, Math.min(this.maxPolarAngle, this._spherical.phi));
-    this._spherical.makeSafe();
-    if (this.enableDamping === true) {
-      this.target.addScaledVector(this._panOffset, this.dampingFactor);
-    } else {
-      this.target.add(this._panOffset);
-    }
-    this.target.sub(this.cursor);
-    this.target.clampLength(this.minTargetRadius, this.maxTargetRadius);
-    this.target.add(this.cursor);
-    let zoomChanged = false;
-    if (this.zoomToCursor && this._performCursorZoom || this.object.isOrthographicCamera) {
-      this._spherical.radius = this._clampDistance(this._spherical.radius);
-    } else {
-      const prevRadius = this._spherical.radius;
-      this._spherical.radius = this._clampDistance(this._spherical.radius * this._scale);
-      zoomChanged = prevRadius != this._spherical.radius;
-    }
-    _v.setFromSpherical(this._spherical);
-    _v.applyQuaternion(this._quatInverse);
-    position.copy(this.target).add(_v);
-    this.object.lookAt(this.target);
-    if (this.enableDamping === true) {
-      this._sphericalDelta.theta *= 1 - this.dampingFactor;
-      this._sphericalDelta.phi *= 1 - this.dampingFactor;
-      this._panOffset.multiplyScalar(1 - this.dampingFactor);
-    } else {
-      this._sphericalDelta.set(0, 0, 0);
-      this._panOffset.set(0, 0, 0);
-    }
-    if (this.zoomToCursor && this._performCursorZoom) {
-      let newRadius = null;
-      if (this.object.isPerspectiveCamera) {
-        const prevRadius = _v.length();
-        newRadius = this._clampDistance(prevRadius * this._scale);
-        const radiusDelta = prevRadius - newRadius;
-        this.object.position.addScaledVector(this._dollyDirection, radiusDelta);
-        this.object.updateMatrixWorld();
-        zoomChanged = !!radiusDelta;
-      } else if (this.object.isOrthographicCamera) {
-        const mouseBefore = new Vector3(this._mouse.x, this._mouse.y, 0);
-        mouseBefore.unproject(this.object);
-        const prevZoom = this.object.zoom;
-        this.object.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.object.zoom / this._scale));
-        this.object.updateProjectionMatrix();
-        zoomChanged = prevZoom !== this.object.zoom;
-        const mouseAfter = new Vector3(this._mouse.x, this._mouse.y, 0);
-        mouseAfter.unproject(this.object);
-        this.object.position.sub(mouseAfter).add(mouseBefore);
-        this.object.updateMatrixWorld();
-        newRadius = _v.length();
-      } else {
-        console.warn("WARNING: OrbitControls.js encountered an unknown camera type - zoom to cursor disabled.");
-        this.zoomToCursor = false;
-      }
-      if (newRadius !== null) {
-        if (this.screenSpacePanning) {
-          this.target.set(0, 0, -1).transformDirection(this.object.matrix).multiplyScalar(newRadius).add(this.object.position);
-        } else {
-          _ray.origin.copy(this.object.position);
-          _ray.direction.set(0, 0, -1).transformDirection(this.object.matrix);
-          if (Math.abs(this.object.up.dot(_ray.direction)) < _TILT_LIMIT) {
-            this.object.lookAt(this.target);
-          } else {
-            _plane.setFromNormalAndCoplanarPoint(this.object.up, this.target);
-            _ray.intersectPlane(_plane, this.target);
-          }
-        }
-      }
-    } else if (this.object.isOrthographicCamera) {
-      const prevZoom = this.object.zoom;
-      this.object.zoom = Math.max(this.minZoom, Math.min(this.maxZoom, this.object.zoom / this._scale));
-      if (prevZoom !== this.object.zoom) {
-        this.object.updateProjectionMatrix();
-        zoomChanged = true;
-      }
-    }
-    this._scale = 1;
-    this._performCursorZoom = false;
-    if (zoomChanged || this._lastPosition.distanceToSquared(this.object.position) > _EPS || 8 * (1 - this._lastQuaternion.dot(this.object.quaternion)) > _EPS || this._lastTargetPosition.distanceToSquared(this.target) > _EPS) {
-      this.dispatchEvent(_changeEvent);
-      this._lastPosition.copy(this.object.position);
-      this._lastQuaternion.copy(this.object.quaternion);
-      this._lastTargetPosition.copy(this.target);
-      return true;
-    }
-    return false;
-  }
-  _getAutoRotationAngle(deltaTime) {
-    if (deltaTime !== null) {
-      return _twoPI / 60 * this.autoRotateSpeed * deltaTime;
-    } else {
-      return _twoPI / 60 / 60 * this.autoRotateSpeed;
-    }
-  }
-  _getZoomScale(delta) {
-    const normalizedDelta = Math.abs(delta * 0.01);
-    return Math.pow(0.95, this.zoomSpeed * normalizedDelta);
-  }
-  _rotateLeft(angle) {
-    this._sphericalDelta.theta -= angle;
-  }
-  _rotateUp(angle) {
-    this._sphericalDelta.phi -= angle;
-  }
-  _panLeft(distance, objectMatrix) {
-    _v.setFromMatrixColumn(objectMatrix, 0);
-    _v.multiplyScalar(-distance);
-    this._panOffset.add(_v);
-  }
-  _panUp(distance, objectMatrix) {
-    if (this.screenSpacePanning === true) {
-      _v.setFromMatrixColumn(objectMatrix, 1);
-    } else {
-      _v.setFromMatrixColumn(objectMatrix, 0);
-      _v.crossVectors(this.object.up, _v);
-    }
-    _v.multiplyScalar(distance);
-    this._panOffset.add(_v);
-  }
-  // deltaX and deltaY are in pixels; right and down are positive
-  _pan(deltaX, deltaY) {
-    const element = this.domElement;
-    if (this.object.isPerspectiveCamera) {
-      const position = this.object.position;
-      _v.copy(position).sub(this.target);
-      let targetDistance = _v.length();
-      targetDistance *= Math.tan(this.object.fov / 2 * Math.PI / 180);
-      this._panLeft(2 * deltaX * targetDistance / element.clientHeight, this.object.matrix);
-      this._panUp(2 * deltaY * targetDistance / element.clientHeight, this.object.matrix);
-    } else if (this.object.isOrthographicCamera) {
-      this._panLeft(deltaX * (this.object.right - this.object.left) / this.object.zoom / element.clientWidth, this.object.matrix);
-      this._panUp(deltaY * (this.object.top - this.object.bottom) / this.object.zoom / element.clientHeight, this.object.matrix);
-    } else {
-      console.warn("WARNING: OrbitControls.js encountered an unknown camera type - pan disabled.");
-      this.enablePan = false;
-    }
-  }
-  _dollyOut(dollyScale) {
-    if (this.object.isPerspectiveCamera || this.object.isOrthographicCamera) {
-      this._scale /= dollyScale;
-    } else {
-      console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
-      this.enableZoom = false;
-    }
-  }
-  _dollyIn(dollyScale) {
-    if (this.object.isPerspectiveCamera || this.object.isOrthographicCamera) {
-      this._scale *= dollyScale;
-    } else {
-      console.warn("WARNING: OrbitControls.js encountered an unknown camera type - dolly/zoom disabled.");
-      this.enableZoom = false;
-    }
-  }
-  _updateZoomParameters(x, y) {
-    if (!this.zoomToCursor) {
-      return;
-    }
-    this._performCursorZoom = true;
-    const rect = this.domElement.getBoundingClientRect();
-    const dx = x - rect.left;
-    const dy = y - rect.top;
-    const w = rect.width;
-    const h = rect.height;
-    this._mouse.x = dx / w * 2 - 1;
-    this._mouse.y = -(dy / h) * 2 + 1;
-    this._dollyDirection.set(this._mouse.x, this._mouse.y, 1).unproject(this.object).sub(this.object.position).normalize();
-  }
-  _clampDistance(dist) {
-    return Math.max(this.minDistance, Math.min(this.maxDistance, dist));
-  }
-  //
-  // event callbacks - update the object state
-  //
-  _handleMouseDownRotate(event) {
-    this._rotateStart.set(event.clientX, event.clientY);
-  }
-  _handleMouseDownDolly(event) {
-    this._updateZoomParameters(event.clientX, event.clientX);
-    this._dollyStart.set(event.clientX, event.clientY);
-  }
-  _handleMouseDownPan(event) {
-    this._panStart.set(event.clientX, event.clientY);
-  }
-  _handleMouseMoveRotate(event) {
-    this._rotateEnd.set(event.clientX, event.clientY);
-    this._rotateDelta.subVectors(this._rotateEnd, this._rotateStart).multiplyScalar(this.rotateSpeed);
-    const element = this.domElement;
-    this._rotateLeft(_twoPI * this._rotateDelta.x / element.clientHeight);
-    this._rotateUp(_twoPI * this._rotateDelta.y / element.clientHeight);
-    this._rotateStart.copy(this._rotateEnd);
-    this.update();
-  }
-  _handleMouseMoveDolly(event) {
-    this._dollyEnd.set(event.clientX, event.clientY);
-    this._dollyDelta.subVectors(this._dollyEnd, this._dollyStart);
-    if (this._dollyDelta.y > 0) {
-      this._dollyOut(this._getZoomScale(this._dollyDelta.y));
-    } else if (this._dollyDelta.y < 0) {
-      this._dollyIn(this._getZoomScale(this._dollyDelta.y));
-    }
-    this._dollyStart.copy(this._dollyEnd);
-    this.update();
-  }
-  _handleMouseMovePan(event) {
-    this._panEnd.set(event.clientX, event.clientY);
-    this._panDelta.subVectors(this._panEnd, this._panStart).multiplyScalar(this.panSpeed);
-    this._pan(this._panDelta.x, this._panDelta.y);
-    this._panStart.copy(this._panEnd);
-    this.update();
-  }
-  _handleMouseWheel(event) {
-    this._updateZoomParameters(event.clientX, event.clientY);
-    if (event.deltaY < 0) {
-      this._dollyIn(this._getZoomScale(event.deltaY));
-    } else if (event.deltaY > 0) {
-      this._dollyOut(this._getZoomScale(event.deltaY));
-    }
-    this.update();
-  }
-  _handleKeyDown(event) {
-    let needsUpdate = false;
-    switch (event.code) {
-      case this.keys.UP:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enableRotate) {
-            this._rotateUp(_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-          }
-        } else {
-          if (this.enablePan) {
-            this._pan(0, this.keyPanSpeed);
-          }
-        }
-        needsUpdate = true;
-        break;
-      case this.keys.BOTTOM:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enableRotate) {
-            this._rotateUp(-_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-          }
-        } else {
-          if (this.enablePan) {
-            this._pan(0, -this.keyPanSpeed);
-          }
-        }
-        needsUpdate = true;
-        break;
-      case this.keys.LEFT:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enableRotate) {
-            this._rotateLeft(_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-          }
-        } else {
-          if (this.enablePan) {
-            this._pan(this.keyPanSpeed, 0);
-          }
-        }
-        needsUpdate = true;
-        break;
-      case this.keys.RIGHT:
-        if (event.ctrlKey || event.metaKey || event.shiftKey) {
-          if (this.enableRotate) {
-            this._rotateLeft(-_twoPI * this.keyRotateSpeed / this.domElement.clientHeight);
-          }
-        } else {
-          if (this.enablePan) {
-            this._pan(-this.keyPanSpeed, 0);
-          }
-        }
-        needsUpdate = true;
-        break;
-    }
-    if (needsUpdate) {
-      event.preventDefault();
-      this.update();
-    }
-  }
-  _handleTouchStartRotate(event) {
-    if (this._pointers.length === 1) {
-      this._rotateStart.set(event.pageX, event.pageY);
-    } else {
-      const position = this._getSecondPointerPosition(event);
-      const x = 0.5 * (event.pageX + position.x);
-      const y = 0.5 * (event.pageY + position.y);
-      this._rotateStart.set(x, y);
-    }
-  }
-  _handleTouchStartPan(event) {
-    if (this._pointers.length === 1) {
-      this._panStart.set(event.pageX, event.pageY);
-    } else {
-      const position = this._getSecondPointerPosition(event);
-      const x = 0.5 * (event.pageX + position.x);
-      const y = 0.5 * (event.pageY + position.y);
-      this._panStart.set(x, y);
-    }
-  }
-  _handleTouchStartDolly(event) {
-    const position = this._getSecondPointerPosition(event);
-    const dx = event.pageX - position.x;
-    const dy = event.pageY - position.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    this._dollyStart.set(0, distance);
-  }
-  _handleTouchStartDollyPan(event) {
-    if (this.enableZoom) this._handleTouchStartDolly(event);
-    if (this.enablePan) this._handleTouchStartPan(event);
-  }
-  _handleTouchStartDollyRotate(event) {
-    if (this.enableZoom) this._handleTouchStartDolly(event);
-    if (this.enableRotate) this._handleTouchStartRotate(event);
-  }
-  _handleTouchMoveRotate(event) {
-    if (this._pointers.length == 1) {
-      this._rotateEnd.set(event.pageX, event.pageY);
-    } else {
-      const position = this._getSecondPointerPosition(event);
-      const x = 0.5 * (event.pageX + position.x);
-      const y = 0.5 * (event.pageY + position.y);
-      this._rotateEnd.set(x, y);
-    }
-    this._rotateDelta.subVectors(this._rotateEnd, this._rotateStart).multiplyScalar(this.rotateSpeed);
-    const element = this.domElement;
-    this._rotateLeft(_twoPI * this._rotateDelta.x / element.clientHeight);
-    this._rotateUp(_twoPI * this._rotateDelta.y / element.clientHeight);
-    this._rotateStart.copy(this._rotateEnd);
-  }
-  _handleTouchMovePan(event) {
-    if (this._pointers.length === 1) {
-      this._panEnd.set(event.pageX, event.pageY);
-    } else {
-      const position = this._getSecondPointerPosition(event);
-      const x = 0.5 * (event.pageX + position.x);
-      const y = 0.5 * (event.pageY + position.y);
-      this._panEnd.set(x, y);
-    }
-    this._panDelta.subVectors(this._panEnd, this._panStart).multiplyScalar(this.panSpeed);
-    this._pan(this._panDelta.x, this._panDelta.y);
-    this._panStart.copy(this._panEnd);
-  }
-  _handleTouchMoveDolly(event) {
-    const position = this._getSecondPointerPosition(event);
-    const dx = event.pageX - position.x;
-    const dy = event.pageY - position.y;
-    const distance = Math.sqrt(dx * dx + dy * dy);
-    this._dollyEnd.set(0, distance);
-    this._dollyDelta.set(0, Math.pow(this._dollyEnd.y / this._dollyStart.y, this.zoomSpeed));
-    this._dollyOut(this._dollyDelta.y);
-    this._dollyStart.copy(this._dollyEnd);
-    const centerX = (event.pageX + position.x) * 0.5;
-    const centerY = (event.pageY + position.y) * 0.5;
-    this._updateZoomParameters(centerX, centerY);
-  }
-  _handleTouchMoveDollyPan(event) {
-    if (this.enableZoom) this._handleTouchMoveDolly(event);
-    if (this.enablePan) this._handleTouchMovePan(event);
-  }
-  _handleTouchMoveDollyRotate(event) {
-    if (this.enableZoom) this._handleTouchMoveDolly(event);
-    if (this.enableRotate) this._handleTouchMoveRotate(event);
-  }
-  // pointers
-  _addPointer(event) {
-    this._pointers.push(event.pointerId);
-  }
-  _removePointer(event) {
-    delete this._pointerPositions[event.pointerId];
-    for (let i = 0; i < this._pointers.length; i++) {
-      if (this._pointers[i] == event.pointerId) {
-        this._pointers.splice(i, 1);
-        return;
-      }
-    }
-  }
-  _isTrackingPointer(event) {
-    for (let i = 0; i < this._pointers.length; i++) {
-      if (this._pointers[i] == event.pointerId) return true;
-    }
-    return false;
-  }
-  _trackPointer(event) {
-    let position = this._pointerPositions[event.pointerId];
-    if (position === void 0) {
-      position = new Vector2();
-      this._pointerPositions[event.pointerId] = position;
-    }
-    position.set(event.pageX, event.pageY);
-  }
-  _getSecondPointerPosition(event) {
-    const pointerId = event.pointerId === this._pointers[0] ? this._pointers[1] : this._pointers[0];
-    return this._pointerPositions[pointerId];
-  }
-  //
-  _customWheelEvent(event) {
-    const mode = event.deltaMode;
-    const newEvent = {
-      clientX: event.clientX,
-      clientY: event.clientY,
-      deltaY: event.deltaY
-    };
-    switch (mode) {
-      case 1:
-        newEvent.deltaY *= 16;
-        break;
-      case 2:
-        newEvent.deltaY *= 100;
-        break;
-    }
-    if (event.ctrlKey && !this._controlActive) {
-      newEvent.deltaY *= 10;
-    }
-    return newEvent;
-  }
-};
-function onPointerDown(event) {
-  if (this.enabled === false) return;
-  if (this._pointers.length === 0) {
-    this.domElement.setPointerCapture(event.pointerId);
-    this.domElement.ownerDocument.addEventListener("pointermove", this._onPointerMove);
-    this.domElement.ownerDocument.addEventListener("pointerup", this._onPointerUp);
-  }
-  if (this._isTrackingPointer(event)) return;
-  this._addPointer(event);
-  if (event.pointerType === "touch") {
-    this._onTouchStart(event);
-  } else {
-    this._onMouseDown(event);
-  }
-  if (this._cursorStyle === "grab") {
-    this.domElement.style.cursor = "grabbing";
-  }
-}
-function onPointerMove(event) {
-  if (this.enabled === false) return;
-  if (event.pointerType === "touch") {
-    this._onTouchMove(event);
-  } else {
-    this._onMouseMove(event);
-  }
-}
-function onPointerUp(event) {
-  this._removePointer(event);
-  switch (this._pointers.length) {
-    case 0:
-      this.domElement.releasePointerCapture(event.pointerId);
-      this.domElement.ownerDocument.removeEventListener("pointermove", this._onPointerMove);
-      this.domElement.ownerDocument.removeEventListener("pointerup", this._onPointerUp);
-      this.dispatchEvent(_endEvent);
-      this.state = _STATE.NONE;
-      if (this._cursorStyle === "grab") {
-        this.domElement.style.cursor = "grab";
-      }
-      break;
-    case 1:
-      const pointerId = this._pointers[0];
-      const position = this._pointerPositions[pointerId];
-      this._onTouchStart({ pointerId, pageX: position.x, pageY: position.y });
-      break;
-  }
-}
-function onMouseDown(event) {
-  let mouseAction;
-  switch (event.button) {
-    case 0:
-      mouseAction = this.mouseButtons.LEFT;
-      break;
-    case 1:
-      mouseAction = this.mouseButtons.MIDDLE;
-      break;
-    case 2:
-      mouseAction = this.mouseButtons.RIGHT;
-      break;
-    default:
-      mouseAction = -1;
-  }
-  switch (mouseAction) {
-    case MOUSE.DOLLY:
-      if (this.enableZoom === false) return;
-      this._handleMouseDownDolly(event);
-      this.state = _STATE.DOLLY;
-      break;
-    case MOUSE.ROTATE:
-      if (event.ctrlKey || event.metaKey || event.shiftKey) {
-        if (this.enablePan === false) return;
-        this._handleMouseDownPan(event);
-        this.state = _STATE.PAN;
-      } else {
-        if (this.enableRotate === false) return;
-        this._handleMouseDownRotate(event);
-        this.state = _STATE.ROTATE;
-      }
-      break;
-    case MOUSE.PAN:
-      if (event.ctrlKey || event.metaKey || event.shiftKey) {
-        if (this.enableRotate === false) return;
-        this._handleMouseDownRotate(event);
-        this.state = _STATE.ROTATE;
-      } else {
-        if (this.enablePan === false) return;
-        this._handleMouseDownPan(event);
-        this.state = _STATE.PAN;
-      }
-      break;
-    default:
-      this.state = _STATE.NONE;
-  }
-  if (this.state !== _STATE.NONE) {
-    this.dispatchEvent(_startEvent);
-  }
-}
-function onMouseMove(event) {
-  switch (this.state) {
-    case _STATE.ROTATE:
-      if (this.enableRotate === false) return;
-      this._handleMouseMoveRotate(event);
-      break;
-    case _STATE.DOLLY:
-      if (this.enableZoom === false) return;
-      this._handleMouseMoveDolly(event);
-      break;
-    case _STATE.PAN:
-      if (this.enablePan === false) return;
-      this._handleMouseMovePan(event);
-      break;
-  }
-}
-function onMouseWheel(event) {
-  if (this.enabled === false || this.enableZoom === false || this.state !== _STATE.NONE) return;
-  event.preventDefault();
-  this.dispatchEvent(_startEvent);
-  this._handleMouseWheel(this._customWheelEvent(event));
-  this.dispatchEvent(_endEvent);
-}
-function onKeyDown(event) {
-  if (this.enabled === false) return;
-  this._handleKeyDown(event);
-}
-function onTouchStart(event) {
-  this._trackPointer(event);
-  switch (this._pointers.length) {
-    case 1:
-      switch (this.touches.ONE) {
-        case TOUCH.ROTATE:
-          if (this.enableRotate === false) return;
-          this._handleTouchStartRotate(event);
-          this.state = _STATE.TOUCH_ROTATE;
-          break;
-        case TOUCH.PAN:
-          if (this.enablePan === false) return;
-          this._handleTouchStartPan(event);
-          this.state = _STATE.TOUCH_PAN;
-          break;
-        default:
-          this.state = _STATE.NONE;
-      }
-      break;
-    case 2:
-      switch (this.touches.TWO) {
-        case TOUCH.DOLLY_PAN:
-          if (this.enableZoom === false && this.enablePan === false) return;
-          this._handleTouchStartDollyPan(event);
-          this.state = _STATE.TOUCH_DOLLY_PAN;
-          break;
-        case TOUCH.DOLLY_ROTATE:
-          if (this.enableZoom === false && this.enableRotate === false) return;
-          this._handleTouchStartDollyRotate(event);
-          this.state = _STATE.TOUCH_DOLLY_ROTATE;
-          break;
-        default:
-          this.state = _STATE.NONE;
-      }
-      break;
-    default:
-      this.state = _STATE.NONE;
-  }
-  if (this.state !== _STATE.NONE) {
-    this.dispatchEvent(_startEvent);
-  }
-}
-function onTouchMove(event) {
-  this._trackPointer(event);
-  switch (this.state) {
-    case _STATE.TOUCH_ROTATE:
-      if (this.enableRotate === false) return;
-      this._handleTouchMoveRotate(event);
-      this.update();
-      break;
-    case _STATE.TOUCH_PAN:
-      if (this.enablePan === false) return;
-      this._handleTouchMovePan(event);
-      this.update();
-      break;
-    case _STATE.TOUCH_DOLLY_PAN:
-      if (this.enableZoom === false && this.enablePan === false) return;
-      this._handleTouchMoveDollyPan(event);
-      this.update();
-      break;
-    case _STATE.TOUCH_DOLLY_ROTATE:
-      if (this.enableZoom === false && this.enableRotate === false) return;
-      this._handleTouchMoveDollyRotate(event);
-      this.update();
-      break;
-    default:
-      this.state = _STATE.NONE;
-  }
-}
-function onContextMenu(event) {
-  if (this.enabled === false) return;
-  event.preventDefault();
-}
-function interceptControlDown(event) {
-  if (event.key === "Control") {
-    this._controlActive = true;
-    const document2 = this.domElement.getRootNode();
-    document2.addEventListener("keyup", this._interceptControlUp, { passive: true, capture: true });
-  }
-}
-function interceptControlUp(event) {
-  if (event.key === "Control") {
-    this._controlActive = false;
-    const document2 = this.domElement.getRootNode();
-    document2.removeEventListener("keyup", this._interceptControlUp, { passive: true, capture: true });
-  }
-}
-
 // node_modules/three/examples/jsm/helpers/RapierHelper.js
 var RapierHelper = class extends LineSegments {
   /**
@@ -34607,6 +33168,10 @@ RAPIER.init().then(() => {
     animate();
     physicsIntervalID = setInterval(physicsStep, 1e3 / 60);
   };
+  const worldPosition = new Vector3();
+  const worldPointer = new Vector3();
+  let pointerInitialized = false;
+  const pointer = new Vector2();
   function createPhysicsObject(mesh2, type = "cuboid") {
     let rigidBodyDesc, colliderDesc;
     const position = new Vector3();
@@ -34688,6 +33253,50 @@ RAPIER.init().then(() => {
     physicsObjects.push(physicsObject);
     return physicsObject;
   }
+  function createShuffler(rootMesh, spawnPosition, useConvexHull = false) {
+    let rigidBodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased().setTranslation(spawnPosition.x, spawnPosition.y, spawnPosition.z);
+    rigidBodyDesc.setRotation(
+      { x: rootMesh.quaternion.x, y: rootMesh.quaternion.y, z: rootMesh.quaternion.z, w: rootMesh.quaternion.w },
+      true
+    );
+    const rigidBody = world.createRigidBody(rigidBodyDesc);
+    rigidBody.lockRotations(true, true);
+    rootMesh.updateWorldMatrix(true, true);
+    const colliders = [];
+    rootMesh.traverse((child) => {
+      if (!child.isMesh || !child.geometry) return;
+      const localMatrix = new Matrix4().copy(child.matrixWorld);
+      localMatrix.premultiply(new Matrix4().copy(rootMesh.matrixWorld).invert());
+      const localPos = new Vector3();
+      const localQuat = new Quaternion();
+      const localScale = new Vector3();
+      localMatrix.decompose(localPos, localQuat, localScale);
+      let colliderDesc;
+      if (useConvexHull) {
+        const position = child.geometry.attributes.position;
+        const points = new Float32Array(position.array);
+        colliderDesc = RAPIER.ColliderDesc.convexHull(points);
+        if (!colliderDesc) {
+          console.warn("Convex hull failed for", child.name, "- falling back to bounding sphere");
+          child.geometry.computeBoundingSphere();
+          colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+        }
+      } else {
+        child.geometry.computeBoundingSphere();
+        colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+      }
+      colliderDesc.setTranslation(localPos.x, localPos.y, localPos.z);
+      colliderDesc.setRotation({ x: localQuat.x, y: localQuat.y, z: localQuat.z, w: localQuat.w });
+      const collider = world.createCollider(colliderDesc, rigidBody);
+      colliders.push(collider);
+    });
+    rootMesh.position.copy(rigidBody.translation());
+    rootMesh.quaternion.copy(rigidBody.rotation());
+    physicsIDs += 1;
+    const ID = physicsIDs;
+    const physicsObject = { RB: rigidBody, COLLIDER: colliders, MESH: rootMesh, ID };
+    return physicsObject;
+  }
   function preLoadTextures() {
     const hdrEquirectangularMap = new HDRLoader(manager);
     hdrEquirectangularMap.load("models/smallStudio.hdr", function(texture) {
@@ -34728,16 +33337,17 @@ RAPIER.init().then(() => {
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
-  const geometry = new TorusKnotGeometry(0.7, 0.2, 100, 16);
-  const material = new MeshNormalMaterial();
+  const geometry = new SphereGeometry(1, 16, 8);
+  const material = new MeshStandardMaterial({ color: 16776960 });
   const mesh = new Mesh(geometry, material);
-  const groundGeometry = new PlaneGeometry(50, 50);
+  const cursorObj = createShuffler(mesh, mesh.position, false);
+  const groundGeometry = new PlaneGeometry(150, 150);
   const groundMaterial = new MeshBasicMaterial({ color: 16776960, side: DoubleSide });
   const ground = new Mesh(groundGeometry, groundMaterial);
   ground.rotateX(1.5708);
-  const groundColliderDesc = RAPIER.ColliderDesc.cuboid(25, 0.01, 25);
+  const groundColliderDesc = RAPIER.ColliderDesc.cuboid(75, 20, 75).setTranslation(0, -20, 0);
   world.createCollider(groundColliderDesc);
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 150; i++) {
     const cubeSize = import_lodash.default.random(0.5, 1.5, true);
     const cubeGeom = new BoxGeometry(cubeSize, cubeSize, cubeSize);
     const material2 = new MeshStandardMaterial({ color: 16777215 * Math.random() });
@@ -34746,17 +33356,26 @@ RAPIER.init().then(() => {
     cubeMesh.rotation.set(import_lodash.default.random(-6.28319, 6.28319, true), import_lodash.default.random(-6.28319, 6.28319, true), import_lodash.default.random(-6.28319, 6.28319, true));
     scene.add(cubeMesh);
     const physObj = createPhysicsObject(cubeMesh);
-    physObj.RB.setAngvel({ x: import_lodash.default.random(-1, 1, true), y: import_lodash.default.random(-1, 1, true), z: import_lodash.default.random(-1, 1, true) }, true);
+    physObj.RB.setAngvel({ x: import_lodash.default.random(-2, 2, true), y: import_lodash.default.random(-2, 2, true), z: import_lodash.default.random(-2, 2, true) }, true);
   }
-  const controls = new OrbitControls(camera, renderer.domElement);
   camera.position.set(0, 20, 0);
   camera.lookAt(0, 0, 0);
-  controls.update();
+  function mouseToWorld(distanceTarget = null) {
+    worldPointer.set(pointer.x, pointer.y, 0);
+    worldPointer.unproject(camera);
+    worldPointer.sub(camera.position).normalize();
+    let distance;
+    if (distanceTarget == null) {
+      distance = camera.position.length();
+    } else {
+      distance = camera.position.distanceTo(distanceTarget);
+    }
+    worldPointer.multiplyScalar(distance);
+    worldPosition.copy(camera.position).add(worldPointer);
+    return worldPosition;
+  }
   function animate() {
     requestAnimationFrame(animate);
-    controls.update();
-    mesh.rotation.x += 5e-3;
-    mesh.rotation.y += 8e-3;
     renderer.render(scene, camera);
   }
   window.addEventListener("resize", () => {
@@ -34764,6 +33383,15 @@ RAPIER.init().then(() => {
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
     renderer.setSize(w, h);
+  });
+  window.addEventListener("pointermove", function(event) {
+    pointer.x = event.clientX / window.innerWidth * 2 - 1;
+    pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+    const target = mouseToWorld();
+    cursorObj.RB.setTranslation({ x: target.x, y: target.y, z: target.z }, true);
+    cursorObj.RB.setLinvel({ x: 0, y: 0, z: 0 }, true);
+    cursorObj.RB.setAngvel({ x: 0, y: 0, z: 0 }, true);
+    cursorObj.MESH.position.copy(cursorObj.RB.translation());
   });
   function physicsStep() {
     for (let i = physicsObjects.length - 1; i >= 0; i--) {
