@@ -20027,98 +20027,6 @@ var PlaneGeometry = class _PlaneGeometry extends BufferGeometry {
     return new _PlaneGeometry(data.width, data.height, data.widthSegments, data.heightSegments);
   }
 };
-var SphereGeometry = class _SphereGeometry extends BufferGeometry {
-  /**
-   * Constructs a new sphere geometry.
-   *
-   * @param {number} [radius=1] - The sphere radius.
-   * @param {number} [widthSegments=32] - The number of horizontal segments. Minimum value is `3`.
-   * @param {number} [heightSegments=16] - The number of vertical segments. Minimum value is `2`.
-   * @param {number} [phiStart=0] - The horizontal starting angle in radians.
-   * @param {number} [phiLength=Math.PI*2] - The horizontal sweep angle size.
-   * @param {number} [thetaStart=0] - The vertical starting angle in radians.
-   * @param {number} [thetaLength=Math.PI] - The vertical sweep angle size.
-   */
-  constructor(radius = 1, widthSegments = 32, heightSegments = 16, phiStart = 0, phiLength = Math.PI * 2, thetaStart = 0, thetaLength = Math.PI) {
-    super();
-    this.type = "SphereGeometry";
-    this.parameters = {
-      radius,
-      widthSegments,
-      heightSegments,
-      phiStart,
-      phiLength,
-      thetaStart,
-      thetaLength
-    };
-    widthSegments = Math.max(3, Math.floor(widthSegments));
-    heightSegments = Math.max(2, Math.floor(heightSegments));
-    const thetaEnd = Math.min(thetaStart + thetaLength, Math.PI);
-    let index = 0;
-    const grid = [];
-    const vertex2 = new Vector3();
-    const normal = new Vector3();
-    const indices = [];
-    const vertices = [];
-    const normals = [];
-    const uvs = [];
-    for (let iy = 0; iy <= heightSegments; iy++) {
-      const verticesRow = [];
-      const v = iy / heightSegments;
-      const theta = thetaStart + v * thetaLength;
-      const y = radius * Math.cos(theta);
-      const ringRadius = Math.sqrt(radius * radius - y * y);
-      let uOffset = 0;
-      if (iy === 0 && thetaStart === 0) {
-        uOffset = 0.5 / widthSegments;
-      } else if (iy === heightSegments && thetaEnd === Math.PI) {
-        uOffset = -0.5 / widthSegments;
-      }
-      for (let ix = 0; ix <= widthSegments; ix++) {
-        const u = ix / widthSegments;
-        const phi = phiStart + u * phiLength;
-        vertex2.x = -ringRadius * Math.cos(phi);
-        vertex2.y = y;
-        vertex2.z = ringRadius * Math.sin(phi);
-        vertices.push(vertex2.x, vertex2.y, vertex2.z);
-        normal.copy(vertex2).normalize();
-        normals.push(normal.x, normal.y, normal.z);
-        uvs.push(u + uOffset, 1 - v);
-        verticesRow.push(index++);
-      }
-      grid.push(verticesRow);
-    }
-    for (let iy = 0; iy < heightSegments; iy++) {
-      for (let ix = 0; ix < widthSegments; ix++) {
-        const a = grid[iy][ix + 1];
-        const b = grid[iy][ix];
-        const c = grid[iy + 1][ix];
-        const d = grid[iy + 1][ix + 1];
-        if (iy !== 0 || thetaStart > 0) indices.push(a, b, d);
-        if (iy !== heightSegments - 1 || thetaEnd < Math.PI) indices.push(b, c, d);
-      }
-    }
-    this.setIndex(indices);
-    this.setAttribute("position", new Float32BufferAttribute(vertices, 3));
-    this.setAttribute("normal", new Float32BufferAttribute(normals, 3));
-    this.setAttribute("uv", new Float32BufferAttribute(uvs, 2));
-  }
-  copy(source) {
-    super.copy(source);
-    this.parameters = Object.assign({}, source.parameters);
-    return this;
-  }
-  /**
-   * Factory method for creating an instance of this class from the given
-   * JSON object.
-   *
-   * @param {Object} data - A JSON object representing the serialized geometry.
-   * @return {SphereGeometry} A new instance.
-   */
-  static fromJSON(data) {
-    return new _SphereGeometry(data.radius, data.widthSegments, data.heightSegments, data.phiStart, data.phiLength, data.thetaStart, data.thetaLength);
-  }
-};
 function cloneUniforms(src) {
   const dst = {};
   for (const u in src) {
@@ -38775,7 +38683,7 @@ RAPIER.init().then(() => {
         }
       } else {
         child.geometry.computeBoundingSphere();
-        colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+        colliderDesc = RAPIER.ColliderDesc.cuboid(1.5, 1.5, 1.5);
       }
       colliderDesc.setTranslation(localPos.x, localPos.y, localPos.z);
       colliderDesc.setRotation({ x: localQuat.x, y: localQuat.y, z: localQuat.z, w: localQuat.w });
@@ -38804,7 +38712,19 @@ RAPIER.init().then(() => {
   function preLoadModels() {
     const objectLoader = new GLTFLoader(manager);
     let stimuliToLoad = [
-      "DISTRACTOR_CUBE"
+      "DISTRACTOR_CUBE",
+      "TARGET_CUBE",
+      "DISTRACTOR_COIN",
+      "TARGET_COIN",
+      "DISTRACTOR_CUBE_LOW",
+      "TARGET_CUBE_LOW",
+      "1x1Brick",
+      "1x2Brick",
+      "1x4Brick",
+      "2x2Brick",
+      "2x4Brick",
+      "T",
+      "L"
     ];
     let modelPath = "models/";
     for (let i = 0; i < stimuliToLoad.length; i++) {
@@ -38813,14 +38733,38 @@ RAPIER.init().then(() => {
         modelPath + stimuliToLoad[i] + ".glb",
         // called when the resource is loaded
         function(gltf) {
-          const model = gltf.scene;
-          model.traverse(function(obj) {
-            if (obj.isMesh) {
-              if (obj.name.includes("BASE")) {
+          let model = gltf.scene;
+          if (stimuliToLoad[i].includes("CUBE")) {
+            model.traverse(function(obj) {
+              if (obj.isMesh) {
+                if (obj.name.includes("BASE")) {
+                  obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+                }
+              }
+            });
+          }
+          if (stimuliToLoad[i].includes("COIN")) {
+            model.traverse(function(obj) {
+              if (obj.isMesh) {
+                if (!obj.name.includes("_1")) {
+                  obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+                }
+              }
+            });
+          }
+          if (stimuliToLoad[i].includes("Brick")) {
+            model = model.children[0];
+            model.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+          }
+          if (stimuliToLoad[i] == "L" | stimuliToLoad[i] == "T") {
+            model = model.children[0];
+            model.traverse(function(obj) {
+              if (obj.isMesh) {
                 obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
               }
-            }
-          });
+            });
+          }
+          model.name = stimuliToLoad[i];
           loadedModels.push(model);
         },
         function(xhr) {
@@ -38864,7 +38808,7 @@ RAPIER.init().then(() => {
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
     container.appendChild(renderer.domElement);
-    const geometry = new SphereGeometry(1, 16, 8);
+    const geometry = new BoxGeometry(3, 3, 3);
     const material = new MeshStandardMaterial({ color: 16776960 });
     const mesh = new Mesh(geometry, material);
     const cursorObj = createShuffler(mesh, mesh.position, false);
@@ -38878,6 +38822,7 @@ RAPIER.init().then(() => {
       pointer.x = event.clientX / window.innerWidth * 2 - 1;
       pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
       const target = mouseToWorld();
+      target.y = 0;
       cursorObj.RB.setTranslation({ x: target.x, y: target.y, z: target.z }, true);
       cursorObj.RB.setLinvel({ x: 0, y: 0, z: 0 }, true);
       cursorObj.RB.setAngvel({ x: 0, y: 0, z: 0 }, true);
@@ -38892,20 +38837,35 @@ RAPIER.init().then(() => {
     for (let i = 0; i < 150; i++) {
       const cubeMesh = import_lodash.default.sample(loadedModels).clone();
       cubeMesh.scale.set(0.5, 0.5, 0.5);
-      cubeMesh.traverse(function(obj) {
-        if (obj.isMesh) {
-          if (obj.name.includes("BASE")) {
-            obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+      if (cubeMesh.name.includes("CUBE")) {
+        cubeMesh.traverse(function(obj) {
+          if (obj.isMesh) {
+            if (obj.name.includes("BASE")) {
+              obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+            }
           }
-        }
-      });
+        });
+      }
+      if (cubeMesh.name.includes("COIN")) {
+        cubeMesh.traverse(function(obj) {
+          if (obj.isMesh) {
+            if (!obj.name.includes("_1")) {
+              obj.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+            }
+          }
+        });
+      }
+      if (cubeMesh.name.includes("Brick")) {
+        cubeMesh.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+      } else {
+        cubeMesh.material = new MeshStandardMaterial({ color: import_lodash.default.sample(colourList) });
+      }
       cubeMesh.position.set(import_lodash.default.random(-10, 10, true), import_lodash.default.random(20, 25, true), import_lodash.default.random(-10, 10, true));
       cubeMesh.rotation.set(import_lodash.default.random(-6.28319, 6.28319, true), import_lodash.default.random(-6.28319, 6.28319, true), import_lodash.default.random(-6.28319, 6.28319, true));
       scene.add(cubeMesh);
       const physObj = createPhysicsObject(cubeMesh);
       physObj.RB.setAngvel({ x: import_lodash.default.random(-2, 2, true), y: import_lodash.default.random(-2, 2, true), z: import_lodash.default.random(-2, 2, true) }, true);
     }
-    console.log(physicsHelper);
     scene.add(physicsHelper);
     camera.position.set(0, 20, 0);
     camera.lookAt(0, 0, 0);
@@ -38938,7 +38898,6 @@ RAPIER.init().then(() => {
       mesh.position.copy(RB.translation());
       mesh.quaternion.copy(RB.rotation());
     }
-    physicsHelper.update();
     world.step();
   }
   preLoadTextures();

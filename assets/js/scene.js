@@ -224,7 +224,8 @@ RAPIER.init().then(() => {
                 }
             } else {
                 child.geometry.computeBoundingSphere();
-                colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                //colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                colliderDesc = RAPIER.ColliderDesc.cuboid(1.5, 1.5, 1.5);
             }
 
             // Position/orient this collider relative to the rigid body
@@ -270,9 +271,10 @@ RAPIER.init().then(() => {
         ///////////////////////////////////////////////////////////////////////// 
         const objectLoader = new GLTFLoader(manager);
         let stimuliToLoad = [
-            'DISTRACTOR_CUBE'
+            'DISTRACTOR_CUBE', 'TARGET_CUBE', 'DISTRACTOR_COIN', 'TARGET_COIN', 'DISTRACTOR_CUBE_LOW', 'TARGET_CUBE_LOW',
+            '1x1Brick', '1x2Brick', '1x4Brick', '2x2Brick', '2x4Brick', 'T', 'L'
         ];
-        //'1x1Brick', '1x2Brick', '1x2Plate', '1x2PlateSingle', '1x4Brick', '1x4Plate', '2x1Slope', '2x2Brick', '2x2Slope', '2x4Brick', 'Arch'
+
         let modelPath = 'models/';
 
         for (let i = 0; i < stimuliToLoad.length; i++) {// Load a glTF resource
@@ -281,16 +283,47 @@ RAPIER.init().then(() => {
                 modelPath + stimuliToLoad[i] + ".glb",
                 // called when the resource is loaded
                 function (gltf) {
-                    const model = gltf.scene;
+                    let model = gltf.scene;
 
-                    model.traverse(function (obj) {
-                        if (obj.isMesh) {
-                            if (obj.name.includes("BASE")) {
+                    if (stimuliToLoad[i].includes('CUBE')) {
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (obj.name.includes("BASE")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+
+                    }
+
+
+
+                    if (stimuliToLoad[i].includes('COIN')) {
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (!obj.name.includes("_1")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+                    }
+
+                    if (stimuliToLoad[i].includes('Brick')) {
+                        model = model.children[0]
+                        model.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                    }
+
+                    if (stimuliToLoad[i] == 'L' | stimuliToLoad[i] == 'T') {
+                        model = model.children[0]
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
                                 obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
                             }
-                        }
-                    })
+                        })
 
+                    }
+
+                    model.name = stimuliToLoad[i]
                     loadedModels.push(model)
 
                 },
@@ -348,7 +381,8 @@ RAPIER.init().then(() => {
         container.appendChild(renderer.domElement);
 
 
-        const geometry = new THREE.SphereGeometry(1, 16, 8);
+        //const geometry = new THREE.SphereGeometry(1, 16, 8);
+        const geometry = new THREE.BoxGeometry(3, 3, 3);
         const material = new THREE.MeshStandardMaterial({ color: 0xffff00 });
         const mesh = new THREE.Mesh(geometry, material);
         const cursorObj = createShuffler(mesh, mesh.position, false)
@@ -371,6 +405,7 @@ RAPIER.init().then(() => {
             pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
 
             const target = mouseToWorld()
+            target.y = 0;
 
             cursorObj.RB.setTranslation({ x: target.x, y: target.y, z: target.z }, true);
             cursorObj.RB.setLinvel({ x: 0, y: 0, z: 0 }, true);
@@ -386,16 +421,39 @@ RAPIER.init().then(() => {
         const groundColliderDesc = RAPIER.ColliderDesc.cuboid(75.0, 20, 75.0).setTranslation(0, -20, 0);
         world.createCollider(groundColliderDesc);
 
+
         for (let i = 0; i < 150; i++) {
             const cubeMesh = _.sample(loadedModels).clone()
             cubeMesh.scale.set(0.5, 0.5, 0.5)
-            cubeMesh.traverse(function (obj) {
+
+
+            if(cubeMesh.name.includes('CUBE')){
+                cubeMesh.traverse(function (obj) {
                 if (obj.isMesh) {
                     if (obj.name.includes("BASE")) {
                         obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
                     }
                 }
             })
+            }
+            if(cubeMesh.name.includes('COIN')){
+                cubeMesh.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (!obj.name.includes("_1")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+            }
+
+            if(cubeMesh.name.includes('Brick')){
+                cubeMesh.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+            }
+
+            else{
+                cubeMesh.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+            }
+            
             /*const cubeSize = _.random(0.5, 1.5, true)
             const cubeGeom = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
             const material = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
@@ -409,7 +467,7 @@ RAPIER.init().then(() => {
 
 
 
-        console.log(physicsHelper)
+        //console.log(physicsHelper)
         scene.add(physicsHelper)
 
 
@@ -481,7 +539,7 @@ RAPIER.init().then(() => {
         }
 
 
-        physicsHelper.update();
+        //physicsHelper.update();
         world.step();
     }
 
