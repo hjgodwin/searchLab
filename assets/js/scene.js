@@ -2,676 +2,551 @@ import * as THREE from 'three';
 import { HDRLoader } from 'three/addons/loaders/HDRLoader.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { RapierHelper } from 'three/addons/helpers/RapierHelper.js';
 import _ from "lodash";
-
-
-let scene, camera, renderer, controls, requestID;
-let paused = false
-scene = new THREE.Scene();
-//scene.fog = new THREE.FogExp2(0x0a0a12, 0.05);
-
-const loadedStimuli = [];
-const loadedTextures = [];
-const objectsInScene = []
-
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2()
-const raycastableObjects = []
-let selectedObject = null
-
-function raycastScene(event = null) {
-    raycaster.setFromCamera(pointer, camera);
-    // See if the ray from the camera into the world hits one of our meshes
-    const intersects = raycaster.intersectObjects(objectsInScene);
-    return (intersects)
-}
-
-
-
-
-// Loading Manager
-const manager = new THREE.LoadingManager();
-
-manager.onLoad = function () {
-    init();
-};
-
-
-const container = document.querySelector("div.post-content.md-content");
-const width = container.clientWidth;
-const height = 500;
-
-const SPHERE_R = 10;
-const CUBE_HALF = 0.28;
-const PALETTE = [0x6655dd, 0x44bbcc, 0xff6644, 0xffaa22, 0x55cc77, 0xdd44aa, 0x3399ff, 0xeeee55];
-const SPEED = 0.01;
-const TOTAL_CUBES = 50;
-
-let cubes = [];
-let cubeHalves = [];
-let velocities = [];
-let rotVelocities = [];
-//let sphereMesh
-
-const timer = new THREE.Timer();
-const sphereGeo = new THREE.SphereGeometry(SPHERE_R, 32, 32);
-const sphereMat = new THREE.MeshBasicMaterial({ color: 0x334466, wireframe: true, transparent: true, opacity: 0.5 });
-const sphereMesh = new THREE.Mesh(sphereGeo, sphereMat);
-//scene.add(sphereMesh);
-
-//init()
-
-
-
-function randInSphere(r) {
-    let v;
-    do {
-        v = new THREE.Vector3(
-            _.random(-1, 1, true),
-            _.random(-1, 1, true),
-            _.random(-1, 1, true)
-        );
-    } while (v.length() > 1);
-    return v.multiplyScalar(r * 0.8);
-}
-
-function randVel() {
-    return new THREE.Vector3(
-        _.random(-1, 1, true),
-        _.random(-1, 1, true),
-        _.random(-1, 1, true)
-    ).normalize().multiplyScalar(SPEED);
-}
-
-function randRotVel() {
-    return new THREE.Vector3(
-        _.random(-0.03, 0.03, true),
-        _.random(-0.03, 0.03, true),
-        _.random(-0.03, 0.03, true)
-    );
-}
-
-function buildCubes() {
-    const updatedTotalCubes = TOTAL_CUBES - loadedStimuli.length;
-
-    for (let i = 0; i < loadedStimuli.length; i++) {
-        const mesh = loadedStimuli[i]
-        let randScale
-        if(mesh.name.includes("DISTRACTOR") | mesh.name.includes("TARGET")){
-            randScale = _.random(0.1, 0.25, true);
-        }else{
-            randScale = _.random(0.1, 0.5, true);
-        }
-        
-        mesh.scale.set(randScale,randScale,randScale)
-        
-
-        const bbox = new THREE.Box3().setFromObject(mesh);
-        const size = new THREE.Vector3();
-        bbox.getSize(size);
-        const half = Math.max(size.x, size.y, size.z) / 2;
-
-        mesh.position.copy(randInSphere(SPHERE_R));
-        scene.add(mesh);
-        objectsInScene.push(mesh)
-        cubes.push(mesh);
-        cubeHalves.push(half);
-        velocities.push(randVel());
-        rotVelocities.push(randRotVel());
-    }
-
-    for (let i = 0; i < updatedTotalCubes; i++) {
-        const half = CUBE_HALF * _.random(0.25, 1.0, true);
-        const geo = new THREE.BoxGeometry(half * 2, half * 2, half * 2);
-        const mat = new THREE.MeshStandardMaterial({
-            color: PALETTE[i % PALETTE.length],
-            roughness: _.random(0.1,1,true)
-        });
-        const mesh = new THREE.Mesh(geo, mat);
-        mesh.position.copy(randInSphere(SPHERE_R));
-        mesh.userData.cardName = 'Other'
-        scene.add(mesh);
-        objectsInScene.push(mesh)
-        cubes.push(mesh);
-        cubeHalves.push(half);
-        velocities.push(randVel());
-        rotVelocities.push(randRotVel());
-    }
-}
-
-
-
-function applyVelocities(cube, vel, rotVel, delta) {
-    cube.position.addScaledVector(vel, delta * 30);
-    cube.rotation.x += rotVel.x * delta * 30;
-    cube.rotation.y += rotVel.y * delta * 30;
-    cube.rotation.z += rotVel.z * delta * 30;
-}
-
-function checkIfInSphere(cube, half) {
-    return cube.position.length() > SPHERE_R - half * 1.5;
-}
-
-function reflectBack(cube, vel, half) {
-    const dist = cube.position.length();
-    const normal = cube.position.clone().divideScalar(dist);
-    vel.reflect(normal);
-    cube.position.copy(normal.multiplyScalar(SPHERE_R - half * 1.5));
-}
-
-function processCollisions(cube, vel, half, i, delta) {
-    const pos = cube.position;
-    for (let j = i + 1; j < TOTAL_CUBES; j++) {
-        const posJ = cubes[j].position;
-        const dx = pos.x - posJ.x;
-        const dy = pos.y - posJ.y;
-        const dz = pos.z - posJ.z;
-        const distSq = dx * dx + dy * dy + dz * dz;
-
-        const contactDist = (half + cubeHalves[j]) * 2.2;
-        const contactDistSq = contactDist * contactDist;
-
-        if (distSq < contactDistSq && distSq > 0.0001) {
-            const sep = Math.sqrt(distSq);
-            const invSep = 1 / sep;
-            const ax = dx * invSep;
-            const ay = dy * invSep;
-            const az = dz * invSep;
-
-            const velJ = velocities[j];
-
-            const dotI = vel.x * ax + vel.y * ay + vel.z * az;
-            const dotJ = velJ.x * ax + velJ.y * ay + velJ.z * az;
-
-            const dDot = dotI - dotJ;
-            vel.x -= dDot * ax; vel.y -= dDot * ay; vel.z -= dDot * az;
-            velJ.x += dDot * ax; velJ.y += dDot * ay; velJ.z += dDot * az;
-
-            const push = (contactDist - sep) * 0.5 * delta * 60 + 0.01;
-            const scale = push * invSep;
-            pos.x += dx * scale; pos.y += dy * scale; pos.z += dz * scale;
-            posJ.x -= dx * scale; posJ.y -= dy * scale; posJ.z -= dz * scale;
-        }
-    }
-}
-
-function update(delta) {
-    for (let i = 0; i < TOTAL_CUBES; i++) {
-        const cube = cubes[i];
-        const vel = velocities[i];
-        const rotVel = rotVelocities[i];
-        const half = cubeHalves[i];
-
-        applyVelocities(cube, vel, rotVel, delta);
-
-        if (checkIfInSphere(cube, half)) {
-            reflectBack(cube, vel, half);
-        }
-
-        processCollisions(cube, vel, half, i, delta);
-    }
-
-    sphereMesh.rotation.y += 0.002 * delta * 60;
-}
-
-function init() {
-    /////////////////////////////////////////////////////////////////////////
-    // SETUP RENDERER ///////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    renderer = new THREE.WebGLRenderer({ antialias: true });
-    renderer.setSize(width, height);
-    renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0x0a0a12, 1);
-
-    //document.body.appendChild(renderer.domElement);
-    document.getElementById("three-root").appendChild(renderer.domElement);
-
-
-
-    camera = new THREE.PerspectiveCamera(10, width / height, 0.1, 1000);
-    camera.position.z = 50;
-
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 1.8);
-    scene.add(ambientLight);
-
-    const dirLight = new THREE.DirectionalLight(0x88aaff, 1.2);
-    dirLight.position.set(5, 8, 6);
-    scene.add(dirLight);
-
-    const rimLight = new THREE.DirectionalLight(0xff6644, 0.5);
-    rimLight.position.set(-5, -4, -3);
-    scene.add(rimLight);
-
-    const gridSize = 150;
-    const divisions = 50;
-    const gridHelper = new THREE.GridHelper(gridSize, divisions, 0x00A32C, 0x00A32C);
-    
-    gridHelper.material.opacity = 0.35;
-    gridHelper.material.transparent = true;
-    
-    gridHelper.rotateX(1.5708);
-    gridHelper.position.z = -400;
-    scene.add(gridHelper);
-
-    window.addEventListener('resize', onWindowResize);
-    /////////////////////////////////////////////////////////////////////////
-
-    /////////////////////////////////////////////////////////////////////////
-    // SETUP CONTROLS////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    //controls = new OrbitControls(camera, renderer.domElement);
-    /////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-    container.addEventListener('pointermove', (event) => {
-      const rect = renderer.domElement.getBoundingClientRect();
-      pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        
-    });
-
-    container.addEventListener('pointerdown', (event) => {
-        const rect = renderer.domElement.getBoundingClientRect();
-        pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        const intersects = raycastScene()
-        console.log(intersects)
-
-        if (!paused & intersects.length > 0) {
-            selectedObject = intersects[0].object
-            console.log(selectedObject.userData)
-            paused = true
-            const card = CARDS.find(card => card.name === selectedObject.userData.cardName)
-            document.body.appendChild(makeCard(card));
-        }
-    });
-
-
-    buildCubes();
-
-    animate();
-}
-
-function clearScene() {
-    for (let i = 0; i < objectsInScene.length; i++) {
-        const objToRemove = objectsInScene[i]
-        scene.remove(objToRemove)
-    }
-
-    objectsInScene.length = 0;
-}
-
-
-function preLoadModels() {
-    /////////////////////////////////////////////////////////////////////////
-    // LOAD 3D MODELS ///////////////////////////////////////////////////////
-    ///////////////////////////////////////////////////////////////////////// 
-    const objectLoader = new GLTFLoader(manager);
-    let stimuliToLoad = ["DISTRACTOR_CUBE_1", "TARGET_CUBE_1", "hadenCube", "haywardCube", "prasadCube", "mansiCube", "coinPaperCube","easyDoesItCube","emmaPaperCube","noStoneUnturnedCube"];
-    let modelPath = 'models/';
-
-    for (let i = 0; i < stimuliToLoad.length; i++) {// Load a glTF resource
-        objectLoader.load(
-            // resource URL
-            modelPath + stimuliToLoad[i] + ".glb",
-            // called when the resource is loaded
-            function (gltf) {
-                const model = gltf.scene;
-                const modelName = stimuliToLoad[i]
-                let cardName
-
-                if(modelName == ('DISTRACTOR_CUBE_1')){cardName = 'DistractorCube'}
-                if(modelName == ('TARGET_CUBE_1')){cardName = 'TargetCube'}
-
-                if(modelName == ('hadenCube')){cardName = 'Haden'}
-                if(modelName == ('haywardCube')){cardName = 'Hayward'}
-                if(modelName == ('prasadCube')){cardName = 'Prasad'}
-                if(modelName == ('mansiCube')){cardName = 'Mansi'}
-                if(modelName == ('coinPaperCube')){cardName = 'coinPaper'}
-                if(modelName == ('easyDoesItCube')){cardName = 'easyDoesIt'}
-                if(modelName == ('emmaPaperCube')){cardName = 'emmaPaper'}
-                if(modelName == ('noStoneUnturnedCube')){cardName = 'noStoneUnturned'}
-
-                
-
-
-                // TRAVERSE IF NEEDED // 
-                model.userData.cardName = cardName
-                model.traverse((o) => {
-                    if (o.isMesh) {
-                        //o.material.roughness = 0.8;
-                        o.userData.cardName = cardName
-                    }
-                });
-
-                if(modelName == ('DISTRACTOR_CUBE_1')){
-                    model.name = 'DISTRACTOR_CUBE'
-                    loadedStimuli.push(model);
-                    for(let j = 0; j < 5; j++){
-                        const dClone = model.clone()
-                        loadedStimuli.push(dClone);
-                    }
-                }
-                else if(modelName == ('TARGET_CUBE_1')){
-                    model.name = 'TARGET_CUBE'
-                    loadedStimuli.push(model);
-                    for(let j = 0; j < 3; j++){
-                        const tClone = model.clone()
-                        loadedStimuli.push(tClone);
-                    }
-                }
-                else{
-                    // Save to array 
-                    loadedStimuli.push(model);
-                }
-
-                
-
-                // Add to scene 
-                //scene.add(model);
-            },
-
-            function (xhr) {
-                console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-            },
-            // called when loading has errors
-            function (error) {
-                console.log('An error happened', error);
-            }
-        )
+//import RAPIER from 'https://cdn.skypack.dev/@dimforge/rapier3d-compat';
+import RAPIER from 'https://cdn.jsdelivr.net/npm/@dimforge/rapier3d-compat@0.14.0/rapier.es.js';
+
+RAPIER.init().then(() => {
+    let physicsIntervalID
+    let physicsIDs = -1;
+    const colourList = [0xff643c, 0xf73232, 0xf50a64, 0xeb00aa, 0xb432b4, 0x6e3bc8, 0x2d78eb, 0x35a5eb, 0x30aaab, 0x3c966e, 0x3cc85a, 0x78be00, 0xbed200, /*0xebeb00,*/ 0xd7c300, 0xf0aa02];
+    const loadedModels = []
+
+    const manager = new THREE.LoadingManager();
+
+    manager.onLoad = function () {
+        init();
     };
-    /////////////////////////////////////////////////////////////////////////
-}
 
-function preLoadTextures() {
-    /////////////////////////////////////////////////////////////////////////
-    // SETUP HDRIs //////////////////////////////////////////////////////////
-    /////////////////////////////////////////////////////////////////////////
-    const hdrEquirectangularMap = new HDRLoader(manager);
+    const worldPosition = new THREE.Vector3()
+    const worldPointer = new THREE.Vector3()
+    let pointerInitialized = false
+    const pointer = new THREE.Vector2()
 
-    hdrEquirectangularMap.load('Textures/indoorHDR.hdr', function (texture) {
-        texture.mapping = THREE.EquirectangularReflectionMapping;
-        texture.minFilter = THREE.LinearFilter;
-        texture.magFilter = THREE.LinearFilter;
-        texture.needsUpdate = true;
-        texture.name = 'indoorHDR';
-        //scene.environment = texture;
-        //scene.background = texture;
-    });
-    /////////////////////////////////////////////////////////////////////////
-
-    // Load images and textures here...
-    const textureLoader = new THREE.TextureLoader(manager);
-    let texturePath = 'Textures/';
-    let texturesToLoad = [];
-
-    for (let i = 0; i < texturesToLoad.length; i++) {
-        // load a resource
-        textureLoader.load(
-            // resource URL
-            texturePath + texturesToLoad[i],
-
-            // onLoad callback
-            function (texture) {
-                loadedTextures.push(texture);
-            },
-
-            // onProgress callback currently not supported
-            undefined,
-
-            // onError callback
-            function (err) {
-                console.error('An error happened.');
+    function createPhysicsObject(target, type = "cuboid") {
+        // Collect the meshes this physics body needs colliders for.
+        // A single Mesh -> one collider (original behavior, unchanged).
+        // A Group/Object3D -> compound body: one collider per descendant mesh.
+        const isGroup = !target.isMesh;
+        const meshes = isGroup ? [] : [target];
+        if (isGroup) {
+            target.traverse(child => {
+                if (child.isMesh) meshes.push(child);
+            });
+            if (meshes.length === 0) {
+                throw new Error(`createPhysicsObject: "${target.name}" is a group with no mesh descendants`);
             }
+        }
+
+        // Rigid body sits at the target's own world transform (mesh or group root).
+        const rootPosition = new THREE.Vector3();
+        target.getWorldPosition(rootPosition);
+        const rootQuaternion = new THREE.Quaternion();
+        target.getWorldQuaternion(rootQuaternion);
+
+        const rigidBodyDesc = RAPIER.RigidBodyDesc.dynamic();
+        rigidBodyDesc.setTranslation(rootPosition.x, rootPosition.y, rootPosition.z);
+        rigidBodyDesc.setRotation({ x: rootQuaternion.x, y: rootQuaternion.y, z: rootQuaternion.z, w: rootQuaternion.w });
+        const rigidBody = world.createRigidBody(rigidBodyDesc);
+
+        // Precompute the root's inverse world matrix so each mesh's collider can
+        // be offset relative to the rigid body (this is what makes it "compound").
+        target.updateWorldMatrix(true, false);
+        const rootMatrixInverse = new THREE.Matrix4().copy(target.matrixWorld).invert();
+
+        const colliders = [];
+
+        for (const mesh of meshes) {
+            const colliderDesc = buildColliderDesc(mesh, type);
+
+            if (isGroup) {
+                mesh.updateWorldMatrix(true, false);
+                const relative = new THREE.Matrix4().multiplyMatrices(rootMatrixInverse, mesh.matrixWorld);
+                const relPos = new THREE.Vector3();
+                const relQuat = new THREE.Quaternion();
+                const relScale = new THREE.Vector3(); // unused — see note below
+                relative.decompose(relPos, relQuat, relScale);
+
+                colliderDesc.setTranslation(relPos.x, relPos.y, relPos.z);
+                colliderDesc.setRotation({ x: relQuat.x, y: relQuat.y, z: relQuat.z, w: relQuat.w });
+            }
+
+            const collider = world.createCollider(colliderDesc, rigidBody);
+
+            mesh.userData.RB = rigidBody;
+            mesh.userData.COLLIDER = collider;
+
+            colliders.push(collider);
+        }
+
+        physicsIDs += 1;
+        const ID = physicsIDs;
+        target.userData.ID = ID;
+        target.userData.RB = rigidBody;
+        if (!isGroup) target.userData.COLLIDER = colliders[0];
+
+        const physicsObject = {
+            RB: rigidBody,
+            COLLIDER: colliders[0],
+            COLLIDERS: colliders,
+            MESH: target,
+            ID: ID
+        };
+        physicsObjects.push(physicsObject);
+
+        return physicsObject;
+    }
+
+    // Builds a ColliderDesc from a mesh's *local* (untransformed) geometry.
+    // Shared by both the single-mesh path and each part of a compound body.
+    function buildColliderDesc(mesh, type) {
+        const scale = mesh.getWorldScale(new THREE.Vector3());
+
+        if (type === "cuboid") {
+            const size = new THREE.Vector3();
+            mesh.geometry.computeBoundingBox();
+            mesh.geometry.boundingBox.getSize(size);
+            size.multiply(scale);   // apply scale per-axis
+            size.divideScalar(2);
+            return RAPIER.ColliderDesc.cuboid(size.x, size.y, size.z);
+
+        } else if (type === "ball") {
+            mesh.geometry.computeBoundingSphere();
+            let radius = mesh.geometry.boundingSphere.radius;
+
+            if (Math.abs(scale.x - scale.y) > 1e-5 || Math.abs(scale.y - scale.z) > 1e-5) {
+                console.warn(`Non-uniform scale on "${mesh.name}" — Rapier balls can't be ellipsoids, using average scale`);
+            }
+            radius *= (scale.x + scale.y + scale.z) / 3;
+            return RAPIER.ColliderDesc.ball(radius);
+
+        } else if (type === "capsule") {
+            mesh.geometry.computeBoundingBox();
+            const size = new THREE.Vector3();
+            mesh.geometry.boundingBox.getSize(size);
+            size.multiply(scale);
+
+            if (Math.abs(scale.x - scale.z) > 1e-5) {
+                console.warn(`Non-uniform X/Z scale on "${mesh.name}" — capsule radius will use X`);
+            }
+            const radius = Math.max(size.x, size.z) / 2;
+            const halfHeight = Math.max(0, (size.y / 2) - radius);
+            return RAPIER.ColliderDesc.capsule(halfHeight, radius);
+
+        } else if (type === "convex") {
+            const positionAttr = mesh.geometry.attributes.position;
+            const vertices = new Float32Array(positionAttr.count * 3);
+            for (let i = 0; i < positionAttr.count; i++) {
+                vertices[i * 3] = positionAttr.getX(i) * scale.x;
+                vertices[i * 3 + 1] = positionAttr.getY(i) * scale.y;
+                vertices[i * 3 + 2] = positionAttr.getZ(i) * scale.z;
+            }
+
+            let colliderDesc = RAPIER.ColliderDesc.convexHull(vertices);
+            if (!colliderDesc) {
+                console.warn("convexHull failed — falling back to cuboid for", mesh.name);
+                mesh.geometry.computeBoundingBox();
+                const size = new THREE.Vector3();
+                mesh.geometry.boundingBox.getSize(size);
+                size.multiply(scale).divideScalar(2);
+                colliderDesc = RAPIER.ColliderDesc.cuboid(size.x, size.y, size.z);
+            }
+            return colliderDesc;
+
+        } else if (type === "trimesh") {
+            const geo = mesh.geometry.index ? mesh.geometry.clone() : mesh.geometry;
+
+            const positionAttr = geo.attributes.position;
+            const vertices = new Float32Array(positionAttr.count * 3);
+            for (let i = 0; i < positionAttr.count; i++) {
+                vertices[i * 3] = positionAttr.getX(i) * scale.x;
+                vertices[i * 3 + 1] = positionAttr.getY(i) * scale.y;
+                vertices[i * 3 + 2] = positionAttr.getZ(i) * scale.z;
+            }
+
+            let indices;
+            if (geo.index) {
+                indices = new Uint32Array(geo.index.array);
+            } else {
+                indices = new Uint32Array(positionAttr.count);
+                for (let i = 0; i < positionAttr.count; i++) indices[i] = i;
+            }
+
+            return RAPIER.ColliderDesc.trimesh(vertices, indices);
+
+        } else {
+            throw new Error(`Unknown collider type: "${type}"`);
+        }
+    }
+
+    function createShuffler(rootMesh, spawnPosition, useConvexHull = false) {
+        // Create the single kinematic rigid body at the root's spawn position
+        let rigidBodyDesc = RAPIER.RigidBodyDesc.kinematicPositionBased()
+            .setTranslation(spawnPosition.x, spawnPosition.y, spawnPosition.z);
+        rigidBodyDesc.setRotation(
+            { x: rootMesh.quaternion.x, y: rootMesh.quaternion.y, z: rootMesh.quaternion.z, w: rootMesh.quaternion.w },
+            true
         );
+
+        const rigidBody = world.createRigidBody(rigidBodyDesc);
+        rigidBody.lockRotations(true, true);
+
+        // Make sure local transforms are current before we read them
+        rootMesh.updateWorldMatrix(true, true);
+
+        const colliders = [];
+
+        rootMesh.traverse((child) => {
+            if (!child.isMesh || !child.geometry) return;
+
+            // Get this child's transform RELATIVE TO rootMesh (the rigid body's frame),
+            // not relative to world space.
+            const localMatrix = new THREE.Matrix4().copy(child.matrixWorld);
+            localMatrix.premultiply(new THREE.Matrix4().copy(rootMesh.matrixWorld).invert());
+
+            const localPos = new THREE.Vector3();
+            const localQuat = new THREE.Quaternion();
+            const localScale = new THREE.Vector3();
+            localMatrix.decompose(localPos, localQuat, localScale);
+
+            let colliderDesc;
+
+            if (useConvexHull) {
+                const position = child.geometry.attributes.position;
+                const points = new Float32Array(position.array);
+                colliderDesc = RAPIER.ColliderDesc.convexHull(points);
+
+                if (!colliderDesc) {
+                    console.warn("Convex hull failed for", child.name, "- falling back to bounding sphere");
+                    child.geometry.computeBoundingSphere();
+                    colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                }
+            } else {
+                child.geometry.computeBoundingSphere();
+                //colliderDesc = RAPIER.ColliderDesc.ball(child.geometry.boundingSphere.radius);
+                colliderDesc = RAPIER.ColliderDesc.cuboid(1.5, 1.5, 1.5);
+            }
+
+            // Position/orient this collider relative to the rigid body
+            colliderDesc.setTranslation(localPos.x, localPos.y, localPos.z);
+            colliderDesc.setRotation({ x: localQuat.x, y: localQuat.y, z: localQuat.z, w: localQuat.w });
+
+            const collider = world.createCollider(colliderDesc, rigidBody);
+            colliders.push(collider);
+        });
+
+        rootMesh.position.copy(rigidBody.translation());
+        rootMesh.quaternion.copy(rigidBody.rotation());
+
+        physicsIDs += 1;
+        const ID = physicsIDs;
+
+        const physicsObject = { RB: rigidBody, COLLIDER: colliders, MESH: rootMesh, ID: ID };
+
+        return physicsObject;
+    }
+
+    function preLoadTextures() {
+        /////////////////////////////////////////////////////////////////////////
+        // SETUP HDRIs //////////////////////////////////////////////////////////
+        /////////////////////////////////////////////////////////////////////////
+        const hdrEquirectangularMap = new HDRLoader(manager);
+
+        hdrEquirectangularMap.load('models/smallStudio.hdr', function (texture) {
+            texture.mapping = THREE.EquirectangularReflectionMapping;
+            texture.minFilter = THREE.LinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.needsUpdate = true;
+            texture.name = 'studioHDR';
+            scene.environment = texture;
+            scene.environmentIntensity = 0.8;
+        });
 
     }
 
-}
+    function preLoadModels() {
+        /////////////////////////////////////////////////////////////////////////
+        // LOAD 3D MODELS ///////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////// 
+        const objectLoader = new GLTFLoader(manager);
+        let stimuliToLoad = [
+            'DISTRACTOR_CUBE', 'TARGET_CUBE', 'DISTRACTOR_COIN', 'TARGET_COIN', 'DISTRACTOR_CUBE_LOW', 'TARGET_CUBE_LOW',
+            '1x1Brick', '1x2Brick', '1x4Brick', '2x2Brick', '2x4Brick', 'T', 'L'
+        ];
+
+        let modelPath = 'models/';
+
+        for (let i = 0; i < stimuliToLoad.length; i++) {// Load a glTF resource
+            objectLoader.load(
+                // resource URL
+                modelPath + stimuliToLoad[i] + ".glb",
+                // called when the resource is loaded
+                function (gltf) {
+                    let model = gltf.scene;
+
+                    if (stimuliToLoad[i].includes('CUBE')) {
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (obj.name.includes("BASE")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+
+                    }
 
 
-function onWindowResize() {
-    const w = container.clientWidth;
-    const h = 500;
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-    renderer.setSize(w, h);
 
-}
+                    if (stimuliToLoad[i].includes('COIN')) {
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (!obj.name.includes("_1")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+                    }
+
+                    if (stimuliToLoad[i].includes('Brick')) {
+                        model = model.children[0]
+                        model.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                    }
+
+                    if (stimuliToLoad[i] == 'L' | stimuliToLoad[i] == 'T') {
+                        model = model.children[0]
+                        model.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                            }
+                        })
+
+                    }
+
+                    model.name = stimuliToLoad[i]
+                    loadedModels.push(model)
+
+                },
+
+                function (xhr) {
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+                },
+                // called when loading has errors
+                function (error) {
+                    console.log('An error happened', error);
+                }
+            )
+        };
+        /////////////////////////////////////////////////////////////////////////
+    }
+
+    const world = new RAPIER.World({ x: 0.0, y: -9.81, z: 0.0 });
+    const physicsHelper = new RapierHelper(world);
+    const physicsObjects = []
+    let scene, renderer, camera
+
+    const container = document.createElement("div");
+    container.id = "three-root";
+
+    document.body.appendChild(container);
+
+    container.id = "three-root";
+    document.body.prepend(container);
+
+    container.style.position = "fixed";
+    container.style.top = "0";
+    container.style.left = "0";
+    container.style.width = "100vw";
+    container.style.height = "100vh";
+    container.style.zIndex = "-1";
+
+    //const container = document.getElementById('three-root');
+
+    scene = new THREE.Scene();
 
 
-function animate() {
-    requestID = requestAnimationFrame(animate);
-    timer.update();
+    function init() {
 
-    const delta = Math.min(timer.getDelta(), 0.1);
-    if (!paused) { update(delta); }
-    renderer.render(scene, camera);
-}
+        camera = new THREE.PerspectiveCamera(
+            30, container.clientWidth / container.clientHeight, 0.1, 1000
+        );
+
+        renderer = new THREE.WebGLRenderer({
+            antialias: true,
+            alpha: true
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio)
+        container.appendChild(renderer.domElement);
+
+
+        //const geometry = new THREE.SphereGeometry(1, 16, 8);
+        const geometry = new THREE.BoxGeometry(3, 3, 3);
+        const material = new THREE.MeshStandardMaterial({ color: 0xffff00 });
+        const mesh = new THREE.Mesh(geometry, material);
+        const cursorObj = createShuffler(mesh, mesh.position, false)
+        //const cursorObj = createPhysicsObject(mesh, 'ball')
+
+        //scene.add(mesh);
+
+        window.addEventListener('resize', () => {
+            const w = container.clientWidth, h = container.clientHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+
+
+
+        window.addEventListener('pointermove', function (event) {
+
+            pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+            pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            const target = mouseToWorld()
+            target.y = 0;
+
+            cursorObj.RB.setTranslation({ x: target.x, y: target.y, z: target.z }, true);
+            cursorObj.RB.setLinvel({ x: 0, y: 0, z: 0 }, true);
+            cursorObj.RB.setAngvel({ x: 0, y: 0, z: 0 }, true);
+            cursorObj.MESH.position.copy(cursorObj.RB.translation());
+        })
+
+        const groundGeometry = new THREE.PlaneGeometry(150, 150);
+        const groundMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+        const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+        ground.rotateX(1.5708)
+        //scene.add( ground );
+        const groundColliderDesc = RAPIER.ColliderDesc.cuboid(75.0, 20, 75.0).setTranslation(0, -20, 0);
+        world.createCollider(groundColliderDesc);
+
+
+        for (let i = 0; i < 150; i++) {
+            const cubeMesh = _.sample(loadedModels).clone()
+            cubeMesh.scale.set(0.5, 0.5, 0.5)
+
+
+            if(cubeMesh.name.includes('CUBE')){
+                cubeMesh.traverse(function (obj) {
+                if (obj.isMesh) {
+                    if (obj.name.includes("BASE")) {
+                        obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                    }
+                }
+            })
+            }
+            if(cubeMesh.name.includes('COIN')){
+                cubeMesh.traverse(function (obj) {
+                            if (obj.isMesh) {
+                                if (!obj.name.includes("_1")) {
+                                    obj.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+                                }
+                            }
+                        })
+            }
+
+            if(cubeMesh.name.includes('Brick')){
+                cubeMesh.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+            }
+
+            else{
+                cubeMesh.material = new THREE.MeshStandardMaterial({ color: _.sample(colourList) })
+            }
+            
+            /*const cubeSize = _.random(0.5, 1.5, true)
+            const cubeGeom = new THREE.BoxGeometry(cubeSize, cubeSize, cubeSize);
+            const material = new THREE.MeshStandardMaterial({ color: 0xffffff * Math.random() });
+            const cubeMesh = new THREE.Mesh(cubeGeom, material);*/
+            cubeMesh.position.set(_.random(-10, 10, true), _.random(20, 25, true), _.random(-10, 10, true))
+            cubeMesh.rotation.set(_.random(-6.28319, 6.28319, true), _.random(-6.28319, 6.28319, true), _.random(-6.28319, 6.28319, true))
+            scene.add(cubeMesh);
+            const physObj = createPhysicsObject(cubeMesh);
+            physObj.RB.setAngvel({ x: _.random(-2, 2, true), y: _.random(-2, 2, true), z: _.random(-2, 2, true) }, true);
+        }
+
+
+
+        //console.log(physicsHelper)
+        scene.add(physicsHelper)
 
 
 
 
-const CSS = `
-  .card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 360px;
-    z-index: 9999;
-    background: #111113;
-    border: 1px solid #2a2a2e;
-    border-radius: 10px;
-    padding: 14px 16px 12px;
-    font-family: sans-serif;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    grid-template-rows: auto auto auto;
-    column-gap: 10px;
-    animation: drop 0.18s cubic-bezier(0.22,1,0.36,1);
-    overflow: hidden;
-  }
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.08) 30%, rgba(255,255,255,0.08) 70%, transparent 100%);
-  }
-  @keyframes drop {
-    from { opacity: 0; transform: translate(-50%, -46%) scale(0.98); }
-    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  }
-  .card-label {
-    grid-column: 1; grid-row: 1;
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    color: #555;
-    text-transform: uppercase;
-    margin-bottom: 5px;
-  }
-  .card-close {
-    grid-column: 2; grid-row: 1 / 4;
-    align-self: start;
-    background: none;
-    border: none;
-    color: #3a3a3e;
-    cursor: pointer;
-    padding: 0;
-    font-size: 18px;
-    line-height: 1;
-    transition: color 0.1s;
-    margin-top: 1px;
-  }
-  .card-close:hover { color: #888; }
-  .card-title {
-    grid-column: 1; grid-row: 2;
-    font-size: 14px;
-    font-weight: 500;
-    color: #dddde0;
-    margin: 0 0 6px;
-    line-height: 1.3;
-  }
-  .card-body {
-    grid-column: 1; grid-row: 3;
-    font-size: 12.5px;
-    color: #666;
-    line-height: 1.55;
-    margin: 0;
-  }
-`;
-const s = document.createElement('style');
-s.textContent = CSS;
-document.head.appendChild(s);
+        //const controls = new OrbitControls(camera, renderer.domElement);
 
-function makeCard(data) {
-    const el = document.createElement('div');
-    el.className = `card type-${data.type}`;
+        camera.position.set(0, 20, 0);
+        camera.lookAt(0, 0, 0)
+        //controls.update();
+        //camera.position.z = 3;
 
-    const label = document.createElement('div');
-    label.className = 'card-label';
-    label.textContent = data.label;
+        animate();
+        physicsIntervalID = setInterval(physicsStep, 1000 / 60)
+    }
 
-    const title = document.createElement('p');
-    title.className = 'card-title';
-    title.textContent = data.title;
 
-    const body = document.createElement('div');
-    body.className = 'card-body';
-    body.innerHTML = data.body;
 
-    const close = document.createElement('button');
-    close.className = 'card-close';
-    close.setAttribute('aria-label', 'Dismiss');
-    close.innerHTML = '×';
-    close.addEventListener('click', () => {
-        el.style.transition = 'opacity 0.12s';
-        el.style.opacity = '0';
-        setTimeout(() => {
-            el.remove();
-            paused = false;  // resume the scene
-        }, 130);
-    });
 
-    el.append(label, close, title, body);
-    console.log(el)
-    return el;
-}
 
-const CARDS = [
-    {
-    name: 'easyDoesIt', 
-    type: 'plain',
-    label: 'Paper',
-    title: 'Easy does it: Selection during interactive search tasks is biased towards objects that can be examined easily',
-    body: `
-    <p>Our findings suggest that the perceived effort required to interact with an object is an extremely strong driver of attentional selection within interactive search behaviors. Here, targets may be slower to be detected when that target is obscured within or by an object that conveys, in some shape or form, greater difficulty to examine compared with other objects</p>
-    <a href="https://doi.org/10.3758/s13414-025-03083-w" target="_blank">Read it here!</a>
-    `},
-    {
-    name: 'coinPaper', 
-    type: 'plain',
-    label: 'Paper',
-    title: 'What Drives Object Selection? The Combined Role of Temporal Costs and Effort During Interactive Search',
-    body: `
-    <p>In our task, we found that searchers would first use a combination of both perceived effort and time to determine what makes an object “easy” or “hard” to interact with in relation to all other objects, before prioritizing interactions with said easier objects.</p>
-    <a href="https://doi.org/10.1177/17470218261436006" target="_blank">Read it here!</a>
-    `},
-    {
-    name: 'noStoneUnturned', 
-    type: 'plain',
-    label: 'Paper',
-    title: 'No stone unturned: Prevalence effects in interactive search are different than those in visual search',
-    body: `
-    <p>We found strong evidence against the influence of target-prevalence upon response times and all other search exhaustiveness measures. Contrary to traditional visual search findings, changes in response accuracy were not a result of reductions in search exhaustiveness. We conclude that, during interactive search, even when prevalence is low, searchers operate under a no-stone-unturned approach. Under this approach, searchers are unwilling to provide an “absent” response without checking most—if not all—possible places, regions or areas in a display that could contain a target.</p>
-    <a href="https://doi.org/10.3758/s13423-026-02919-2" target="_blank">Read it here!</a>
-    `},
-    {
-    name: 'emmaPaper', 
-    type: 'plain',
-    label: 'Paper',
-    title: 'How do the eﬀects of eﬀort influence interactivesearch behavior?',
-    body: `
-    <p>We offer three important contributions to the literature. First, our methodology enabled us to determine that, within our study, interactive search utilized a “nearest-next” strategy, with searchers choosing to interact with the nearest cube to them on each trial. Second, contrary to expectations from purely visual search tasks, rather than waiting and examining the already-visible cube faces at the start of each trial, searchers opted instead to begin interacting with objects immediately. Third, response accuracy rates were no different between target-present and target-absent trials, suggesting that there is at least one point at which interactive search differs from visual search.</p>
-    <a href="https://doi.org/10.3758/s13414-025-03083-w" target="_blank">Read it here!</a>
-    `},
-    {
-    name: 'Haden', 
-    type: 'plain',
-    label: 'Lab Member',
-    title: 'Haden Dewis',
-    body: `
-    <p>Some info about Haden</p>
-    <a href="" target="_blank">Full bio here.</a>
-    `},
-    {
-    name: 'Hayward', 
-    type: 'plain',
-    label: 'Lab Member',
-    title: 'Hayward Godwin',
-    body: `
-    <p>Some info about Hayward</p>
-    <a href="" target="_blank">Full bio here.</a>
-    `},
-    {
-    name: 'Prasad', 
-    type: 'plain',
-    label: 'Lab Member',
-    title: 'Prasad Mane',
-    body: `
-    <p>Some info about Prasad</p>
-    <a href="" target="_blank">Full bio here.</a>
-    `},
-    {
-    name: 'Emma', 
-    type: 'plain',
-    label: 'Lab Member',
-    title: 'Emma Deverill',
-    body: `
-    <p>Some info about Emma</p>
-    <a href="" target="_blank">Full bio here.</a>
-    `},
-    {
-    name: 'Mansi', 
-    type: 'plain',
-    label: 'Lab Member',
-    title: 'Mansi Pattni',
-    body: `
-    <p>Some info about Mansi</p>
-    <a href="" target="_blank">Full bio here.</a>
-    `},
-    {
-    name: 'DistractorCube', 
-    type: 'plain',
-    label: 'Stimuli',
-    title: 'Distractor Cube',
-    body: `
-    <p>Some info about distractor cubes</p>
-    `},
-    {
-    name: 'TargetCube', 
-    type: 'plain',
-    label: 'Stimuli',
-    title: 'Target Cube',
-    body: `
-    <p>Some info about distractor cubes</p>
-    `},
-    {
-    name: 'Other', 
-    type: 'plain',
-    label: 'Other',
-    title: 'Random Cube',
-    body: `
-    <p>Some info about random cube</p>
-    `}
-]
+    function mouseToWorld(distanceTarget = null) {
+        // distanceTarget determines how far away from the camera this position will be
 
-//preLoadTextures();
-preLoadModels();
+        // Set world pointer to be x and y NDC 
+        worldPointer.set(pointer.x, pointer.y, 0)
+
+        // Convert NDC to world - This places the object at the position of the camera
+        worldPointer.unproject(camera);
+
+        // Subtract the camera position from it
+        worldPointer.sub(camera.position).normalize();
+
+        // Calculate how far away the object is 
+        let distance
+        if (distanceTarget == null) {
+            // If no object provided, place the object at the zero point of the scene
+            distance = camera.position.length()
+        } else {
+            // Else maintain its current distance
+            distance = camera.position.distanceTo(distanceTarget)
+        }
+
+        // Add this distance to the coords
+        worldPointer.multiplyScalar(distance)
+
+        // Create final position
+        worldPosition.copy(camera.position).add(worldPointer)
+
+        return (worldPosition);
+
+    }
+
+
+
+    function animate() {
+        requestAnimationFrame(animate);
+        renderer.render(scene, camera);
+    }
+
+
+
+    function physicsStep() {
+        for (let i = physicsObjects.length - 1; i >= 0; i--) {
+            const PhysObj = physicsObjects[i];
+            const RB = PhysObj.RB;
+            const mesh = PhysObj.MESH;
+            mesh.position.copy(RB.translation());
+            mesh.quaternion.copy(RB.rotation());
+        }
+
+
+        //physicsHelper.update();
+        world.step();
+    }
+
+
+
+    preLoadTextures();
+    preLoadModels();
+
+});
+
