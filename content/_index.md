@@ -4,6 +4,6 @@ draft: false
 title: 'Home'
 ---
 
-Welcome to the Search Lab Website - here you can find information about us and our research. 
+Professor Hayward J Godwin
 
 {{< three >}}
