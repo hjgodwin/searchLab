@@ -2,7 +2,7 @@ disabled = false
 locale = "en"
 label = "English"
 weight = 1
-title = "Search, Attention and Memory Lab"
+title = "Studying how People Search for Targets from the Laboratory to the Real World (and Back Again)"
 
 [params]
   displayName = "EN"
