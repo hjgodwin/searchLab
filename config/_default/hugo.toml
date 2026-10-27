@@ -6,6 +6,11 @@ theme = "blowfish" # UNCOMMENT THIS LINE
 # baseURL = "https://your_domain.com/"
 defaultContentLanguage = "en"
 
+baseURL = 'https://hjgodwin.github.io/searchLab/'
+locale = 'en-us'
+title = 'Studying how People Search for Targets from the Laboratory to the Real World (and Back Again)'
+
+
 # pluralizeListTitles = "true" # hugo function useful for non-english languages, find out more in  https://gohugo.io/getting-started/configuration/#pluralizelisttitles
 
 enableRobotsTXT = true
